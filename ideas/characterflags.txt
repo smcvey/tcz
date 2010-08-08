@@ -1,0 +1,47 @@
+Character Flags
+~~~~~~~~~~~~~~~
+Implement db[x].data->player.flags as integer.
+
+Stores character only flags (Move existing character only flags from
+db[x].flags & db[x].flags2 to db[x].data->player.flags)
+
+Add ability to search on these to @find/@list.
+
+Split 'help flags' into sections for object flags, character flags and
+both.
+
+
+New character flags:
+~~~~~~~~~~~~~~~~~~~~
+OffDuty    Allows Admin to go off duty, making them appear as 'Offduty'
+           rather than respective Admin rank in various lists.
+
+           Only effective on user command-line, so it shouldn't affect
+           Compound Commands written by user that need Admin
+           privileges.
+
+           Doesn't remove Admin read/write privs, but prevents use of
+           certain Admin commands, such as Welcome/Assist, etc. 
+
+           Stops welcome/assist prompts and 'page admin', but still
+           allows '@nat'.
+
+Quell      Gives Admin/Assistant/Experienced Mortal Builder privileges
+           (Ideal for testing.)
+
+ReadOff    Temporarily removes ability to read everything of same/lower
+           level for Admin/XB (Can be set by user themselves.)  Also,
+           removes read privs picked up by friend flags.
+
+WriteOff   Temporarily removes ability to write to everything below
+           level for Admin (Can be set by user themselves.)  Also,
+           removes write privs picked up by friend flags.
+ 
+PreSuffix  When on (Default), shows prefix/suffix on user names, when
+           off, these are removed.
+
+Nat        When on (Default), Admin user gets '@nat' messages - can
+           use '@nat on|off' to switch on/off.  Admin user should get
+           this when promoted automatically and lose it if demoted.
+
+Beep       For 'set beep on|off'.

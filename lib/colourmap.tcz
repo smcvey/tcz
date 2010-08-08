@@ -1,0 +1,46 @@
+     CCCCCCC         yy      CCCCCC                                  m                                  m                 CC
+  CCCCC CCCCCCC      yy      CCCCCCC                                 M                            GGG   M               CC
+  wwwwwwwwwwwwwwwwwwwRRwwwwwwwwwwwwwwww RRRRRR                       m  wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww  C
+  w                                 Y w RRRRRR                       m  w        Y  Y  Y  Y      Y  Y  Y  Y           RrC
+  w    wwwwwwwwwwwwwwRRwwwwwwwwwww  Y w                              M  w    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    w    rR
+  w    wMMMMMM       yy          w  Y w                              m  w    w  GGG   MmmmmmMmmmmmMmmmmmM    ww   wwRr    ww
+  w    wMMMMM        yy          w  Y w                              m  w    wGGGGGGGGm                      w    w  CrR    ww
+  w    w             yy          w    w                              M  w    w  GGGG  m                     ww   wwCC   w    w
+  w    w             yy          w  Y w MMMMM   RRRRRR    GGGGG      m  w    w        M                     w    w C    w    w
+  w    w             yy          w  Y w MMMM    RRRRR     GGGGG      m  w    wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    w C    w    w
+  w    w      wwwwwwwRRwwwwwww   w    wwwwwwwwwwwwwwwwwwwwwwwwwww    M  w    YYYY YYYY          YYYY YYYYYYYY    w C    w    w
+  w    w      w              w   w     Y Y Y Y Y Y   Y Y Y Y Y Y ww  mm wwwwwwwwwwwwwwwwww    wwwwwwwwwwwwwwwwwwww C    w    w
+  w  Y w      w    wwRRww    ww  w    wwwwwwwwwwwwwwwwwwwww  ww    ww  mmmMmmmmmMmmmmmM  w    wGGGGGGGGG           C    w    w
+  w    wGGGGGGw    w yy  w    w  w    wRRRRRRRRRR   RRRRRRw  w ww    ww                  w Y Yw   GGGG             C    w    w
+  w  Y w GGGG w    w yy  ww   ww w  Y w                   w  w   ww    ww                w Y Yw           CCCCCC  CC    w    w
+  w    w      w  Y w yy   w    w w  Y w         MMMMM GGGGw  w     ww    ww              w Y Yw         CC      CCC     w    w
+  w  Y w      w    w yy   ww   www  Y w         MMMM  GGGGw  w MMM   ww    ww            w Y Yw         C               w    w
+  w    w      w  Y w yy    w     w  Y w CCCCCC  MMMMMwwwwww  wwwwww    ww    ww          w    w        CC        MMMMMM w    w
+  w  Y w      w    w yy    ww         w    wwwwwwwwwww    YYYY    wwwwwww     wwwwwwwwwwww    wwwwwwwwRrrRwwwwwwwwwwwwwww    wwwwwww
+  w    w      w  Y w yy      wwwww  Y w    w             YYYYYY                  Y  Y  Y  Y  Y  Y  Y      Y  Y  Y  Y  Y  Y
+  w    w      w    w yy          w  Y w    w Y Ywwwwww            wwwwwwwwwwwwwwwwwwwwwwww    wwwwwwwwRrrRwwwwwwwwwwwwwww    wwwwwww
+  w    wMMMMM w  Y w yyyyyyyyy   w  Y w    w Y YwGGGGwwwwww  wwwwww        CCCCCCC      ww    w        CC               w    wMMMMMM
+  w    wMMMM  w    w        yy   w  Y w    w Y YwGGGGG MMMw  wRRRR         CCCCCC     ww     ww       C                 w    w
+  w  Y w      w  Y w        yy   w  Y w    w Y Yw   MMMMMMw  wRRRRRR                ww     ww     CCCC                  w    w
+  w    w      w    w        CCC  w  Y wMMMMw Y Yw    wwwwww  wwwwww               ww     ww       C                     w    w
+yyR  Y RyyyyyyR  Y RyyyyyyCCCCCCCw    MMMMMw   Yw    wYYY YYYYYYY w   MMMMMM    ww     ww         C             GGGGGG  w    w
+  w    w      w    w      CCCCCCCw    wwwwwwwwwwwwwwww            wwwwwwwwwwwwww     ww          CC              GGGGG  w    w
+  w  Y w      w  Y w             w          w  w     Y Y Y Y    Y Y Y Y Y Y        ww           C                       w    w
+  w    w      w    w             wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww    wwwwwwwwww          CCC                        w    w
+  w  Y w      w    w                       w    w  C C C C C C C C  w  Y w                 CC                           w    w
+  w    w      w    wwwwwwwwww            R w  Y w      C C C C      w  Y w               CC                             w    w
+  w  Y w      w             w            R w  Y w                   w  Y w          CCCCC                               w    w
+  w    w      wwwwwwwwww    w  G         R w  Y w                   R    R     CCC CC                         wwwwwww   w    w
+  w  Y w               w  Y wG G         R w  Y w                  Cr  Y rCCCCC   CC                          w YYYY wwww    w
+  w    w               w    wG G G       R w    w                CC R  Y R                                    w YYYY wwww    w
+  w    w               w  Y wG G G       R w  Y w                C  w  Y w                                    wwwwwww   w    w
+  w    wCCCCCC         w    w  G G       R w  Y w                C  w  Y w                                              w    w
+  w    wCCCCCC         w  Y w  G G       R w  Y w       CCCC    CC  w    wwwwwwwwwwwww                                  w    w
+  w    w               w    w    G         w  Y w     CC   CCCCC    w                wRRRRRRR        MMMMMMM            w    w
+  w    w               w  Y w              w  Y w     C             wwwwwwwwwwwww    wwwwwwwwwwww     MMM MMM           w    w
+  w    w    BBBBBB     w    w              w  Y w     C                   CCCCC w               w      MMMMMMMM         w    w
+  w    ww   BBBBBBB   ww    w              w    w     C                         wwwwwwwwwwww    wwwwwwwwwwwwwwwwwwwwwwwww    w
+  ww     wwww     wwww      wwwwwwwwwwwwwwww    ww   CC                                    w        Y Y Y     Y Y Y Y        w
+    www      wwwww                                wR C                                     wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww   ww
+  RRRR wwww          wwwwwwwwwwwwwwwwwwwwwwwwwwww   rrRwwwwwMMMMw                                             GGG        w    w
+   RRRRRRR wwwwwwwwww                            RrrrRwwwwwwwwwww                                           GGGGGGG      w    w

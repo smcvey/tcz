@@ -1,0 +1,532 @@
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                        BUILDERS MANUAL by Unicorn
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+                                CONTENTS
+--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
+LINE    TITLE
+--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--
+        Embedded newlines and variable protection with backslashes
+        Values held in reserved variables $0-$6
+        Unused message types that can be used to hold information
+        Reserved compound commands    
+        The .message variable                        
+        A note on the Chatting Zone's area tree
+        Creating your personal top area
+        Starting off your new area
+        Exit success and failure      
+        Puppets and @force
+        Creating objects
+        Fuses
+
+Embedded newlines and variable protection with backslashes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Before starting to build, there are certain things that you should know about 
+how to input variables from the command prompt. There are two types of 
+variables, reserved and user-defined. Reserved variables are referenced by: 
+$0, $1, $2, $3, $4, $5, $6. User-defined variables (created with @variable)
+are referenced in one of two ways: if the variable is on you, it can be 
+referenced in a similar way to reserved variables, by placing a '$' in from of 
+the variable-name. Other variables are referenced by <ID OF OBJECT VARIABLE IS 
+ATTACHED TO>:<VARIABLE>, for example if the variable 'egvariable' was on 
+yourself, you could reference it by $egvariable, or by me:egvariable. If this 
+same variable was on the current room (ID #4566), it could be referenced by 
+either here:egvariable or #4566:egvariable. Any variable attached to an object 
+not in the same room MUST be referenced by <OBJECT ID>:<VARIABLE>. Having to 
+reference something not in the same room by its ID applies to all objects, 
+with the exception of characters, which can be also be referenced by *<name>, 
+e.g. *Unicorn. When encountering a variable - either reserved or user-defined 
+- the TCZ command interpreter immediately replaces it with the value that it 
+holds: if the variable 'testvariable', whose description holds the value 
+'information', is attached to you...
+
+TCZ> say $testvariable
+
+You say "Information."
+
+To actually say "$testvariable", you need to 'protect' it with a backslash 
+(\):
+
+TCZ> say \$testvariable
+
+You say "$Testvariable."
+
+To say backslashes, you have to protect it with another backslash:
+
+TCZ> say this is a backslash: \\
+
+You say "This is a backslash: \."
+
+Therefore, to say "\$testvariable":
+
+TCZ> say \\\$testvariable
+
+You say "\$Testvariable."
+
+Firstly, the backslash need to be protected (\\), then the variable needs to 
+be protected (\$testvariable). To say both together you obviously need three 
+backslashes. This information is useful when writing @commands, since you do 
+not want the variable 'executed' when typing it in. What you do is simply 
+protect the \'s and $'s with backslashes, as before ({'s need to be protected 
+too). 
+Consider this:
+
+Badpenny says "Hello.
+  How are you?"
+
+This was achieved by inserting a backslash at the end of the line. Because the 
+backslash is there, what comes before it is not immediately executed, and it 
+acts as a 'newline' within the command.
+
+Badpenny> say hello.\
+how are you?
+
+Embedded newlines are used to seperate each TCZ command that forms a compound
+@command. If you wish to do a newline without finishing the TCZ command, you
+need three backslashes. As an example, consider Badpenny's message in a 
+compound @command, with it emoting a message as well:
+
+TCZ> @command greet = say hello.\\\
+how are you?\
+:waves
+
+Values held in reserved variables $0-$6
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+$0 holds the #id of something created in the previous TCZ command which is 
+part of that compound command - or 'Error', 'OK', 'Fail' or 'Succ'.
+$1 holds the parameters of the command before '='.
+$2 holds the parameters of the command after '='.
+$3 holds all parameters of the command, including '='.
+$4 holds the current loop value of the current recursive command.
+$5 holds the total number of loops done so far by the current recursive 
+command.
+$6 holds the name (or ID, if you control it) of the current item in the linked
+list used by the current recursive command.
+
+Recursive commands that use $4, $5 and $6 include @for, @with, @while and
+{@?dolist}.
+
+For example, a command that pages someone, telling them the #id of a room you 
+have just created:
+
+TCZ> @command tellbuild = @dig \$1\
+page \$2 = I have just created a room with ID \$0!
+
+Thus, if you entered: 
+
+TCZ> tellbuild myroom = Unicorn 
+
+...it would create a room named myroom, and page Unicorn with its ID. $0 can 
+usually only be used in the line following that which created something. When 
+something is tested on, whether it succeeds or fails is stored in $0. In the 
+above example, $3 would of course contain 'myroom = Unicorn'. BUT after the 
+second line of the command (which pages), $0 would contain 'OK' - specifying 
+that the page command had succeeded. If the name held in $2 was unrecognised,
+(such as JC Figita), then $0 would hold 'Fail'.
+
+Unused message types that can be used to hold information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+==============================================================================
+OBJECT TYPE             UNUSED MESSAGE TYPE 
+==============================================================================
+Character               NONE      
+Room                    NONE                   
+Thing                   NONE
+Fuse                    NONE
+Variable                ALL
+Command                 @drop, @odrop, (@odesc)
+Exit                    NONE
+==============================================================================
+
+Reserved compound commands
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Commands are created with @command. For example:
+
+TCZ> @command .login = set wrap 80\
+yell Hi - I'm back!
+
+TCZ> @command .logout = yell I'm off to the Real World... see you all again soon!
+
+.login is used to set personal preferences such as word wrap and the prompt.
+.logout is used to generally tidy up your character before disconnection.
+These commands can be dropped in rooms (see below), so that anyone logging in 
+or out to your area executes the command(s).
+The .enter and .leave commands can also be dropped in rooms, and are executed
+by any character that enters or leaves the room that they are placed in. DO
+NOT use .enter and .leave to display messages when someone uses an exit, use
+the exit's @succ, @osucc, @fail, @ofail, @drop and @odrop messages for this
+(see the section on 'Exit success and failure' below).
+
+If you are carrying a command called .page, this is executed whenever someone 
+pages you, where $1 holds the name of the person who paged you, and $2 holds 
+the message. For example:
+
+TCZ> @command .page = page \$1 = :thanks you for paging %o with '\$2'...
+
+So, if Unicorn had the above .page command on them, and Squeek paged him, this 
+is what happens:
+
+Squeek> page Unicorn = Hello!
+
+PAGING from his room, Unicorn thanks you for paging him with 'Hello!'...
+
+Note: the .page command executes regardless of whether the person paged is set 
+haven - or even if they not connected.
+
+NB: if the @csucc of a reserved command is set to 'HOME', then it looks 
+further up the area tree for another command of that type. For example
+
+The .message variable
+~~~~~~~~~~~~~~~~~~~~~
+The .message variable is a multipurpose variable used in instances when the 
+person paged is unconnected, haven, or idle above a specified amount of 
+seconds:
+
+TCZ> @var .message
+TCZ> @succ .message  = 180
+TCZ> @osucc .message = Sorry, I seem to be idle at the present time... Please 
+try again later!
+TCZ> @fail .message  = I'm busy building new features of the Chatting Zone. 
+Mail if important.
+TCZ> @ofail .message = I'm in the Real World atm! You'll have to email me!
+TCZ> @drop .message  = I'd rather not talk to you at the moment...
+
+.message checks the value held in the @succ message against the character's 
+idle time. If the character has been idle for a period (in seconds) over that 
+specified in @succ, the @osucc message is displayed to the pager. The @fail
+message is displayed to the pager if the person they are paging is set haven, 
+and @ofail is displayed if they are not connected. The @drop message is 
+displayed to the pager if you are refusing pages from them via your @lock, 
+using @lock me = !<name>.
+
+A note on the Chatting Zone's area tree
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The term 'area tree' refers to the organisation of rooms in the chatting zone. 
+The whole game is in fact contained in one room, 'Top area'. Within this room 
+are others, the top area for builders and the top area for TCZ's town.
+Your personal top area should be in the top area for builders (if not, you'll 
+get heavied by a wizard or above :-) ) - see below for information on what 
+your personal top area is. If you make a command that you want people to be 
+able to use throughout the whole of your area (not just in one particular 
+room), then place it in your personal top area. The rooms mentioned above are 
+rooms within rooms, just like the rooms making up your area are within your 
+personal top area.
+
+Creating your personal top area
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If you wanted to create a personal top area called 'My top area', you would 
+enter:
+
+TCZ> @dig My top area
+
+Then ask a wizard or above to @teleport it to the top area for builders. 
+Your personal top area should only ever be visited by you, the owner, so you 
+must not have any exits going from or to it - you'll have to @tel yourself 
+from a different part of your area to get there. You could create a command to 
+do this. Your personal top area is usually bare, with no @desc or exits, since 
+it merely serves to contain the rooms that make up your area. If you wish to 
+send messages to everyone in your area, do a ; command in your personal top 
+area; if you only want the people in one room to see the ; message, execute 
+the command in that room.
+
+Starting off your new area
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TCZ> @dig A dimly-lit alleyway
+TCZ> @desc A dimly-lit alleyway = To both your left and right, tall buildings 
+tower above, leaving only this narrow passageway between them. The only light 
+source comes from behind you, since some kind of ceramic structure joins the 
+two buildings, blocking out the sun above you.
+TCZ> @dig Entrance hall of the Building Society = The four walls of this room 
+seem to have been white-washed recently, but pale red stains may still be seen 
+if you look close enough. There are archways set into two walls of this room, 
+opposite one another. Alongside one is a desk piled high with official-looking 
+papers. 
+
+Now you have two rooms - but how do you connect them?
+@open is the command which creates exits. The new exit appears in the room in 
+which you open them, but are initially unlinked (that is, they do not lead 
+anywhere). Go to the alleyway...
+
+TCZ> @open A cracked and warped wooden door which has seen the lives of many
+generations;cracked;warped;wooden;door
+TCZ> @link wooden = Entrance hall of the Building Society
+
+Now you have a door opening into the Entrance hall. The words after the exit's 
+main description are words you could type to use it - typing 'cracked', 
+'warped', 'wooden' and 'door' would all move the player through the wooden 
+door. Exits @opened in the wrong room can quite easily be picked up and 
+dropped somewhere else. They can also be @unlinked.
+
+NOTE: #id numbers can be used instead of names; instead of @linking the exit
+as above, you could have typed (if the #id of the door is #5678 and the ID of 
+the Entrance hall is #9006):
+
+TCZ> @link wooden = #9006
+
+or even:
+
+TCZ> @link #5678 = #9006
+
+#id numbers can be used in place of names at ANY time at ANY point of 
+the game - and with ANY command (it saves typing in the whole name!). 
+To see the #id of things you own, type:
+
+TCZ> @list me = all
+
+This will display everything you own, with its #id number. @list can be 
+used to only look at certain types of things - for example:
+
+TCZ> @list me = exits
+TCZ> @list me = rooms
+TCZ> @list me = things
+TCZ> @list me = commands
+TCZ> @list me = fuses
+TCZ> @list me = puppets
+TCZ> @list me = variables
+
+You can also list things that you own in the current room. For example:
+
+TCZ> @list here = all
+
+Walking through the door, you will find you cannot go back into the alleyway -
+there are no exits leading out of the Entrance Hall! This is because @opened 
+exits are only one-way: you need to @open another exit on the other side, and
+@link it back to the first room:
+
+TCZ> @open A cracked and warped wooden door which has seen the lives of many
+generations;cracked;warped;wooden;door;out;back;exit;leave = A dimly-lit 
+alleyway
+
+NOTE: The standardised exits ';out;back;exit;leave' have been added. These 
+should lead to wherever is the most likely candidate for being 'out' 
+of the room that the exit is in. BUT REMEMBER - only one exit per room 
+should have these names added to it!
+
+Exit success and failure
+~~~~~~~~~~~~~~~~~~~~~~~~
+When an exit is used successfully (i.e. someone moves through it) the messages
+stored in @succ and @osucc are displayed.
+
+TCZ> @succ wooden  = You fling the door wide and stride purposefully through, 
+into the Building Society.
+TCZ> @osucc wooden = opens the door and strides into the Building Society. The 
+door swings shut with a clatter, behind them.
+TCZ> @drop wooden  = The Building Instructor raises his head as you enter.
+TCZ> @odrop wooden = strides into the room, with the door clattering shut 
+behind them.
+
+The success (@succ) message is displayed to whoever uses the exit, in the room
+that the exit is IN.
+The other success (@osucc) message is displayed to everyone else in the room
+that the exit is IN, acting as if the user of the exit had emoted the @osucc.
+The drop (@drop) message is displayed to whoever uses the exit, in the room
+that the exit LEADS TO.
+The other drop (@odrop) message is displayed to everyone else in the room that
+the exit LEADS TO, acting as if the user of the exit had emoted the @odrop.
+
+An exit is used unsuccessfully when it is @locked against whoever tries to use
+it (this is true for @lock with any type of object). For example, if another 
+exit has been opened in the entrance hall:
+
+TCZ> @open A dull archway fashioned out of cheap ceramics;dull;archway
+;ceramics
+TCZ> @lock archway = @builder 
+
+@<FLAG> (e.g. @haven) refers to a character with that flag @set on them. 
+Where character type flags (@moron, @builder, @apprentice, @wizard, @god) are
+concerned, the object will be locked to that character type AND ABOVE - 
+e.g. @apprentice would @lock to apprentice wizards and above
+To @lock to a single character type, @lock to that flag together with the 
+'not' of the next highest character type: e.g. to @lock to wizards only, use
+@wizard & !@elder.
+@unlock removes a @lock.
+To @lock against everyone (so no-one can use the archway) you would:
+
+TCZ> @lock archway = me & !me
+
+The 'me' part of the @lock locks the archway to yourself, so that only you can 
+use it. The '!me' part of the @lock locks the archway against you, so that 
+only you cannot use it (but everyone else can) - if both are used together, as
+in this case, no-one can use it.
+NOTE: boolean expressions are used for grouping with @lock:
+        |       OR
+        &       AND     Also, parentheses (these brackets) 
+        !       NOT     can be used for grouping.
+        
+        *<name> can be used to @lock to specific characters.
+
+TCZ> @fail archway = You move to walk through the archway, but The Building 
+Instructor gives you a piercing stare that you cannot quite break. Maybe 
+what's through there isn't meant for you at the moment!
+TCZ> @ofail archway = goes to walk through the archway, but stops dead in 
+their tracks when they notice the irritated look of The Building Instructor...
+
+@fail and @ofail act similarly to their @succ and @osucc counterparts.
+
+Puppets and @force
+~~~~~~~~~~~~~~~~~~~
+A puppet is a character controlled by you. They can only be assigned by 
+Wizards and above, and are usually restricted to one per builder (unless you 
+prove why the extra puppet would be needed). Puppets remain visible on the 
+contents list of a room even when disconnected, and are controlled with the
+@force command:
+
+TCZ> page Scavy = Please can i have a puppet to test commands please? I would like
+their name to be Building Instructor, with password as 'unicorn'.
+
+...
+
+PAGING from Scavy's place, Scavy says "Puppet created and @teleported to your 
+location."
+
+TCZ> @force Building Instructor = "Hello, who wants to learn how to build?
+
+The Building Instructor says "Hello, who wants to learn how to build?"
+
+Creating objects
+~~~~~~~~~~~~~~~~
+The Building Instructor is sitting at a desk, so we need to @create the desk:
+
+TCZ> @create An ornately carved desk
+TCZ> @lock desk  = *The Building Instructor
+TCZ> @succ desk  = Taking a huge breath, you lift the desk onto your back. 
+Boy, are you strong!
+TCZ> @osucc desk = throws the desk onto %p back as if it were a bag of 
+feathers.
+TCZ> @fail desk  = You grab hold of the desk, in an attempt to lift it off of 
+the ground: it doesnt move an INCH!\ 
+The Building Instructor looks at you - and laughs....
+TCZ> @ofail desk = flexes %p muscles in preperation for lifting the huge desk lay
+before %o. You barely conceal a snigger as %p attempts come to nothing, and %s 
+staggers away, revealing The Building Instructor's grin!
+TCZ> @drop desk  = The desk falls from your shoulders with a crash, and a cloud
+of dust.
+TCZ> @odrop desk = stumbles under the weight of the desk, and it falls to the 
+floor with a crash!
+
+The @drop and @odrop of things are displayed when (surprise, surprise) it is
+dropped. The desk is locked to *<name> instead of just <name>, so that <name>
+does not not neccessarily have to be in the same room.
+
+To put a drawer in the desk:
+
+TCZ> @set desk = open
+
+This enables the desk to have things put into it - it is now a container.
+
+TCZ> @create Drawer
+TCZ> @lock Drawer = *The Building Instructor
+TCZ> @tel Drawer = desk
+TCZ> @set Drawer = open
+
+The '@tel' line @teleports the drawer into the desk. Its full name of 
+'@teleport' may be used, as can '@location'; all three commands do the same
+thing.
+
+TCZ> @create Official list of builders = This is used by The Building 
+Instructor to decide who should be allowed through into the 
+Building Society.
+TCZ> @tel list = Drawer
+
+Containers can be entered by characters, so you need to define the @volume of 
+both desk and Drawer (it is unlikely that anyone could fit into the drawer!):
+
+TCZ> @volume desk = 12
+TCZ> @volume Drawer = 12
+
+The default volume of a character is 75 litres. This can be reset only once by
+their controller (and reset again by Wizards and above).
+
+TCZ> @tel Drawer = desk
+
+The drawer is now inside the desk, but cannot be opened or closed. To allow 
+the drawer to be used in this way, you have to set another flag on the drawer:
+
+TCZ> @set Drawer = openable
+
+You can now open and close the drawer. When you look at the open drawer, you 
+see this:
+
+        An aged and splintering drawer set into The Building Instructor's 
+        desk. You wonder what is inside...?
+
+        Contents
+        ~~~~~~~~
+        Official list of builders
+
+The 'contents' heading can be changed from this boring default:
+
+TCZ> @cstring Drawer = Inside the drawer, you see...
+
+Now, when the Drawer is looked at:
+
+        An aged and splintering drawer set into The Building Instructor's 
+        desk. You wonder what is inside...?
+
+        Inside the drawer, you see...
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Official list of builders
+
+Conditional commands
+~~~~~~~~~~~~~~~~~~~~
+To execute commands where a particular condition is true (or false), you need 
+to use the '@if' command: 
+
+@if [TRUE|FALSE] <CONDITION> do <COMMAND> ;else <COMMAND>
+
+If TRUE or FALSE is unspecified, it assumes 'TRUE'. 
+For example:
+
+@command iftest = @if {@eval
+Fuses      
+~~~~~
+Fuses are a special type of object which count down from a specified value,
+execute a command, then reset. The @desc of the fuse is its current value, 
+which decreases by one every time that the fuse is triggered, until it reaches
+zero, when two things happen: firstly, the command attached to the fuse's 
+@csucc is executed; secondly, the @desc of the fuse is reset to the value held 
+in its @drop message. A fuse can only be attached to exits, rooms, things 
+and characters. It is triggered whenever someone in the room/container it is 
+attached to executes a command, or if the character it is attached to executes 
+a command, or if the exit it is attached to is used. If the TOM (Trigger On 
+Movement) flag is set on the fuse - and this flag can only be set on fuses 
+attached to rooms and characters - then the fuse is only triggered if movement 
+occurs in the room/container it is attached to, or if the character it is 
+attached to moves.
+
+REMEMBER: If, when the @desc of the fuse reaches zero, its @drop is still
+unset, the fuse will destroy itself. If you do not want the fuse's @csucc to
+execute only once, remember to SET THE FUSE'S @DROP MESSAGE.
+
+Example 1: To create a fuse that will display messages whenever you enter or
+leave a room...
+
+Example 2: To enhance TCZ commands...
+
+When a command is executed via a fuse's @csucc, the reserved variables $1-$3
+contain slightly different information to the norm. $1 contains the command
+you typed, and $2 contains its parameters (therefore $3 will contain 
+EVERYTHING that you typed). Consider the 'tellbuild' command discussed in the
+section above entitled 'Values held in reserved variables $0-$6'. This could
+be altered, with the use of a fuse, to execute whenever you typed '@dig' (you
+can add commands to a TCZ command, but may not call a user-defined command
+'@dig'):
+
+TCZ> @fuse tellbuild
+TCZ> @drop tellbuild = 1
+TCZ> @desc tellbuild = 1
+TCZ> @csucc tellbuild = test.for.@dig
+TCZ> @command test.for.@dig = @drop test.for.@dig = \$0\
+@if \{@eval "\$1" = "@dig"} do tell.@dig \$2
+TCZ> @command tell.@dig = page unicorn = I have just created a room with ID 
+\{@?drop test.for.@dig}!
+
+So now, if you entered:                 
+                                                         
+TCZ> @dig myroom 
+
+...It would page Unicorn with the ID of your newly-created room, 'myroom'.
+
+
+
+

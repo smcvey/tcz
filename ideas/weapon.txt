@@ -1,0 +1,15 @@
+actions			shoot, throw
+damage			<ACCURACY> <MIN DAMAGE> <MAX DAMAGE> <DELAY> <SCORE>
+
+shoot, oshoot, vshoot	Shoot messages.
+throw, othrow, vthrow	Throw messages.
+
+hit, ohit, vhit		Hit messages.
+miss, omiss, vmiss	Miss messages.
+kill, okill, vkill	Kill messages.
+
+{Shootable weapons only...}
+reload, oreload		Reloading messages.
+
+ammo			Ammunition 'reload'ed into weapon.
+ammoleft		Ammunition currently remaining in weapon.

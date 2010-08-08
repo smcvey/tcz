@@ -1,0 +1,28 @@
+adminhours <PAGE>|<NAME> = <YEAR>
+
+adminhours.add <NAME>
+adminhours.delete <NAME> [= year]
+adminhours.update (called daily by alarm)
+
+                       
+ Name:          1996:  Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec   Avg:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 12345678901234567890  0   0   0   0   0   0   20  14  43  12  1   40    12.0
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Page 1 of 1.  (Type 'adminhours <PAGE>' to see the other pages.)
+
+
+[<ID>] = <REALNAME>|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec
+
+
+adminhours             (List current or previous year)
+ |- adminhours.add     (Add new member of Admin to list and current year)
+ |- adminhours.delete  (Remove member of Admin from list only)
+ |- adminhours.update  (Called each month - Update info in current year)
+ |- adminhours.new     (Called each year - Create new year from current list)
+ |
+ |- admin (Property, holding list of Admin ID's)
+ |- admin.sort (Array, for processing info, and then sorting by avg. hours)
+ |
+ |- admin.1996  (Admin data, for 1996)
+ `- admin.1997  (Admin data, for 1997)

@@ -1,0 +1,107 @@
+@log <NAME> [=] [<OCCURENCE>] [<WILDCARD>]
+
+<OCCURENCE> can be one of the following:  next (Next occurence/page), prev
+(Previous occurence/page), 
+
+If no <WILDCARD> spec. is given, <OCCURENCE> is the number of pages to move
+forwards/backwards by from the current position in the current log file.  If
+a different log file is browsed, the current position will be the beginning
+of the log file.  'next'/'prev' can be used to move forwards/backwards by
+1 page.  You can move forwards/backwards by more than one page using
+'+<NUMBER>' or '-<NUMBER>' respectively, i.e:  '-2' moves back by two pages.
+'first'/'last' can be used to move to the beginning and end of the log file
+respectively.  If no <OCCURENCE> is given, current page of log file is
+displayed.
+
+Examples:
+~~~~~~~~~
+@log admin	Choose log file 'Admin' and see last page of entries.
+@log prev	Move backwards in log file by one page and list entries.
+@log -3		Move backwards by a further 3 pages and list entries.
+@log next       Move forwards a page and display entries.
+
+
+If <WILDCARD> is given, the wildcard specification is searched for in the log
+file.  <OCCURENCE> is the occurence of <WILDCARD>, i.e:  'prev'/'next' searches
+for next and previous occurence respectively, '+<NUMBER>'/'-<NUMBER>' searches
+for <NUMBER>'th next/previous occurence, 'first'/'last' search for first/last
+occurence respectively.
+
+
+How it will work...
+~~~~~~~~~~~~~~~~~~~
+Each user has a struct in their descriptor_data, holding details of current
+search taking place, along with current log file, position, etc.  When user
+moves or starts a search, parameters in struct are set to indicate this.
+
+Every second, routine called by tcz_time_sync() goes through descriptor_list
+and checks for pending moves/searches - Number is counted, and then DATA
+DUMPED PER CYCLE is divided by total number (With 1kb being minimum) - Moves/
+searches are performed on each descriptor in turn, until DATA DUMPED PER CYCLE
+has been exceeded.  Each descriptor processed has its time set to the current
+time.  Next time round, descriptors with a lowest time get priority.
+
+If any move/search has reached its destination/found what's being searched for,
+flag is set to indicate this, with the results of 1 move/search being displayed
+per execution of routine.
+
+Moving is performed line-by-line - 1 page is 10 lines - Movement continues
+until required count is reached (Or beginning/end of file.)
+
+Searching is performed in 1kb blocks - First, 1kb block from present position
+is loaded into buffer.  If going backwards, previous 1kb is loaded and inserted
+in front (Making buffer up to max size of 2kb), if going forwards, is added to
+end.  Either way, 1kb block excess is dropped each time.  Each time, block is
+searched for <WILDCARD>.  When <WILDCARD> is found position is set, with flag
+to mark backtrack to beginning of current line set - Results shown from that
+line onwards, with found line hilighted in a different colour.
+
+If 'first'/'last' is used, position is moved to beginning/end of file first,
+and then search/move is performed.
+
+If new search/move is done before current one has completed, current one is
+cancelled and new one started.
+
+TCZ> @log admin
+
+Searching 'Admin' log file  -  Please wait...
+
+TCZ>
+
+ Results of search in 'Admin' log file...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ [*****  START OF LOG FILE  *****]
+ ADMIN:  An entry.
+ ADMIN:  Another entry.
+ [*****  END OF LOG FILE  *****]
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Current position:  0.00/0.01 Kb (0%).
+
+Display indicates current position (Kb from beginning of log file) out of its
+total size (In kilobytes.)  Percentage indicates how far through log file
+current position is (0% = start, 100% = end.)
+
+
+Moving forwards by N pageS in 'LOG' log file  -  Please wait....
+   [Nth] next page in 'LOG' log file...
+
+Moving backwards by N pageS in 'LOG' log file  -  Please wait...
+   [Nth] previous page in 'LOG' log file....
+
+Moving to first page in 'LOG' log file  -  Please wait...
+   First page in 'LOG' log file...
+
+Moving to last page in 'LOG' log file  -  Please wait...
+   Last page in 'LOG' log file...
+
+Searching for [Nth] next occurence of 'WILDCARD' in 'LOG' log file  -  Please wait...
+   [Nth] next occurence of 'WILDCARD' in 'LOG' log file...
+
+Searching for [Nth] previous occurence of 'WILDCARD' in 'LOG' log file  -  Please wait...
+   [Nth] previous occurence of 'WILDCARD' in 'LOG' log file...
+
+Searching for first occurence of 'WILDCARD' in 'LOG' log file  -  Please wait...
+   First occurence of 'WILDCARD' in 'LOG' log file...
+
+Searching for last occurence of 'WILDCARD' in 'LOG' log file  -  Please wait...
+   Last occurence of 'WILDCARD' in 'LOG' log file...

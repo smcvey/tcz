@@ -1,0 +1,1274 @@
+The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ $Id: changes.4.3.0.tcz,v 1.1.1.1 2004/12/02 17:44:20 jpboggis Exp $
+
+ Date:       Name, Source, Func/Procedure & Description of change:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 24/03/1999**(J.P.Boggis: bbs.c:bbs_appendmessage)  BBS appends made after
+             v4.3.0 code update will now show correct posting time, in
+             relation to time difference of reader, rather than the user who
+             posted the message (Internally used query command '{@?bbsrtd}'
+             added to get around problem of query substitutions running under
+             ID of BBS message owner rather than reader  -  Not of any use
+             outside of 'bbs read' command.)
+ 24/03/1999  (J.P.Boggis: bbs.c:bbs_query_readertimediff)  '{@?bbsrtd}'
+             internally used query command added to support the above.
+ 24/03/1999**(J.P.Boggis: bbs.c:bbs_appendmessage)  If append to message makes
+             text too large, a reply is added (If possible) and the append is
+             placed within the new message instead of truncating the appended
+             text.  Appending to original message is automatically disabled.
+ 08/04/1999**(J.P.Boggis: variable.c:temp_describe)  '@temp' now returns the
+             value the temporary variable was set to, rather than OK/Error -
+             i.e:  '@echo {@temp test = {@eval 3 * 10}}' will echo '30' to your
+             screen, as well as storing the value '30' in the temporary
+             variable 'test'.
+ 08/04/1999**(J.P.Boggis: stringutils.c:string_to_date)  '{@?datetime}' now
+             handles 12am & 12pm correctly.
+ 08/04/1999**(J.P.Boggis: stringutils.c:string_to_date)  New rules for 2-digit
+             date with '{@?datetime}':
+             00 - 37  =  2000 - 2037
+             38 - 69  =  2038 - 2069  (LONGDATE only)
+             38 - 69  =  1938 - 1969  (EPOCH only)
+             70 - 99  =  1970 - 1999
+ 11/04/1999  (J.P.Boggis: admin.c:do_boot)  '@boot' & '@ban' now check for
+             character name not specified and give appropriate error message.
+ 11/04/1999  (J.P.Boggis: tcz.c:check_directories)  'log' and 'lib' directories
+             are now created at start-up, if they do not exist.
+ 03/05/1999  (J.P.Boggis: tcz.c:main)  New rules for restricting memory
+             expansion of server  -  Maximum expansion is now 50% of initial
+             usage on start-up, or 10Mb, whichever is greater.  Maximum size
+             is capped at 100Mb.  This should be changed if server machine
+             has more or less RAM than 100Mb.
+ 14/05/1999  (J.P.Boggis: db.h,db.c:logfs)  'LogEntry' log file added for new
+             '@logentry' command.
+ 14/05/1999  (J.P.Boggis: db.h,db.c:logfs)  'Miscellaneous' log file added
+             for making miscellaneous log file entries in with '@logentry'.
+ 14/05/1999##(J.P.Boggis: admin.c:do_logentry)  '@logentry' command added to
+             allow custom entries to made in log files (Details of who made
+             entry are logged to 'LogEntry' log file.)
+ 14/05/1999  (J.P.Boggis: yearlyevents.c:yearly_events)  Details of TCZ 2000
+             Project added to yearly events table.
+ 14/05/1999  (J.P.Boggis: look.c:do_motd)  Copyright information now displayed
+             in MOTD (Message Of The Day.)
+ 16/05/1999  (J.P.Boggis: stringutils.c:leapyear)  New function to determine
+             whether given EPOCH date is a leap year or not.
+ 16/05/1999  (J.P.Boggis: yearlyevents.c:yearly_event_init,yearly_event_show)
+             Leap years are now handled correctly (If yearly event occured
+             after 28th February in a leap year, it would end up being 1 day
+             behind.)
+ 16/05/1999  (J.P.Boggis: admin.c:summon_user)  If a reason is given, it will
+             only be logged if the summon is unconditional, and the user
+             being summoned is not controlled by the user who is summoning
+             them.
+ 16/05/1999  (J.P.Boggis: edit.c:of_object_or_array)  Field code for
+             anonymous BBS append added, so that 'anonymous append to a
+             message on TCZ BBS' is displayed when viewing the edit text,
+             rather than 'Editing the <UNKNOWN FIELD>...'.
+ 16/05/1999  (J.P.Boggis: server.c:site_banned)  Refused connections are
+             now logged to Connect log, along with reason.
+ 16/05/1999  (J.P.Boggis: server.c:connect_user)  Attempt to connect
+             banned character is now logged to Connect log.
+ 28/05/1999  (J.P.Boggis: html.c,db.h)  JAVA support is now default for
+             new character.
+ 28/05/1999  (J.P.Boggis: html.c,db.h,look.c,help.c,server.c,unparse.c,
+             variable.c)  Support for NOBODY character added (0x80000000).
+ 28/05/1999  (J.P.Boggis: admin.c:do_shout)  Now takes blank announcement
+             (':') or broadcast message (';') into account.
+ 28/05/1999  (J.P.Boggis: query.c:do_query_realtime)  Return value now set
+             when invalid time value given, i.e:  '{@?realtime {@?datetime
+             29/02/1999}}'.  Stops unneccessary entry in 'Bug' log file.
+ 28/05/1999  (J.P.Boggis: communication.c:do_comment)  Allows complaints,
+             comments, suggestions and bug reports to be made using 'complain',
+             'comment', 'suggest' and 'bug' respectively.  Replaces the 'gripe'
+             command.
+ 28/05/1999  (J.P.Boggis: db.c,db.h)  'Complaints', 'Comments' and
+             'Suggestions' log files added ('Complaints' replaces 'Gripe'.)
+ 28/05/1999  (J.P.Boggis: tcz.c:check_directories)  'log/gripe.log' is
+             automatically renamed to 'log/complaints.log', if it exists.
+ 28/05/1999  (J.P.Boggis: db.c:writelog)  Backup log files are now named
+             'name.log.backup' rather than 'name.log.bak'.  Old-style
+             'name.log.bak' file is deleted automatically when new
+             'name.log.backup' backup is created.
+ 28/05/1999  (J.P.Boggis: admin.c:do_log)  '@log <NAME> = reset' can no-longer
+             be used from within a compound command.  Backup log files are now
+             named 'name.log.backup' rather than 'name.log.bak'.
+ 03/06/1999  (J.P.Boggis: admin.c:do_warn)  An official warning can now be
+             given from within a compound command, providing its WIZARD flag
+             is set.
+ 03/06/1999  (J.P.Boggis: emailforward.h)  Table of invalid E-mail forward
+             names placed into separate header file for convenience.
+ 03/06/1999  (J.P.Boggis: short_cmdtable.h)  Table of short commands (I.e:
+             " for 'say', etc.) placed into separate header file for
+             convenience.
+ 03/06/1999  (J.P.Boggis: general_cmdtable.h)  Table of general commands
+             placed into separate header file for convenience.
+ 03/06/1999  (J.P.Boggis: at_cmdtable.h)  Table of '@' commands placed into
+             separate header file for convenience.
+ 03/06/1999  (J.P.Boggis: query_cmdtable.h)  Table of '@?' query commands
+             placed into separate header file for convenience.
+ 03/06/1999  (J.P.Boggis: bbs_cmdtable.h)  Table of BBS commands placed into
+             separate header file for convenience.
+ 03/06/1999  (J.P.Boggis: bank_cmdtable.h)  Table of bank commands placed into
+             separate header file for convenience.
+ 09/07/1999  (J.P.Boggis: logfiles.h)  Table of log files placed into separate
+             header file for convenience.
+ 09/07/1999  (J.P.Boggis: teleport.h)  Teleport privileges (Mortal/Admin)
+             placed into separate header file for convenience.
+ 09/07/1999  (J.P.Boggis: fields.h)  Definitions of fields which each object
+             has, and which can be set/reset by users placed into separate
+             header file for convenience.
+ 09/07/1999  (J.P.Boggis: objectlists.h)  Definitions of lists which each
+             object type has, and which objects can be placed into them put
+             into separate header file for convenience.
+ 09/07/1999  (J.P.Boggis: search.h)  Definitions for search.c placed into
+             separate header file for convenience.
+ 09/07/1999  (J.P.Boggis: match.h)  Definitions for match.c placed into
+             separate header file for convenience.
+ 09/07/1999**(J.P.Boggis: move.c:enter_room)  Support for OPENABLE flag set
+             on rooms added.  When the OPENABLE flag is set on a room, it
+             prevents anyone who does not satisfy the room's lock from 
+             entering.@re
+ 09/07/1999  (J.P.Boggis: look.c:look_room)  Support for OPENABLE flag set
+             on rooms added.  Success/failure messages based on lock are
+             not shown in such rooms if OPENABLE flag is set.
+ 23/07/1999**(J.P.Boggis: query.c:do_query_realtime)  '{@?realtime}' query now
+             allows custom time/date format, using '{@?realtime [<DATE>] [=
+             [epoch|longdate] [date|time] [= <FORMAT>]]}'.
+ 15/08/1999  (J.P.Boggis: db.h, db.c)  Dump log file ('dump.log') implemented.
+ 15/08/1999  (J.P.Boggis: admin.c)  Database dump can now be aborted using
+             '@dump'.
+ 15/08/1999  (J.P.Boggis: db.c)  TCZ restart time/date logged to all log files.
+ 15/08/1999  (J.P.Boggis: Various)  Support for forked database dump added.
+             This should be effecient with copy-on-write fork(), allowing
+             fast dumping in a separate process and ability to continue
+             dumping if TCZ process crashes (On restart, it will wait upto
+             10 minutes for the dumping process to end.)
+ 15/08/1999  (J.P.Boggis: db.c)  Temporary database dump file is now named
+             '<FILENAME>.<TELNET PORT>.<HTML PORT>.DUMP' so that two or more
+             copies of TCZ running in same directory structure don't interfere
+             with each other.
+ 15/08/1999  (J.P.Boggis: create.c:do_room)  Default OPENABLE flag on room so
+             that access is controlled by lock, rather than producing SUCC/FAIL
+             mesages in room description.
+ 15/08/1999  (J.P.Boggis: config.h)  Town clock now 'chimes' (Beeps once) on
+             the hour.
+ 15/08/1999  (J.P.Boggis: db.c)  Forked database dumping process can handle
+             main TCZ process crashing and vice-versa.  If main TCZ process
+             dies, dumping process will detect it and give users the TCZ
+             crash message.
+ 29/08/1999  (J.P.Boggis: server.c:queue_output())  Multiplier added for
+             maximum output, so that HTML connections can queue 4 times as
+             much output (HTML tags generate much more output than text-only
+             telnet, even with ANSI codes.)
+ 24/12/1999  (J.P.Boggis: args.c)  New code to process command-line options
+             in proper manner (I.e:  -h, --help, etc.)
+ 29/12/1999  (J.P.Boggis: tcz.c)  kill(PID,0) is now used to check existence
+             of TCZ process if lock file exists on start-up, rather than using
+             Linux specific /proc filesystem.
+ 30/12/1999  (J.P.Boggis: yearlyevents.c)  Yearly events code re-written so
+             that it works more reliably, especially with time differences.
+ 07/01/2000  (J.P.Boggis: character.c, server.c, admin.c)  Backdoor password
+             option implemented (-b / --backdoor).
+ 07/01/2000  (J.P.Boggis: server.c, interface.c)  Immediate shutdown (-x) and
+             force full database check (-c) options implemented.
+ 07/01/2000  (J.P.Boggis: args.c)  Disable logins (-n) option implemented - 
+             however, '@admin connections/creations' doesn't seem to work
+             properly.
+ 08/01/2000  (J.P.Boggis: server.c:site_banned())  Fixed so that connections
+             and creations disabled with '@admin'/'-n' works.
+ 08/01/2000  (J.P.Boggis: html.c)  ALT="" tags added to <IMG SRC> tags to give
+             text description in browser with images turned off/text browser.
+ 08/01/2000  (J.P.Boggis: predicates.c:ok_email())  Invalid E-mail bug fixed.  
+ 08/01/2000  (J.P.Boggis: html.c)  HTML tables improved for user home pages,
+             pictures, profiles and scans sections.
+ 08/01/2000  (J.P.Boggis: help.c)  HTML tables improved with background
+             colours, etc.
+ 15/01/2000  (J.P.Boggis: event.c:set_fuse_args())  Added test for blank args.
+ 15/01/2000  (J.P.Boggis: server.c)  AFK password fixed (Changes for backdoor
+             password wouldn't allow proper password to be accepted, even if
+             it was correct.
+ 15/01/2000  (J.P.Boggis: query.c:do_query_name())  Negated test for 'definite'
+             and 'indefinite' article settings fixed ('!' removed from infront
+             of string_prefix().)
+ 15/01/2000  (J.P.Boggis: predicates.c:can_write_to())  Support for security
+             added  -  Prevents character from writing to themselves under ID
+             of another character unless compound command is set WIZARD or 
+             Admin. owned.
+ 15/01/2000  (J.P.Boggis: command.c:execute_compound_command())  Support for
+             security added  -  Forces irreversible '@chpid' unless compound
+             command is set WIZARD or Admin. owned.
+ 15/01/2000**(J.P.Boggis: command.c:execute_action_command())  .action commands
+             implemented (See help page.)
+ 15/01/2000  (J.P.Boggis: event.c,interface.c)  security rules now apply to
+             fuses.
+ 15/01/2000  (J.P.Boggis: interface.c)  '.' action compound commands cannot
+             be executed on command-line (Can be within compound command)  -
+             Will stop accidental execution by users using 'tell' shortcut '.'
+ 15/01/2000  (J.P.Boggis: set.c:do_at_profile())  Profile 'picture' can now end
+             with '.html' and '.htm' as well as '.gif', '.jpg' or '.jpeg'.  Not
+             advertised though, due to fact it leaves unrecognised images in
+             Virtual Gallery and 'scan'.  Perhaps this can be fixed? - If so,
+             add in 'Must be '.gif', '.jpg', '.jpeg', '.html' or '.htm' in
+             error message.
+ 22/01/2000  (J.P.Boggis: move.c:do_move())  '.exit' and '.exited' action
+             compound commands added for exits.
+ 27/01/2000  (J.P.Boggis: look.c,tcz.c,config.h)  Added support for #define
+             PREGPL to add pre-GPL release message (So TCZ 4.3 can be ran at
+             tcz.net and code can be fully prepared before release.)
+ 29/01/2000  (J.P.Boggis: look.c)  'scan' now displays '(Still connected.)'
+             in 'Last time connected:' section if the scanned user is
+             currently connected.
+ 29/01/2000  (J.P.Boggis: look.c,tcz.c,config.h)  Changed PREGPL to GPL  -
+             If undefined, removes GPL messages shown at TCZ start-up, to
+             connected users when logging in and in the 'version' command.
+ 29/01/2000  (J.P.Boggis: html.c)  '{@?link}' query command added  -  Allows
+             easy insertion of HTML link with correct parameters.
+ 29/01/2000  (J.P.Boggis: html.c)  '{@?image}' query command added  -  Allows
+             easy insertion of HTML image with correct parameters.
+ 29/01/2000  (J.P.Boggis: html.c)  '{@?tczlink}' query command added  -
+             Allows easy insertion of clickable compound command link with
+             correct parameters.
+ 29/01/2000  (J.P.Boggis: query.c)  '{@?protect}' query command added  -
+             Protects string against %-type substitution.
+ 05/02/2000**(J.P.Boggis: map.c)  Hard-coded TCZ map implemented ('map'
+             command)  -  Features text-based coloured map and HTML Interface
+             graphical map (Scanned J-Peg of original 1993 prototype TCZ map
+             by J.P.Boggis, on which TCZ's town was based.  The streets of
+             this map are based around Ipswich (UK) town centre.)
+ 05/02/2000**(J.P.Boggis: map.c)  '{@?colourmap}' query command implemented  -
+             Allows use of colour map functionality from within TCZ command
+             language.
+ 05/02/2000  (J.P.Boggis: help.c)  '@reload map' implemented, allowing map
+             source files ('lib/map.tcz' and 'lib/colourmap.tcz') to be
+             reloaded, allowing changes to be made while TCZ is running.
+ 06/02/2000  (J.P.Boggis: look.c:do_titles())  Added background colour to
+             table to make title screen more readable on HTML Interface.
+ 06/02/2000  (J.P.Boggis: html.c:html_lookup())  Fixed bug in filter code
+             that caused infinite loop if control codes ( < 32) were used
+             in HTML Interface parameters.
+ 09/02/2000  (J.P.Boggis: html.c)  Experiemental new Java scrolling code
+             put in place (Not yet complete, but looks promising.)
+ 09/02/2000  (J.P.Boggis: html.c:html_error())  'flags' parameter added to
+             allow control of HTML code generation for standardised error
+             page.
+ 09/02/2000  (J.P.Boggis: html.c)  Input form text entry box is now properly
+             centred.
+ 09/02/2000**(J.P.Boggis: html.c)  Java code added to automatically set focus
+             to 'TCZ command:' input box, so user doesn't have to click in it
+             or press TAB lots of times, making the HTML Interface more
+             user-friendly.
+ 12/02/2000**(J.P.Boggis: html.c)  HTML Interface 'who' list (DATA=WHOLIST&)
+             now refreshes (Reloads) automatically every 30 seconds (Useful
+             for leaving open in a seperate window to see who's currently
+             connected.)
+ 12/02/2000  (J.P.Boggis: html.c:html_preferences_form())  New connect/create
+             form options layout implemented.
+ 12/02/2000  (J.P.Boggis: html.c)  New JAVA scrolling method fully implemented
+             (Requires JAVA Script 1.2)
+ 12/02/2000  (J.P.Boggis: set.c)  New HTML preferences form layout added to
+             'set' command (Used when 'set' is typed through HTML Interface
+             connection.)
+ 13/02/2000  (J.P.Boggis: html.c, help.c:help_search())  HTML Interface On-line
+             Help search form now automatically sets focus to input box, making
+             it more user-friendly.
+ 16/02/2000  (J.P.Boggis: html.c:html_preferences_form_java())  JAVA Script
+             added to Connect/Create forms to automatically set appropriate
+             JAVA Script options for the World Wide Web Interface (Such as
+             correct scrolling method, etc.)
+ 16/02/2000  (J.P.Boggis: help.tcz)  World Wide Web Interface help updated
+             ('help html'.)
+ 26/02/2000  (J.P.Boggis: *)  TCZ source now compiles with '-Wall' option to
+             gcc without error messages.
+ 27/02/2000  (J.P.Boggis: args.c,db.c)  TCZ server name, web site and HTML
+             Interface data URL can be specified as command-line options.
+ 27/02/2000  (J.P.Boggis: args.c)  Local option added to allow running on
+             localhost (127.0.0.1.)
+ 27/02/2000  (J.P.Boggis: db.c)  TCZ compile year is now automatically
+             computed (Current year.)
+ 27/02/2000  (J.P.Boggis: html.c)  HTML tag list brought up-to-date with
+             current list of tags.
+ 27/02/2000  (J.P.Boggis: args.c,db.c)  E-mail forwarding domain name and
+             TCZ Admin. E-mail address can be specified as command-line
+             options.
+ 27/02/2000  (J.P.Boggis: args.c)  Source file renamed to 'options.c'.
+ 28/02/2000  (J.P.Boggis: options.c)  Options to enable/disable disk ('gzip')
+             and memory-based compression.
+ 28/02/2000  (J.P.Boggis: options.c)  Option to change working directory.
+ 28/02/2000  (J.P.Boggis: options.c)  Option to disable automatic database
+             dumping (Still dumps using '@dump' or '@shutdown'.)
+ 03/03/2000**(J.P.Boggis: html.c)  Graphical smileys (Emoticons) added.
+ 04/03/2000  (J.P.Boggis: server.c)  Major problems with va_list stuff
+             fixed (With functions which recursively called output().
+ 04/03/2000  (J.P.Boggis: html.c)  html_to_text() now supports ALT description
+             in <IMG> tag to give textual description of image on text-based
+             terminal.
+ 04/03/2000**(J.P.Boggis: html.c)  Automatic hyperlinks added (text_to_html()
+             automatically converts text hyperlinks into proper HTML ones
+             with correct parameters.)
+ 04/03/2000  (J.P.Boggis: set.c:do_www())  '@www' now automatically adds
+             'http://' to WWW home page address if omitted (Unless Elder
+             Wizard or above is setting it.)
+ 05/03/2000**(J.P.Boggis: search.c:do_quota())  '@quota' can now be used by
+             Experienced Builders on any user.
+ 05/03/2000##(J.P.Boggis: admin.c:object_maintenance())  Object maintenance
+             will not destroy objects owned by Admin, Experienced Builders
+             or Retired Admin.
+ 05/03/2000**(J.P.Boggis: query.c:do_query_mass_or_volume())  Experienced
+             Builders can now query the mass/volume of characters.
+ 05/03/2000  (J.P.Boggis: query.c:query.c)  do_query...() renamed to
+             query_...() to fit in with modern TCZ coding style (Other
+             do_NAME...() code needs to be renamed to MODULE_NAME...()
+             in future.)
+ 05/03/2000  (J.P.Boggis: options.c:option_nice())  Command-line option added
+             to set scheduling priority (Nice level.)
+ 05/03/2000  (J.P.Boggis: options.c:option_coredump())  Command-line option
+             added to enable/disable production of core dump on crash.
+ 05/03/2000  (J.P.Boggis: options.c:option_panic())  Command-line option
+             added to enable/disable emergency (Panic) database dump on crash.
+ 05/03/2000  (J.P.Boggis: options.c:option_forkdump())  Command-line option
+             added to enable/disable forked automatic database dump.
+ 07/03/2000  (J.P.Boggis: query.c:query_protect())  '{@?protect}' query
+             command enhanced.
+ 07/03/2000**(J.P.Boggis: query.c:query_number())  '{@?number}' query
+             command added (Tests to see if given string is a number.)
+ 11/03/2000**(J.P.Boggis: query.c:query_boolean())  '{@?boolean}' query
+             command added (Tests to see if given string is boolean.)
+ 11/03/2000**(J.P.Boggis: query.c:query_charclass())  '{@?alpha}', '{@?digit}',
+             '{@?alnum}', '{@?punct}', '{@?islower}' and '{@?isupper}' query
+             commands added (Tests the text character class of a string.)
+ 11/03/2000  (J.P.Boggis: command.c, selection.c)  Owner of compound command
+             is now informed if execution limit is exceeded as well as the
+             user executing the compound command.
+ 11/03/2000  (J.P.Boggis: logfiles.c)  Log file stuff moved into seperate
+             source file.
+ 12/03/2000**(J.P.Boggis: logfiles.c)  User log files added  -  Every Builder
+             can have a log file (Automatically created when first entry is
+             made, and deleted if the user gets destroyed), which logs when
+             they connect/disconnect, and any failed commands typed by same
+             or lower level users in their rooms/areas.
+ 12/03/2000  (J.P.Boggis: logfiles.c:logfile_log())  Background colours added
+             to HTML tables.
+ 12/03/2000  (J.P.Boggis: look.c:display_full())  '(Scan)' link added to end
+             of user name, if user is using HTML Interface (When clicked on,
+             user's scan is shown.)
+ 12/03/2000  (J.P.Boggis: logfiles.c:logfile_logentry())  '@logentry' now
+             supports logging to user log files.
+ 12/03/2000  (J.P.Boggis: options.c:option_userlogs())  User log files can
+             now be enabled/disabled using command-line option ('-u'.)
+ 15/03/2000  (J.P.Boggis: admin.c:admin_options())  Table background colours
+             added.
+ 15/03/2000  (J.P.Boggis: admin.c:admin_list())  Table background colours
+             added, output_columns() used to properly format list.  Admin names
+             can be clicked on via HTML Interface to view 'scan'.
+ 15/03/2000  (J.P.Boggis: admin.c:admin_list_all())  Current list of Admin can
+             now be viewed from the HTML Interface
+             (http://tcz.server.name:htmlport/?DATA=ADMINLIST&)
+ 15/03/2000  (J.P.Boggis: wholist.c)  Table background colours added to all
+             types of user list in wholist.c ('who', 'swho', etc.)
+ 15/03/2000  (J.P.Boggis: unparse.c,primary_flags.h,secondary_flags.h)
+             Primary/secondary flags tables placed in separate header files
+             ('include/primary_flags.h' and 'include/secondary_flags.h'.)
+ 15/03/2000##(J.P.Boggis: admin.c,group.c)  BEING flag set on a user now
+             excludes them from the 'admin' command (Useful for 'improper'
+             characters who should not appear in the list (I.e:  Experienced
+             Builder used as a puppet.)
+ 16/03/2000  (J.P.Boggis: bbs.c)  Table background colours added to the
+             various BBS commands which make use of HTML tables.
+             NOTE:  'bbs vote <N> = list' and 'bbs readers <N>' still need to
+                    be updated to use output_columns() for properly formatted
+                    lists. 
+ 18/03/2000  (J.P.Boggis: options.c)  Command-line option to set server
+             logging level added.
+ 18/03/2000##(J.P.Boggis: logfiles.c)  'Command' log can now be accessed by
+             all Admin, providing server logging level doesn't breech user
+             privacy.
+ 18/03/2000**(J.P.Boggis: communication.c:do_emergency())  Emergency command
+             logging changed to allow character name to be specified (This is
+             better because it no-longer causes the output of all characters
+             to be logged, which could invade the privacy of users.)  Also,
+             all Admin. now have access to the log file.
+ 18/03/2000  (J.P.Boggis: html.c:html_to_text())  Simple support for item lists
+             (<UL><LI>...</LI>...</UL>, etc.)  -  Newlines inserted.  Useful
+             on monitored HTML connections.
+ 19/03/2000  (J.P.Boggis: options.c,sites.c)  Command-line option added to
+             allow DNS lookups to be enabled/disabled (Default is disabled.)
+ 19/03/2000  (J.P.Boggis: options.c:option_changepath())  Alternative
+             working directory is checked at start-up and changed before
+             processing options and opening log files.
+ 19/03/2000  (J.P.Boggis: options.c:option_get_list(),option_free_list())
+             Command-line options are pre-processed into dynamic array to
+             get around inability to use getopt_long() on argv[] more than
+             once.
+ 25/03/2000  (J.P.Boggis: bbs.c:bbs_readers())  output_columns() is now used
+             to properly format the list of readers of a BBS message.
+ 25/03/2000  (J.P.Boggis: bbs.c:bbs_readers())  Output is now split into pages.
+ 25/03/2000  (J.P.Boggis: bbs.c:bbs_vote())  output_columns() is now used
+             to properly format the list of voters on a BBS message.
+ 26/03/2000  (J.P.Boggis: edit.c:display_edittext())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: event.c:event_pending())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: finance.c:finance_statement())  Table backgrounds
+             added.
+ 26/03/2000  (J.P.Boggis: friends.c:friends_list())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: look.c:look_simple())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: look.c:do_disclaimer())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: look.c:do_examine())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: array.c:display_array_elements())  Table backgrounds
+             added.
+ 26/03/2000  (J.P.Boggis: html.c:html_anti_reverse())  This now supports
+             nested calls correctly.
+ 26/03/2000  (J.P.Boggis: look.c:do_profile())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: look.c:do_scan())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: pagetell.c:do_recall())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: request.c:request_view())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: request.c:request_list())  Table backgrounds added.
+ 26/03/2000  (J.P.Boggis: userlist.c)  wholist.c renamed to userlist.c
+ 26/03/2000  (J.P.Boggis: MODULES)  Source/header file list brought up-to-date.
+ 26/03/2000  (J.P.Boggis: html.c)  SSL (Secure Socket Layer) connections
+             option added (No server support for this yet.)
+ 26/03/2000  (J.P.Boggis: html.c)  Command input window width option addded.
+ 26/03/2000  (J.P.Boggis: options.c)  SSL (Secure Socket Layer) connections
+             command-line option added.
+ 27/03/2000**(J.P.Boggis: html.c)  HTML Interface now supports background
+             colours using Cascading Style Sheets (CSS).
+ 27/03/2000  (J.P.Boggis: set.c)  'Committed' and 'separated' IRL/IVL statuses
+             added to profile.
+ 27/03/2000  (J.P.Boggis: objectlists.h)  Alarms can now be teleported into
+             compound commands.
+ 27/03/2000  (J.P.Boggis: search.c:do_contents())  Table backgrounds added.
+ 27/03/2000  (J.P.Boggis: html.c)  Ability to prevent substitutions on
+             'COMMAND=' added (For clickable links security.)
+ 31/03/2000  (J.P.Boggis: html.c:text_to_html())  Double-space ('  ')
+             converted to ' &nbsp; '.
+ 31/03/2000  (J.P.Boggis: predicates.c:parse_link_destination())  Logic bug
+             fixed (Created when doing -Wall compilation work).
+ 31/03/2000  (J.P.Boggis: predicates.c:parse_link_destination())  Error
+             messages improved (Give names of objects rather than unfriendly
+             'Sorry, you can't link that object to that object.' style
+             messages.)
+ 31/03/2000  (J.P.Boggis: html.c:text_to_html())  Leading spaces at beginning
+             of line converted to '<SPAN STYLE="left-margin:(N)em;' to give
+             correct indentation (Requires Cascading Style Sheets (CSS)
+             enabled.)
+ 31/03/2000  (J.P.Boggis: variable.c:substitute())  '%' within HTML tag is
+             no-longer substituted.
+ 01/04/2000  (J.P.Boggis: temp.c)  Temporary variable code placed into
+             separate source file.
+ 01/04/2000  (J.P.Boggis: variable.c:construct_message())  Function moved to
+             'stringutils.c'.
+ 01/04/2000  (J.P.Boggis: alias.c)  Alias code placed into separate source
+             file.
+ 01/04/2000  (J.P.Boggis: substitute.c)  Substitution code placed into
+             separate source file.
+ 01/04/2000  (J.P.Boggis: calculate.c)  Calculation code placed into separate
+             source file ('variable.c' removed.)
+ 01/04/2000  (J.P.Boggis: manual.txt,help.tcz)  Help on '@eval' updated to
+             mention use of '@if' rather than the long obsoleted and
+             redundant '@test'.
+ 01/04/2000  (J.P.Boggis: db.c,server.c,interface.c)  Auto-AFK setting is now
+             permanent.
+ 01/04/2000  (J.P.Boggis: yearlyevents.c:yearly_event_list())  Table
+             backgrounds added.
+ 08/04/2000  (J.P.Boggis: options)  E-mail forwarding can now be disabled by
+             specifying 'Off' as the E-mail forwarding domain name.
+ 08/04/2000  (J.P.Boggis: set.c:do_name())  E-mail forwarding address for
+             character is removed from 'scan'/'profile' until the next dump
+             of forwarding addresses.
+ 08/04/2000  (J.P.Boggis: interface.c:dump_emailforward())  Morons and Puppets
+             no-longer have an E-mail forwarding address created.
+ 08/04/2000  (J.P.Boggis: server.c:tcz_mainloop())  If user is sent AFK
+             automatically, Java Script (1.1 or later) is used to reload the
+             'TCZ Command:' input window to show the 'Please enter password:'
+             prompt.
+ 08/04/2000##(J.P.Boggis: options.c:option_options())  '@admin options' can
+             be used to view the current server options from within TCZ.
+ 08/04/2000  (J.P.Boggis: edit_cmdtable.h)  Editor commands table placed into
+             separate header file.
+ 09/04/2000**(J.P.Boggis: command.c:command_query_internal())  '{@?internal}'
+             query command added (Tests to see if specified command matches
+             built-in internal TCZ command.)
+ 09/04/2000  (J.P.Boggis: look.c,edit.c)  Wrapping of indented lines of
+             compound commands is now done correctly for Telnet users.
+ 09/04/2000  (J.P.Boggis: html.c:html_query_tczlink())  Forth parameter added
+             to '{@?tczlink}' that allows the URL of an image to be specified,
+             so that a clickable image can be used instead of an ordinary
+             hyperlink.
+ 09/04/2000  (J.P.Boggis: statistics.c)  Database statistical commands placed
+             into separate source file.
+ 09/04/2000  (J.P.Boggis: search.c:search_entrances())  HTML table backgrounds
+             added.
+ 09/04/2000  (J.P.Boggis: search.c:search_find())  HTML table backgrounds
+             added.
+ 09/04/2000  (J.P.Boggis: search.c:search_search())  HTML table backgrounds
+             added.
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_tcz())  HTML table backgrounds
+             added.
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_character())  HTML table
+             backgrounds added.
+ 09/04/2000  (J.P.Boggis: Various)  Test for Retired Druid fixed (Uses
+             RetiredDruid(x) rather than Druid(x) (Only true if user is an
+             administrator (Apprentice or above.))
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_character())  '@stats character'
+             no-longer counts Moron as Mortal.
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_other())  HTML table backgrounds
+             added.
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_command())  HTML table backgrounds
+             added.
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_connections())  HTML table
+             backgrounds added.
+ 09/04/2000  (J.P.Boggis: statistics.c:stats_connections())  SSL connections
+             added (Ready for implementation of SSL support in TCZ.)
+ 17/04/2000  (J.P.Boggis: userlist.c:userlist_last())  '(Monitored)' added
+             to output of 'last' to show users currently being monitored
+             (Commands of monitored user are always shown, without privacy
+             being withheld.)
+ 17/04/2000  (J.P.Boggis: look.c:display_full())  '(Monitored)' added to list
+             of statuses following a connected user's name (Only shown to 
+             Admin when a user is monitored.)
+ 17/04/2000  (J.P.Boggis: admin.c:admin_monitor())  If Mortal is monitored,
+             all non-QUIET Admin are informed.
+ 17/04/2000  (J.P.Boggis: tcz.c:check_lockfile())  Existence of lock file is
+             checked after working directory change, but before log files
+             are opened, so that 'Server' log doesn't get spammed with
+             restart attempts.
+ 17/04/2000  (J.P.Boggis: options.c:option_fullname(),option_shortname())
+             Command-line options added to set full and short abbreviated
+             name of the server (All code using TCZ_NAME/TCZ_SHORT_NAME still
+             needs changing to take advantage of this.
+ 28/04/2000  (J.P.Boggis: server.c:connect_user())  Possible cause of annoying
+             message 'Unable to take over a HTML connection with Telnet'
+             fixed (When trying to take over lost connection at login.)
+ 28/04/2000  (J.P.Boggis: Various)  TCZ_NAME and TCZ_SHORT_NAME macro usage
+             replaced with tcz_full_name and tcz_short_name strings so that
+             TCZ name can be changed using options at start-up.  TCZ_NAME and
+             TCZ_SHORT_NAME must not be used anymore to substitute TCZ's name.
+ 28/04/2000  (J.P.Boggis: options.c:option_loation())  Command-line option (-H)
+             added to allow the server location ('%@%l') to be set/changed.
+ 28/04/2000  (J.P.Boggis: statistics.c:stats_resource())  HTML table
+             backgrounds added.
+ 28/04/2000  (J.P.Boggis: statistics.c:stats_connections())  SSL counts removed
+             if SSL is disabled either via #define SSL_SOCKETS or -S/--ssl
+             command-line option.
+ 28/04/2000  (J.P.Boggis: statistics.c:stats_statistics())  HTML table
+             backgrounds added.
+ 28/04/2000  (J.P.Boggis: statistics.c:stats_quota())  HTML table backgrounds
+             added.
+ 28/04/2000  (J.P.Boggis: statistics.c:stats_size())  HTML table backgrounds
+	     added.
+ 28/04/2000  (J.P.Boggis: statistics.c:stats_rank())  HTML table backgrounds
+	     added.
+ 28/04/2000  (J.P.Boggis: aliases.c:alias_aliases())  HTML table backgrounds
+	     added.
+ 29/04/2000  (J.P.Boggis: banish.c:banish_list())  HTML table backgrounds
+	     added.
+ 29/04/2000  (J.P.Boggis: set.c:do_feeling())  HTML table backgrounds
+	     added.
+ 29/04/2000  (J.P.Boggis: sites.c:site_view())  HTML table backgrounds
+	     added.
+ 29/04/2000  (J.P.Boggis: sites.c:site_list())  HTML table backgrounds
+	     added.
+ 29/04/2000  (J.P.Boggis: sites.c:site_stats())  HTML table backgrounds
+	     added.
+ 29/04/2000  (J.P.Boggis: Various)  HTML table backgrounds work complete.
+ 29/04/2000  (J.P.Boggis: interface.c:process_basic_command())  Fixed small
+             bug in handling of 'tell' '.' short-cut.
+ 29/04/2000  (J.P.Boggis: look.c:do_motd())  Warning of BETA compiled TCZ
+             added (#define BETA)
+ 29/04/2000  (J.P.Boggis: logfiles.c:logfile_log())  '@log list' no-longer
+             gives 'The log file 'List' doesn't exist' error message.
+ 30/04/2000**(J.P.Boggis: interface.c:connect_user())  User is forced to
+             re-accept the terms and conditions of the disclaimer once every
+             90 days.
+ 01/05/2000  (J.P.Boggis: logfiles.c)  'Options' and 'Restart' log files added
+             (Command-line options processing, plus time/date of TCZ restart.)
+ 01/05/2000  (J.P.Boggis: server.c)  It's no-longer possible to create two
+             users at the same time, resulting in two users with the same
+             name.
+ 01/05/2000  (J.P.Boggis: admin.c)  Ability to set/change some server options
+             using '@admin options <OPTION> = <SETTING>' implemented (Deity
+             and Supreme Being only.)
+ 01/05/2000  (J.P.Boggis: options.c:option_dump())  Option can now be changed
+             using '@admin options'.
+ 01/05/2000  (J.P.Boggis: options.c:option_dataurl())  Option can now be
+             changed using '@admin options'.
+ 01/05/2000  (J.P.Boggis: options.c:option_adminemail())  Option can now be
+             changed using '@admin options'.
+ 01/05/2000  (J.P.Boggis: options.c:option_forkdump())  Option can now be
+             changed using '@admin options'.
+ 01/05/2000  (J.P.Boggis: options.c:option_config())  Support for configuration
+             files implemented.  Config files containing options and settings
+             can be loaded at start-up to simplify setting server options.
+ 04/05/2000  (J.P.Boggis: options.c:option_location())  Option can now be
+             changed using '@admin options'.
+ 04/05/2000  (J.P.Boggis: options.c:option_loglevel())  Option can now be
+             changed using '@admin options'.
+ 04/05/2000  (J.P.Boggis: options.c:option_server())  Option can now be
+             changed using '@admin options'.
+ 04/05/2000  (J.P.Boggis: options.c:option_website())  Option can now be
+             changed using '@admin options'.
+ 04/05/2000  (J.P.Boggis: options.c:option_fullname())  Option can now be
+             changed using '@admin options'.
+ 04/05/2000  (J.P.Boggis: options.c:option_shortname())  Option can now be
+             changed using '@admin options'.
+ 04/05/2000  (J.P.Boggis: options.c:option_emailforward())  Option can now be
+             changed using '@admin options'.
+ 06/05/2000  (J.P.Boggis: options.c:option_coredump())  Option can now be
+             changed using '@admin options'.
+ 06/05/2000  (J.P.Boggis: options.c:option_dns())  Option can now be
+             changed using '@admin options'.
+ 06/05/2000  (J.P.Boggis: options.c:option_emergency())  Option can now be
+             changed using '@admin options'.
+ 06/05/2000  (J.P.Boggis: options.c:option_userlogs())  Option can now be
+             changed using '@admin options'.
+ 06/05/2000  (J.P.Boggis: options.c:Various)  Some command-line options can
+             now be temporarily set/changed using '@admin options' while TCZ is
+             running.
+ 06/05/2000  (J.P.Boggis: server.c,output.c)  Output functions moved from
+             server.c to new module output.c
+ 06/05/2000  (J.P.Boggis: config.h)  Defaults are now for localhost TCZ
+             (Changes should be made using configuration file and/or
+             command-line options.)
+ 07/05/2000  (J.P.Boggis: options.c:option_version())  '--version'
+             command-line option added (Displays TCZ version number
+             and then exits.)
+ 07/05/2000  (J.P.Boggis: html.c:html_server_url())  Generic function created
+             to return HTML server URL.  Code in html.c converted to take
+             advantage of this.
+ 07/05/2000  (J.P.Boggis: html.c:html_image_url())  Generic function created
+             to return URL to images (tcz_data_url)
+ 07/05/2000  (J.P.Boggis: html.c:html_process_input())  Function now handles
+             'http://server:port/resource?params&' as well as
+             'http://server:port/?DATA=resource&params&', making HTML
+             Interface URL's easier to read.
+ 07/05/2000##(J.P.Boggis: logfiles.c,html.c)  'HTML' log file implemented.
+ 11/05/2000  (J.P.Boggis: db.c,global.c)  Support for global compound command
+             lookup placed into separate source file.
+ 11/05/2000  (J.P.Boggis: options.c)  Command-line option added to set whether
+             HTML Interface images will be served internally or not.
+ 11/05/2000  (J.P.Boggis: server.c)  Limitation that prevented more than 65Kb
+             of data being queued in one go resolved (Prevented serving of
+             large HTML images.)
+ 11/05/2000  (J.P.Boggis: html.c)  HTML Interface can now serve images
+             internally (Web server recommended for normal running because
+             this is much faster.)
+ 11/05/2000  (J.P.Boggis: server.c:server_gettime())  Server now checks for
+             variation in time caused by daylight saving/change of time on
+             server and adjusts to compensate automatically (Preventing users
+             from getting kicked off for being idle!)
+ 11/05/2000**(J.P.Boggis: db.h)  TEXT_SIZE changed to 4Kb to fit server memory
+             pages better.  Allows an extra 1Kb of text in all TCZ fields
+             (Previously limited to 3Kb.)
+ 11/05/2000  (J.P.Boggis: options.c:option_motd())  MOTD (Message Of The Day)
+             command-line option added, allowing a message to be set, which
+             will be displayed to all users when they log into TCZ.
+ 20/05/2000  (J.P.Boggis: COPYRIGHT)  Proper copyright file written in
+             preperation for GPL release in the future.
+ 20/05/2000  (J.P.Boggis: friend_flags.h)  Friend flags structure placed into
+             separate header file.
+ 21/05/2000  (J.P.Boggis: Various)  Module author details added to all source
+             modules (src/*.c, include/*.h)
+ 26/05/2000  (J.P.Boggis: modules.c)  Automatic sorting of module/author names
+             into linked list added.
+ 27/05/2000**(J.P.Boggis: modules.c:modules_modules_list())  Ability to list
+             modules implemented ('modules [<PAGE NO>]'.)
+ 27/05/2000**(J.P.Boggis: modules.c:modules_authors_list())  Ability to list
+             module authors implemented ('authors [<PAGE NO>]'.)
+ 28/05/2000  (J.P.Boggis: config.h,look.c:do_version())  Code base constants
+             added for future use when source code is publicly released.  The
+             'version' command displays code base information.
+ 28/05/2000  (J.P.Boggis: help.tcz)  'modules' and 'authors' commands
+             documented in manual/on-line help (These commands aren't finished
+             yet.)
+ 28/05/2000  (J.P.Boggis: html.c)  Problem with storing/recalling HTML
+             preferences fixed (Mainly a problem for characters who have been
+             created via Telnet, but who have never used the HTML Interface.)
+ 29/05/2000  (J.P.Boggis: modules.c:modules_modules_view())  Ability to view
+             information about a particular module (Complete with a list of
+             authors) implemented.
+ 03/06/2000  (J.P.Boggis: look.c:display_full())  '(Newbie)' added to name if
+             user has less than 2 hours (NEWBIE_TIME) total connect time.
+ 03/06/2000  (J.P.Boggis: yearlyevents.h)  Table of yearly events placed into
+             separate source file.
+ 03/06/2000  (J.P.Boggis: yearlyevents.h)  Yearly events for TCZ shutdown and
+             GPL release added (GPL release needs date setting when it is
+             actually released.)
+ 03/06/2000##(J.P.Boggis: help.c)  Generic and local help topics implemented.
+             This feature enables local help and tutorials to be written for
+             TCZ-based MUDs, overwriting the default generic help topics and
+             tutorials, which will be distributed as standard with the TCZ
+             source code.
+ 04/06/2000**(J.P.Boggis: server.c)  'modules' and 'authors' commands can now
+             be used at the Telnet login screen.
+ 04/06/2000  (J.P.Boggis: html.c)  Source code modules and authors lists can
+             now be accessed from outside TCZ using HTML Interface links.
+ 10/06/2000  (J.P.Boggis: modules.c:modules_authors_view())  Ability to view
+             information about a particular module author (Complete with a
+             list of source code modules they have worked on) implemented.
+ 10/06/2000**(J.P.Boggis: db.c,look.c:look_uptime())  Database creation date,
+             accumulated and longest uptime implemented (Shown with 'uptime'
+             command.)
+ 10/06/2000  (J.P.Boggis: modules.c)  Modules/authors code completed.
+ 11/06/2000  (J.P.Boggis: html.c:html_header())  Standardised function added
+             to generate HTML header (Will replace html_interface_header()
+             eventually.)
+ 11/06/2000  (J.P.Boggis: html.c)  HTML Interface converted to using new
+             http_header()/html_header() functions.
+ 17/06/2000  (J.P.Boggis: admin.c:admin_options())  Global alias owner can
+             no-longer be reset by non-Root (#1) user.
+ 17/06/2000  (J.P.Boggis: admin.c:admin_boot_character())  If a user has only
+             one connection, '@bootdead' cannot be used by Admin to boot it,
+             even if it is idle, preventing an effective unlogged '@boot'.
+ 17/06/2000  (J.P.Boggis: primary_flags.h)  READONLY and PERMANENT flags set
+             on objects/characters are now logged.
+ 17/06/2000  (J.P.Boggis: set.c:do_prefix(),do_suffix())  Reset of
+             prefix/suffix now displays inherited prefix/suffix (If any),
+             along with '(Inherited.)' to indicate to the user.
+ 17/06/2000  (J.P.Boggis: config.h,look.c:look_version())  Project code name
+             added (Set to 'Odyssey', to reflect public release of source code
+             in the year 2001.)
+ 17/06/2000**(J.P.Boggis: query.c:query_version())  '{@?version}' query command
+             implemented (Returns code base and version information.)
+ 18/06/2000  (J.P.Boggis: command.c:command_execute())  $4, $5, $6, $7 and
+             the compound command return value ('@returnvalue') are no-longer
+             cached within block command sections of '@if', '@for', '@with',
+             etc.  Their values are retained outside of the block for further
+             use later in the command.
+ 23/06/2000  (J.P.Boggis: tcz.c)  Server info (IP address, etc.) is not
+             automatically looked up if the run locally option ('-l') is
+             specified.
+ 23/06/2000  (J.P.Boggis: Various)  Fixed several problems that prevented
+             source from compiling under CygWin32b20 (Win32.)
+ 23/06/2000  (J.P.Boggis: admin.c:admin_bootdead())  '@bootdead' now really
+             does boot connection that has been idle for 1 minute (Unless
+             it is the only connection the user has.)
+ 23/06/2000  (J.P.Boggis: set.c:do_set())  Odd character \016 removed from
+             HTML Interface 'set' (Just above preferences form.)
+ 23/06/2000  (J.P.Boggis: html.c:html_header())  TCZ-generated HTTP 1.1
+             header improved.
+ 23/06/2000  (J.P.Boggis: db.c,db.h)  Date when the longest recorded uptime
+             occured is now recorded in the database and shown using the
+             'uptime' command.
+ 23/06/2000  (J.P.Boggis: html.c:http_header(),html_process_data())  HTML
+             Interface now recognises protocol version (HTTP 1.0 or HTTP 1.1)
+             and returns header for appropriate HTTP version.
+ 24/06/2000  (J.P.Boggis: query.c:query_version())  'OS' added to version
+             query command, allowing current operating system to be returned.
+ 24/06/2000  (J.P.Boggis: html.c:html_process_data(),html_init())  HTML
+             Interface can now process options/values from unterminated
+             contents (Usually as a result of a POST from a form.)
+             Previously, this would cause a hung connection, while
+             html_process_input() waited for the termination sequence.
+             'Content-Length' is now checked and acted on, if present in
+             header.  This should make the HTML Interface work with IE5.
+             Also works with text-based Lynx, but that can't handle the frames.
+ 24/06/2000  (J.P.Boggis: html.c:html_interface_header())  Obsolete code
+             removed (Functionality replaced with html_header().)
+ 25/06/2000  (J.P.Boggis: tcz.c:tcz_startup_shutdown())  '.startup' and
+             '.shutdown' commands implemented (Executed when TCZ server
+             is started up and shutdown respectively.)  '.initialise'
+             replaced with '.startup'.
+ 25/06/2000  (J.P.Boggis: logfile.c:writelog())  Log file being viewed with
+             '@log' is not written to while it is being processed and output
+             to the screen of the user (For example, if logging level is 6
+             and HTML user types '@log command'.)
+ 25/06/2000  (J.P.Boggis: tcz.c:tcz_startup_shutdown())  Default compound
+             command time limit for '.startup' and '.shutdown' compound
+             commands is now 1 minute instead of normal 3 seconds.
+ 25/06/2000  (J.P.Boggis: command.c:command_executionlimit())  Maximum
+             execution time limit of 10 minutes (MAX_EXEC_TIME_STARTUP)
+             can now be set using '@executionlimit' within '.startup' or
+             '.shutdown' compound command in #4.
+ 01/07/2000  (J.P.Boggis: config.h)  HTML port number changed from 8343 to
+             8080.  This should allow the HTML Interface to be used through
+             firewalls/proxy servers.
+ 01/07/2000  (J.P.Boggis: options.c:option_options())  Server options that can
+             be changed using '@admin options' are now high-lighted.
+ 01/07/2000  (J.P.Boggis: options.c:option_console())  Option to display log
+             file entries on the console (stderr) added.
+ 01/07/2000  (J.P.Boggis: options.c:option_version())  Version string returned
+             by query_version() is now output when TCZ is run with the
+             '--version' option.
+ 01/07/2000  (J.P.Boggis: Various)  Date/time when longest connect time
+             occured is now recorded for each character.  Support for this
+             added to 'scan' and 'examine'.
+ 01/07/2000**(J.P.Boggis: query.c:query_longestdate())  '{@?longestdate}'
+             query command added (Allows above date/time to be returned for
+             use in compound commands.)
+ 02/07/2000  (J.P.Boggis: look.c:look_scan())  Creation date of character
+             added to 'scan'.
+ 02/07/2000  (J.P.Boggis: look.c:look_scan(),look_examine())  Average connect
+             time added to 'scan' and 'examine'.
+ 02/07/2000**(J.P.Boggis: query.c:query_averagetime())  '{@?averagetime}'
+             query command added (Returns average connect time of character.)
+ 02/07/2000  (J.P.Boggis: look.c:look_scan(),look_examine())  Total number
+             of logins and average time between logins added to 'scan' and
+             'examine'.
+ 02/07/2000**(J.P.Boggis: query.c:query_totallogins())  '{@?totallogins}'
+             query command added (Returns character's total number of logins.)
+ 02/07/2000**(J.P.Boggis: query.c:query_averagelogins())  '{@?averagelogins}'
+             query command added (Returns average time between character's
+             logins.)
+ 07/07/2000  (J.P.Boggis: feelings.tcz)  Initial test configuration file for
+             hard-coded feeling commands created.  Source for this needs to
+             be written (feelings.c)
+ 07/07/2000  (J.P.Boggis: feelings.c)  Source code module created (Currently
+             empty.)
+ 07/07/2000  (J.P.Boggis: look.c:look_scan())  Time spent idle/active added
+             to 'scan' and 'examine'.
+ 08/07/2000  (J.P.Boggis: finance.c,html.c,server.c)  Idle time of character
+             is now updated (Allowing time spent idle/active to work properly
+             on 'scan', etc.)
+ 08/07/2000  (J.P.Boggis: look.c:look_examine())  HTML formatting improved.
+ 08/07/2000**(J.P.Boggis: query.c)  '{@?totalidle}', '{@?averageidle}',
+             '{@?totalactive}' and '{@?averageactive}' query commands
+             implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank logins' (Total
+             number of logins) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank avglogins'
+             (Average time between logins) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank idle' (Total
+             time spent idling) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank avgidle' (Average
+             time spent idling) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank active' (Total
+             time spent active) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank avgactive'
+             (Average time spent active) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank created'
+             (Creation time/date) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank lastused'
+             (Time/date last used) implemented.
+ 08/07/2000**(J.P.Boggis: statistics.c:stats_rank())  '@rank avgtotal'
+             (Average connect time) implemented.
+ 08/07/2000  (J.P.Boggis: statistics.c:stats_rank())  Object types can now be
+             specified with '@rank created' and '@rank lastused'.
+ 08/07/2000  (J.P.Boggis: Various)  User time spent idle, active, etc.
+             fully re-implemented.  This was originally implemented in v4.2,
+             but was lost before release due to accidentally overwriting the
+             source files with older copies.
+ 13/07/2000  (J.P.Boggis: Various)  'warning: suggest explicit braces to avoid
+             ambiguous `else'' warning messages when compiling source fixed.
+ 14/07/2000  (J.P.Boggis: selection.c)  '@end' and '@else' now have separate
+             functions (selection_end() and selection_else() respectively.)
+ 14/07/2000  (J.P.Boggis: selection.c:selection_begin())  '@begin' added for
+             use in '@case' selection command.  Needs documenting.
+ 14/07/2000  (S.A.Boggis: Makefile,Makefile.rules)  New Makefile with
+             automatic dependencies created.
+ 14/07/2000  (J.P.Boggis: selection.c:selection_case())  Case match value
+             matching implemented (Execution of commands still needs
+             implementing.)
+ 14/07/2000  (J.P.Boggis: group.c:parse_grouprange())  Bug in parsing of
+             page numbers in grouping/range operators fixed (Introduced
+             when fixing 'else' warning problem.)
+ 14/07/2000  (J.P.Boggis: Various)  CVS ID tag added to *.c and *.h files.
+ 15/07/2000  (J.P.Boggis: selection.c:selection_case())  '@case' almost
+             complete - Debugging information and documentation still needs
+             to be done.
+ 16/07/2000  (J.P.Boggis: db.c)  Database header improved (Now includes
+             database format, MUD full/short name, TCZ version and project
+             name.)
+ 16/07/2000  (J.P.Boggis: compression.c)  Broken 'else' statement fixed
+             (Caused by fixing 'else' warning problem.)  Stopping compression
+             table initialisation from working correctly.
+ 16/07/2000  (J.P.Boggis: stringutils.c:match_range())  Function to match
+             string within range added.
+ 16/07/2000**(J.P.Boggis: selection.c:selection_case())  '@case' fully
+             implemented (Still needs documenting, along with '@begin'.)
+ 16/07/2000  (J.P.Boggis: command.c)  Broken 'else' statement fixed in
+             'command.c' (Caused by fixing 'else' warning problem.)
+             Stopping temporary variables from working correctly.
+ 16/07/2000  (J.P.Boggis: temp.c)  Broken 'else' statements fixed in 'temp.c'.
+             (Caused by fixing 'else' warning problem.)  Also stopping
+             temporary variables from working correctly.
+ 16/07/2000  (J.P.Boggis: tczfeatures.txt)  Updated and generalised features
+             list.
+ 16/07/2000  (J.P.Boggis: help.c:help_reload())  '@reload tutorial' now
+             reloads tutorials into tutorial system rather than help system!
+ 16/07/2000  (J.P.Boggis: help.c:help_match_topic())  Matching of topic names
+             improved (Exact match first, followed by closest prefix match,
+             then closest match within topic name.)
+ 16/07/2000  (J.P.Boggis: manual.txt)  '@case' and '@begin' documented,
+             references to '@mexec' removed from selection/iteration commands
+             (Either the single-lined or multiple-lined formats should be used
+             only.)
+ 16/07/2000  (J.P.Boggis: html.c:html_process_data())  '.' now supported in
+             resource name, allowing user to append '.html', '.htm', etc. to
+             the end of a resource name without getting an error message.
+ 16/07/2000  (J.P.Boggis: html.c:html_process_data())  'index' as a resource
+             is now supported, so that if a user points their web browser to
+             'http://tcz.mud.host:8080/index.html', they will get the default
+             World Wide Web Interface page.
+ 16/07/2000  (J.P.Boggis: options.c:option_version(),tcz.c)  '--version'
+             option now gives TCZ and GPL header, plus brief description
+             and TCZ and CVS version strings.
+ 21/07/2000  (J.P.Boggis: help.c:help_buttons())  '[TUTORIAL]' button now
+             works again if help topic has tutorial available.
+ 21/07/2000  (J.P.Boggis: Various)  New macro IsHtml(x) replaces all
+             occurences of 'x && x->html' for better readability.
+ 21/07/2000  (J.P.Boggis: communiction.c)  'do_..' renamed to 'comms_..'
+ 22/07/2000  (J.P.Boggis: move.c)  'do_..' renamed to 'move_..'
+ 22/07/2000  (J.P.Boggis: banish.c)  'do_banish()' renamed to 'banish_main()'.
+ 22/07/2000  (J.P.Boggis: channels.c)  'channel()' renamed to 'channel_main()'.
+ 22/07/2000  (J.P.Boggis: server.c)  Functions renamed to 'server_..'
+ 22/07/2000  (J.P.Boggis: array.c)  Functions renamed to 'array_..'
+ 22/07/2000  (J.P.Boggis: generic.tutorial.tcz)  'scan' tutorial updated to
+             include new fields.
+ 22/07/2000  (J.P.Boggis: options.c:option_debug())  '--debug' command-line
+             option added (Run in debugging/developer mode.)
+ 23/07/2000  (J.P.Boggis: admin.c:admin_options())  'homerooms' option added
+             to '@admin'.
+ 23/07/2000  (J.P.Boggis: create.c)  Object creation functions now return
+             DBref of created object.
+ 23/07/2000  (J.P.Boggis: db.c:create_db())  DBref of created objects is now
+             checked to ensure they were actually created (Exits if not.)
+ 29/07/2000  (J.P.Boggis: Various)  OPTCONTEXT (Function arguments) and
+             OPTSTATUS (Arguments to return option status) macros implemented.
+ 30/07/2000  (J.P.Boggis: move.c)  Home rooms implemented ('homeroom' and
+             '@homeroom'.)
+ 13/08/2000  (J.P.Boggis: structures.h)  Data structure definitions moved into
+             separate header file (Originally in db.h)
+ 13/08/2000  (J.P.Boggis: admin.c:admin_time_adjust())  Time adjustment code
+             placed into separate function ('@admin timeadjust'.)
+ 13/08/2000  (J.P.Boggis: tcz.c:tcz_get_timezone())  Function to get system
+             time zone string, for use in date/time functions in TCZ.
+ 13/08/2000**(J.P.Boggis: substitute.c:substitute())  '%@%z' substitution
+             added to return server system time zone.
+ 13/08/2000  (J.P.Boggis: server.c:server_gettime())  Time change handling
+             code can now take Daylight Saving Time into account, adjusting
+             time on TCZ correctly and changing time zone.
+ 20/08/2000**(J.P.Boggis: query.c:query_uptime())  'dbcreated', 'dbuptime',
+             'dbaveragetime', 'longestuptime' and 'longestdate' added to
+             '{@?uptime}' query command.
+ 20/08/2000  (J.P.Boggis: look.c:look_name_status())  Object with '.use'
+             command now has clickable HTML link when listed in the contents
+             list of a room, etc.
+ 20/08/2000**(J.P.Boggis: query.c:query_typeof())  'Character' is now returned
+             for a character rather than 'Player'.
+ 20/08/2000  (J.P.Boggis: look.c:look_name_status())  Object now has '(View)'
+             clickable HTML link when listed in the contents list of a room,
+             etc.
+ 26/08/2000  (J.P.Boggis: predicates.c,boolexp.c)  'could_doit()' and
+             'can_doit()' moved from predicates.c to boolexp.c and renamed
+             'could_satisfy_lock()' and 'can_satisfy_lock()' respectively.
+ 26/08/2000**(J.P.Boggis: look.c:look_name_status())  HTML clickable links
+             '(View)', '(Scan)', '(Use)', '(Take)', '(Drop)', '(Open)',
+             '(Close)', '(Lock)' and '(Unlock)' are now displayed
+             appropriately after the name of an object in the 'Contents:'
+             list of a room, thing, etc.
+ 26/08/2000**(J.P.Boggis: look.c:look_exits())  HTML clickable links
+             '(View)', '(Open)', '(Close)', '(Lock)' and '(Unlock)' are
+             now displayed appropriately after the name of an exit in the
+             'Obvious Exits:' list of a room, thing, etc.
+ 26/08/2000  (J.P.Boggis: look.c:look_examine())  'examine' for Mortal now
+             'look's at object instead of displaying who the owner is.
+ 26/08/2000  (J.P.Boggis: options.c:option_console())  Log file entries are
+             now displayed on the console (stderr) by default (Can be disabled
+             using '--console=no' command-line option.)
+ 26/08/2000  (J.P.Boggis: signallist.h)  List of signal names/descriptions
+             implemented, replacing non-portable use of strsignal() /
+             sys_siglist[].
+ 26/08/2000  (J.P.Boggis: server.c:server_SIGPWR_handler())  SIGPWR signal
+             is now handled by TCZ, warning users that power has been
+             lost/resumed, and starting database dump, if not already in
+             progress.
+ 28/08/2000  (J.P.Boggis: stringutils.c:realtime())  Some support for new
+             user-definable date/time formats implemented (Date/time currently
+             displayed to old standard, no ability to change format yet.)
+ 02/09/2000  (J.P.Boggis: db.c:db_create())  New database creation function
+             now works (Used to fail when create room #0 due to character #1
+             (ROOT) not existing yet (The room's intended owner.))
+ 02/09/2000  (J.P.Boggis: look.c:look_motd())  Warning of power failure is now
+             given to users when they login (MOTD.)
+ 03/09/2000  (J.P.Boggis: Various)  'u_char', 'u_short' and 'u_long' data types
+             changed to 'unsigned char', 'unsigned short' and 'unsigned
+             long' respectively for better portability.
+ 09/09/2000  (J.P.Boggis: tcz.c:tcz_version())  Centralised version information
+             function added.  Used by '--version', 'version' and newly added
+             HTML resource ('DATA=VERSION&'.)  All now return similar
+             information.
+ 10/09/2000  (J.P.Boggis: stringutils.c:date_to_string())  'realtime()' renamed
+             to 'date_to_string()'.
+ 10/09/2000  (J.P.Boggis: stringutils.c:longdate_to_string())  Obsolete
+             function longdate_to_string()'' removed (Replaced by
+             'date_to_string()'.)
+ 10/09/2000  (J.P.Boggis: stringutils.c:date_to_string())  Support for custom
+             date/time formats for this function is now complete (I.e:
+             '@echo {@?realtime = epoch = mm/dd/yyyy}'.)
+ 10/09/2000  (J.P.Boggis: html.c:html_process_data())  GPL copyright header
+             added to default HTML resources page.
+ 24/09/2000  (J.P.Boggis: set.c)  'do_...' renamed to 'set_...'.
+ 24/09/2000  (J.P.Boggis: preferences.c)  'set' preferences command functions
+             moved from 'set.c' to new module 'preferences.c'.
+ 02/10/2000  (J.P.Boggis: censor.c)  Half-finished module deleted (Will be
+             redone sometime in the future, using modified code from
+             'banish.c'.
+ 02/10/2000  (J.P.Boggis: sanity.c)  'do_...' renamed to 'sanity_...'.
+ 02/10/2000  (J.P.Boggis: prompt.c)  New module created ('@prompt' functions
+             moved into this new, separate module.)
+ 02/10/2000  (J.P.Boggis: prompt.c:prompt_user*)  New functions added to
+             implement interactive prompting for parameters for internal
+             commands.
+ 07/10/2000  (J.P.Boggis: db.c,db.h)  Object type is now stored in separate
+             variable in DB object structure, rather than within object flags
+             (Frees up space for 6 more flags in db[<OBJECT>].flags2, and
+             allows upto 255 different object types.)
+ 22/10/2000  (J.P.Boggis: manual.txt)  References to The Chatting Zone/TCZ
+             changed to 'TCZ-based MUD' for generalisation.
+ 22/10/2000  (J.P.Boggis: create.c)  New object type storage now works when
+             creating new objects.
+ 22/05/2001  (J.P.Boggis: set.c:set_description())  Changed use of unfinished
+             prompt_user() (prompt.c) to beta code (Disabled if #undef BETA
+             in config.h)  -  Allows '@desc' to work properly again in
+             non-beta compiled code!
+ 28/05/2001  (J.P.Boggis: termcap.c:set_terminal_type())  Fixed 'xterm' window
+             title (Not being properly sprintf()'ed.)
+ 28/05/2001  (J.P.Boggis: global.c:global_add())  Warnings about Mortal owned
+             compound command not being set READONLY/VALIDATED incorporated
+             into a single log file entry (Instead of two separate ones.)
+ 28/05/2001  (J.P.Boggis: html.c)  HTML user picture gallery, home pages,
+             profiles and scans now support 'noback' option (Removes [BACK]
+             link from the bottom of the page.)
+ 28/05/2001  (J.P.Boggis: db.h)  Some object macros changed so that object
+             type used as parameter to macro is checked for validity.
+ 28/05/2001  (J.P.Boggis: look.c:look_examine())  Object type added to
+             'examine' output.
+ 28/05/2001  (J.P.Boggis: match.c:match_simple())  Problem with not matching
+             inherited objects fixed (getnext() was searching CONTENTS instead
+             of supplied list type.)
+ 28/05/2001  (J.P.Boggis: set.c:set_email())  '@email public forward' now tells
+             you that your public E-mail has been set to forward to your
+             private E-mail address rather than set to 'forward'.
+ 28/05/2001  (J.P.Boggis: set.c:set_flag_by_name())  Now removes and re-adds
+             global compound commands, so that change of READONLY/VALIDATED/
+             ELDER flag is taken into account.
+ 28/05/2001  (J.P.Boggis: set.c:set_owner())  Now removes and re-adds global
+             compound commands, so that change of ownership from Admin. to
+             Mortal is taken into account.
+ 28/05/2001  (J.P.Boggis: global.c:global_add())  Now informs relevant user if
+             global compound command is excluded from lookup for any reason
+             (I.e:  Mortal owned) as well as writing entry to the log files.
+ 28/05/2001##(J.P.Boggis: global.c:global_add())  Now checks for conflicts
+             between global compound commands and built-in commands.  If a
+             conflict exists, the compound command will be excluded until it
+             is set WIZARD and VALIDATED (This prevents accidental conflicts
+             but still allows those done on purpose.)
+ 29/05/2001  (J.P.Boggis: look.c:look_disclaimer())  Added 'more' paging
+             support to the 'disclaimer' command in TCZ (Shows disclaimer
+             when typed.)  Paging of disclaimer at login screen still needs
+             to be implemented.
+ 17/06/2001  (J.P.Boggis: prompt.c:prompt_user())  Added optional (Via #define)
+             simple 'more' paging support to disclaimer and title screens.
+             This allows long disclaimers/title screens without text scrolling
+             off screen of user.
+ 18/06/2001  (J.P.Boggis: prompts.h)  Moved user prompts from prompt.c and
+             html.c into #define's in new module prompts.h, allowing easier
+             customisation, as well as screen height adjustment for prompt
+             in simple 'more' pager (Not implemented yet.)
+ 19/06/2001  (J.P.Boggis: html.c)  Added new HTML Interface resource
+             'disclaimer', which shows the current TCZ disclaimer in an
+             HTML page for dynamic linking from the TCZ web site.
+ 20/06/2001  (J.P.Boggis: prompt.c)  Screen height of user prompt is now
+             taken into account by simple 'more' pager, plus a number of
+             minor display bugs fixed.
+ 21/06/2001  (J.P.Boggis: prompt.c)  Support for simple 'more' paging of
+             multiple random title screens added.
+ 24/06/2001  (J.P.Boggis: html.c)  Buffer overflow problem in html_init()
+             fixed (Caused by support added for Content-Length.)
+ 24/06/2001  (J.P.Boggis: command.d:command_use())  Keywords 'in', 'with'
+             and 'to' added to 'use'.
+ 24/06/2001  (J.P.Boggis: db.c:update_stats())  Function moved to
+             statistics.c and renamed to tcz_stats_update_record().
+ 24/06/2001  (J.P.Boggis: statistics.c:tcz_stats_update_record())  Roll-over
+             to new day sets correct time on roll-over at TCZ start-up
+             (00:00 current day, rather than current time.)
+ 24/06/2001  (J.P.Boggis: statistics.c:tcz_stats_update_record())  Daily
+             peak is now reset to zero.
+ 24/06/2001  (J.P.Boggis: bbs.c)  Incorrect usage of html_server_url() to
+             generate clickable command links corrected (Security code was
+             not being added.)
+ 25/06/2001  (J.P.Boggis: match.c, move.c, interface.c)  Matching for area
+             commands ('.login', '.logout', '.enter', '.leave') fixed.  Now
+             does area match only, no-longer incorrectly matching within
+             objects located within each area room.
+ 25/06/2001  (J.P.Boggis: match.c)  match_continue() now returns next matched
+             object rather than always *NOTHING*, allowing area compound
+             command *HOME* CSUCC/CFAIL links to work correctly.
+ 24/07/2001  (J.P.Boggis: query.c:query_filter())  Fixed infinite loop
+             problem.
+ 24/07/2001  (J.P.Boggis: alias.c:alias_remove())  Fixed broken 'if'
+             statement (Caused crash when removing alias from binary
+             tree.)
+ 24/07/2001  (J.P.Boggis: group.c:listed_items())  Added 'fullstop'
+             parameter to get around problem of '(Page 1 of 8)' being
+             converted to '(Page 1 of [Smiley face with glasses])' on
+             HTML Interface.
+ 24/07/2001  (J.P.Boggis: match.c:match_object())  'here' now returns
+             location of user executing compound command, rather than
+             the owner of the compound command's location.
+ 24/07/2001  (J.P.Boggis: set.c:set_flag_by_name())  Broken 'if' statements
+             fixed, plus when setting BUILDER flag, if Building Quota is less
+             than STANDARD_CHARACTER_QUOTA (include/quota.h), quota is set to
+             that (Previously it was only set if zero.)
+ 24/07/2001  (J.P.Boggis: bbs.c:bbs_appendmessage())  '@?date_to_string'
+             corrected to '@?realtime' (Incorrect substitution.)
+ 24/07/2001  (J.P.Boggis: logfiles.c:writelog())  Check for unopened user
+             log file added (Otherwise code attempts to access
+             logfiles[-DBRef].file, causing segmentation fault.)
+ 25/07/2001  (J.P.Boggis: predicates.c:can_write_to())  Check for Owner(player)
+             = Owner(object) fixed, allowing non-irreversible '@chpid'
+             compound command to write to character executing it.
+ 25/07/2001  (J.P.Boggis: query.c:query_lastsite())  Permission check on
+             '{@?lastsite}' fixed.  Returns 'Error' in Mortal owned compound
+             command executed by another character.
+ 25/07/2001  (J.P.Boggis: predicates.c:can_write_to())  When a character
+             executes a compound command that is not owned by themselves,
+             write permission from within the compound command will be
+             denied to both the character and their objects unless the
+             APPRENTICE flag (See 'help apprentice flag') is set on the
+             compound command, or it is owned by an Apprentice Wizard/Druid
+             or above.  This safe-guards users against malicious 'trojan'
+             compound commands created by Builders, which otherwise could
+             alter their character and/or objects without their permission.
+ 25/07/2001  (J.P.Boggis: communication.c:comms_emergency())  Emergency
+             command logging can no-longer be started on an administrator.
+ 25/07/2001  (J.P.Boggis: alias.c:alias_readd())  Broken 'if' statement
+             fixed (Possibly resulting in bad lookup in binary tree.)
+ 26/07/2001  (J.P.Boggis: server.c:server_SIGALRM_handler())  Guardian
+             alarm (#define GUARDIAN_ALARM) added to provide protection
+             from infinite loops created by bugs in the code.  This shuts
+             TCZ down if user command/IO processing takes longer than
+             GUARDIAN_ALARM_TIME (include/config.h) to complete.
+ 26/07/2001  (J.P.Boggis: Makefile, Makefile.rules)  Altered Makefile so
+             that new executable is compiled to tcz.new, so that multiple
+             compiles do not overwrite current executable, which prevents
+             the core dump of the current running TCZ being debugged
+             properly if it crashes.  bin/tcz.net must be moved to bin/tcz
+             before any newly compiled code will be used when TCZ restarts.
+ 26/07/2001  (J.P.Boggis: options.c:option_guardianalarm())  Guardian alarm
+	     option added ('--guardian') so that guardian alarm can be
+	     enabled/disabled via options.
+ 26/07/2001  (J.P.Boggis: server.c:server_SIGALRM_handler())  Signal handler
+             corrupts top entry on stack, making debugging difficult using
+             core dump.  Got around this by executing shell command to send
+             SIGSEGV to TCZ outside of signal handler (Sleeps 10 secs and
+             then does 'kill -SIGSEGV <TCZ PID>'.)  This will only work
+             properly if emergency DB dump is turned off.(Allowing SIGSEGV
+             to produce clean core dump by not involking a custom signal
+             handler.)
+ 26/07/2001  (J.P.Boggis: logfile_table.h)  'Command' log restricted to
+             Deity+ only (Even though restricted to non-spoken text, other
+             Admin. shouldn't need to view it.)
+ 26/07/2001  (J.P.Boggis: logfiles.c)  'TCZ restarted on...' is no-longer
+             logged to 'Stats' log (Not neccessary.)
+ 27/07/2001  (J.P.Boggis: server.c:server_command())  Login screen commands
+             such as help, tutorial, disclaimer, etc. no-longer mess up login
+             prompt sequence.
+ 27/07/2001  (J.P.Boggis: predicates.c:ok_character_name())  Login screen
+             commands such as help, tutorial, disclaimer, etc. can no-longer
+             be used as character names (Or first word in character name.)
+ 27/07/2001  (J.P.Boggis: server.c:server_connect_user())  Check for invalid
+             user added to create/connect character code (Caused crash when
+             connecting with user==NOTHING.)
+ 27/07/2001  (J.P.Boggis: tcz.c:tcz_exec_copy())  Copy of TCZ executable is
+             made to bin/tcz.TELNETPORT.HTMLPORT to allow later core dump
+             debug if executable changes during run-time due to code
+             re-compile, etc.  Source files may still change during run-time,
+             so this may still make debugging difficult, but variables,
+             stack, etc. should still be intact.
+ 01/08/2001  (J.P.Boggis: array.c:array_sort())  Broken 'if' statement fixed
+             (Possibly causing corruption in Dynamic Arrays when '@sort' is
+             used  -  Users on TCZ reported elements being lost.)
+ 06/08/2001  (J.P.Boggis: match.c:match_object())  Match recursion is now
+             handled correctly, preventing an infinite loop from occuring.
+ 07/08/2001  (J.P.Boggis: db.c,sites.c)  Restart, dump and log serial
+             numbers added (To support QMW research logging functions
+             to be added by SAB.)
+ 08/08/2001  (J.P.Boggis: db.c)  Serial number variables changed to unsigned
+             longs.
+ 15/08/2001  (J.P.Boggis: communications.c:comms_afk())  Pointer bug in 'afk'
+             command fixed (Caused crash.)
+ 15/08/2001  (J.P.Boggis: tcz.c:main())  Warning of non-loaded config file
+             added (At point past lock file check.)  Also added warning of
+             inability to change working path at start-up.
+ 15/08/2001  (J.P.Boggis: db.c)  Successful database dump number is no-longer
+             written to 'Server' log file (Can be found in 'Dump' log file'
+             only.)
+ 20/08/2001  (S.A.Boggis: externs.h modules_c.h modules.h Makefile
+             qmwlogsocket.c) Added qmwlogsocket module for QMW_RESEARCH
+             logging.
+ 20/08/2001  (S.A.Boggis: communication.c:comms_afk(),comms_ask(),comms_pose(),
+             comms_say(),comms_think(),comms_whisper(),comms_yell() 
+             admin.c:admin_chat move.c:move_to() pagetell.c:pagetell_send())
+             Added logging lines to functions to begin recording logging
+             for QMW_RESEARCH.
+ 22/08/2001  (J.P.Boggis: qmwlogsocket.c:logmsg())  Fixed usage of writelog()
+             -  Lack of "%s" format was causing a crash when msg contained '%'
+             (I.e:  Unsubstituted ANSI colour codes), which caused writelog()
+             to try and vfprintf msg with no matching parameters for the %'s.
+ 22/08/2001  (J.P.Boggis: logfiles.h,logfile_table.h,qmwlogsocket.c)  Added
+             Research log file for QMW research related log messages (Such as
+             those generated by qmwlogsocket.c (Access by Deity+ only in TCZ.))
+             These previously spammed the Server log, and could invade the
+             privacy of users by logging unformatted spoken text that all
+             Admin can view.
+ 22/08/2001  (J.P.Boggis: logfile_table.h)  'Command' and 'Research' log files
+             are now Supreme Being onl (Deities being promoted on TCZ soon.)
+ 24/08/2001  (J.P.Boggis: config.h)  Added #define TCZ_EXEC_BACKUP, to make
+             backup copy of TCZ executable made at start-up optional.  This
+             file is used for debugging the core dump if the code has been
+             modified/recompiled during run-time and TCZ crashes.
+ 24/08/2001  (J.P.Boggis: tcz.c:tcz_exec_copy())  Executable backup is renamed
+             to 'bin/<EXEC FILE>.<TELNET PORT>.<HTML PORT>.core', if it exists
+             at start-up, before new backup copy is made (Allowing core-dump
+             debug after TCZ restarts.)
+ 24/08/2001  (J.P.Boggis: pager.c:pager_init(),server.c:server_connect_user())
+             Fixed conflict between 'set more' pager and simple pager used
+             for accepting the disclaimer at connect-time (Caused user's
+             session to 'lock up' when connecting, if they had to re-accept
+             the disclaimer, and only occured if the user had 'set more on'.)
+ 26/08/2001  (J.P.Boggis: qmwlogsocket.c)  Removed '#else' from underneath
+             #ifdef QMW_RESEARCH, which prevented QMW logging code from
+             being removed using #undef QMW_RESEARCH.  Won't compile on my
+             older Linux at home due to following error:  qmwlogsocket.c:337:
+             `MSG_DONTWAIT' undeclared (first use this function)
+ 26/08/2001  (J.P.Boggis: character.c:check_duplicates())  Added 'newchar'
+             parameter, so that log/warning message correctly displays whether
+             user with E-mail address conflict is new or not.
+ 26/08/2001  (J.P.Boggis: look.c:look_scan())  Last time connected field on
+             'scan' now shows how long ago that time was again.
+ 26/08/2001  (J.P.Boggis: look.c:look_scan())  Brief/full scan options
+             implemented ('scan' does brief scan.)
+ 26/08/2001  (J.P.Boggis: structures.h,db.c,look.c,query.c,statistics.c)
+             Removed totaladjust field, used for adjusting pre-v4.3 total
+             time when working out averages (Didn't work properly, resulting
+             in negative total time/time spent active!)
+ 27/08/2001  (J.P.Boggis: prompt.c:prompt_display())  Fixed bug in disclaimer
+             code that caused disclaimer to loop when displayed in the simple
+             pager (I.e:  No accept/reject prompt displayed.)
+ 27/08/2001  (J.P.Boggis: prompt.c:prompt_display())  Fixed bug that caused
+             first line of disclaimer to disappear.
+ 27/08/2001  (J.P.Boggis: qmwlogsocket.c)  Moved position of TCZ config.h
+             include so that QMW_RESEARCH #define works.
+ 30/08/2001  (J.P.Boggis: tcz.c:main())  Fixed problem getting RSS during set
+             memory restrictions (Resulted in minimum expansion size (16Mb)
+             always being used.)
+ 30/08/2001  (J.P.Boggis: look.c:look_scan())  'scan' without 'brief'/'full'
+             now displays brief scan on Telnet and full scan on HTML by
+             default.
+ 31/08/2001  (J.P.Boggis: db.h)  Corrected constants for MB and GB.
+ 27/09/2001  (J.P.Boggis: Various C files)  Added '#include <time.h>' to
+             various C files due to warnings generated by calling localtime()
+             (clib update?)  Also fixed usage of sscanf() in tcz.c
+ 27/09/2001  (J.P.Boggis: server.c:server_gettime(), db.c)  Added global
+             variable to disable automatic time adjustment in server_gettime()
+             during forked database dump (In forked child process.)  This may
+             have caused an issue where 100's of dumping processes where
+             spawned due to a time change on the server.
+ 18/02/2002  (S.A.Boggis: qmwlogsocket.c) Added use of gcc attribute to 
+             check varargs fns, and log number of missed messages at 
+             warning level in send_logmsg() and qmwlogsocket().
+-------------------------------------------------------------------------------
+ KEY:  '**' = Document to users (I.e:  On BBS.)
+       '##' = Document to Admin only.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+ $Id: changes.4.3.0.tcz,v 1.1.1.1 2004/12/02 17:44:20 jpboggis Exp $

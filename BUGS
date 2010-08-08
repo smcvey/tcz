@@ -1,0 +1,27 @@
+The Chatting Zone (TCZ)  - Known Bugs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ $Id: BUGS,v 1.2 2004/12/14 22:42:03 tcz_monster Exp $
+
+  Date:       Name, Reported By, Bug
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 23/11/2003%%(S.A.Boggis, Monster) password corruption:
+             "No-one has any idea, we kept a log of everyone
+             affected to try and work out what might be causing it.
+	     The only thing we can think of is the password reminder,
+	     as it hits 'waves' of users" to you.
+ 23/11/2003%%(S.A.Boggis, Monster) scan crashes with {@?scrwidth me} < 56
+             (see the workaround command #2716 which basically does
+	     @force me = set scrwidth = 80 and logs and warns user.
+ 03/12/2003  (J.P.Boggis)  Crash and core dump due to corrupted descriptor
+             data pointer after processing .action compound command (Crashed
+	     in command.c:command_cache_execute() when setting p->prompt->temp
+	     = tempptr due to corrupt p->descriptor_data pointer.
+-------------------------------------------------------------------------------
+ KEY:  '**' = Document to users (I.e:  On BBS.)
+       '##' = Document to Admin only.
+       '%%' = Unconfirmed.
+       '??' = Unreproducible so far.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+ $Id: BUGS,v 1.2 2004/12/14 22:42:03 tcz_monster Exp $

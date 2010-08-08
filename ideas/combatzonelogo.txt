@@ -1,0 +1,39 @@
+ .     .       .      .     .           .      (C)Copyright GALAX Software 1995
+  .       .             .          +          .    .            .    +   .
+      .     +  .  .-----------.      .    .             .            .       .
+ .         .    .'  .---------'  .      --  T H E  --          .         .
+    .         ,'  .'  .     .          .      .       .     .     + .         .
+.       .   .'  .'  .---. .-.-. +---. .---. --+--   .           .         .
+   +      .'  .' .  |   | | ' | |---| |---|   |  .         .         .       .
+.       .'  .' .    `---' '   ' '---' '   '   '     .   +     .          +
+   .  .'    `-------------------------------------.     .          .        .
+ .    `-------------------------------------.    .'  .        .         .     .
+     .          .              +       .   .'  .'  .---. .-. . +---   .    .  
+ .         .            .          .     .'  .' .  |   | | | | |--       .    .
+       .           .          .        .'  .'      `---' ' `-' '--- (tm)     .
+   .         .           .       .   .'    `-----------------------------.    .
+      .    +        .     .     +    `-----------------------------------' .
+  .            .               .          .       .      .            .      .
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ If this is the first time you've entered The Combat Zone, type 'help combat'
+ now to find out more about The Combat Zone and fighting in it.  Otherwise,
+ type 'enter' to enter The Combat Zone...                        -  Good luck!
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+JC Digita aims his shotgun at you and pulls the trigger.  *BLAM!*
+You scream as hundreds of tiny ball bearings embed themselves in you.
+JC Digita has killed you  -  You lose 25 score points.
+
+
+[Attacker]
+TCZ> shoot shotgun at test
+You aim your shotgun at Test and pull the trigger.  *BLAM!*
+Test screams as hundreds of tiny ball bearings embed themselves in him.
+You have killed Test  -  You are awarded 50 score points.
+Test has left.
+
+
+[Everyone else]
+JC Digita aims his shotgun at Test and pulls the trigger.  *BLAM!*
+Test screams as hundreds of tiny ball bearings embed themselves in him.
+Test has left.

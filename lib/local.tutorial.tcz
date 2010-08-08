@@ -1,0 +1,27 @@
+%COMMENT  TCZ Local Tutorials
+%COMMENT  ~~~~~~~~~~~~~~~~~~~
+%COMMENT  Place your own custom tutorials for your TCZ-based MUD in this
+%COMMENT  tutorials file.  DO NOT modify lib/generic.tutorial.tcz
+
+%COMMENT  $Id: local.tutorial.tcz,v 1.1.1.1 2004/12/02 17:39:08 jpboggis Exp $
+
+%COMMENT  %TOPIC         Defines name(s) of topic.
+%COMMENT  %TITLE         Defines title of topic.
+%COMMENT  %PAGE          Marks next page of topic.
+%COMMENT  <-SEPARATOR->  Single line separator ('--------'.)
+%COMMENT  <-DOUBLE->     Double line separator ('========'.)
+%COMMENT  %COMMENT       Comment line (Ignored by help system.)
+
+%COMMENT  %<, %>         Marks link to help topic (Adding 'help '.)
+%COMMENT  %+, %>         Marks link to tutorial (Adding 'tutorial '.)
+%COMMENT  %(, %)         Marks link to help topic (Without adding 'help '.)
+%COMMENT  %-, %)         Marks link to tutorial (Without adding 'tutorial'.)
+%COMMENT  %[, %]         Marks beginning and end of preformatted section.
+%COMMENT  %$             Marks line as title/heading (Underlined if user has
+%COMMENT                 'set underline' preference 'on'.)
+%COMMENT  %~             Marks line as '~~~~~' or similar-style underline,
+%COMMENT                 which will be removed if user has 'set underline'
+%COMMENT                 preference 'on'.)
+
+%COMMENT --------------------------------------------------------------------->
+

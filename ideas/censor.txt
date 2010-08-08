@@ -1,0 +1,40 @@
+                        
+ Word:                  Begin:  End:  Cont:  Prefix:          Suffix:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ !123456789012345  !123456789012345  !123456789012345  !123456789012345
+  Ass                Asshole
+ !Pass
+                       
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+USAGE:  @censor add|remove [!]<WORD>
+
+Adds word to censor.  '!' excludes word from censorship (E.g:  'pass' when
+'ass' is censored.)  Logged to 'banish' log file.
+
+<WORD> must consist of alphanumeric text only (With the exception of special
+option characters detailed below.)
+
+When censorship is applied, anything other than alphanumeric text, spaces
+and punctuation is ignored.  This means that censorship cannot be got
+around by clever use of substitution codes, symbols, etc.
+
+Options:
+
+!  Don't censor word.
+<  Ignore word if preceeded by an alphabetical character which is not the
+   same as the first letter of the censored word (E.g:  '<ass' prevents
+   'pass', 'glass', etc. from being censored, but still censors the word
+   'ass'.)
+>  Ignore word if followed by an alphabetical character which is not the
+   same as the last letter of the censored word.
+
+Examples:  <ass>     Censors the word 'ass', but allows 'pass', 'glass',
+                     'assist', 'assessment', etc.
+           arsehole  Censors the word 'asshole' no matter where its used.
+
+
+USAGE:  @censor list [<PAGE NO>] [<WORD>]
+
+Lists censored words.  If prefixed with '!', word is excluded from the
+censor.

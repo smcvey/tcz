@@ -1,0 +1,180 @@
+ADDITIONAL:
+
+Some means of having ranks, with hard-coded commands, i.e:
+`- Privilege, Rank Name, Colour, Priv. Flags, etc.
+
+   Members could be given privilege (with default of X.)
+   For this to be enabled, a RANK flag would need setting.
+   Would give different formats for -channel.who, -channel.say, etc.
+   -channel.ranks to list different ranks, and/or users and their rank.
+
+chat <MESSAGE>  (Equivalent of '- <MESSAGE>')
+
+-[<CHANNEL>] <MESSAGE>
+-[<CHANNEL>] .<COMMAND>
+-list
+
+Allows chatting over multiple channels, which must be joined.  If <CHANNEL>
+is ommitted, last chatting channel used is assumed.  If <CHANNEL> is
+abbreviated, it will be matched to nearest channel name.
+
+'-' used without a channel name refers to default channel, which is the first
+chatting channel you joined since connecting, or the chatting channel you set
+as your default channel using '-<CHANNEL> .default'.  When used in this form,
+a space (' ') must be used between '-' and your message/command, e.g:
+'- hello' to say "Hello" over default chatting channel.
+
+-<CHANNEL> [.join]        Join chatting channel <CHANNEL> (The command '.join'
+                          is optional and may be ommitted.)  If the channel
+                          is private and you haven't been blocked from joining
+                          it, a request to join the chatting channel will be
+                          sent to its operators.
+-<CHANNEL> .default       Set <CHANNEL> as your default chatting channel.  Once
+                          set, you can use '-' without the channel name to
+                          chat over it.  NOTE:  The first chatting channel you
+                          join (After connecting to TCZ) will be automatically
+                          set as your default chatting channel.
+-[<CHANNEL>] .leave       Leave chatting channel <CHANNEL>.
+-[<CHANNEL>] .who <PAGE>  List users on chatting channel <CHANNEL>, providing
+                          it's public and accessible by you.
+-list [all] <PAGE>        Lists currently active chatting channels (If 'all'
+                          is specified, all available chatting channels will
+                          be listed), along with number of users on the
+                          channel, its subject, etc.  (NOTE:  If a chatting
+                          channel has a '!' to the left of its name, you will
+                          not be able to join it, unless invited.)
+-<CHANNEL> .subject       Shows you the subject of <CHANNEL>.
+-<CHANNEL> .operator      List all current operators of <CHANNEL>.
+-<CHANNEL> .owner         Tells you who owns <CHANNEL>.
+
+
+[Operator commands]
+(Owner of channel always counts as operator)
+-[<CHANNEL>] .name <NAME>             Set name of <CHANNEL> to <NAME>.
+-[<CHANNEL>] .subject [<SUBJECT>]     Set subject of <CHANNEL> to <SUBJECT>.
+                                      If <SUBJECT> is ommitted, the current
+                                      subject will be displayed.
+-[<CHANNEL>] .public                  Make <CHANNEL> public (So any user can
+                                      join it (Except blocked users.))
+-[<CHANNEL>] .private                 Make <CHANNEL> private (So only those
+                                      users invited may join it.)
+-[<CHANNEL>] .accept <NAME>           Accepts <NAME>'s invitation request to
+                                      join <CHANNEL> (Joining them to it.)
+-[<CHANNEL>] .refuse <NAME>           Refuses <NAME>'s invitation request to
+                                      join <CHANNEL>.
+-[<CHANNEL>] .kick <NAME> = <REASON>  Kick <NAME> off <CHANNEL>, for given
+                                      <REASON>.
+-[<CHANNEL>] .block [<NAME>]          Block <NAME> from joining <CHANNEL>, or
+                                      remove their block if they're already
+                                      blocked from joining.  If <NAME> is
+                                      ommitted, all users who are currently
+                                      blocked will be listed.
+-[<CHANNEL>] .invite [<NAME>]         Make <NAME> a permanent invite of
+                                      <CHANNEL> (So they may join it whenever
+                                      they like), or remove their permanent
+                                      invite.  If <NAME> is ommitted, all
+                                      characters with permanent invites
+                                      will be listed.
+-[<CHANNEL>] .operator [<NAME>]       (This command can only be used by the
+                                      owner of <CHANNEL>.)  Make <NAME> an
+                                      operator of <CHANNEL>, or remove their
+                                      operator privileges if they're already
+                                      an operator.  If <NAME> is ommitted,
+                                      all current operators will be listed.
+-[<CHANNEL>] .accesslevel [<LEVEL>]   Set access level required to join
+                                      <CHANNEL> chatting channel (None,
+                                      Builder, etc.)  If <LEVEL> is ommitted,
+                                      the current access level is displayed.
+-[<CHANNEL>] .colour [<COLOUR>]       Sets colour of <CHANNEL>'s name, which
+                                      must be a '%'-style substitution, e.g:
+                                      '%r%l' for light red, '%y%l%i%b' for
+                                      yellow text on a blue background, etc.
+                                      (See section on substitutions.)  The
+                                      default colour is light cyan.
+
+
+[Admin only commands]
+(All operator commands available on all channels owned by lower level chars)
+-[<CHANNEL>] .owner [<NAME>]          Make <NAME> the owner of the <CHANNEL>.
+                                      If <NAME> is ommitted, the current owner
+                                      is displayed.
+-[<CHANNEL>] .permanent               Make <CHANNEL> permanent, so it will
+                                      remain even when there are no users
+                                      using it, or TCZ is shutdown and
+                                      restarted.  If it's already permanent,
+                                      it will become temporary (The default)
+                                      again, and will be removed when it has
+                                      no users.
+
+
+Notes:
+~~~~~~
+*  On disconnecting, user will be removed from *users and *invites.
+
+*  On DB load, *users and *invites of channel wiped.
+
+*  Output style of channels:
+
+[<CHANNEL>]  <MESSAGE>, e.g:
+
+[General]  Fred says "Hello!"
+
+ Welcome to the General chatting channel, Fred Bloggs.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ The general chatting channel:  Anything and everything.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+*  On -list, permanent channels are listed first (Alphabetically), followed
+   by temporary ones, e.g:
+
+ Name:            Users:  Subject:        ('!' = Inaccessible, '@' = Private.)
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ [Permanent chatting channels...]
+ Building         11      Building on TCZ.
+ Help             4       Newbie help.
+!Experienced      2       Experienced Builders.
+ General          5       Anything and everything.
+ LongSubject      1       A very long subject which will be truncated in th...
+
+ [Temporary chatting channels...]
+@Wibble           1       Wibbling channel :)
+ JCD              1       JC Digita's channel.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Channels listed:  6/6 (Page 1 of 1)  (Permanent:  4, Temporary:  2.)
+
+
+CHAT_INVITES = 10;  /*  Size of invite queue of each chatting channel  */
+
+
+struct channel_data {
+       struct channel_data *next;
+       struct list_data *users,*invites,*blocked,*operators,*invitequeue;
+       u_char accesslevel;
+       char   *subject;  /*  Upto 52 characters                       */
+       char   *colour;   /*  Upto 10 characters (Substitutions only)  */
+       char   *name;     /*  Upto 15 characters                       */
+       dbref  owner;
+       u_char flags;  {CHAT_CENSOR:     Censor bad language on channel}
+                      {CHAT_PRIVATE:    Chatting channel is private (Invite only)}
+                      {CHAT_PERMANENT:  Chatting channel is permanent}
+}
+
+struct channel_data *permanent_list;  /*  Last 'next' pointer of this list points to temporary list  */
+struct channel_data *channel_list;
+
+
+Examples:
+~~~~~~~~~
+-general             (Join 'General' chatting channel.)
+-general hello       (Say 'hello' over 'General' chatting channel.)
+-building            (Join 'Building' chatting channel (As well as 'General'.))
+-building help       (Say 'help' over 'Building' chatting channel.)
+-building .leave     (Leave 'Building' chatting channel.)
+
+
+-Experienced              # Create 'Experienced' chatting channel.
+-Experienced .default     # Set as default channel.
+- .experienced            # Only allow Experienced Builders to join.
+- .subject Experienced Builders channel.
+- .colour %r%l            # Light red channel name.
+- .permanent              # Make chatting channel permanent (Admin only.)

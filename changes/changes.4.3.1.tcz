@@ -1,0 +1,138 @@
+The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ $Id: changes.4.3.1.tcz,v 1.2 2004/12/07 21:56:15 jpboggis Exp $
+
+ Date:       Name, Source, Func/Procedure & Description of change:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 20/11/2003  (S.A.Boggis) tag old version as tcz2000_4-3-0_FINAL.
+ 20/11/2003  (S.A.Boggis: create changes.4.3.1.tcz) for new version.
+ 20/11/2003**(S.A.Boggis: config.h) change TCZ_REVISION to 1
+             (i.e. now 4.3.1) and TCZ_DATE to 20/11/2003. 
+ 20/11/2003  (S.A.Boggis: array.c calculate.c create.c db.c destroy.c
+              friends.c group.c look.c move.c options.c prompt.c query.c
+              selection.c server.c set.c sites.c) fix -Wall compile time
+             warning 'deprecated use of label at end of compound statement'.
+             This was caused by the construct 'switch(){ ... default: }' and
+             fixed by inserting a 'break;' statement before the final curly.
+ 20/11/2003  (S.A.Boggis: channels.c:global vars, externs.h) Fix definition
+             of char channel_restrictions[] to char *channel_restrictions[].
+ 20/11/2003  (S.A.Boggis: Makefile) remove obsolete -m486 directive
+ 20/11/2003  (S.A.Boggis: statistics.c:stats_rank) the code for generating
+             the title for the html interface for RANK_LASTUSED has an
+             incorrect title (Income/Expediture rather than last used) and
+             an illegal multi-line string. I've commented this out, and
+             made the title simply 'Time/date last used'
+ 20/11/2003  (S.A.Boggis: logfiles.c:logfiles_log) the fopen(foo,"a+") followed
+             by ftell(handle) was returning 0 rather than the end of file 
+             when code was moved to linux 2.4.22/gcc 3.3. Fixed it by putting
+             a explicit fseek(handle,0,SEEK_END) in.
+ 20/11/2003  (S.A.Boggis: qmwlogsocket.c) correct calls to mkmsg(NULL,NULL)
+             to mkmsg(NULL) to prevent compiler warning.
+ 20/11/2003  (S.A.Boggis) tag new version as tcz2000_4-3-1_INITIAL.
+ 23/11/2003  (S.A.Boggis) new script to save core dump and executable, gzipped
+             so that a new core dump doesn't overwrite the old one. Checks
+	     for available space.
+ 03/12/2003  (J.P.Boggis: output.c:output_terminal_width)  Fixed 'limited range
+ 	     of data type' compile warning (u_char > 255 test, which is always
+	     false.)
+ 03/12/2003  (J.P.Boggis: bbs.c:bbs_topiccount)  Changed unsigned char
+             bbs_topiccount to short bbs_topiccount to stop 'limited range
+	     of data type' compile warning in bbs_addtopic() due to
+	     BBS_MAX_TOPICS being 1000 and bbs_topiccount() only previously
+	     able to return a maximum of 255 (bbs_addtopic() checks
+	     bbs_topiccount(topic) <= BBS_MAX_TOPICS)
+ 03/12/2003  (J.P.Boggis: finance.c)  Added #include <string.h> to stop
+             implicit declaration of function `strcpy' warning.
+ 03/12/2003  (J.P.Boggis: html.c:html_sort_entities)  Fixed 'limited range of
+ 	     data type' warning.
+ 03/12/2003  (J.P.Boggis: lib/general.help.tcz)  Updated 'history' help topic.
+ 03/12/2003  (J.P.Boggis: include/yearlyevents.h)  Updated TCZ birthday event
+             and year age calculation of several events.  Added TCZ closedown
+	     and research project events.  Added Independance Day event for
+	     the benefit of American users :)
+ 03/12/2003  (J.P.Boggis: banish.c:banish_main)  Added
+ 	     setreturn(ERROR,COMMAND_FAIL) to beginning of function so that
+	     @banish returns correct failure compound command return value on
+	     error.  This stops warning in bug log about it returning a NULL
+	     return value.  Also added setreturn(OK,COMMAND_SUCC) after
+	     banish_list() call.
+ 03/12/2003  (J.P.Boggis: destroy.c:destroy_object)  Corrected grammar when
+ 	     in error message when trying to destroy object set read-only
+	     or permanent.
+ 03/12/2003  (J.P.Boggis: selection.c:selection_else,selection_end)  Added
+             setreturn(ERROR,COMMAND_FAIL) to part of funtion that displays
+	     error message if called from outside a compound command (Results
+	     in NULL return value bug log entry if called on command-line in
+	     {}'s.)
+ 03/12/2003  (J.P.Boggis: query.c:query_filter)  Now takes %#NF# into account
+ 	     and removes these from the filtered string if present.
+ 03/12/2003  (J.P.Boggis: look.c:look_exit)  Updated exit display code so that
+             it takes PLURAL article flag into account, e.g:  'Some oak doors
+	     lead to the kitchen' rather than 'Some oak doors leads to the
+	     kitchen'.
+ 03/12/2003  (J.P.Boggis: config.h,query.c,substitution.c)  Removed TCZ_DATE
+ 	     macro (Compilation date) and replaced with standard built-in
+	     C macros __DATE__ / __TIME__ that return the correct compile
+	     date and time automatically.
+ 03/12/2003  (J.P.Boggis: stringutils.c:filter_spaces)  Altered function so
+ 	     that it returns filtered string, allowing use within arguments
+	     list of a sprintf() for example.
+ 03/12/2003  (J.P.Boggis: finance.c:finance_credit)  Fixed typo in error
+ 	     message related to trying to set a character's credit to a
+	     negative value.
+ 03/12/2003  (J.P.Boggis: query.c:query_cestring)  Fixed bug that prevented
+ 	     HasField() macro test from working correctly, which meant that
+	     using {@?cstring} or {@?estring} on an object that didn't have
+	     one (E.g:  A character) did not return 'Error'.
+ 04/12/2003  (J.P.Boggis:  db.h,fields.h)  Moved object field flag definitions
+ 	     from db.h into fields.h
+ 04/12/2003  (J.P.Boggis:  db.h,objectlists.h)  Moved object list flag
+             definitions from db.h into objectlists.h
+ 04/12/2003  (J.P.Boggis:  db.h,primary_flags.h)  Moved primary object flag
+ 	     and gender definitions from db.h into primary_flags.h
+ 04/12/2003  (J.P.Boggis:  db.h,secondary_flags.h)  Moved secondary object
+ 	     article definitions from db.h into secondary_flags.h
+ 04/12/2003  (J.P.Boggis:  db.h,object_types.h)  Moved object type flags and
+ 	     related macros into separate file.
+ 04/12/2003  (J.P.Boggis:  db.h,descriptor_flags.h)  Moved descriptor flags
+ 	     into separate file.
+ 04/12/2003  (J.P.Boggis:  db.h,flagset.h)  Moved set/@set related flags from
+ 	     db.h to flagset.h
+ 04/12/2003  (J.P.Boggis:  db.h,search.h)  Search related flags moved from db.h
+ 	     to search.h
+ 04/12/2003  (J.P.Boggis:  db.h,command.h)  Command table flags moved from db.h
+ 	     to command.h
+ 04/12/2003  (J.P.Boggis:  db.h,command.h)  Fuse trigger flags moved from db.h
+ 	     to command.h
+ 04/12/2003  (J.P.Boggis:  db.h,friend_flags.h)  Friend flags moved from db.h
+ 	     to friend_flags.h
+ 04/12/2003  (J.P.Boggis:  db.h,objectlists.h)  Moved object list related
+ 	     macros from db.h to objectlists.h
+ 04/12/2003  (J.P.Boggis:  db.h,boolean_flags.h)  Moved boolean (Object lock)
+ 	     flags from db.h to boolean_flags.
+ 04/12/2003  (J.P.Boggis:  userlists.c)  Fixed word wrap problem with 'who'
+ 	     output caused by addition of '.' after user count (This is there
+	     to stop the underline 'running' on some clients across the gap
+	     between the user count and the counts of mortals, builders,
+	     admin, etc.)
+ 09/12/2003  (J.P.Boggis:  db.h,command.h)  Moved command return results
+             #define's from db.h to command.h
+ 09/12/2003  (J.P.Boggis:  db.h,html.h)  Moved HTML related #define's from
+ 	     db.h to new file html.h
+ 09/12/2003  (J.P.Boggis:  structures.h,html.h)  Moved HTML related struct's
+ 	     from db.h to html.h
+ 09/12/2003  (J.P.Boggis:  db.h,flagset.h)  Moved flag, article and pronoun
+ 	     related macros from db.h to flagset.h
+ 09/12/2003  (J.P.Boggis:  db.h,match.h)  Moved matching related flags from
+             db.h to match.h
+ 07/12/2004  (J.P.Boggis:  yearlyevents.h)  Updated list of yearly events.
+ 07/12/2004  (J.P.Boggis:  modules_authors.h,modules_c.h,modules_h.h)  Updated
+             list of authors and modules.
+ 07/12/2004  (J.P.Boggis:  modules.c)  Fixed bug in modules/authors sorting
+ 	     functions.
+-------------------------------------------------------------------------------
+ KEY:  '**' = Document to users (I.e:  On BBS.)
+       '##' = Document to Admin only.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+ $Id: changes.4.3.1.tcz,v 1.2 2004/12/07 21:56:15 jpboggis Exp $

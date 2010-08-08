@@ -1,0 +1,228 @@
+@attribute [<OBJECT> =] [<PAGE NO>] [<GROUP>]
+	If <GROUP> is not specified, lists all attribute groups that are
+        currently set on yourself.  If <GROUP> is specified, attributes within
+        that group that are currently set on yourself are listed.  If <OBJECT>
+        is specified, attributes set on <OBJECT> will be listed instead of
+        attributes set on yourself.
+
+@attribute create <GROUP>[.<NAME>] [...]
+	Creates new attribute with the name <NAME> within the attribute group
+	<GROUP>, or creates new attribute group with the name <GROUP> (If
+        <NAME> is not specified.)  Each attribute group costs 10 Building
+        Quota to build, and upto 31 attributes may be definited for each
+        attribute group (+ 1 default modify attribute.)  Multiple attributes/
+        attribute groups can be created in one go, by specifying more than one
+        <GROUP>[.<NAME>], i.e:  '@attribute mygroup.member mygroup.admin
+        mygroup.banned'.  Attribute names may only consist of letters ('a'-'z',
+        'A'-'Z'), digits ('0'-'9'), '-' or '_', and may be up to 20 characters
+        in length.  Each attribute group has a reserved attribute 'modify',
+        which when set on a character will allow them to set/reset any
+        attribute within the attribute group on any object in the database.
+
+	* TECHNICAL *   Attribute groups stored in similar structure to
+		        the database.  (long) ID for attribute group, (long)
+                        for attribute flags (31 attributes + 1 for modify
+                        attribute.)  Binary tree maintained on entire
+                        attribute group structure.
+
+                        Attributes set on characters maintained in linked
+                        list attached to user (12 bytes = 1 long for group
+                        ID, 1 long for attributes set, 1 long for next ptr.)
+                        For extra efficiency, attribute entry is moved to
+                        front of list each time its used (So if used again
+                        straight after (More than likely), less searching is
+                        needed.)
+
+@attribute [list|groups] [<PAGE NO>] [<GROUP>[.<NAME>]] [= <OWNER>]
+	If <GROUP> is specified, but <NAME> is not, attributes within the
+        attribute group <GROUP> will be listed.  If <NAME> is also specified
+        (Which may contain wildcards), attributes within the attribute group
+        <GROUP> matching <NAME> will be listed.  If <GROUP> contains wildcards,
+        attribute groups matching <GROUP> which you own will be listed.
+
+        If 'groups' is given instead of 'list', groups will be listed, rather
+        than attributes within a given attribute group.
+
+        Admin:  <OWNER> lists attribute groups owned by another character.
+		'all' can be specified to list all attribute groups in the
+		entire database.
+
+
+@attribute destroy [group] <GROUP>[.<NAME>] [<GROUP>[.<NAME>]] [...] [= yes]
+	Destroys specified attributes, or if 'group' is specified, and <NAME>
+        isn't, destroys an entire attribute group (For confirmation, the
+        second parameter ('yes') must be specified too.
+
+@attribute set [<GROUP>[.<NAME>]] [...] = [!]<FLAG> [[!]<FLAG>] [...]
+	Sets/resets attribute flags on attribute groups or individual
+        attributes.  The attribute flags are listed lower down, and have
+        the detailed effect when set on an attribute...
+
+@attribute object <NAME> [= <GROUP>[.<NAME>] [<GROUP>[.<NAME>]] [...]]
+	Creates an attribute object, and initially gives it the specified
+        attributes (If specified.)  An attribute object is an object type
+        which serves no purpose other than for setting attributes on.  It
+        has no description, etc.
+
+@set <OBJECT> = [!]^<GROUP>[.<NAME>] [[!]^<GROUP>[.<NAME>]] [...]
+	Sets/resets specified attributes on <OBJECT>.  If <NAME> is ommited,
+        all attributes within the attribute group <GROUP> with the GROUP
+        attribute flag will be set/reset on the object.
+
+        @set *wibble = ^stupidclub.member
+	StupidClub.member attribute set on Wibble(#12345 Pay).
+
+{@?set <OBJECT> = [!]^<GROUP>[.<NAME>] [[!]^<GROUP>[.<NAME>]] [...]}
+	Queries whether particular attributes or attribute groups are set
+        on <OBJECT>.  If <NAME> is ommited, queries whether any attributes
+        within <GROUP> are set on <OBJECT>
+
+        E.g:  @if {@?set me = ^stupidclub.member} do @echo You are a member of
+                  the stupid club!
+
+{@?attributes <OBJECT> [= <COUNT>]}
+	Returns #ID of first (Or <COUNT>) attribute object attached to
+	<OBJECT>.
+
+{@?attrid <GROUP>[.<NAME>]}
+	Returns ID of specified attribute group or the attribute <NAME>
+        of attribute group <GROUP>.  Can also be used to see if an attribute
+        group/attribute within an attribute group exists, as '*NOTHING*' is
+        returned if attribute group/attribute doesn't exist.
+
+	E.g:  @echo {@?attrid stupidclub.member}
+        2.1
+
+{@?attrname <GROUP>[.<NAME>]}
+	Same as above, execept full attribute group/attribute name is returned
+	instead of ID number.
+
+	E.g:  @echo {@?attrname 2.1}
+        StupidClub.member
+
+@find/@list	[!]^<GROUP>[.<NAME>] can be used to restrict objects listed to
+                those with specified attributes set/not set.  Only one
+                attribute group to include/exclude may be specified, but as
+                many attributes from the group may be specified as you like.
+
+                @list characters = ^stupidclub.member
+
+Locks		Objects can be @locked to attributes, e.g:
+
+		@lock Entrance to club = ^stupidclub.member&!^stupidclub.banned
+
+BBS		Access to topics can be restricted to users with a particular
+                attribute, e.g:  bbs attribute access ^stupidclub.member
+
+                bbs attribute access	Allows access to topic.
+                bbs attribute add	Allows adding/replying to messages.
+                bbs attribute append    Allows appending to messages.
+		bbs attribute banned    Bans from topic (Similar to BBS flag.)
+                bbs attribute delete    Allows deletion of non-owned messages.
+                bbs attribute owner	Gives all privileges that topic owner
+					has, with the exception of deleting
+					the topic itself ('removetopic'.)
+
+Each new attribute group is given the attribute flags COMMAND, GROUP.
+
+(C)	COMMAND       (Default)  Allows attribute to be set/reset from within
+                      a compound command.
+
+(D)     DISCONNECT    If an attribute has this attribute flag set and is set on
+                      a character, the attribute will be reset when they next
+                      disconnect.  Also, when The Chatting Zone is shutdown
+                      and restarted, attributes with this attribute flag set
+                      will be reset on all characters in the database.
+
+(G)     GROUP         (Default)  If the entire attribute group is set/reset on
+                      an object (Using '@attribute set <OBJECT> = [!]<GROUP>'),
+                      only attributes which have this attribute flag set will
+                      be set/reset on the object.
+
+(I)	INHERIT       (Default)  Attribute will inherit all flags which are set
+                      on the attribute group.  By default, all new attributes
+                      have this flag set, so for example, you can give the
+                      USERRESET attribute flag to every attribute within an
+                      attribute group by typing '@attribute mode <GROUP> =
+                      userset'.  To prevent an attribute from inheriting
+                      attribute flags from the attribute group, simply reset
+                      its INHERIT attribute flag.  Inherited attribute flags
+                      are shown in lowercase in the 'Flags:' field of the
+                      '@attribute list' command.
+
+(M)	MONTHLYRESET  Attribute will be reset on all objects in the database
+                      on a monthly basis (Every 28 days.)
+
+(O)	OWNCOMMAND   Allows attribute to only be set/reset from within a
+                     compound command which you own (This attribute flag
+                     overrides the COMMAND attribute flag.)
+
+(R)	USERRESET    Allows any character to reset the attribute flag on
+                     themselves or any of their objects.
+
+(S)	USERSET      Allows any character to set the attribute flag on
+                     themselves or any of their objects.
+
+(T)	INITIALISE   Attribute will be reset on all objects in the database
+		     when The Chatting Zone is next shutdown and restarted.
+
+(W)	WEEKLYRESET  Attribute will be reset on all objects in the database
+                     on a weekly basis (Every 7 days.)
+
+        [???]        Flag used to mark whether attribute has been destroyed and
+                     recreated during database dump.
+
+TCZ>  @attribute groups *
+
+ ID:         Attribute group name:      Flags:        Attributes:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 0123456789  1234567890123456789012345  [CDGIMORSTW]  256
+ 1           MyAttribute                [C-GI------]  7
+ 2           StupidClub                 [C-GI------]  5
+ 23          CombatZone                 [C-GI------]  2
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Attribute groups listed:  1.
+
+TCZ>
+
+Attributes within attribute group 'StupidClub'...
+
+ ID:             Attribute name:                            Flags:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 0123456789.123  12345678901234567890.12345678901234567890  [CDGIMORSTW]
+ 2.0             StupidClub.modify                          [C-GI------]
+ 2.1             StupidClub.member                          [C-GI------]
+ 2.2             StupidClub.admin                           [C-GI------]
+ 2.3             StupidClub.banned                          [C-GI------]
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Attributes listed:  4.
+
+-------------------------------------------------------------------------------
+
+TCZ>  @attributes
+
+ You have attributes set in the following attribute groups...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 01234567890123456789  (255)   01234567890123456789  (255)
+ LAWPAW-Members          (2)   Help-Nat-Group          (1)
+ StupidClub              (4)   The-Big-Adventure      (18)
+ MyOwnAttribute          (1)
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Attribute groups listed:  5.
+
+TCZ>  @attributes stupidclub
+
+ You have the following attributes set in the attribute group 'StupidClub'...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Admin, Banned, Member.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Attributes listed:  3.
+
+TCZ>  @list characters = ^stupidclub.member
+
+ Users listed, blah, blah...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Supreme Spod JC Digita
+ Wibble
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Characters listed:  2.

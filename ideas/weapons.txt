@@ -1,0 +1,63 @@
+Dynamic arrays:
+~~~~~~~~~~~~~~~
+weapon.contact    (Contact weapon)
+                  ('<ACTION> <NAME> with <WEAPON>')
+weapon.throwable  (Weapon which can be thrown)
+                  ('throw <WEAPON> at <NAME>')
+weapon.shootable  (Weapon which can be shot (Gun))
+                  ('shoot <NAME> with <WEAPON>')
+
+weapon.actions    (Property holding actions that can be done with weapon, e.g:
+                  '.slash.;.stab.;.chuck.;.throw.;.lob.' for 'Knife'.)
+
+
+throw
+shoot
+hit
+miss
+kill
+
+[Standard contact weapons (Fists, etc.)]  (weapon.contact)
+Feet  (kick)
+Fists  (hit, fight, thump, punch, attack) 
+
+
+[Contact weapons]  (weapon.contact)
+Club  (hit, bash, swing)
+Knife  (slash, stab, <chuck, throw, lob>)
+Sword  (slash, stab, swing, <chuck, throw, lob>)
+Scythe  (slash, swing)
+Dagger  (slash, stab, <chuck, throw, lob>)
+Iron bar  (hit, bash, swing)
+Flick knife  (slash, stab, <chuck, throw, lob>)
+Baseball bat  (hit, bash, swing)
+Sledge hammer  (hit, bash, swing)
+
+contact.action = {attacker, victim/others}
+[hit]   hit;hits
+[bash]  bash;bashes
+[stab]  stab;stabs
+[slash] slash;slashes
+[swing] swing;swings
+
+
+[Throwable]  (weapon.throwable)
+Rock  (chuck, throw, lob)
+Brick  (chuck, throw, lob)
+Grenade  (chuck, throw, lob)
+Throwing star  (chuck, throw, lob)
+
+
+[Guns]  (weapon.gun)
+Uzi  (10x, shoot)
+Pistol   (6x, shoot)
+Shotgun  (1x, shoot)
+Tommy gun  (8x, shoot)
+Chain gun  (20x, shoot)
+Laser cannon  (15x, shoot)
+Rocket launcher  (1x, shoot)
+Automatic pistol (10x, shoot)
+Automatic crossbow  (1x, shoot)
+Pump-action shotgun  (6x, shoot)
+Black Widow catapult  (1x, shoot)
+Double-barrelled shotgun  (2x, shoot)

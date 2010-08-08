@@ -1,0 +1,49 @@
+%COMMENT  TCZ Local Help Topics
+%COMMENT  ~~~~~~~~~~~~~~~~~~~~~
+%COMMENT  Place your own custom help topics for your TCZ-based MUD in this
+%COMMENT  help file.  DO NOT modify lib/generic.help.tcz
+
+%COMMENT  $Id: local.help.tcz,v 1.1.1.1 2004/12/02 17:39:07 jpboggis Exp $
+
+%COMMENT  %TOPIC         Defines name(s) of topic.
+%COMMENT  %TUTORIAL      Adds '[TUTORIAL AVAILABLE]' to topic pages.
+%COMMENT  %TITLE         Defines title of topic.
+%COMMENT  %PAGE          Marks next page of topic.
+%COMMENT  <-SEPARATOR->  Single line separator ('--------'.)
+%COMMENT  <-DOUBLE->     Double line separator ('========'.)
+%COMMENT  %COMMENT       Comment line (Ignored by help system.)
+
+%COMMENT  %<, %>         Marks link to help topic (Adding 'help '.)
+%COMMENT  %+, %>         Marks link to tutorial (Adding 'tutorial '.)
+%COMMENT  %(, %)         Marks link to help topic (Without adding 'help '.)
+%COMMENT  %-, %)         Marks link to tutorial (Without adding 'tutorial'.)
+%COMMENT  %[, %]         Marks beginning and end of preformatted section.
+%COMMENT  %$             Marks line as title/heading (Underlined if user has
+%COMMENT                 'set underline' preference 'on'.)
+%COMMENT  %~             Marks line as '~~~~~' or similar-style underline,
+%COMMENT                 which will be removed if user has 'set underline'
+%COMMENT                 preference 'on'.)
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC 10
+%TOPIC misc
+%TOPIC other
+%TOPIC menu10
+%TOPIC additional
+%TOPIC misccommands
+%TOPIC othercommands
+%TOPIC softcodedcommands
+%TOPIC additionalcommands
+%TOPIC miscellaneouscommands
+%COMMENT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+%COMMENT  Section reserved for 'soft-coded' commands (Which are not a
+%COMMENT  permanent or generic part of TCZ.)
+%COMMENT  Modify this section in lib/local.help.tcz only.
+%COMMENT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+%TITLE %@%n Miscellaneous Commands
+%r%lThere are currently no additional soft-coded commands.
+<-SEPARATOR->
+Also, see '%g%l%<menu%>%x'.
+
+%COMMENT --------------------------------------------------------------------->

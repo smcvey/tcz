@@ -1,0 +1,298 @@
+                                _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   |
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+.-----------------------------------------------------------------------------.
+|       The Chatting Zone (TCZ)  -  (C)Copyright J.P.Boggis 1993 - 2004       |
+|-----------------------------------------------------------------------------|
+|    TCZ is free software, which is distributed under version 2 of the GNU    |
+|     General Public License (See 'help gpl' in TCZ, the file LICENSE, or     |
+|      visit http://www.gnu.org)  For more information about TCZ, please      |
+|               visit:  http://www.sourceforge.net/projects/tcz               |
+`-----------------------------------------------------------------------------'
+
+
+  The Chatting Zone is a user-friendly multi-user environment, which is fully
+       user extendable and features integration with the World Wide Web.
+
+                     The only limit is your imagination!
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+Introduction:
+~~~~~~~~~~~~~
+The Chatting Zone (TCZ) is an advanced multi-user environment for social
+(Chat) or gaming (Adventure) purposes either privately over any network
+supporting TCP/IP, or publicly over the Internet.
+
+It supports both Telnet and World Wide Web connections and features
+comprehensive communication facilities, ANSI colour, a topic based BBS
+(Bulletin Board) system, a restrictable database extension/building system,
+a sophisticated command language and automatic database self-maintenance
+and integrity checking.
+
+To see TCZ in action, please pay a visit to the original TCZ at
+http://www.tcz.org, or see the file SITES for a full list of known
+sites running TCZ-based servers.
+
+For full details of The Chatting Zone (TCZ), and other TCZ resources
+(Latest documentation, source code, binary executables, etc.), please
+visit:  http://www.sourceforge.net/projects/tcz
+
+
+*IMPORTANT*:  Copyright information and disclaimer:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Please see the files LICENSE, COPYRIGHT and MODULES.
+
+.-----------------------------------------------------------------------.
+| TCZ is free software, which is distributed under version 2 of the GNU |
+|  General Public License (See 'help gpl' in TCZ, the file LICENSE, or  |
+|   visit http://www.gnu.org)  For more information about TCZ, please   |
+|            visit:  http://www.sourceforge.net/projects/tcz            |
+`-----------------------------------------------------------------------'
+
+
+System requirements:
+~~~~~~~~~~~~~~~~~~~~
+*  Computer with processor equivalent to Intel 80386/80486 or better.
+   Pentium or equivalent processor highly recommended.
+
+*  One of the following Operating Systems, under which TCZ is known to
+   compile successfully:
+
+   *  Linux-based UNIX system.
+
+   *  POSIX/BSD complient UNIX system with some possible modifications to the
+      code.
+
+   *  Windows '95/'98/NT or equivalent system running under CygWin32.
+      (See http://www.cygnus.com/misc/gnu-win32)  Only recommended for
+      development, debugging and experimentation.  Not recommeded for full
+      public system.
+
+*  TCZ is fully memory based for maximum efficiency, so you will need
+   sufficient RAM to hold most of the database in memory.  This should
+   not be a problem on most modern PC's and servers.
+
+   If you're short on RAM or system resources, give out BUILDER flags
+   and set Building Quota limits sparingly.  TCZ features an efficient
+   compression routine to reduce database overheads (Especially on large
+   databases), but this requires a greater CPU overhead.
+
+*  Sufficient disk space to hold the run-time, database and source files (The
+   object files may be deleted after the source is compiled to save on disk
+   space.
+
+*  (If using the World Wide Web Interface)  Access to a standard World Wide
+   Web server, for serving of images used by the interface.  Alternatively,
+   TCZ itself can serve the images, but this is nowhere near as efficient.
+
+
+Features:
+~~~~~~~~~
+*  Extensive on-line help and tutorials.
+
+*  Telnet interface with the following features:
+
+   *  Terminal high-light codes (With suitable termcap file.)
+   *  Full ANSI colour support (8/16 colours, background colours, flashing,
+      and underline.)
+   *  Telnet negotiation to ensure correctly configured connection.
+   *  Optional local echo.
+   *  Last command recall ('!!'.)
+
+*  World Wide Web Interface with the following features:
+
+   *  Clickable links and buttons.
+   *  Separate input/output with the need to reload browser.
+   *  ANSI colour simulation.
+   *  JAVA script enhancements (Automatic scrolling and command box refocus.)
+   *  Cascading Style Sheets (CSS) enhancements (Background colours.)
+   *  Easy creation/connection of character using fill-in forms.
+   *  On-line help and tutorials with topic hyperlinks and search facility.
+   *  Scan, profile, etc. accessible as web page without logging in.
+   *  Lists of users with scans, profiles, pictures and web sites.
+   *  SSL (Secure Socket Layer) support for user privacy.
+   *  Graphical map of TCZ.
+   *  Graphical smileys :)
+
+*  Automatic database maintenance, keeping the database free from unused
+   characters and their objects, helping to reduce the rate of database
+   expansion (Which results in increased memory and disk space usage.)
+
+*  Categorised log file system, which can be accessed by administrators from
+   within TCZ, as well as viewed using your favourite viewer from the host
+   server (I.e:  'less log/filename.log', 'tail -f log/filename.log', etc.)
+
+*  Command-line options and configuration file (Allows many system parameters
+   of TCZ to be set without recompiling the source code.)
+
+*  Time/date changes detected and handled by TCZ (Such as daylight saving time
+   (DST) and change of system time from the host server.)
+
+*  Power failure/resumption detected and handled by TCZ (Providing a UPS is
+   used and connected/configured correctly.)  This is implemented using the
+   standard SIGPWR signal.
+
+*  TCZ server goes to sleep when not in use, saving CPU time and resources
+   on the host server.
+
+
+Configuring:
+~~~~~~~~~~~~
+(1)  Edit include/config.h to suit your Operating System and preferences.
+(2)  You may like to change the maximum log file sizes in src/db.c, if you are
+     short on disk space.
+(3)  Copy the example configuration file lib/example.tcz to lib/default.tcz
+     and edit to suit your requirements.
+
+
+Compiling:
+~~~~~~~~~~
+(1)  Type:  cd src
+(2)  Type:  make
+(3)  The server and related utility programs will now be compiled.
+
+
+Running:
+~~~~~~~~
+To start TCZ and generate an empty database, simply type:
+
+   bin/tcz --generate <DATABASE NAME> &
+
+To start TCZ with a previously dumped database (Stored in the 'lib'
+directory), type:
+
+   bin/tcz -d<DATABASE NAME> [&]
+
+E.g:  bin/tcz -dmain &     ('&' under UNIX forces running in the background.)
+
+
+File list:
+~~~~~~~~~~
+[Binary files and scripts (Directory 'bin')...]
+bin/tcz                 Executable of TCZ server (Produced when TCZ is
+                        compiled.)
+bin/backup              Script to backup database (Can be automated by placing
+                        in the system crontab.)
+bin/arctcz              Script to produce tar.gz archive of TCZ source code
+			and library files.
+
+
+[Documentation (Directory 'doc')...]
+doc/manual.txt		TCZ Official Manual  -  Contains most of the help
+			and information available on-line within TCZ
+                        ('lib/help.tcz') within a single file.
+doc/tczfeatures.txt	List of some of the major features/unique features in
+			the TCZ server.
+doc/tczhistory.txt	The history of TCZ.
+doc/tczintro.txt	Basic introduction to TCZ, suitable for E-mailing to
+			prospective new users.
+doc/tczrules.txt	Current rules for users of TCZ at tcz.net
+                        (Ammend as you see fit, ensuring you also ammend
+                        the copy within 'lib/help.tcz' ('%TOPIC tczrules')
+                        also.)
+doc/tcztutorial.txt	More in-depth tutorial for users who are completely
+			new to TCZ (Available on-line as 'tutorial newbie'.)
+
+
+[HTML Interface files (Directory 'tczhtml')...]
+tczhtml/*.gif		Images used by the World Wide Web Interface (Buttons,
+tczhtml/*.jpg           graphics, etc.)  These should be placed on a suitable
+                        public web server.
+
+
+[Run-time files (Directory 'lib')...]
+lib/disclaimer.tcz      Disclaimer (Shown to users when they create a new
+                        character.)
+lib/help.tcz            On-line Help System library file.
+lib/email.tcz           List of E-mail addresses of all users who have set
+                        their E-mail address (Produced/updated using the
+                        '@dump email' command on TCZ.)
+lib/forward.tcz         List of forwarding E-mail addresses of users who have
+                        set their E-mail address (Produced on a daily basis by
+                        TCZ, if EMAIL_FORWARDING is #define'd in config.h)
+                        This data can be placed in /etc/aliases to produce
+                        E-mail forwarding aliases for users of TCZ.
+lib/title?.tcz          Title screens (Displayed in random order to Telnet
+                        users when they first connect (Before entering their
+                        name, etc.))  1st title screen is 'lib/title1.tcz',
+                        2nd is 'lib/title2.tcz', etc.
+lib/tutorial.tcz        On-line Tutorial System library file.
+lib/sites.tcz           Registered Internet sites database (Maintained using
+                        the '@site' command in TCZ.)
+lib/tcz.?.?.pid         Lock file of running TCZ process.
+lib/dump.?.?.pid        Lock file of running database dumping process.
+lib/?.?.?.DUMP		Temporary database dump file.
+
+
+The Chatting Zone Server...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+USAGE:  tcz [<OPTIONS>]
+
+Type 'tcz --help' for a full listing of start-up options.
+
+
+TCZ World Wide Web Interface...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+http://machine.domain:8080
+
+	Presents user with page containing links to most World Wide Web
+        Interface resources.
+
+http://machine.domain:8080/connectform
+
+	Presents user with a form for connecting their existing character to
+        The Chatting Zone.
+
+http://machine.domain:8080/createform
+
+	Presents user with a form for creating a new character.
+
+http://machine.domain:8080/userlist
+
+	Gives user a list of currently connected users on TCZ, without needing
+        to first connect to TCZ itself.
+
+http://machine.domain:8080/help?TOPIC=INDEX&
+
+	Presents user with TCZ's On-line Help System index.  INDEX can be
+        replaced with the name of a help topic for instant access to a
+        particular topic, e.g:  TOPIC="version info"
+
+
+http://machine.domain:8080/tutorial&TOPIC=INDEX&
+
+	Presents user with TCZ's On-line Tutorial System index.  As above,
+        INDEX can be replaced with the name of a tutorial for instant access
+        to a particular tutorial, e.g:  TOPIC="newbie"
+
+
+Credits and acknowledgements...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Please see the Official TCZ Manual (doc/manual.txt) for a full list of credits
+and acknowledements (These can be found at the bottom of the manual), or start
+TCZ, connect and type 'help acknowledgements'.

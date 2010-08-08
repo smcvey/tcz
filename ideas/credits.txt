@@ -1,0 +1,187 @@
+stringutils.c
+
+/* ---->  Determine whether specified keyword is present in TEXT  <---- */
+u_char keyword(const char *kword,const char *text) {
+       const  char *ptr;
+       u_char length;
+
+       if(Blank(text) ›› Blank(kword)) return(0);
+       length = strlen(kword);
+
+       for(ptr = text; *ptr; ptr++)
+           if(((ptr == text) ›› (*(ptr - 1) == ' ')) && !strncasecmp(text,kword,length))
+              if(!(*(ptr + length)) ›› (*(ptr + length) == ' '))
+                 return(1);
+       return(0);
+}
+
+
+*  If 'use' is used on object that can't be used, display error msg:
+
+   Sorry, either NAME has no use or cannot be used in that way.[  For details
+   or hints about this object's usage, try looking at it.]
+
+   {Exclude [] if object isn't a thing.}
+
+
+Use
+~~~
+USAGE:  use <OBJECT> [on <PARAMETERS>]
+        use <OBJECT> [= <PARAMETERS>]
+
+Allows you to use the specified object (If it can be used), where <OBJECT> is
+the name of the <OBJECT>.
+
+<PARAMETERS> are optional parameters that can be given when using the object,
+for example, if the object was a weapon, its parameters could be the name of
+the character to use it on, e.g:  'use sword on fred bloggs', 'use armour on
+me', etc.
+
+<OBJECT> can be any type of object (I.e:  It doesn't neccessarily have to be
+a thing.)
+
+
+The '.use' compound command
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In order for an object to be used, it must have a compound command named
+'.use' attached to it.  To attach a '.use' compound command to an object,
+simply teleport it into the object, e.g:  '@tel .use = <OBJECT>'.
+
+When the object is used (By typing 'use <OBJECT>'), its '.use' compound
+command is executed.  If optional <PARAMETERS> have been specified by the
+user, these will be given as parameters to the compound command in the
+usual manner (I.e:  $1, $2, $3, etc.)
+
+NOTE:  Any type of object which can have compound commands attached to it
+       can be used using the 'use' command, even compound commands.
+
+
+Dropping credits
+~~~~~~~~~~~~~~~~
+USAGE:  drop <AMOUNT> credits [into <CONTAINER>]
+
+Credits can be dropped into locations (Rooms and open containers) which have
+their FINANCE flag set (By default, newly created rooms have this flag set.)
+Once dropped, the credits will appear in the contents list of the location
+(Providing it is not set INVISIBLE.)  If the location is a room with a
+drop-to location set, the credit will go to the drop-to location.
+
+To drop credits into your current location, simply type 'drop <AMOUNT>
+credits', where <AMOUNT> is the amount of credits you wish to drop from
+your pocket (Credit cannot be dropped from your bank account.)  For example,
+'drop 10 credits' will drop 10 credits in your current location.
+
+You can optionally specify a <CONTAINER> to drop the credits into, e.g:
+'drop 10 credits into mycontainer' will drop 10 credits into the container
+'MyContainer' in your current location.
+
+If a location already has credits dropped in it, any credits you drop will
+be added to the total in that location.
+
+WARNING:  Credits dropped in a location can be taken by other characters,
+          if they can get into the location (And in the case of a container,
+          if the container is open.)  An exception to this is if the location
+          has its SECURE flag set.  This will only allow credits to be
+          dropped (Only the location's owner can take them.)
+
+NOTE:  Within compound commands, similar restrictions to those applied to the
+       '@pay' bank command apply to dropping credits.  For example, your
+       payment restriction is taken into account.
+
+       The amount of credits that can be dropped into the location are
+       determined by it's volume, and in the case of a room, its weight
+       limit:
+
+       *  The weight of 1000 credits is 1 Kilogram.
+       *  The volume of 1000 credits is 1 Litre.
+
+
+Taking credits
+~~~~~~~~~~~~~~
+USAGE:  take <AMOUNT> credits [from <CONTAINER>]
+
+If a location or container contains dropped credits, you can pick them up by
+typing 'take <AMOUNT> credits', where <AMOUNT> is the amount of credits you
+wish to take, E.g:  'take 10 credits' will take 10 credits from your current
+location and put them into your pocket.
+
+You can optionally specify a <CONTAINER> to pick the credits up from (This
+must be open for you to do this), e.g:  'take 10 credits from mycontainer'
+will take 10 credits from the container 'MyContainer' in your current
+location and put them into your pocket.
+
+NOTE:  You cannot take credits from a location with its SECURE flag set
+       unless you are its owner.  For more information, see section on
+       the SECURE flag.
+
+       Credits carried in your pocket add to the weight of your character
+       appropriately (The weight of 1000 credits is 1 Kilogram.)   However,
+       they do not affect the amount of objects you can carry.
+        
+
+The FINANCE flag
+~~~~~~~~~~~~~~~~
+USAGE:  @set here = FINANCE
+        @set here = !FINANCE
+
+The FINANCE flag can only be set on rooms and things.
+
+When set on a location, the FINANCE flag will allow credits to be dropped
+into that location (Newly created rooms have their FINANCE flag set by
+default.)  If the location is a thing, it must be open for credits to
+be dropped into it.
+
+NOTE:  The amount of credits that can be dropped into the location are
+       determined by it's volume, and in the case of a room, it's weight
+       limit.
+
+       *  The weight of 1000 credits is 1 Kilogram.
+       *  The volume of 1000 credits is 1 Litre.
+
+       Credits carried in your pocket add to the weight of your character
+       appropriately.  However, they do not affect the amount of objects
+       you can carry.
+
+
+The SECURE flag
+~~~~~~~~~~~~~~~
+USAGE:  @set <LOCATION> = SECURE
+        @set <LOCATION> = !SECURE
+
+The SECURE flag can only be set on rooms and things.
+
+When set on a location, the SECURE flag restricts the taking of credits from
+that location (It does not affect dropping credits.)
+
+When set, similar restrictions to those imposed on the 'withdraw' bank
+command apply to taking credits from the location.  This means that only
+the owner of the location can take credits from it.  Other characters can
+only take credits from within a compound command owned by the location's
+owner, under their '@chpid'.
+
+For security, the SECURE flag can only be set/reset from within a compound
+command owned by the location's owner, under their '@chpid'.
+
+
+Miscellaneous:
+~~~~~~~~~~~~~~
+*  Location set INVISIBLE doesn't show amount of credit in Contents:
+*  Use of 'into'/'from' to separate parameters of 'take'/'drop'.
+*  'give 10 credits to <NAME>' alias for '@pay'.
+*  Internal weight/volume calculations need to be done using real numbers.
+   -  Round up to nearest integer.  I.e:  100 credits = 0.1 Kg
+*  On destruction of room/thing with credits in it, credits go into pocket
+   of object's owner.
+
+#DEFINE CREDITS_PER_KILOGRAM 1000  /*  Number of credits per kilogram (Mass)  */
+#DEFINE CREDITS_PER_LITRE    1000  /*  Number of credits per litre (Volume)   */
+
+Examples:
+~~~~~~~~~
+   NAME drops 10.0 credits [into CONTAINER]
+   NAME picks up›takes 10.0 credits [from CONTAINER]
+
+   Contents:
+   ~~~~~~~~~
+     10.0 credits.
+

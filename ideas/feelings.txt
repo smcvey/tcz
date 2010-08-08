@@ -1,0 +1,46 @@
+feeling [<PARAMS>]              
+feeling <NAME> [= <PARAMS>]     FEELING_NAME
+
+FEELING_NAME   Matches to names of CONNECTED chars.
+FEELING_ON     Matches 'on <NAME>'.
+FEELING_AT     Matches 'at <NAME>'.
+FEELING_TO     Matches 'to <NAME>'.
+
+name:	wave
+msg:	"%g%lYou wave %{$3}"
+omsg:   "%n %g%lwaves %{$3}"
+vmsg:   ""
+
+name:	slap
+msg:	"%g%lYou slap %{$1} %{$2}"
+omsg:	"%n %g%lslaps %{$1} %{$2}"
+vmsg:	"%n %g%lslaps you %{$2}"
+
+me:
+|1|:  yourself
+|2|:  himself
+|3|:  himself
+
+Wibble:
+|1|:  Wibble
+|2|:  Wibble
+|3|:  you
+
+'the government'
+|1|:  the government
+|2|:  the government
+|3|:  the government
+
+ name:  blame
+flags:  FEELING_NAME
+punct:  '.'
+  msg:  %g%lYou blame everything rightfully on |1|%{$(2)}.
+ omsg:  %g%lblames everything rightfully on |2|%$(2)}.
+ vmsg:  %g%lblames everything rightfully on |3|%$(2)}.
+
+blame me:
+You blame everything rightfully on _yourself_.
+blame wibble (Where 'wibble' is connected):
+You blame everything rightfully on _Wibble_.
+blame the government:
+You blame everything rightfully on _the government_.

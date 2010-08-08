@@ -1,0 +1,6 @@
+@logentry <LOGFILE> = <TITLE> = <MESSAGE>
+
+@logentry admin = JAIL = {@?name me} jailed {@?drop whatever}.
+
+JAIL:  (Via @logentry in compound command Jail;nick(#12345))  JC Digita jailed
+  JC Digita's Test Character.

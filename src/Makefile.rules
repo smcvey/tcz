@@ -1,0 +1,228 @@
+# .---------------------------------------------------------------------------.
+# | The Chatting Zone (TCZ)                          (C) J.P.Boggis 1993-2004 |
+# | ~~~~~~~~~~~~~~~~~~~~~~~                          ~~~~~~~~~~~~~~~~~~~~~~~~ |
+# |--------------------------[ Module Description ]---------------------------|
+# | MAKEFILE:  Before attempting to compile TCZ for the first time, please    |
+# |            edit include/config.h to suit your operating system and        |
+# |            requirements.                                                  |
+# |-------------------------[ Copyright Information ]-------------------------|
+# | This program is free software; you can redistribute it and/or modify      |
+# | it under the terms of the GNU General Public License as published by      |
+# | the Free Software Foundation; either version 2 of the License, or         |
+# | (at your option) any later version.                                       |
+# |                                                                           |
+# | This program is distributed in the hope that it will be useful,           |
+# | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+# | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+# | GNU General Public License for more details.                              |
+# |                                                                           |
+# | You should have received a copy of the GNU General Public License         |
+# | along with this program; if not, write to the Free Software               |
+# | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
+# |----------------------[ Credits & Acknowledgements ]-----------------------|
+# | For full details of authors and contributers to TCZ, please see the files |
+# | MODULES and CONTRIBUTERS.  For copyright and license information, please  |
+# | see LICENSE and COPYRIGHT.                                                |
+# |                                                                           |
+# | Makefile originally written by:  Simon A. Boggis 14/07/2000.              |
+# |------------------------[ The Chatting Zone (TCZ) ]------------------------|
+# |               For more information about TCZ, please visit:               |
+# |                  http://www.sourceforge.net/projects/tcz                  |
+# `---------------------------------------------------------------------------'
+#
+#   $Id: Makefile.rules,v 1.1.1.1 2004/12/02 17:43:10 jpboggis Exp $
+#
+
+###############################################################################
+# DON'T EDIT THIS FILE UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING ! 	      #
+# ALL CHANGES SHOULD BE MADE IN THE TOP_LEVEL MAKEFILE "Makefile"	      #
+###############################################################################
+
+###############################################################################
+# MAKE RULES								      #
+###############################################################################
+
+###############################################################################
+# Set up OUR _DEFAULT_ rule for .c -> .o 				      #
+# Doesn't include any dependency on Makefiles (see %.o: %.c  rule for that).  #
+###############################################################################
+
+.c.o:
+	$(CC) -c $(ALL_CFLAGS) $<
+
+###############################################################################
+# 	Default Rule - makes everything 				      #
+###############################################################################
+
+.PHONY: all
+all: $(BIN)
+	@echo "$(BIN) up-to-date."
+
+###############################################################################
+#	Link the executable						      #
+###############################################################################
+
+$(BIN): $(OBJS)
+	@echo ""
+	@echo "Moving current executable ($(BIN)) to $(BIN).old"
+	-mv $(BIN) $(BIN).old
+	@echo ""
+	@echo "Linking $@..."
+	$(CC) $(ALL_CFLAGS) $(OBJS) -o $@ $(ALL_LIBS)
+	@echo ""
+
+###############################################################################
+#	Compile the object files					      #
+###############################################################################
+
+%.o: %.c Makefile Makefile.rules 
+	@echo "Compiling object $@ from $< ..."
+	$(CC) -c $(ALL_CFLAGS) $<
+
+###############################################################################
+#	To initially create dependencies (This is UNECESSARY - it will be     #
+# 	done automatically when make tries to read them in):		      #
+###############################################################################
+
+.PHONY: depend
+depend: $(SRC:.c=.d)
+	@echo "All dependency files up to date."
+
+###############################################################################
+#	Rule to remake a dependency file from its object file 		      #
+###############################################################################
+
+%.d: %.c
+	@echo "Creating dependency file $@ for source file $<"
+	@rm -f $*.o				
+	@echo "# DON'T EDIT - MACHINE GENERATED DEPENDENCY FILE FOR $< !!!" > $@
+	@$(SHELL) -ec '$(CC) -M $(ALL_CFLAGS) $< \
+	| sed '\''s/\($*\)\.o[ :]*/\1.o $@ : Makefile /g'\'' >> $@; \
+	[ -s $@ ] || rm -f $@'
+
+###############################################################################
+#	Install everything - need to be root				      #
+###############################################################################
+
+.PHONY: install
+install: all
+ifneq ($(LOGNAME),root)
+	@echo -e "$(ROOT_WARN)"
+endif
+	$(INSTALL_PROGRAM) $(INSTALL_PROGRAM_FLAGS) $(BIN) $(BINDIR)/$(BIN)
+# No config file for this program
+#	$(INSTALL_DATA) $(INSTALL_DATA_FLAGS) $(EXAMPLECONF) $(BINDIR)/$(EXAMPLEXCONF)
+	@echo "All files installed." 
+
+###############################################################################
+# 	Clean out the source directory of executable & *.o, *.o~	      #
+###############################################################################
+
+.PHONY: clean
+clean: 
+	@rm -vf $(BIN) *.[od] *.[od]~
+	@echo "$(BIN), object and dependency files removed."
+
+.PHONY: veryclean
+veryclean: clean
+	@rm -vf $(BIN).old *.[ch]~ core
+	@echo "$(BIN).old, *.[ch]~ and core files removed."
+
+# {J.P.Boggis 21/07/2000  -  touch *.c *.h, setting time/date stamps to current time/date}
+.PHONY: touch
+touch: clean
+	@touch *.c ../include/*.h
+	@echo "Time/date stamps of *.c and ../include/*.h touched."
+
+###############################################################################
+# 	De-install everything (may need to be root)			      #
+###############################################################################
+
+.PHONY: uninstall
+uninstall:
+ifneq ($(LOGNAME),root)
+	@echo -e "$(ROOT_WARN)"
+endif
+	@rm -vf $(BINDIR)/$(BIN) 
+# No config file for this program
+#	@rm -vf $(BINDIR)/$(EXAMPLECONF) 
+#	@echo "$(BIN) and $(EXAMPLECONF) files removed from $(BINDIR)."
+	@echo "$(BIN) file removed from $(BINDIR)."
+
+###############################################################################
+#	A help message							      #
+###############################################################################
+
+.PHONY: help
+help:
+	@echo -e "$(HELP_MESSAGE)"
+###############################################################################
+# OTHER STUFF								      #
+###############################################################################
+
+# none
+
+###############################################################################
+# Other Makefiles to include						      #
+###############################################################################
+
+#
+# 	Read in each source file's corresponding dependency file.
+#	Don't do this if target is clean/veryclean/uninstall/touch/help
+#       (it's pointless!)
+#
+ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),veryclean)
+ifneq ($(MAKECMDGOALS),uninstall)
+ifneq ($(MAKECMDGOALS),touch)
+ifneq ($(MAKECMDGOALS),help)
+# minus sign indicates 'don't complain if not there'
+-include $(SRC:.c=.d)
+endif
+endif
+endif
+endif
+endif
+
+###############################################################################
+# Variables defining our helpful(?) messages				      #
+###############################################################################
+
+define ROOT_WARN
+\\n\
+You may need to be root to sucessfully run make $@\\n\
+(e.g. if you don't own $(BINDIR) and $(SYSCONFDIR)).\\n\
+Type 'su' then root's password and run it again if necessary,\\n\
+but remember to return to your normal user id after a 'su' by\\n\
+typing 'exit' or you may do something you regret!\\n\
+Alternatively, you can once-off run 'make $@' as root by typing:\\n\
+      su -c 'make $@'\\n\
+\\n
+endef
+
+define HELP_MESSAGE
+\\n\
+The following settings will be used in compiling $(BIN):\\n\
+\\n\
+Name of executable: $(BIN)\\n\
+Example config file: $(EXAMPLECONF)\\n\
+Where to install the above files: $(BINDIR)\\n\
+\\n\
+Compiler CFLAGS options : $(CFLAGS)\\n\
+All compiler options used: $(ALL_CFLAGS)\\n\
+   where -D turns an option on, -U turns it off. The options mean:\\n\
+\\n\
+Linker libraries option(s): $(ALL_LIBS)\\n\
+\\n\
+Install program: $(INSTALL_PROGRAM)\\n\
+Options for install program: $(INSTALL_PROGRAM_FLAGS)\\n\
+Install data: $(INSTALL_DATA)\\n\
+Options for install data: $(INSTALL_DATA_FLAGS)\\n\
+\\n\
+Defined make rules: all $(BIN) depend install clean uninstall help\\n\
+\\n
+endef
+
+###############################################################################
+# END OF MAKEFILE 							      #
+###############################################################################

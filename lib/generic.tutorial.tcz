@@ -1,0 +1,1467 @@
+%COMMENT  TCZ Generic Tutorials
+%COMMENT  ~~~~~~~~~~~~~~~~~~~~~
+%COMMENT  If you wish to change the contents of any of these tutorials for
+%COMMENT  your TCZ-based MUD, please copy the relevant tutorial(s) to
+%COMMENT  lib/local.tutorial.tcz and then make your changes (Tutorials
+%COMMENT  in the local tutorials file override the generic tutorials.)
+
+%COMMENT  $Id: generic.tutorial.tcz,v 1.1.1.1 2004/12/02 17:39:59 jpboggis Exp $
+
+%COMMENT  %TOPIC         Defines name(s) of topic.
+%COMMENT  %TITLE         Defines title of topic.
+%COMMENT  %PAGE          Marks next page of topic.
+%COMMENT  <-SEPARATOR->  Single line separator ('--------'.)
+%COMMENT  <-DOUBLE->     Double line separator ('========'.)
+%COMMENT  %COMMENT       Comment line (Ignored by help system.)
+
+%COMMENT  %<, %>         Marks link to help topic (Adding 'help '.)
+%COMMENT  %+, %>         Marks link to tutorial (Adding 'tutorial '.)
+%COMMENT  %(, %)         Marks link to help topic (Without adding 'help '.)
+%COMMENT  %-, %)         Marks link to tutorial (Without adding 'tutorial'.)
+%COMMENT  %[, %]         Marks beginning and end of preformatted section.
+%COMMENT  %$             Marks line as title/heading (Underlined if user has
+%COMMENT                 'set underline' preference 'on'.)
+%COMMENT  %~             Marks line as '~~~~~' or similar-style underline,
+%COMMENT                 which will be removed if user has 'set underline'
+%COMMENT                 preference 'on'.)
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC menu
+%TOPIC help
+%TOPIC index
+%TOPIC topics
+%TOPIC tutorials
+%TITLE Welcome to %@%n On-Line Tutorials
+%@%n features in-depth On-Line Tutorials on a wide range of subjects.  These tutorials are designed to teach %c%lcomplete beginners%x from scratch without using technical jargon, allowing you to learn and get considerably more enjoyment out of %@%n.
+
+To read a tutorial, simply type %g%lTUTORIAL%x followed by the subject of the tutorial, e.g:  %g%lTUTORIAL NEWBIE%x
+
+%[%g%l%f%+newbie%>       %c%lTutorial for new users.
+%g%l%+scan%>         %xHow to setup and customise your '%g%l%(scan%)%x'.
+%g%l%+profile%>      %xHow to setup and customise your '%g%l%(profile%)%x'.
+%g%l%+bbs%>          %xTutorial on %@%n BBS.
+%g%l%+rooms%>        %xTutorial on building rooms.
+%g%l%+exits%>        %xTutorial on building exits.
+%COMMENT %g%l%+friends%>      %xTutorial on personal friends/enemies lists.
+%COMMENT %g%l%+mail%>         %xTutorial on %@%n Mail System.
+%COMMENT %g%l%+editor%>       %xTutorial on %@%n Editor.
+%COMMENT %g%l%+building%>     %xTutorial on basic building.
+%COMMENT %g%l%+aliases%>      %xTutorial on aliases.
+%COMMENT %g%l%+commands%>     %xTutorial on writing compound commands.
+%COMMENT %g%l%+articles%>     %xTutorial on articles.
+%COMMENT %g%l%+group%>        %xTutorial on grouping/range operators.
+%COMMENT %g%l%+inheritance%>  %xTutorial on inheritance.
+%]
+%9%6%c%lPLEASE NOTE:  %xMany On-Line Tutorials are still currently being written  -  This list will be updated as and when new tutorials are available.  Please keep an eye on this list and the %g%lNEWS%x on %y%l%@%n BBS%x for the availability of new tutorials.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC new
+%TOPIC guide
+%TOPIC basic
+%TOPIC guides
+%TOPIC newbie
+%TOPIC welcome
+%TOPIC tutorial
+%TOPIC newplayers
+%TOPIC newbieguide
+%TOPIC introduction
+%TOPIC newcharacters
+%TOPIC gettingstarted
+%TITLE %@%n Tutorial
+The aim of this tutorial is to get you accustomed to %y%l%@%n%x, so you can get around and chat with other users.  %@%n (Or %y%l%@%m%x for short) is a %c%lUNIQUE%x system, which means you'll find many things are different to other talkers/MUD's you may have used (Even though the basic talking commands should be similar.)
+
+%[%c%lSection:                                                       Type in:
+%c=============================================================================
+%r%l(1)   %xConventions used in this tutorial and the rest of %{@?pad 7 " " "{%@%m}"}%g%l%-tutor guide 2%)
+%r%l(2)   %xHow to look at things and talk to other users            %g%l%-tutor guide 5%)
+%r%l(3)   %xHow to talk to other users in rooms                      %g%l%-tutor guide 7%)
+%r%l(4)   %xHow to explore the virtual world of %{@?pad 21 " " "{%@%m}"}%g%l%-tutor guide 9%)
+%c-----------------------------------------------------------------------------
+%r%l(5)   %xMaking yourself you (Setting your description, etc.)     %g%l%-tutor guide 12%)
+%r%l(6)   %xHow to use the internal mail system                      %g%l%-tutor guide 16%)
+%r%l(7)   %xMiscellaneous stuff                                      %g%l%-tutor guide 18%)
+%c=============================================================================%]
+%w%lAlso, see '%g%l%<chatting%>%x', '%g%l%-tutorial index%)%x' and '%g%l%(help index%)%x'.
+
+%PAGE
+
+%c%l%$Conventions used in this tutorial and the rest of %@%m...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%{@?pad {@?length "{%@%m}"} "~"}%x
+Before we start, you need to know the following %c%lconventions%x, which are used throughout this tutorial, the %@%m On-Line Help System and the rest of %@%n...
+
+%9%y%l<TEXT>%x  This represents the sort of information you need to provide at that point, for example:  %g%l%(tell%) <NAME> = <MESSAGE>%x.  To make the command work (%g%l%(Tell%)%x in this case, which tells a message to someone), you must supply the name of the person and the message to send to them, e.g:  %g%l%(tell%) jc digita = Hello, I think I'm getting the hang of this now.%x
+
+%PAGE
+%9%2%y%l[<TEXT>]%x  This represents optional information, which can be provided at that point if you wish, for example:  %g%l%(where%) [<NAME>]%x  This means you can either type %g%l%(where%)%x on it's own (Which lists everyone connected and where they currently are), or %g%l%(where%)%x followed by the name of someone to find out where they currently are, e.g:  %g%l%(where%) jc digita%x
+
+%9%2%y%l'<TEXT>'%x  In most cases, text enclosed in %y%l''%xs indicates something you type at your keyboard, e.g:  '%g%l%(@set%) me = male%x'.  Don't type the %y%l''%xs  -  Just type the text within, e.g:  %g%l%(@set%) me = male%x (This convention is used throughout %@%n and the On-Line Help System.)
+
+%r%lFrom now on, the above conventions will be used in this tutorial.
+
+%PAGE
+
+%c%l%$Two useful hints...%x
+%~%c~~~~~~~~~~~~~~~~~~~
+%6%g%l(1)%x  Firstly, %@%n %c%lisn't case sensitive%x, so it doesn't matter whether you type commands in upper or lower case letters (Or both.)
+
+%6%g%l(2)%x  Secondly, for most commands that take someone's name as a parameter, you can shorten their name to just the first few unique letters, e.g:  '%g%lcra%x' for '%g%lcrafty%x' (%c%lREMEMBER:%x  Don't type the %y%l''%xs!)
+
+Right, now that's over with, I can explain how you get around and talk on %@%n.
+
+%PAGE
+
+%c%l%$How to look at things and talk to other users...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+The first thing you need to know is how to look at things.  This is done by typing '%g%l%(look%)%x' on its own (To see the room you're currently in and what it contains) or '%g%l%(look%) <OBJECT>%x' to look at something in the room (Where %y%l<OBJECT>%x is the name of the object you'd like to look at  -  You don't have to type this name in full.)  When you look at something, you'll see a description of what it looks like (And if it's an object, you'll usually be given a clue how to use it (If it has a use.))
+
+You can also look at other characters by typing '%g%l%(look%) *<NAME>%x' (The '%y%l*%x' is neccessary if they aren't in the same room as you), however the '%g%l%(scan%)%x'/'%g%l%(finger%)%x' command is much better for this and gives more useful information about the person you're interested in, e.g:  You can scan '%y%lJC Digita%x' by typing '%g%l%(scan%) jc digita%x' (%c%lNOTE:%x  No '%y%l*%x' is needed with '%g%l%(scan%)%x'/'%g%l%(finger%)%x', even if the user being scanned is in another room.)
+
+The next most important thing to learn is how to %c%ltalk to other users of %@%m%x...
+
+%PAGE
+%@%n is a %c%lmulti-user adventure game/talker%x, which means there's usually lots of other users connected at most times, enjoying themselves and chatting to their friends.  If you type '%g%l%(who%)%x' you'll see a list of everyone connected (Including you.)
+
+You can speak to any of the users listed in the '%g%l%(who%)%x' list by typing '%g%l%(tell%) <NAME> = <MESSAGE>%x' (Remember it from earlier on in this tutorial?)  For example, you could say "%y%lhello%x" to %c%lNorthernGet%x (Providing he's connected) by typing '%g%l%(tell%) north = hello%x' (%c%lREMEMBER:%x  You can shorten names down to just a few unique characters.)  If NorthernGet is awake, he'll probably answer you within a few seconds time.
+
+%PAGE
+
+%c%l%$How to talk to other users in rooms...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+Using '%g%l%(tell%)%x' is all very well, but it isn't as much fun as going into a room and talking to several users at once!  %@%n has a place set aside for chatting to your friends in/making new friends called '%y%lThe Swan Pub%x'.  You can enter the Swan Pub at any time from anywhere by simply typing '%g%lpub%x'.
+
+Once in the pub (Or any other room in fact), you can talk to its occupants.  When you type '%g%l%(look%)%x' (To look at the contents of the room you're currently in), you'll usually see a heading '%y%l%$Contents:%x'.  Underneath this, you'll see a number of items listed.  Any item with a '%y%l*%x' to the left of its name is another connected user, who you can talk to.
+
+%PAGE
+You can say something by typing '%g%l%("%)<MESSAGE>%x', e.g:  '%g%l%("%)hello%x' (%c%lNOTE:%x  You don't need to type a closing '%y%l"%x'.)  When you do this, everyone in the room "hears" what you say (In otherwords, they see your message on their screen.)
+
+You can also do an action (Such as laughing, waving, etc.) by typing '%g%l%(:%)<ACTION>%x', e.g:  '%g%l%(:%)waves%x' to make you wave to everyone in the room.
+
+You can let people know (In the same room as you of course) what you're thinking by typing '%g%l%(+%)<THOUGHT>%x', e.g:  '%g%l%(+%)I'm really getting the hang of this!%x'.
+
+%PAGE
+
+%c%l%$How to explore the virtual world of %@%m...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%{@?pad {@?length "{%@%m}"} "~"}%x
+Now you know how to chat to other users!  The next thing to learn is how to explore the virtual world.  To do this, you'll need to go through exits from time to time.
+
+When you look at a room (%c%lREMEMBER:%x  You can do this by typing '%g%l%(look%)%x'), you'll see an '%c%l%$Obvious exits:%x' list (Unless the room doesn't have any exits, in which case the only way out is to go to %y%lThe Swan Pub%x or %y%lThe Town Centre%x (Type '%g%lpub%x' or '%g%ltown%x'.))  After the name of each exit, you'll see a shortened name in brackets (E.g:  'A large wooden door (%g%lWooden%x)')  To go through an exit, simply type the name in brackets (Without the %y%l()%x's around it of course!), e.g:  '%g%lwooden%x'.
+
+%PAGE
+When you arrive in the destination room (The room where the exit leads to), you'll automatically see the description and contents of this room (So you don't have to type '%g%l%(look%)%x'.)
+
+You can go straight to some of the main places by typing a single command  -  These places and the commands used to reach them are listed in '%g%l%<places%>%x'.
+
+When exploring, you should '%g%l%(look%)%x' at every object you come across  -  Some have hints in their description that will give you an idea what you have to do to use them.
+
+%PAGE
+You can find out where everyone else who's connected to %@%n is by typing '%g%l%(where%)%x'.  A list will be displayed with the names of all connected characters and the rooms they're currently in.  If you see a number and some letters in brackets after the room's name (E.g:  '%y%lThe Maelstrom(#3227 RAy)%x'), it means you can go straight to that room (Providing it has the capital letter '%y%lA%x' (Which stands for '%g%l%(ABODE%)%x'.))
+
+You can do this by using the '%g%lto #<ID>%x' command, which teleports you to the given room number (E.g:  '%g%lto #3227%x' would teleport you to '%y%lThe Maelstrom%x'.)  Every object in %@%n has its own unique ID number (Even characters.)  You can also set your home room to any %y%l%(ABODE%)%x room (The place where you go when you type '%g%l%(home%)%x' and when you disconnect.)  -  To do this, simply type '%g%l%(@link%) me = #<ID>%x', e.g:  '%g%l%(@link%) me = #3227%x'.
+
+%PAGE
+
+%c%l%$Making yourself you (Setting your description, etc.)...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+One thing you need to do is give yourself a %c%ldescription%x.  This tells other users what you look like when they '%g%l%(scan%)%x', '%g%l%(finger%)%x' or '%g%l%(look%)%x' at you.  A typical description is usually 4-5 lines long and doesn't have to describe what you actually look like In Real Life (IRL.)  You can use %@%n's in-built editor to write your description...
+
+First of all, type '%g%l%(edit%) me%x'  -  This will put you into the editor, editing your description.  You should now have a prompt that looks something like '%c[%c%l1%c:%c%l0%c]-->%x'  -  This is the editor prompt, which tells you what line number you're editing (Number on the left of the '%c%l:%x'), and how many lines your description currently has (Number on right.)
+
+If you're editing your description for the first time, or want to write a new description from scratch, you should type '%g%l%(.delete%) all%x' to clear your current description.
+
+%PAGE
+You can now type in your description  -  Simply type each line followed by the %c%lRETURN%x or %c%lENTER%x key on your terminal.  Once you've finished, you can view your description by typing '%g%l%(.view%)%x' (The numbers in square brackets to the left of each line are only line numbers, which will not appear in your description.
+
+What if you've made a mistake?  Well, you can replace typing errors using the '%g%l%(.replace%)%x' command  -  Simply type '%g%l%(.replace%) all = "<INCORRECT WORD>" "<CORRECT WORD>" all%x'  -  For example, if you accidentally spelt the word '%y%lthe%x' as '%y%lteh%x', you can correct it by typing '%g%l%(.replace%) all = "teh" "the" all%x'.
+
+Once you're happy with your description, simply type '%g%l%(.save%)%x' to save it and exit the editor.
+
+%PAGE
+There are many other things you can do in the editor  -  See '%g%l%<editor%>%x' for full details on how to use it.
+
+If you need to change your race, you can do this by typing '%g%l%(@race%) me = <WHATEVER>%x'  -  You can't use the editor on your race (It's a bit pointless because you aren't allowed to have a race that's more than one line.)
+
+When you type '%g%l%(who%)%x' (To display the list of connected users), you'll notice that some people have messages after their name (E.g:  '%m%lJC Digita the Supreme *SPOD*%x'.)  You can set your own personal '%g%l%(who%)%x' list title by typing '%g%l%(title%) <TITLE>%x', e.g:  'title explores %@%n!'  Your title can be up to a maximum of %c%l50 characters long%x, but may get truncated in the list if it's too long (Depending on the length of your name.)
+
+%PAGE
+You can change your password at any time (We recommend that you change your password every month or so to prevent malicious use of your character (E.g:  If someone else finds out your password.))  To do this, simply type '%g%l%(@password%)%x'.  You'll first be asked for your old password (To verify it is actually you), and then your new one.  You'll be asked to type your new password again for verification (In case you typed it wrong the first time.)
+
+You can also enjoy %@%n in full %r%lc%g%lo%y%ll%b%lo%m%lu%c%lr%x (Providing your terminal supports %y%lANSI colour%x)  -  Type '%g%l%(set ansi%) on%x' to try it out and type '%g%l%(look%)%x'.  If your screen is cluttered up with weird control codes, your terminal isn't ANSI compatible  -  Type '%g%l%(set ansi%) off%x' to turn it off.  Take a look at '%g%l%<ansi colour%>%x' for more details on ANSI colour.  '%g%l%<substitutions%>%x' is quite interesting (And fun too if you use the listed codes in your speech!)
+
+%PAGE
+
+%c%l%$How to use the internal mail system...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+%@%n has a built-in mail system that allows you to send mail to your friends (Even when they're not connected.)
+
+To list your mail, simply type '%g%l%(mail%)%x'  -  You'll probably find that you have no messages yet.
+
+To send some mail to someone, simply type '%g%l%(mail%) <NAME>%x'.  Type your message, pressing %c%lRETURN%x after each line.  Once you've finished, type '%g%l%(.view%)%x' to check it and then '%g%l%(.save%)%x' to save your changes and mail your message (If you're happy with it.)  Otherwise, type '%g%l%(abort%) = yes%x' to abandon your message (And not mail it.)
+
+%PAGE
+To read a message someone's sent to you, simply type '%g%l%(mail%) read = <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message to read (Type '%g%l%(mail%)%x' to list your mail  -  You'll see a number to the left of each message.)  E.g:  '%g%l%(mail%) read = 1%x'.
+
+To delete unwanted mail (You should do this regularly because you may only have a maximum of %c%l50 mailed messages%x stored in your mailbox) simply type '%g%l%(mail%) delete = <NUMBER>%x'.  You can't delete unread mail.
+
+You can delete all of your mail by typing '%g%l%(mail%) delete = all%x'.
+
+%PAGE
+
+%c%l%$Miscellaneous stuff...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~%x
+See '%g%l%<chatting%>%x' for a summary of talking commands.
+
+Once you're used to chatting, exploring and getting around %@%n, you can try your hand at building your own place  -  It could be a house, an adventure or anything that you think people will enjoy looking around.  Before you can do this, you'll need to be a Builder.
+
+Simply ask an administrator for your %y%l%(BUILDER%)%x flag (Type '%g%l%(who%) admin%x' for a list of connected administrators), e.g:  '%g%l%(page%) admin = can I be a builder, please?%x'  You will be required to set your private E-mail address before being given your Builder flag (If you are unsure of how to do this, the administrator you asked will be able to help you.)
+
+%PAGE
+You may wish to download %y%l%@%n Official Manual%x, which is available from %@%m's %c%l%(web site%)%x and %c%l%(FTP archive%)%x (See '%g%l%<www%>%x' and '%g%l%<ftp%>%x'.)
+
+You can leave %@%n at any time by typing '%g%l%(QUIT%)%x' in capital letters (A kind of "Are you sure?")  -  You'll probably use this command the least!  :-)
+
+Sooner or later, you'll probably come across a really annoying character, who spends their time doing nothing else other than annoying, abusing or sexually harassing you and other characters.  If you come across a character like this, %r%l%fYOU CAN DO SOMETHING ABOUT IT...
+
+%PAGE
+Type '%g%l%(emergency%)%x' (See '%g%l%<emergency%>%x') followed by the %c%lname of the character%x, '%g%l=%x' and the %c%lreason%x, e.g:  '%g%l%(emergency%) Fred Bloggs = He is being really abusive%x' (%c%lPLEASE NOTE:%x  The word '%g%l%(emergency%)%x' must be typed in %c%lFULL%x.)  Using '%g%l%(emergency%)%x' on a character causes all the commands they type to be logged for the next %c%l5 minutes%x.  Your reason is also logged and sent to all connected Admin. (So they can sort out the nuisance character!)
+
+If you have any problems, or questions, simply type '%g%l%(assist%)%x'  -  This will tell any connected Admin. that you need assistance and someone will be along to help you shortly (Providing there are some Admin connected)  -  If not, you can use the '%g%l%(complain%)%x' command  -  This is sent to all connected Admin, and also logged to a log file, which is checked regularly by Admin.
+<-SEPARATOR->
+Also, see '%g%l%<chatting%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC bbs
+%TOPIC board
+%TOPIC tczbbs
+%TOPIC bbssystem
+%TOPIC conference
+%TOPIC noticeroom
+%TOPIC bulletinboard
+%TOPIC informationroom
+%TOPIC conferencesystem
+%TOPIC thechattingzonebbs
+%TOPIC conferencingsystem
+%TITLE %@%n BBS Tutorial
+%@%n features an easy to use, topic-based BBS system, where you can read the latest %@%m news, take part in topical discussions, read messages left by other users and leave messages for others to read.
+
+There are two ways you can use %@%n BBS...
+
+%6%r%l(1)  %xType '%g%lbbs%x', which will take you to %y%l%@%n BBS room%x, where you can use the BBS without being disturbed by other users (The BBS room is set %y%l%(QUIET%)%x, so users can't talk in it.)
+
+%6%r%l(2)  %xType '%g%lbbs <BBS COMMAND>%x' from %c%lANYWHERE%x on %@%n, e.g:  '%g%lbbs %(^bbs topics%)%x', '%g%lbbs %(^bbs topic%) general%x', '%g%lbbs %(^bbs read%) unread%x', etc.  The advantage of this method is that you can use the BBS from anywhere on %@%m.  The disadvantage is that you need to type '%g%lbbs%x' in front of every BBS command (You don't need to do this when you're in the BBS room.)
+
+For simplicity, this tutorial assumes that you're presently in %y%l%@%n BBS room%x.  If you're not, please type '%g%lbbs%x' to go there before continuing with this tutorial...
+
+%PAGE
+
+%c%l%$The topic list...%x
+%~%c~~~~~~~~~~~~~~~~~%x
+If you type '%g%l%(^bbs topics%)%x', you'll see the list of available topics on the BBS.
+
+To the right of each topic name, you'll see two numbers in brackets, e.g:  'General           %c(%g%l23%c,%x45%c)%x'  -  The first number (%g%l23%x) is the number of new messages within the topic which you haven't read yet, and the second number (45) is the total number of messages within the topic.  (%c%lNOTE:  %xThese numbers include messages within sub-topics within the topic.)
+
+Any topic with a '%r%l!%x' to the left of its name is a topic which you can't access (E.g:  '%r%l!%xAdmin'.)  Topics with a '%y%l*%x' to the left of their name are relatively important topics, which you should browse regularly (These include '%y%lNews%x', '%y%lCode Updates%x', '%y%lSuggestions%x', '%y%lBug Reports%x' and '%y%lBuilding%x'.)
+
+If there's more than one page of topics on the BBS, you can view the other pages by typing '%g%l%(^bbs topics%) <PAGE>%x', e.g:  '%g%l%(^bbs topics%) 2%x' to view the second page of topics, etc.
+
+%PAGE
+If you type '%g%l%(summary%)%x', you'll see a list of topics and sub-topics which contain new messages which you haven't read.  '%g%l%(Summary%)%x' will show you how many unread messages there are in each topic/sub-topic listed, along with the message number and title of the most recently added message in each.
+
+The '%g%l%(latest%)%x' command is similar to '%g%l%(summary%)%x', except it shows a short list of the most recent messages added to the BBS (Regardless of whether you've read them or not), along with which topic/sub-topic each message is in.  You can also type '%g%l%(latest%) <TOPIC>%x' to list the most recent messages added to a particular topic/sub-topic (E.g:  '%g%l%(latest%) news%x'), and type '%g%l%(latest%) *<NAME>%x' to list the most recent messages added by a particular character (%c%lNOTE:  %xThe '%y%l*%x' %c%lIS%x needed.)
+
+Both the '%g%l%(summary%)%x' and '%g%l%(latest%)%x' commands can be typed from anywhere on %@%m, so you can type either of them when you first connect to see what's new on the BBS at a glance.
+
+%PAGE
+
+%c%l%$Selecting a topic and reading messages...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+To select a topic to browse from the list of topics, simply type '%g%l%(^bbs topic%) <TOPIC>%x', where %y%l<TOPIC>%x is the name of the topic, e.g:  '%g%l%(^bbs topic%) general%x'.
+
+On selecting a topic, a list of messages in the topic will be displayed.  This list is split into pages, so if there's more than a page of topics, you'll be looking at the most recent messages added to the topic.  You can view the other pages by typing '%g%l%(^bbs view%) page <PAGE NO>%x', e.g:  '%g%l%(^bbs view%) page 1%x', '%g%l%(^bbs view%) page 2%x', etc.  Typing '%g%l%(^bbs view%)%x' on its own displays the most recent page of messages.
+
+Some topics may contain further sub-topics.  This allows related topics to be organised (E.g:  %y%lNews/General%x, %y%lNews/Code Updates%x, %y%lNews/Misc%x, etc.) and kept together.  You can list the sub-topics within your current selected topic by typing '%g%l%(^bbs subtopics%)%x', and select a sub-topic from the list by typing '%g%l%(^bbs subtopic%) <NAME>%x' (These work in a similar manner to the '%g%l%(^bbs topics%)%x' and '%g%l%(^bbs topic%)%x' commands.)
+
+Once you've selected a topic/sub-topic, it's name will be displayed in the topics/sub-topics list with an arrow ('%m%l%f->%x') to the left of it's name.
+
+%PAGE
+To read a message, simply type '%g%l%(^bbs read%) <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message you'd like to read.  When you type '%g%l%(^bbs view%)%x', you'll notice a number in brackets (E.g:  '%g%l(5)    %x'%y%lA message%x' left by...') to the left of the each message listed.  This is the message's number, so to read message number %y%l5%x, you'd type '%g%l%(^bbs read%) 5%x', and so on.  You can read the next unread message in the topic/sub-topic by typing '%g%l%(^bbs read%) unread%x'.
+
+Once you've read a message, you can read the next message in your current topic/sub-topic by typing '%g%l%(^bbs read%) next%x'.  Likewise, '%g%l%(^bbs read%) prev%x' will read the previous message.  '%g%l%(^bbs read%) current%x' will re-read the message you last read.
+
+The '%g%l%(^bbs read%) unread%x' command reads the next unread message on the BBS, starting from your current selected topic/sub-topic.  By repeatively typing '%g%l%(^bbs read%) unread%x', you can read every new message added to the BBS without needing to change topic/sub-topic or use the '%g%l%(summary%)%x' and '%g%l%(latest%)%x' commands to find out which topics/sub-topics contain new messages.  Alternatively, you can simply type '%g%lunread%x' or '%g%lnew%x' instead of '%g%l%(^bbs read%) unread%x'.
+
+%PAGE
+Sooner or later, you'll come across a message which you can vote on (Especially if you're browsing the '%y%lVoting Forum%x' topic.)  If you like, you can vote on the message  -  Simply type '%g%l%(^bbs vote%) <NUMBER> yes%x' or '%g%l%(^bbs vote%) <NUMBER> no%x' appropriately (Where %y%l<NUMBER>%x is the number of the message) to register your vote.  If appropriate, you can abstain your vote by typing '%g%l%(^bbs vote%) <NUMBER> abstain%x'.
+
+
+%c%l%$Adding and replying to messages...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+In most topics/sub-topics you can add messages of your own, or leave replies to messages left by other users.
+
+To add a message to the topic/sub-topic you're currently browsing, simply type '%g%l%(^bbs add%) <SUBJECT>%x' (E.g:  '%g%l%(^bbs add%) My first message%x' to add a message with the subject '%y%lMy first message%x'.)  On doing this, you'll find yourself in %@%n Editor (See '%g%l%<editor%>%x'.)  Now simply type each line of your message, pressing %c%lRETURN%x or %c%lENTER%x at the end of each line.
+
+%PAGE
+Once you're finished, type '%g%l%(.view%)%x' to check your message (Don't worry about the '%g[001]%x', '%g[002]%x', etc. to the left of each line  -  These are just line numbers and won't appear in your message.)  If you're happy with it, type '%g%l%(.save%)%x' to save it and add it to the topic/sub-topic you're currently browsing on the BBS, otherwise type '%g%l%(.abort%) = yes%x' to abandon it.
+
+For full details on how to use %@%n Editor, see '%g%l%<editor%>%x'.
+
+If you like, you can add an anonymous message/reply to a message, so that other users (Except Admin) don't know who added it (If you're Admin and make a message anonymous, only %m%lDeities%x and above will be able to see who added it.)  To do this, simply use the '%g%l%(^bbs addanon%)%x' and '%g%l%(^bbs replyanon%)%x' BBS commands respectively (%c%lNOTE:  %xSome topics do not allow anonymous messages  -  Use the '%g%l%(^bbs settings%)%x' BBS command to check.)
+
+%PAGE
+To reply to a message, type '%g%l%(^bbs reply%) <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message you'd like to leave a reply to.  You'll then find yourself in %@%n Editor, so you can write your reply.
+
+If you accidentally add a message to the wrong topic/sub-topic, you can move it to another topic/sub-topic by typing '%g%l%(^bbs move%) <NUMBER> <TOPIC>%x', where %y%l<NUMBER>%x is the number of the message, and %y%l<TOPIC>%x is the name of the topic/sub-topic you'd like to move it to, e.g:  '%g%l%(^bbs move%) 5 general%x' will move message number %c%l5%x to the topic '%y%lGeneral%x', and '%g%l%(^bbs move%) 8 building/help%x' will move message number %c%l8%x to the sub-topic '%y%lHelp%x' in the topic '%y%lBuilding%x'.
+
+You can make it so users can vote on your message by simply typing '%g%l%(^bbs vote%) <NUMBER> on%x'.  You can turn voting off at any time by typing '%g%l%(^bbs vote%) <NUMBER> off%x' and reset votes for/against the message using '%g%l%(^bbs vote%) <NUMBER> reset%x'.
+
+%PAGE
+
+%c%l%$Changing and deleting messages...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%x
+You can re-edit any of your messages on the BBS:  Simply go to the topic/sub-topic where the message is located (Type '%g%l%(^bbs topic%) <TOPIC>%x') and type '%g%l%(^bbs modify%) <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message.  This will put you in %@%n Editor, editing the message (Please see '%g%l%<editor%>%x' before doing this.)  Once you're finished, type '%g%l%(.save%)%x' to save your changes, otherwise type '%g%l%(.abort%) = yes%x' to abandon them.
+
+You can delete one of your messages by typing '%g%l%(^bbs delete%) <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message.  %c%lPLEASE NOTE:  %xOnce you've deleted a message, there's no way to retrieve it.
+
+You can also delete a range of messages (Providing you own them, or are of a higher level than their owner(s)) by typing '%g%l%(^bbs delete%) <RANGE>%x', e.g:  '%g%l%(^bbs delete%) 2-7%x' will delete messages %y%l2%x, %y%l3%x, %y%l4%x, %y%l5%x, %y%l6%x and %y%l7%x.
+<-SEPARATOR->
+Also, see '%g%l%<bbs%>%x', '%g%l%<bbscmds%>%x', '%g%l%<subtopics%>%x', '%g%l%+editor%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC x
+%TOPIC scan
+%TOPIC finger
+%TOPIC scanchar
+%TOPIC scanning
+%TOPIC scanners
+%TITLE Tutorial on how to setup and customise your '%w%l%(scan%)%x'
+Every character has a '%g%l%(scan%)%x' and '%g%l%(profile%)%x' (See '%g%l%<scan%>%x' and '%g%l%<profile%>%x'), both of which can provide detailed information about yourself IRL (In Real Life) and your character.
+
+Your '%g%l%(scan%)%x' is used to provide detailed information about your virtual character on %@%m, such as their %c%ldescription%x, %c%lrace%x, %c%llast time of connection%x, %c%lcredits%x, %c%lscore%x, etc.
+
+Likewise, your '%g%l%(profile%)%x' is used to provide detailed information about yourself in real life (IRL), such as your %c%lreal name%x, %c%lhome town/city%x and %c%lcountry%x, %c%linterests%x, etc.  Setting your profile is %y%lOPTIONAL%x.  If you do not wish to provide information about yourself IRL, simply do not set any of the fields on your profile.
+
+%PAGE
+
+%c%l%$Your scan
+%~%c~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(scan%)[full|brief] [<NAME>] [= secret]%]%x
+
+Your scan is used to provides detailed information about your virtual character on %@%m.
+
+On the following page is an example of a typical scan:
+%PAGE
+
+%{more}%[%c-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ %w%lFred Bloggs %c- %g%lPage me if you'd like a chat!
+%c-----------------------------------------------------------------------------
+%w%lHello!  Thanks for scanning me!
+
+I'm Fred Bloggs, a new user around here learning how to get to grips with
+everything, so please go easy on me.  If you'd like to know more about me
+IRL, please take a look at my profile.
+%c-----------------------------------------------------------------------------
+ %c%lLongest connect time: %x 3 minutes and 13 seconds.
+                          %c(%y%lSaturday 22nd July 2000, 3:52.30 am%c.)
+ %c%lTotal time connected: %x 6 minutes and 5 seconds.
+                          %c(%y%lAverage 2 minutes and 1 second%c.)
+    %r%lTime spend idling: %x 22 seconds.
+                          %c(%lAverage %y%l7 seconds%c.)
+    %g%lTime spend active: %x 5 minutes and 43 seconds.
+                          %c(%lAverage %y%l1 minute and 54 seconds%c.)
+%c-----------------------------------------------------------------------------
+  %c%lLast time connected: %x Saturday 22nd July 2000, 3:52.40 am %c(%c%lStill connected.%c)
+         %c%lTotal logins: %x 3 %c(%lAverage %y%l2 minutes and 6 seconds%c.)
+        %m%lCreation date: %x Saturday 22nd July 2000, 3:49.11 am.
+                          %c(%y%l6 minutes and 20 seconds %c%lago%c.)
+%c-----------------------------------------------------------------------------
+   %r%lRace: %x Mortal.
+  %g%lFlags: %x Ansi Colour, Yell, Male, Friends-Chat, Connected.
+ %y%lGender: %x Male%y%l, Health: %x 100.0%%%y%l, Score: %x 0%y%l, Credit: %x 50.00%y%l, Bank balance:
+          %x500.00%y%l, Building Quota: %x 10/10%y%l.
+%c%{@?pad {@eval {@?scrwidth} - 3} "--"}
+ %9%9%8%g%lE-mail address(es): %x fred@bloggs.com  %g(%g%lPublic%g)
+   %9%9%8%c%lCurrent location: %x Fred Bloggs's Home.
+%c-----------------------------------------------------------------------------
+ %y%lFred Bloggs%x also has a profile about himself  -  Type '%g%lprofile fred bloggs%x'
+ to view it.
+%c-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-%]%x
+%c
+%PAGE
+There are several fields which you should set on your '%g%l%(scan%)%x' to describe your virtual character on %@%m.  These are as follows:
+
+
+%c%l%$Your description
+%~%c~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@desc%) me [= <DESCRIPTION>]%]%x
+
+Your description describes your virtual character.  You can write almost anything you like, providing it is not offensive or abusive.  If you wish to write a long description, you may find it easier to learn how to use the editor, which can be used to write and edit a long description without the need to retype it if you make a mistake or need to change something.
+
+For more information and a tutorial on how to use the editor, please see '%g%l%<editor%>%x' and '%g%l%+editor%>%x'.
+
+'%g%l%(@desc%)%x' (See '%g%l%<@desc%>%x') is ideal for setting short descriptions.  To include %c%lNEWLINE%x's in your description, simply type '%g%l\%x' followed by %c%lRETURN%x/%c%lENTER%x.
+
+%PAGE
+Please only use %c%lNEWLINE%x's to separate paragraphs.  Do not split long paragraphs into lines which fit the width of your screen, because %@%m automatically does this itself using its built-in word-wrapping, wrapping the text to fit the screen of the person viewing your scan, who may have an entirely different screen width to you (Especially if they are using the World Wide Web Interface (See '%g%l%<html%>%x'.)
+
+%m%l%uFor example:%x
+
+%[%w%l  %@%m> %w@desc me = Hello!  Thanks for scanning me!\
+       \
+       I'm Fred Bloggs, a new user around here learning how to get to grips
+       with everything, so please go easy on me.  If you'd like to know more
+       about me IRL, please take a look at my %(profile%).
+  %g%lDescription of %w%lFred Bloggs(#12345 PBaybM)%g%l set.%]%x
+
+You can wipe (Reset) your current description by typing '%g%l%(@desc%) me%x'.
+
+%PAGE
+
+%c%l%$Your title
+%~%c~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(title%) <TITLE>%]%x
+
+Your title appears after your name at the top of your '%g%l%(scan%)%x', '%g%l%(profile%)%x' and in the user list ('%g%l%(who%)%x'.)  When you first create a character on %@%m, it will be set to '%y%lis new to %@%n!%x', so that other users know that you are a new user.  You can change your title using the '%g%l%(title%)%x' command (See '%g%l%<title%>%x'), i.e:
+
+%[%w%l   %@%m> %wtitle - Page me if you'd like a chat!
+   %g%lYour title is now '%y%l- Page me if you'd like a chat!%g%l'.%]%x
+
+You can reset your title by typing '%g%l%(title%)%x'.
+
+%PAGE
+
+%c%l%$Your race
+%~%c~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@race%) me = <RACE>%]%x
+
+Your race is used to describe the race of your character, i.e:  %c%lHuman%x, %c%lAlien%x, etc.  This field on your '%g%l%(scan%)%x' isn't too relevant to %@%m, because it is left over from the early days of combat-orientated MUDs.  %@%m is social-orientated, so the only real use of this field is for fun.
+
+Your race cannot be reset.
+
+%[%w%l  %@%m> %w@race me = Human
+  %g%lYour race is now set to '%w%lHuman%g%l'.%]%x
+
+%PAGE
+
+%c%l%$Your flags
+%~%c~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@set%) me = [!]<FLAG>%]%x
+
+There are a large number of available flags, which you can set and reset on yourself.  Each flag has a particular purpose or effect.  There are far too many flags to explain in great detail in this tutorial, but some of the more useful flags to new users are described below.
+
+For a full list of available flags, please see '%g%l%<flags%>%x'.  Every flag has its own individual page of help, which can be accessed by typing '%g%l%(help%) <FLAG> flag%x', where %y%l<FLAG>%x is the name of the flag.  E.g:  '%g%l%(help%) %(haven flag%)%x' for help on the %y%l%(HAVEN%)%x flag.
+
+%PAGE
+The '%g%l%(@set%)%x' command (See '%g%l%<@set%>%x') is used to set and reset flags on yourself.  To set a flag, simply type '%g%l%(@set%) me = <FLAG>%x', e.g:  '%g%l%(@set%) me = haven%x'.  To reset a flag, simply preceed its name with an '%y%l!%x', e.g:  '%g%l%(@set%) me = !haven%x'.
+
+You can also set/reset several flags at once by giving more than one flag name, e.g:  '%g%l%(@set%) me = haven !listen%x' will set your %y%l%(HAVEN%)%x flag and reset your %y%l%(LISTEN%)%x flag.
+
+%PAGE
+
+%c%l%$The LISTEN flag
+%~%c~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@set%) me = [!]%(LISTEN%)%]%x
+
+If you set the %y%l%(LISTEN%)%x flag (See '%g%l%<listen flag%>%x') on yourself, you will be told when users connect and disconnect.  You may find this useful, but during busy periods, when lots of people are connecting and disconnecting, it can become extremely annoying.
+
+%[%w%l   %@%m> %w@set me = listen
+   %y%lListen%g%l flag set on %w%lFred Bloggs(#12345 PBLaybM)%g%l.
+   %y%l[%w%lJoe Bloggs%y%l has connected.]
+   [%w%lWibble%y%l has disconnected.]
+   %w%l%@%m> %w@set me = !listen
+   %y%lListen%g%l flag reset on %w%lFred Bloggs(#12345 PBaybM)%g%l.%]%x
+
+%PAGE
+
+%c%l%$The %w%l%$HAVEN%c%l%$ flag
+%~%c~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@set%) me = [!]%(HAVEN%)%]%x
+
+There may be times when you do not wish to be disturbed by other users sending messages to you via '%g%l%(page%)%x' or '%g%l%(tell%)%x' (I.e:  If you are having a private conversation with some other users in a room.)
+
+If you set your %y%l%(HAVEN%)%x flag (See '%g%l%<haven flag%>%x'), no users will be able to send messages to you via '%g%l%(page%)%x' or '%g%l%(tell%)%x' (See '%g%l%<page%>%x' and '%g%l%<tell%>%x'.)  While you are set %y%l%(HAVEN%)%x, you will not be able to send messages via '%g%l%(page%)%x' or '%g%l%(tell%)%x' to other users (This is because they cannot reply back to you.)
+
+%PAGE
+
+%c%l%$The %w%l%$SECRET%c%l%$ flag
+%~%c~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@set%) me = [!]%(SECRET%)%]%x
+
+If you do not wish other characters to be able to find out your current location (By looking at '%c%lCurrent location:%x' on your '%g%l%(scan%)%x' or by using the '%g%l%(where%)%x' command (See '%g%l%<where%>%x'), you can set your %y%l%(SECRET%)%x flag (See '%g%l%<secret flag%>%x'.)
+
+When your %y%l%(SECRET%)%x flag is set, other users will be told that you are hiding in a secret location when they scan you or use the '%g%l%(where%)%x' command.
+
+%[%m%l   [In this example, %y%lJoe Bloggs%m%l has his secret flag set]
+   %w%l%@%m> %wwhere joe bloggs
+   %w%lJoe Bloggs%g%l is hiding in a secret location.%]%x
+
+%PAGE
+
+%c%l%$Your gender
+%~%c~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@set%) me = male|female|neuter%]%x
+
+Your gender is the sex of your character, which can be either %c%lmale%x, %c%lfemale%x or %c%lneuter%x.  Ideally, you should set your gender on %@%m to your gender IRL (In Real Life.)
+
+%[%w%l   %@%m> %w@set me = male
+   %y%lMale%g%l flag set on %w%lFred Bloggs(#12345 PBaybM)%g%l.%]%x
+
+You can also set your gender using the '%g%l%(@profile%)%x' command (See '%g%l%<@profile%>%x'.)  Your gender is shared between both your '%g%l%(scan%)%x' and '%g%l%(profile%)%x'.
+
+%PAGE
+
+%c%l%$Your web site address
+%~%c~~~~~~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@www%) me [= <ADDRESS>]%]%x
+
+If you have your own home page or web site on the World Wide Web (WWW), you can set its address on your '%g%l%(scan%)%x', so that other users scanning you can visit and find out more about you.  Users who are using a World Wide Web browser to connect to %@%m will also be able to click on your web site address when viewing your '%g%l%(scan%)%x' and go directly to your web site, e.g:
+
+%[%w%l   %@%m> %w@www me = http://www.wibble.wobble.com/~fbloggs
+   %g%lYour web site address is now set to
+   '%y%lhttp://www.wibble.wobble.com/~fbloggs%g%l'.%]%x
+
+%PAGE
+You can reset your web site address by typing '%g%l%(@www%) me%x'.
+
+You can also set your web site address using the '%g%l%(@profile%)%x' command (See '%g%l%<@profile%>%x'.)  Your web site address is shared between both your '%g%l%(scan%)%x' and '%g%l%(profile%)%x'.
+
+If you set your web site address, you will also be included in the automatically generated %c%lhome pages%x section of %@%m's web site (See '%g%l%<www%>%x'.)
+
+%PAGE
+
+%c%l%$Your E-mail address
+%~%c~~~~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@email%) public|private|<NUMBER> <EMAIL ADDRESS>
+        %(@email%) public|<NUMBER> reset%]%x
+
+%@%m allows you to set upto 5 E-mail addresses.  One of these is private and can only be seen by %c%lyourself%x and %c%ladministrators of %@%m%x.  The other four are public and will appear on your '%g%l%(scan%)%x' if you set them.
+
+You must atleast set your private E-mail address.  Don't worry if you wish to keep your real E-mail address private.  Only yourself and administrators of %@%m will be able to see the address, and it will be kept %r%l%uSTRICTLY PRIVATE AND CONFIDENTIAL%x.  You will need to set your private E-mail address to obtain building privileges on %@%m.
+
+%PAGE
+To set your private E-mail address, simply type '%g%l%(@email%) private <EMAIL ADDRESS>%x' (This will only be seen by you and administrators of %@%m), e.g:
+
+%[%w%l   %@%m> %w@email private fbloggs@wibble.wobble.com
+   %g%lYour private E-mail address (%y%l2%g%l) is now '%y%lfbloggs@wibble.wobble.com%g%l'.%]%x
+
+To set your first public E-mail address, simply type '%g%l%(@email%) public <EMAIL ADDRESS>%x' (This will be seen by anyone scanning you), e.g:
+
+%[%w%l   %@%m> %w@email public fbloggs@anonymous.email.com
+   %g%lYour public E-mail address (%y%l1%g%l) is now '%y%lfbloggs@anonymous.email.com%g%l'.%]%x
+
+To set your other three public E-mail addresses, simply use the numbers %y%l3%x, %y%l4%x or %y%l5%x in place of the words '%y%lpublic%x' or '%y%lprivate%x', i.e:
+
+%[%w%l   %@%m> %w@email 3 fbloggs@email.forward.com
+   %g%lYour public E-mail address (%y%l3%g%l) is now '%y%lfbloggs@email.forward.com%g%l'.%]%x
+
+%PAGE
+
+%c%l%$E-mail forwarding facility
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~
+%xOne benefit you will enjoy from correctly setting you E-mail addresses is the %c%lE-mail forwarding facility%x built into %@%m.  This will be made available to you if you set your private E-mail address.  Your %c%lfirst public E-mail address%x will be used as the forwarding address, unless you set it to the word '%y%lforward%x', which will cause your %c%lprivate E-mail address%x to be used instead, without actually displaying it on your '%g%l%(scan%)%x'.
+
+Your forwarding E-mail address on %@%m will be in the form of '%y%lyour.character.name@%@%f%x'.  Please allow %c%l24 hours%x for this to become active (If you change your E-mail address(es), it will also take upto %c%l24 hours%x for the change to take effect.)  Once active, your forwarding E-mail address will appear in your '%g%l%(scan%)%x' (Scan yourself to see it.)
+
+%PAGE
+Once you have a forwarding E-mail address, other users can send E-mail to this address and it will be redirected to you.  This allows you to receive E-mail anonymously.  %c%lNOTE:  %xIt %r%ldoes not%x allow you to send anonymous E-mail.  If you wish to do this or reply anonymously, you will need to find an anonymous E-mail sending facility on the net/web.
+
+
+%c%l%$Other information which appears on your scan
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%xThere are several other fields which appear on your '%g%l%(scan%)%x', most of which cannot directly be changed.  These are listed on the following page...
+
+%PAGE
+
+%c%l%$Longest connect time:
+%~%c~~~~~~~~~~~~~~~~~~~~~
+%xThis tells you the longest time a user has spent connected to %@%m without logging off.  If you stay connected to %@%m for %c%l8 hours%x or more without disconnecting, you will be shown as a '%y%lSPOD%x' in the user list ('%g%l%(who%)%x'  -  See '%g%l%<who%>%x'.)
+
+The '%g%l%(longspod%)%x' command (See '%g%l%<longspod%>%x') ranks every user in order of their longest connect time, and lists those with the highest amount.  You can type '%g%l%(longspod%) me%x' to see your current ranking in the list.
+
+
+%c%l%$Total time connected:
+%~%c~~~~~~~~~~~~~~~~~~~~~
+%xThis tells you how long in total the user has spent connected to %@%m (Including time spent idle.)  In general, people with a day or more total connect time are regular users who have been around on %@%m for a good amount of time.
+
+%PAGE
+
+%c%l%$Time spent idling:
+%~%c~~~~~~~~~~~~~~~~~~
+%xThis tells you how long in total the user has spent idle (Not doing anything) whilst connected to %@%m.
+
+
+%c%l%$Time spent active:
+%~%c~~~~~~~~~~~~~~~~~~
+%xThis tells you how long in total the user has spent actively connected to %@%m without idling.
+
+The '%g%l%(spod%)%x' command  (See '%g%l%<spod%>%x') ranks every user in order of their time spent active, and lists those with the highest amount.  You can type '%g%l%(spod%) me%x' to see your current ranking in the list.
+
+%PAGE
+
+%c%l%$Last time connected:
+%~%c~~~~~~~~~~~~~~~~~~~~
+%xThis tells you the time and date when the user last connected.  If they aren't currently connected, you will also see how long ago they last connected.
+
+The '%g%l%(lastseen%)%x' command (See '%g%l%<lastseen%>%x') tells you when a user last connected and how long ago it was (For example, '%g%l%(lastseen%) fred bloggs%x' tells you when the user '%y%lFred Bloggs%x' last connected.)
+
+
+%c%l%$Last connected from
+%~%c~~~~~~~~~~~~~~~~~~~
+%xYou will only see this on your own '%g%l%(scan%)%x'.  This tells you the Internet site/address you last connected from.  This will usually consist of some numbers followed by a description.  If there is no description, please contact an administrator, who will be able to add your site to the Internet site database of %@%m and set the correct description for it.
+
+%c%l%8NOTE:  %xOnly administrators can see the Internet site/address you are connecting from.  No other users will be able to see this information.
+
+%PAGE
+
+%c%l%$Total logins:
+%~%c~~~~~~~~~~~~~
+%xThis tells you how many times the user has logged into %@%m, and the average time between each login.  This can be used to determine how regularly they connect.
+
+
+%c%l%$Creation date:
+%~%c~~~~~~~~~~~~~~
+%xThis tells you the time and date when the user first created their character, and how long ago that was.
+
+
+%c%l%$Current location
+%~%c~~~~~~~~~~~~~~~~
+%xThis tells you where a user is currently located (I.e:  '%y%lFred Bloggs's Home%x'.)  If they have their %y%l%(SECRET%)%x flag set (See '%g%l%<secret flag%>%x'), you will not be able to see their current location (Instead, you will see '%y%lHiding in a secret location%x'.)
+<-SEPARATOR->
+Also, '%g%l%+profile%>%x', '%g%l%<scan%>%x', '%g%l%+newbie%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC profile
+%TOPIC profiles
+%TOPIC @profiles
+%TOPIC @?profiles
+%TITLE Tutorial on how to setup and customise your '%w%l%(profile%)%x'.
+Every character has a '%g%l%(scan%)%x' and '%g%l%(profile%)%x' (See '%g%l%<scan%>x' and '%g%l%<profile%>%x'), both of which can provide detailed information about yourself IRL (In Real Life) and your character.
+
+Your '%g%l%(scan%)%x' is used to provide detailed information about your virtual character on %@%m, such as their %c%ldescription%x, %c%lrace%x, %c%llast time of connection%x, %c%lcredits%x, %c%lscore%x, etc.
+
+Likewise, your '%g%l%(profile%)%x' is used to provide detailed information about yourself in real life (IRL), such as your %c%lreal name%x, %c%lhome town/city%x and %c%lcountry%x, %c%linterests%x, etc.  Setting your profile is %y%lOPTIONAL%x.  If you do not wish to provide information about yourself IRL, simply do not set any of the fields on your profile.
+
+%PAGE
+
+%c%l%$Your profile
+%~%c~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(profile%) <NAME> [= secret]%]%x
+
+Your '%g%l%(profile%)%x' is used to provide detailed information about yourself in real life (IRL.)  Setting information on your '%g%l%(profile%)%x' is entirely optional.  If you do not wish to set this information, feel free not to do so.  Here is an example of a typical '%g%l%(profile%)%x':
+
+%PAGE
+
+%{more}%c-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ %xFred Bloggs - Page me if you'd like a chat!
+%c-----------------------------------------------------------------------------
+        %c%lReal name:  %xFrederick Bloggs.
+        %c%lTown/city:  %xLondon.
+          %c%lCountry:  %xEngland.
+      %c%lNationality:  %xBritish.
+       %c%lOccupation:  %xComputer Programmer.
+%c-----------------------------------------------------------------------------
+         %r%lBirthday:  %x28th November 1974.
+              %r%lAge:  %x22.
+              %r%lSex:  %xMale.
+        %r%lSexuality:  %xPlease ask.
+     %r%lStatus (IVL):  %xSingle.
+     %r%lStatus (IRL):  %xEngaged.
+%c-----------------------------------------------------------------------------
+           %y%lHeight:  %x1m 96cm.
+           %y%lWeight:  %x75Kg 100g.
+      %y%lHair colour:  %xBlonde.
+       %y%lEye colour:  %xBrown.
+            %y%lOther:  %xIf you'd like any building help, feel free to page or mail
+                    me.
+%c-----------------------------------------------------------------------------
+          %m%lHobbies:  %xStamp collecting and train spotting :)
+        %m%lInterests:  %xComputer programming and hardware.
+     %m%lAchievements:  %xCompleted building my adventure game on %@%m.
+   %m%lQualifications:  %xDegree in Computing.
+         %m%lComments:  %xSome comments about myself.
+%c-----------------------------------------------------------------------------
+  %b%lFavourite foods:  %xBurgers, kebabs and most other fast food.
+ %b%lFavourite drinks:  %xCoca Cola, Sprite and lots of beer.
+  %b%lFavourite music:  %xChart, dance and house.
+ %b%lFavourite sports:  %xSwimming, badminton, cricket and football.
+            %b%lLikes:  %xChatting, building, pubs, clubs and partying.
+         %b%lDislikes:  %xLag, SPAM, bad weather and traffic jams.
+%c-----------------------------------------------------------------------------
+           %g%lWeb site:  %xhttp://www.wibble.wobble.com/~fbloggs
+      %g%lPicture (URL):  %xhttp://www.wibble.wobble.com/~fbloggs/fbloggs.jpg
+ %g%lE-mail address(es):  %xfred@tcz.net  %c(Public)
+                      %xfred@wibble.wobble.com  %c(Private)
+%c-----------------------------------------------------------------------------
+ %xFor other information about %y%lFred Bloggs%x, type '%g%lscan fred bloggs%x'.
+%c-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-%]%x
+%c
+%PAGE
+There are lots of different fields you can set on your '%g%l%(profile%)%x'.  You %c%ldo not%x need to set them all if you do not wish to do so.  Only set the ones which are relevant to you.  Available fields include the following:
+
+%y%lage             %xYour age (Worked out automatically from your %y%lbirthday%x.)
+%y%lachievements    %xYour achievements.
+%y%lbirthday        %xYour date of birth (%c%lDAY/MONTH/YEAR%x format.)
+%y%lcity            %xThe city/town where you live.
+%y%lcomments        %xAny comments you have about yourself or anything else.
+%y%lcountry         %xThe country where you live.
+%y%ldislikes        %xThe things you dislike.
+%y%ldrinks          %xYour favourite drinks (These don't have to be alcoholic!)
+%y%lemail           %xYour E-mail address(es).
+%y%leyes            %xYour eye colour.
+%y%lfoods           %xYour favourite foods.
+%y%lgender          %xYour gender (%y%lSex%x.)
+%y%lhair            %xYour hair colour.
+%y%lheight          %xYour height (%c%l??m ??cm%x (%m%lMetres%x) or %c%l??' ??"%x (%m%lFeet/inches%x.))
+
+%PAGE
+%y%lhobbies         %xYour hobbies.
+%y%linterests       %xYour interests.
+%y%llikes           %xThe things you like.
+%y%lmiscellaneous   %xMiscellaneous information (Same field as '%y%lother%x'.)
+%y%lmusic           %xYour favourite music.
+%y%lnationality     %xYour nationality.
+%y%loccupation      %xYour current occupation or job.
+%y%lother           %xMiscellaneous information (Same field as '%y%lmiscellaneous%x'.)
+%y%lpicture         %xURL of a picture of yourself on the World Wide Web (%(WWW%).)
+%y%lqualifications  %xYour qualifications.
+%y%lrealname        %xYour real name (In Real Life (IRL.))
+%y%lsex             %xYour gender (Sex.)
+%y%lsexuality       %xYour sexuality.
+%y%lsports          %xYour favourite sports.
+%y%lstatusirl       %xYour marital status IRL (In Real Life.)
+%y%lstatusivl       %xYour marital status IVL (In Virtual Life.)
+%y%lweight          %xYour weight (%c%l??Kg ??g%x (%m%lKilograms%x) or %c%l??lbs ??oz%x (%m%lPounds%x.))
+%y%lwww             %xURL of your home page/web site on the World Wide Web (%(WWW%).)
+
+%PAGE
+
+%c%l%$Age:
+%~%c~~~~
+%xYour age is automatically calculated from the date of birth you set on your '%g%l%(profile%)%x'.  Please see the section on '%y%lBirthday%x' (Further on in this tutorial) for details on how to set your date of birth.
+
+
+%c%l%$Achievements
+%~%c~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) achievements [<ACHIEVEMENTS>]%]%x
+
+This field is your achievements IRL (In Real Life) and/or IVL (In Virtual Life), e.g:
+
+%[%w%l   %@%m> %w%(@profile%) achievements Completed building my adventure game on %@%m
+   %g%lYour achievements are now '%y%lCompleted building my adventure game on %@%m%g%l'.%]%x
+
+You can reset your achievements by typing '%g%l%(@profile%) achievements%x'.
+
+%PAGE
+
+%c%l%$Birthday
+%~%c~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) birthday DAY/MONTH/YEAR%]%x
+
+You can use the '%g%l%(birthday%)%x' option to '%g%l%(@profile%)%x' to set your date of birth.  If you set your date of birth, your age will be automatically calculated and displayed on your '%g%l%(profile%)%x'.  In addition to this, you will be automatically congratulated on your birthday by %@%m!
+
+Your date of birth must be given in %c%lday/month/year%x format, e.g:
+
+%[%w%l   %@%m> %w@profile birthday 28/11/1974
+   %g%lYour birthday is now %y%L28th November 1974%g%l.
+
+   %w%l%@%m> %w@profile birthday 23rd March 1978
+   %g%lYour birthday is now %y%l23rd March 1978%g%l.%]%x
+
+You can reset your date of birth by typing '%g%l%(@profile%) birthday%x'.
+
+%c%l%8NOTE:  %xYour date of birth is %r%lNOT%x a text field.  It can only be set in %c%lDAY/MONTH/YEAR%x format.
+
+%PAGE
+
+%c%l%$City
+%~%c~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) city [<CITY/TOWN>]%]%x
+
+This field is the city or town where you currently live IRL (In Real Life), e.g:
+
+%[%w%l   %@%m> %w@profile city London
+   %g%lYour town/city is now '%y%lLondon%g%l'.%]%x
+
+%xYou can reset the city where you live by typing '%g%l%(@profile%) city%x'.
+
+%PAGE
+
+%c%l%$Comments
+%~%c~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) comments [<COMMENTS>]%]%x
+
+This field is used for any additional comments or information you may wish to give on your '%g%l%(profile%)%x'.  This could be information which doesn't fit into any of the other available profile fields, e.g:
+
+%[%w%l   %@%m> %w@profile comments Some comments about myself.
+   %g%lYour comments are now '%y%lSome comments about myself.%g%l'%]%x
+
+You can reset your comments by typing '%g%l%(@profile%) comments%x'.
+
+%PAGE
+
+%c%l%$Country
+%~%c~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) country [<COUNTRY>]%]%x
+
+This field is the country where you live in real life (IRL), e.g:
+
+%[%w%l   %@%m> %w@profile country England
+   %g%lYour country is now '%y%lEngland%g%l'.%]%x
+
+You can reset your country by typing '%g%l%(@profile%) country%x'.
+
+%PAGE
+
+%c%l%$Dislikes
+%~%c~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) dislikes [<DISLIKES>]%]%x
+
+This field is the things you dislike IRL (In Real Life) and/or IVL (In Virtual Life), e.g:
+
+%[%w%l   %@%m> %w@profile dislikes Lag, SPAM, bad weather and traffic jams
+   %g%lYour dislikes are now '%y%lLag, SPAM, bad weather and traffic jams%g%l'.%]%x
+
+You can reset the things you dislike by typing '%g%l%(@profile%) dislikes%x'.
+
+%PAGE
+
+%c%l%$Drinks
+%~%c~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) drinks [<DRINKS>]%]%x
+
+This field is your favourite drinks (These don't have to be alcoholic!), e.g:
+
+%[%w%l   %@%m> %w@profile drinks Coca Cola, Sprite and lots of beer
+   %g%lYour favourite drinks are now '%y%lCoca Cola, Sprite and lots of beer%g%l'.%]%x
+
+You can reset your favourite drinks by typing '%g%l%(profile%) drinks%x'.
+
+%PAGE
+
+%c%l%$E-mail address(es):
+%~%c~~~~~~~~~~~~~~~~~~~
+%xIf you have set your E-mail address(es), using the '%g%l%(@email%)%x' command (See '%g%l%<@email%>%x'), they will appear on both your '%g%l%(profile%)%x' and '%g%l%(scan%)%x'.  Only yourself and administrators can see your private E-mail address.
+
+For more information on setting your E-mail addresses, please see the '%g%l%(scan%)%x' tutorial ('%g%l%+scan%>%x'.)
+
+%PAGE
+
+%c%l%$Eyes
+%~%c~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) eyes [<EYE COLOUR>]%]%x
+
+This field is the colour of your eyes, e.g:
+
+%[%w%l   %@%m> %w@profile eyes Brown
+   %g%lYour eye colour is now '%y%lBrown%g%l'.%]%x
+
+You can reset your eye colour by typing '%g%l%(@profile%) eyes%x'.
+
+%PAGE
+
+%c%l%$Foods
+%~%c~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) foods [<FOODS>]%]%x
+
+This field is your favourite foods, snacks, sweets, etc., e.g:
+
+%[%w%l   %@%m> %w@profile foods Burgers, kebabs and most other fast food
+   %g%lYour favourite foods are now '%y%lBurgers, kebabs and most other fast food%g%l'.%]%x
+
+You can reset your favourite foods by typing '%g%l%(@profile%) foods%x'.
+%PAGE
+
+%c%l%$Gender
+%~%c~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) gender male|female|neuter
+        %(@profile%) sex male|female|neuter%]%x
+
+This field reflects the gender (Sex) of your character on %@%m.  You can either set your gender using either of the above forms of '%g%l%(@profile%)%x', or by using the '%g%l%(@set%)%x' command (E.g:  '%g%l%(@set%) me = male%x'  -  See '%g%l%<@set%>%x'.)  You should ideally set the gender of your character to your gender IRL (In Real Life), e.g:
+
+%[%w%l   %@%m> %w@profile gender male
+   %g%lYour gender is now %y%lMale%g%l.%]%x
+
+Your gender is shared between both your '%g%l%(profile%)%x' and '%g%l%(scan%)%x'.
+
+%c%l%8NOTE:  %xYour gender is %r%lNOT%x a text field.  It can only be set to either '%y%lmale%x', '%y%lfemale%x' or '%y%lneuter%x'.
+
+%PAGE
+
+%c%l%$Hair
+%~%c~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) hair [<HAIR COLOUR>]%]%x
+
+This field is the colour of your hair, e.g:
+
+%[%w%l   %@%m> %w@profile hair Blonde
+   %g%lYour hair colour is now '%y%lBlonde%g%l'.%]%x
+
+You can reset your hair colour by typing '%g%l%(@profile%) hair%x'.
+
+%PAGE
+
+%c%l%$Height
+%~%c~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) height [<HEIGHT>]%]%x
+
+This field is your height, which can either be in %c%lmetres/centimetres%x or %c%lfeet/inches%x, e.g:
+
+%[   %m%l[Metres/centimetres (Metric)...]
+   %w%l%@%m> %w@profile height 1m 96cm
+   %g%lYour height is now %y%l1m 96cm%g%l.
+
+   %m%l[Feet/inches (Imperial)...]
+   %w%l%@%m> %w@profile height 5' 8"
+   %g%lYour height is now %y%l5' 8"%g%l.%]%x
+
+You can reset your height by typing '%g%l%(@profile%) height%x'.
+
+%c%l%8NOTE:  %xYour height is %r%lNOT%x a text field.  It can only be set to one of the above two formats (Either %c%lmetric%x or %c%limperial%x.)
+
+%PAGE
+
+%c%l%$Hobbies
+%~%c~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) hobbies [<HOBBIES>]%]%x
+
+This field is your hobbies, e.g:
+
+%[%w%l   %@%m> %w@profile hobbies Stamp collecting and train spotting :)
+   %g%lYour hobbies are now '%y%lStamp collecting and train spotting :)%g%l'.%]%x
+
+You can reset your hobbies by typing '%g%l%(@profile%) hobbies%x'.
+
+%PAGE
+
+%c%l%$Interests
+%~%c~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) interests [<INTERESTS>]%]%x
+
+This field is your interests, e.g:
+
+%[%w%l   %@%m> %w@profile interests Computer programming and hardware
+   %g%lYour interests are now '%y%lComputer programming and hardware%g%l'.%]%x
+
+You can reset your interests by typing '%g%l%(@profile%) interests%x'.
+
+%PAGE
+
+%c%l%$Likes
+%~%c~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) likes [<LIKES>]%]%x
+
+This field is the things you like IRL (In Real Life) and/or IVL (In Virtual Life), e.g:
+
+%[%w%l   %@%m> %w@profile likes chatting, building, pubs, clubs and partying
+   %g%lYour likes are now '%y%lChatting, building, pubs, clubs and partying%g%l'.%]%x
+
+You can reset the things you like by typing '%g%l%(@profile%) likes%x'.
+
+%PAGE
+
+%c%l%$Miscellaneous
+%~%c~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) miscellaneous [<DETAILS>]%]%x
+
+This field is for miscellaneous information which does not fit into any of the other '%g%l%(profile%)%x' fields, e.g:
+
+%[%w%l   %@%m> %w@profile miscellaneous If you'd like any building help, feel free
+        to page or mail me.
+   %g%lYour other (Miscellaneous) information is now '%y%lIf you'd like any building
+   help, feel free to page or mail me%g%l'.%]%x
+
+You can reset your miscellaneous information by typing '%g%l%(@profile%) miscellanous%x'.
+
+%PAGE
+
+%c%l%$Music
+%~%c~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) music [<MUSIC>]%]%x
+
+This field is your favourite music or types of music, e.g:
+
+%[%w%l   %@%m> %w@profile music Chart, dance and house
+   %g%lYour favourite music is now '%y%lChart, dance and house%g%l'.%]%x
+
+You can reset your favourite music by typing '%g%l%(@profile%) music%x'.
+
+%PAGE
+
+%c%l%$Nationality
+%~%c~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) nationality [<NATIONALITY>]%]%x
+
+This field is your nationality, e.g:
+
+%[%w%l   %@%m> %w@profile nationality British
+   %g%lYour nationality is now '%y%lBritish%g%l'.%]%x
+
+You can reset your nationality by typing '%g%l%(@profile%) nationality%x'.
+
+%PAGE
+
+%c%l%$Occupation
+%~%c~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) occupation [<OCCUPATION>]%]%x
+
+This field is your current occupation (Job), e.g:
+
+%[%w%l   %@%m> %w@profile occupation Computer Programmer
+   %g%lYour occupation is now '%y%lComputer Programmer%g%l'.
+
+   %w%l%@%m> %w@profile occupation Student
+   %g%lYour occupation is now '%y%lStudent%g%l'.%]%x
+
+You can reset your occupation by typing '%g%l%(@profile%) occupation%x'.
+
+
+%c%l%$Other
+%~%c~~~~~
+%xPlease see earlier section on '%y%lMiscellaneous%x' in ths tutorial.
+
+%PAGE
+
+%c%l%$Picture
+%~%c~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) picture [<ADDRESS>]%]%x
+
+If you have a picture of yourself on the World Wide Web (%(WWW%)), you can set the address of it on your '%g%l%(profile%)%x', so that other users using %@%m's World Wide Web Interface (See '%g%l%<html%>%x') will see your picture when they view your '%g%l%(profile%)%x', e.g:
+
+%[%w%l   %@%m> %w@profile picture http://www.wibble.wobble.com/~fbloggs/fbloggs.jpg
+   %g%lYour picture (URL) is now
+   '%y%lhttp://www.wibble.wobble.com/~fbloggs/fbloggs.jpg%g%l'.%]%x
+
+If you set the URL of your picture, you will also be included in the automatically generated picture gallery section of %@%m's web site (See '%g%lwww%x'.)
+
+You can reset your picture URL by typing '%g%l%(@profile%) picture%x'.
+
+%PAGE
+
+%c%l%$Qualifications
+%~%c~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) qualifications [<QUALIFICATIONS>]%]%x
+
+This field is your qualifications, e.g:
+
+%[%w%l   %@%m> %w@profile qualifications Degree in Computing
+   %g%lYour qualifications are now '%y%lDegree in Computing%g%l'.%]%x
+
+You can reset your qualifications by typing '%g%l%(@profile%) qualifications%x'.
+
+
+%c%l%$Sex
+%~%c~~~
+%xPlease see earlier section on '%y%lGender%x' in this tutorial.
+
+%PAGE
+
+%c%l%$Sexuality
+%~%c~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) sexuality [heterosexual|homosexual|bisexual|asexual]
+        %(@profile%) sexuality [gay|lesbian|transvestite]
+        %(@profile%) sexuality [unsure|ask]%]%x
+
+This field is your sexuality, e.g:
+
+%[%w%l   %@%m> %w@profile sexuality ask
+   %g%lYour sexuality is now %y%lPlease ask%g%l.%]%x
+
+You can reset your sexuality by typing '%g%l%(@profile%) sexuality%]%x'.
+
+%PAGE
+
+%c%l%$Sports
+%~%c~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) sports [<SPORTS>]%]%x
+
+This field is your favourite sports and leisure activities, e.g:
+
+%[%w%l   %@%m> %w@profile sports Swimming, badminton, cricket and football
+   %g%lYour favourite sports are now '%y%lSwimming, badminton, cricket and football%g%l'.%]%x
+
+You can reset your favourite sports by typing '%g%l%(@profile%) sports%x'.
+
+%PAGE
+
+%c%l%$Status IRL (In Real Life)
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) statusirl [single|dating|engaged|married|divorced|widowed]
+        %(@profile%) statusirl [available|unavailable]%]%x
+
+This field reflects you current marital status IRL (In Real Life.)  It can be set to any of the above values, e.g:
+
+%[%w%l   %@%m> %w@profile statusirl engaged
+   %g%lYour status (IRL) is now %y%LEngaged%g%l.%]%x
+
+You can reset your marital status IRL by typing '%g%l%(@profile%) statusirl%x'.
+
+%c%l%8NOTE:  %xYour status (IRL) is %r%lNOT%x a text field.  It can only be set to one of the above values.
+
+%PAGE
+
+%c%l%$Status IVL (In Virtual Life)
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) statusivl [single|dating|engaged|married|divorced|widowed]
+        %(@profile%) statusivl [available|unavailable]%]%x
+
+This field reflects you current marital status IVL (In Virtual Life.)  It can be set to any of the above values, e.g:
+
+%[%w%l   %@%m> %w@profile statusivl single
+   %g%lYour status (IVL) is now %y%LSingle%g%l.%]%x
+
+You can reset your marital status IVL by typing '%g%l%(@profile%) statusivl%x'.
+
+%PAGE
+You can also be virtually engaged and then married to another user on %@%m (If you would like to do this, please get in touch with an administrator, who will make the neccessary arrangements.)  If you do this, your marital status IVL setting will be ignored and replaced by details of the character who you are currently engaged or married to IVL.
+
+%c%l%8NOTE:  %xYour status (IVL) is %r%lNOT%x a text field.  It can only be set to one of the above values.
+
+%PAGE
+
+%c%l%$Realname
+%~%c~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) realname [<NAME>]%]%x
+
+This field is your name IRL (In Real Life), e.g:
+
+%[%w%l   %@%m> %w@profile realname Frederick Bloggs
+   %g%lYour real name is now '%y%lFrederick Bloggs%x'.
+
+You can reset your real name by typing '%g%l%(@profile%) realname%x'.
+
+%PAGE
+
+%c%l%$Weight
+%~%c~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) weight [<WEIGHT>]%]%x
+
+This field is your weight, which can either be in %c%lkilograms/grams%x or %c%lpounds/ounces%x, e.g:
+
+%[   %m%l[Kilograms/grams (Metric)...]
+   %w%l%@%m> %w@profile weight 75Kg 100g
+   %g%lYour weight is now %y%l75Kg 100g%g%l.
+
+   %m%l[Pounds/ounces (Imperial)...]
+   %w%l%@%m> %w@profile weight 158lbs 3oz
+   %g%lYour weight is now %y%l158lbs 3oz%g%l.%]%x
+
+You can reset your weight by typing '%g%l%(@profile%) weight%x'.
+
+%c%l%8NOTE:  %xYour weight is %r%lNOT%x a text field.  It can only be set to one of the above two formats (Either %c%lmetric%x or %c%limperial%x.)
+
+%PAGE
+
+%c%l%~Web site address
+%~%c~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) www [<ADDRESS>]%]%x
+
+If you have your own home page or web site on the World Wide Web (WWW), you can set its address on your '%g%l%(profile%)%x', so that other users scanning you can visit and find out more about you.  Users who are using a World Wide Web browser to connect to %@%m will also be able to click on your web site address when viewing your '%g%l%(profile%)%x' and go directly to your web site, e.g:
+
+%[%w%l   %@%m> %w@profile www http://www.wibble.wobble.com/~fbloggs
+   %g%lYour web site address is now '%y%lhttp://www.wibble.wobble.com/~fbloggs%g%l'.%]%x
+
+If you set your web site address, you will also be included in the automatically generated home pages section of %@%m's web site (See '%g%l%<www%>%x'.)
+
+%PAGE
+You can reset your web site address by typing '%g%l%(@profile%) www%x'.
+
+You can also set your web site address using the '%g%l%(@www%)%x' command (See '%g%l%<@www%>%x'.)
+
+Your web site address is shared between both your '%g%l%(profile%)%x' and '%g%l%(scan%)%x'.
+
+%PAGE
+
+%c%l%$Your title
+%~%c~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(title%) <TITLE>%]%x
+
+In addition to the above fields, which can be set on your '%g%l%(profile%)%x', your title also appears after your name at the top of your '%g%l%(profile%)%x'.  Your title also appears at the top of your '%g%l%(scan%)%x' and in the list of connected users ('%g%l%(who%)%x'  -  See '%g%l%<who%>%x'.)
+
+When you first create a character on %@%m, your title will be set to '%y%lis new to %@%n!%x', so that other users know that you are a new user.  You can change your title using the '%g%l%(title%)%x' command (See '%g%l%(title%)%x'), i.e:
+
+%[%w%l   %@%m> %wtitle - Page me if you'd like a chat!
+   %g%lYour title is now '%y%l- Page me if you'd like a chat!%g%l'.%]%x
+
+You can reset your title by typing '%g%l%(title%)%x'.
+
+%PAGE
+
+%c%l%$Resetting all the fields on your profile
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%c%lUSAGE:  %g%l%(@profile%) reset [yes]%]%x
+
+If you want to wipe all the fields on your '%g%l%(profile%)%x' and start again from scratch, you can do this by typing '%g%l%(@profile%) reset yes%x'.  This will reset %r%l%f%uALL%x information which has been set on your '%g%l%(profile%)%x'.
+
+%m%l%u%9%4IMPORTANT:%x  Once you have reset all the fields on your '%g%l%(profile%)%x', you will not be able to retrieve them again.  Please be absolutely sure before you use '%g%l%(@profile%) reset%x'.
+<-SEPARATOR->
+Also, '%g%l%+editor%>%x', '%g%l%+scan%>%x', '%g%l%<profile%>%x', '%g%l%+newbie%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC edit
+%TOPIC .edit
+%TOPIC editor
+%TOPIC .editor
+%TOPIC lineeditor
+%TOPIC editingflag
+%TOPIC editorusage
+%TOPIC commandeditor
+%TOPIC usingtheeditor
+%TITLE Tutorial on how to use the %@%m Editor
+Sorry, this tutorial is not available yet.
+
+Please see '%g%l%<editor%>%x' for details on how to use the editor.
+<-SEPARATOR->
+Also, '%g%l%+newbie%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC @dig
+%TOPIC rooms
+%TOPIC @room
+%TOPIC locations
+%TOPIC diggingrooms
+%TOPIC buildingrooms
+%TOPIC creatingrooms
+%TITLE Tutorial on %w%lbuilding rooms%x
+
+%m%l%$Creating a room can be done in one simple step:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@dig%) <NAME OF ROOM>%]%x
+
+The new room will be created and you'll then be given the #ID number of it.
+
+%[%c%lExample:  %g%l%(@dig%) Small cosy living room%]%x
+
+
+%m%l%$In order to get to a room you have created:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@tel%) me = <#ID OF THE ROOM>%]%x
+
+This will teleport your character to one of your rooms.
+
+%[%c%lExample:  %g%l%(@tel%) me = #12345%]%x
+
+%PAGE
+
+%m%l%$To see a list of rooms you've created:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@list%) rooms%]%x
+
+This will list all of your rooms, along with their #ID numbers.
+
+
+%m%l%$To make a room your home (Where you will go when you log off):
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@link%) me = <#ID OF THE ROOM>%]%x
+
+This will link your character (Set their home) to one of your rooms.
+
+%[%c%lExample:  %g%l%(@link%) me = #12345%]%x
+
+%PAGE
+
+%m%l%$There are two ways in which you can describe your rooms:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%r%l(1)%[  %b%lType:  %g%l%(@desc%) <#ID OF THE ROOM> = <DESCRIPTION OF THE ROOM>%]%x
+
+     %[%c%lExample:  %g%l%(@desc%) #12345 = This room is small and cosy.  There are several
+               chairs scattered about and a giant stereo system in one corner.%]
+
+%r%l(2)%[  %b%lType:  %g%l%(edit%) <#ID OF THE ROOM>%]%x
+
+     This will take you into the %@%m editor (See '%g%l%<editor%>%x' if you are not familiar with the editor commands.)  Once you are in the editor, you can enter the room's description (If the room already has a description, you can wipe it by typing:  %g%l%(.delete all%)%x)
+
+%PAGE
+
+%m%l%$To change the name of one of your rooms:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@name%) <#ID OF THE ROOM> = <NEW NAME>%]%x
+
+This will change the name of the room.
+
+%[%c%lExample:  %g%l%(@name%) #12345 = Large spacious living room%]%x
+
+
+%m%l%$To destroy a room you no-longer need/want:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@destroy%) <#ID OF THE ROOM>%]%x
+
+This will destroy the room, re-imbursing the Building Quota it was using to you.
+
+%[%c%lExample:  %g%l%(@destroy%) #12345%]%x
+
+%PAGE
+
+%m%l%$The %y%l%$ABODE%m%l%$ flag:
+%~%m~~~~~~~~~~~~~~~~
+%xThe %y%l%(ABODE%)%x flag allows other users easy access to your rooms, by making the #ID visible, it also allows other users to teleport to your rooms easier and to set their home there.
+
+%r%l*  %[%b%lType:  %g%l%(@set%) <#ID OF THE ROOM> = abode%]%x
+
+   This makes it so users can teleport and set their home to the room.
+
+   %[%c%lExample:  %g%l%(@set%) #12345 = abode%]%x
+
+%PAGE
+%[%y%l*  %b%lType:  %g%l%(@set%) <#ID OF THE ROOM> = !abode%]%x
+
+   This makes it so users can't teleport or set their home to the room.
+
+   %[%c%lExample:  %g%l%(@set%) #12345 = !abode%]%x
+<-SEPARATOR->
+Also, see '%g%l%+exits%>%x', '%g%l%<@dig%>%x', '%g%l%<@tel%>%x', '%g%l%<@list%>%x', '%g%l%<@link%>%x', '%g%l%<@desc%>%x', '%g%l%<edit%>%x', '%g%l%<@name%>%x', '%g%l%<@destroy%>%x', '%g%l%<@set%>%x', '%g%l%<abode flag%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC exits
+%TOPIC doors
+%TOPIC @exit
+%TOPIC @open
+%TOPIC doorways
+%TOPIC entrances
+%TOPIC makingexits
+%TOPIC openingexits
+%TOPIC creatingexits
+%TOPIC buildingexits
+%TITLE Tutorial on %w%lbuilding exits%x
+Once you have created several rooms, you may want to link them together, so that you can wander between them easily (You can list the rooms you have created, along with their #ID numbers by typing:  %g%l%(@list%) rooms%x)
+
+
+%m%l%$Opening an exit between two rooms:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%4%r%l*  %xBe sure you are in one of the rooms you want the exit to link.
+
+%4%y%l*  %[%b%lType:  %g%l%(@open%) <NAME OF EXIT>;<SHORT WORD YOU TYPE TO USE IT> =
+          <#ID OF DESTINATION ROOM>%]
+
+   %[%c%lExample:  %g%l%(@open%) Golden Arch;arch = #12345%]%x
+
+             %9%5(The name of your exit is '%y%lGolden Arch%x' and you type '%g%larch%x' to go through it into the room %y%l#12345%x.)
+
+%PAGE
+%4%r%l*  %xNext, go through the exit and repeat the above steps to create an exit leading back in the other direction.
+
+   %[%c%lExample:  %g%larch
+             %(@open%) Golden Arch;arch;out = #54321%]%x
+
+%4%y%l*  %xBe sure to include atleast one exit in each room which includes the word '%y%lout%x', so that users can leave the room easily.
+
+
+%m%l%$To see a list of exits you've created:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@list%) exits%]%x
+
+This will list all of your exits, along with their #ID numbers.
+
+%PAGE
+
+%m%l%$To change the name of one of your exits:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@name%) <#ID OF THE EXIT> = <NEW NAME>%]%x
+
+This will change the name of the exit.
+
+%[%c%lExample:  %g%l%(@name%) #11111 = Heavy oak door;oak%]%x
+
+
+%m%l%$To change the destination room of one of your exits:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@link%) <#ID OF THE EXIT> = <#ID OF DESTINATION ROOM>%]%x
+
+This will change the destination of the exit.
+
+%[%c%lExample:  %g%l%(@link%) #11111 = #22222%]%x
+
+%PAGE
+
+%m%l%$To destroy an exit you no-longer need/want:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@destroy%) <#ID OF THE EXIT>%]%x
+
+This will destroy the exit, re-imbursing the Building Quota it was using.
+
+%[%c%lExample:  %g%l%(@destroy%) #11111%]%x
+
+
+%m%l%$To make an exit so that it can be opened and closed:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@set%) <#ID OF THE EXIT> = openable%]%x
+
+This will make it so that the exit can be opened and closed, using the '%g%l%(open%)%x' and '%g%l%(close%)%x' commands respectively.
+
+%[%c%lExample:  %g%l%(@set%) #11111 = openable%]%x
+
+%PAGE
+
+%m%l%$Exit success, failure and drop messages:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%xYou can add 'life' to you rooms by setting the %c%lsuccess%x, %c%lfailure%x and %c%ldrop%x messages of your exits.  %c%lSuccess%x, %c%lfailure%x and %c%ldrop%x messages are displayed on the screen of the person using the exit and %c%lothers success%x, %c%lothers failure%x and %c%lothers drop%x messages are emoted to other users in the same room.
+
+
+%m%l%$Success/others success:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@succ%) <#ID OF THE EXIT> = <MESSAGE>
+       %(@osucc%) <#ID OF THE EXIT> = <MESSAGE>%]%x
+
+These messages are displayed to the user of the exit (%c%lSuccess%x) and people in the same room (%c%lOthers success%x) when a user goes through the exit.
+
+%[%c%lExamples:  %g%l%(@succ%) #12345 = You have left my first room.
+           %(@osucc%) #12345 = has left my first room.%]%x
+
+%PAGE
+
+%m%l%$Drop/others drop:
+%~%m~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@drop%) <#ID OF THE EXIT> = <MESSAGE>
+       %(@odrop%) <#ID OF THE EXIT> = <MESSAGE>%]%x
+
+These messages are displayed to the user of the exit (%c%lDrop%x) and people in the %y%ldestination room%x (%c%lOthers drop%x) when a user goes through the exit and arrives in its destination room.
+
+%[%c%lExamples:  %g%l%(@drop%) #12345 = Welcome to my second room!
+           %(@odrop%) #12345 = has entered my second room.%]%x
+
+%PAGE
+
+%m%l%$Failure/others failure:
+%~%m~~~~~~~~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@fail%) <#ID OF THE EXIT> = <MESSAGE>
+       %(@ofail%) <#ID OF THE EXIT> = <MESSAGE>%]%x
+
+These messages are displayed to the user of the exit (%c%lFailure%x) and people in the same room (%c%lOthers failure%x) when a user fails to go through the exit (This usually happens if the exit has been locked or is closed.)
+
+%[%c%lExamples:  %g%l%(@fail%) #12345 = The exit appears to be locked shut.
+           %(@ofail%) #12345 = tries to go through the exit, but finds it locked.%]%x
+
+%PAGE
+
+%m%l%$Locking an exit:
+%~%m~~~~~~~~~~~~~~~~
+%[%b%lType:  %g%l%(@lock%) <#ID OF THE EXIT> = *<USER NAME 1>|*<USER NAME 2>|...
+       %(@lock%) <#ID OF THE EXIT> = me%]%x
+
+You can lock an exit so just you and/or other particular users can go through it.  You can use this to prevent other/unauthorised users from entering a room you wish to keep private.
+
+If a user tries to go through an exit which is locked against them, they will trigger its %c%lfailure%x and %c%lothers failure%x messages.
+
+%[%c%lExamples:  %g%l%(@lock%) #12345 = me
+           %(@lock%) #12345 = *Mr Bean|*Monty|*Python%]%x
+<-SEPARATOR->
+Also, '%g%l%+rooms%>%x', '%g%l%<@list%>%x', '%g%l%<@open%>%x', '%g%l%<@name%>%x', '%g%l%<@link%>%x', '%g%l%<@destroy%>%x', '%g%l%<open%>%x', '%g%l%<close%>%x', '%g%l%<lock%>%x', '%g%l%<unlock%>%x', '%g%l%<@set%>%x', '%g%l%<openable flag%>%x', '%g%l%<sticky flag%>%x', '%g%l%<@succ%>%x', '%g%l%<@fail%>%x', '%g%l%<@drop%>%x', '%g%l%<@osucc%>%x', '%g%l%<@ofail%>%x', '%g%l%<@odrop%>%x', '%g%l%<@lock%>%x', '%g%l%<@unlock%>%x', '%g%l%+index%>%x' and '%g%l%<index%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC cvs
+%TOPIC cvsversion
+%TOPIC cvsinformation
+%TITLE Generic Tutorial CVS (Concurrent Version System) Information
+%9%6%m%lCVS Revision: %x%{@?itemno 2 "<UNKNOWN VARIABLE>" "$Revision: 1.1.1.1 $"}
+    %9%6%m%lCVS Date:  %x%{@?realtime {@?datetime {@?itemno 2 "<UNKNOWN VARIABLE>" "$Date: 2004/12/02 17:39:59 $"} = YMD}}
+<-SEPARATOR->
+Also, see '%g%l%<cvs%>%x','%g%l%<tcz%>%x' and '%g%l%<version%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+

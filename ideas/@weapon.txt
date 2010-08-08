@@ -1,0 +1,308 @@
+Prototype for hardcoded weapons:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+combat;fight   Participate in combat system ([COMBAT:  <NAME> has joined the
+               battle.])  -  Cannot surrender until you have been participating
+               for 10 minutes.
+surrender      Surrender and leave the combat system ([COMBAT:  <NAME> has
+               surrendered and left the battle.])  -  Cannot participate in
+               combat system again for 10 minutes.
+
+attributes <OBJECT> [= actual]
+	Displays attributes of character (Battles won, lost, experiences,
+	etc.), weapon (Actions, damage, etc.), armour (Ammo type, quantity,
+        etc.), shield (Protective qualities, etc.)
+
+        With shields, attributes displayed are based on Durability percentage
+        -  If 'actual' is displayed, the actual parameters are shown, rather
+        than current effective (Note about this in the help for attibutes.)
+
+@weapon <NAME> [= <DESCRIPTION>]
+	E.g:  @weapon Shotgun
+
+@ammunition <NAME> [= <DESCRIPTION>]
+	E.g:  @ammunition Box of shells
+
+@shield <NAME> [= <DESCRIPTION>]
+        E.g:  @shield Large leather shield
+              @shield Bullet-proof vest
+
+@item <NAME> [= <DESCRIPTION>]
+	E.g:  @item Health Power-Up
+
+@action <WEAPON> = [!]<ACTION> [[!]<ACTION>] [...]
+        E.g:  @action shotgun = shoot fire
+              Shooting actions for Shotgun(#123 W):  shoot, fire.
+
+@modify <OBJECT> = [<TYPE>] <PARAM> <VALUE>
+	E.g:  @modify shotgun = shoot accuracy 25
+	      @modify ammo = expiry destroy
+              @modify shield = head damage 10%
+
+@reset <OBJECT>
+	Resets delay timer on given weapon (Or if used on character, resets
+        their stun time.)
+
+@zone <WEAPON> = <LOCATION>
+	Set area where weapon may be used (Usage outside this area will fail.)
+
+.attacked	Compound command executed when non-connected Puppet or Being
+                is attacked with a weapon, allowing character to fight back
+                of their own accord (Would be used in adventures for monsters,
+                etc.)  $1 = Attacker ID, $2 = Weapon ID.
+
+
+A Shotgun(#12345 W)    (Weapon:  @weapon)
+~~~~~~~~~~~~~~~~~~~
+A large double barrelled shotgun.
+
+ Succ:  You grab the shotgun.
+Osucc:  grabs the shotgun.
+ Drop:  You drop the shotgun.
+Odrop:  drops the shotgun.
+
+Location:  Some Room(#4332)
+Zone (Usage area):  The Combat Zone(#1234)
+
+ Hand actions:  attack, bash, chop, hit, hack, punch, slash, slice, stun,
+                swing.
+Throw actions:  chuck, hurl, lob, sling, throw.
+Shoot actions:  blast, burn, fire, launch, nuke, shoot, spray, strafe, torch,
+                zap.
+
+                   <----- Damage ------>
+        Accuracy:  Min:    Max:    Stun:  Delay:  Experience:  Score:
+ Hand:  0%         0%      0%      0s     0s      +0.0%        0
+Throw:  0%         0%      0%      0s     0s      +0.0%        0
+Shoot:  45%        10%     30%     0s     0s      +0.1%        100
+
+Ammunition type:  5 (Catridges)  (0 here means weapon doesn't use/need ammunition)
+   Current ammo:  6              (Current amount of ammo left in weapon)
+      Ammo used:  1              (Amount of ammo used per firing)
+  Ammo capacity:  6              (Amount of ammo weapon can hold)
+
+(Stun:   Stun imposed on victim (Victim can't move through exits, attack or
+         be attacked for given amount of time.))
+(Delay:  Delay after use of weapon (Prevents further use for given time.))
+(Experience:  Experience obtained for successful use of weapon.)
+(Score:       Score achieved for successful kill with weapon.)
+(Mortal limits:  Stun <= 60s, Experience <= 0.5% for each category.)
+
+------->
+This weapon may only be used in The Combat Zone.
+This weapon may only be used in the area My Top Area(#12345).
+------->
+
+A box of shells(#54321 a)    (Ammunition:  @ammunition)
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Ammunition type:  1  (Acid)
+                  2  (Arrows)
+                  3  (Bullets)
+                  4  (Chain-Bullets)
+                  5  (Catridges)
+                  6  (Darts)
+                  7  (Shells)
+                  8  (Rockets)
+                  9  (Grenades)
+                  10 (Missiles)
+                  11 (Petroleum)
+                  12 (Plasma)
+                  13 (Plutonium)
+                  14 (Gas)
+                  15 (Cells)
+                  16 (Charges)
+                  17 (Chemical)
+                  18 (Poison)
+                  19 (Poison Gas)
+                  20 (Nerve Gas)
+
+       Quantity:  12          (Quantity of ammo left)
+
+Refill quantity:  12          (Amount to refill with) 
+  Expiry action:  destroy     (Destroy when ammo used up)
+                  re-use      (Refill and send to its home)
+
+NOTE:  Ammo types < 128 are reserved for future development  -  User types of
+       128-255 can be used to develop custom ammunition.
+
+
+Some Armour(#12121 S)    (Shield:  @shield)
+~~~~~~~~~~~~~~~~~~~~~
+Protection:  Repel:  Damage:  Stun:
+      Head:  0%      0%       0%
+      Arms:  0%      15%      5%
+     Hands:  0%      0%       0%
+      Back:  0%      25%      10%
+   Stomach:  0%      30%      12%
+     Groin:  0%      0%       0%
+      Legs:  0%      0%       0%
+      Feet:  0%      0%       0%
+
+Durability:  100.0%  (As this goes down, protection offered by shield also
+                     reduces  -  Once it hits zero, shield is useless and
+                     will either self-destroy or be re-used  -  Durability
+                     reduces by 1 for every hit the shield protects against.)
+
+Maximum durability:  10
+Current durability:  10
+     Expiry action:  destroy|re-use
+
+(Repel:  Makes attacks on body part more likely to fail (Accuracy))
+(Damage:  Reduces damage caused by successful hit to body part.)
+(Critical:  For reference only  -  Tells you which body parts are the most
+            critical to receive a hit on  -  Damage inflicted by weapons is
+            increased by this percentage, then reduced by highest Damage
+            percentage of any shields carried by user.)
+
+
+A Power-Up Item(#1234 I)
+~~~~~~~~~~~~~~~~~~~~~~~~
+Power-up items are used to create objects which when picked up will increase
+or even decrease an attribute (Or several attributes) of a character.  The
+object is either destroyed, or sent to its home.  Power-ups should be carefully
+setup so that they cannot be used to cheat with.  They should be hard to find,
+placed randomly and destroyed or teleported out of the combat area
+(for relocation) on usage.  They should also be kept out of the combat area
+for a given amount of time to prevent repetitive use.
+
+Location:  My Area(#43221)
+Zone (Usage area):  The Combat Zone(#1234)
+
+               Increase:  Maximum:   {MAX FOR MORTALS}
+Hand-to-hand:  +0.0%      100.0%     {0.5}
+    Throwing:  +0.0%      100.0%     {0.5}
+    Shooting:  +0.0%      100.0%     {0.5}
+      Health:  +0.0%      100.0%     {100%}
+       Score:  +0         N/A        {0}
+        Stun:  +0s        N/A        {60s}
+
+        Delay:  5 minutes.  {Minimum delay for items (Deity+ can set to less)}
+Expiry action:  destroy|re-use
+
+(Increase:  Increase item gives to each attribute.)
+(Maximum:  Maximum value item will allow increase to (Admin can set >100%))
+(Delay:  Usage delay - Should be set to high value to prevent repetitive use.)
+(Stun:  This is only decreased/increased if characters health is > 0%  -  0%
+        indicates character is 'dead', with stun being used to time death
+        time.)
+
+
+ JC Digita's combat attributes...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+           Critical:  Protection:                           [DEAD]  [STUNNED]
+-------------------------------------------------------------------------------
+    Head:  25%        14.0%          Hand-to-hand:  10.1%
+    Arms:  10%        15.0%              Throwing:  5.3%
+   Hands:  0%         0.0%               Shooting:  24.6%
+    Back:  20%        25.0%                Health:  56.2%
+ Stomach:  20%        30.0%
+   Groin:  15%        0.0%            Battles won:  12
+    Legs:  10%        0.0%           Battles lost:  4
+    Feet:  5%         5.0%            Performance:  75.0%
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+@action
+~~~~~~~
+USAGE:  @action <WEAPON> = [!]<ACTION> [[!]<ACTION>] [...]
+
+ Hand actions:  attack, bash, chop, hit, hack, punch, slash, slice, stun,
+                swing.
+Throw actions:  chuck, hurl, lob, sling, throw.
+Shoot actions:  blast, burn, fire, launch, nuke, shoot, spray, strafe, torch,
+                zap
+
+
+For weapons:
+~~~~~~~~~~~~
+@modify <WEAPON> = hand|throw|shoot
+                   accuracy|min|max|stun|delay|experience|score <VALUE>
+@modify <WEAPON> = ammo type|current|used|capacity <VALUE>
+
+
+For ammunition:
+~~~~~~~~~~~~~~~
+@modify <AMMO> = ammo type|quantity|refill <VALUE>
+@modify <AMMO> = expiry destroy|reuse
+
+
+For shields:
+~~~~~~~~~~~~
+@modify <SHIELD> = head|arms|hands|back|stomach|groin|legs|feet
+                   repel|damage|stun <VALUE>
+@modify <SHIELD> = durability maximum|current <VALUE>
+@modify <SHIELD> = expiry destroy|reuse
+
+
+For items:
+~~~~~~~~~~
+@modify <NAME> = increase|maximum hand|throw|shoot|health|stun <VALUE>
+
+
+For characters:
+~~~~~~~~~~~~~~~
+@modify <NAME> = hand|throw|shoot|health|stun <VALUE>
+
+
+Special weapon compound commands (Attached to weapon)...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.hit     Executed by victim after successfully hitting them with weapon.
+.miss    Executed by victim after failing to hit them with weapon.
+.kill    Executed by victim after being killed by weapon.
+.ammo    Executed by user after attempting to fire a weapon with no ammo left.
+.reload  Executed by user after successful reload of weapon.
+
+
+Examples...
+~~~~~~~~~~~
+TCZ> shoot wibble
+You aim the pistol at Wibble and fire, but miss.
+Wibble swings a baseball bat at you, hitting you in the shoulder.
+
+TCZ> shoot wibble
+Sorry, the pistol is out of ammunition.
+
+TCZ> reload pistol with clip
+You reload the pistol with the clip of bullets.
+
+JC Digita aims a shotgun at Wibble and fires, hitting him in the stomach.
+Wibble throws a Poison dart at JC Digita, but misses.
+
+TCZ> slice jc digita with sword
+You slice JC Digita with the large sword in the leg.
+JC Digita launches a mini rocket at you, hitting you in the groin.
+You scream in agony as your body is torn apart and scattered all over the
+  surrounding area.
+JC Digita has killed you.
+
+
+[WARNING]  You are getting low on health (25%)
+
+OTHER NOTES:  Weapons in #4 can be used by anyone in any combat location, e.g:
+              fists (I.e:  'hit <NAME> with fists')
+
+              Can't fight or be fought for two minutes after being killed.
+
+              Can only fight in rooms which aren't set HAVEN.
+
+              Can only fight and be attacked if your COMBAT flag is set and
+              you are not in a public area.
+
+              Can only hold a maximum of two hand-to-hand/shootable weapons  -
+              No limit on throwable (Except mass you can hold.)
+
+              Weapons can only be used if held, in the same room or located in
+              #4.
+
+              After being killed, you remain 'dead' (With 0% health) for 2
+              minutes.
+
+              Expiry action always set to 'destroy' by default for inherited
+              weapon that's @duplicated.
+
+              Weapons/ammo/shields can inherit all of their attributes:
+			@parent <WEAPON> = <OBJECT>
+			@modify <WEAPON> = inherit
+                        @action <WEAPON> = inherit (For weapons)
+
+			Alternatively, individual attributes may be inherited
+                        by giving 'inherit' for <VALUE>.

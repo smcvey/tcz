@@ -1,0 +1,64 @@
+USAGE:  @field [delete] <NUMBER>:<ARRAY> [= <NAME>]
+
+Allows the elements of a dynamic array to be split into one or more
+individually named fields, allowing you to create your own custom data
+structures (Or 'records'.)  If the elements are split up into more than
+one field, the cost (In Building Quota) of each element will be the number
+of fields per element, e.g:  If you have two fields, each element will cost
+you 2 Building Quota instead of 1.
+
+<NUMBER> is the field number (Mortals may have upto 50 fields per dynamic
+array) to set the name of (Or change the name of, if the field already exists.)
+<NAME> is the name to give the field, which must not exceed 25 characters in
+length and may only consist of alphanumeric text ('a'-'z', 'A'-'Z', '0'-'9'),
+'-' and '_'.  If <NAME> is omitted, the field will be unnamed, and you will
+only be able to reference it by its number.
+
+If the parameter 'delete' is specified, the field will be removed from
+the ENTIRE dynamic array (Resulting in the loss of any data stored in
+that field of the dynamic array's elements.)
+
+A dynamic array with fields is referenced as follows:
+<ARRAY>[<ELEMENT>].<FIELD>, where <ARRAY> is the name (Or #ID) of the dynamic
+array, <ELEMENT> is the element number/index name (Or a range of elements) and
+<FIELD> is the field name or number, e.g:  '@desc myarray[1].myfield = Some
+text', '@echo $(myarray[1].myfield)', '@echo $(myarray[1].1)', etc.  If <FIELD>
+is not specified, the first field of the dynamic array will be assumed.
+
+-------------->
+
+TCZ> ex myarray
+
+Myarray[3](#1234 D)
+~~~~~~~~~~~~~~~~~~~
+Owner:  JC Digita(#1 Ply);  Building Quota used:  12.
+Flags:  None.
+ Size:  120 bytes.
+
+Fields (4):
+~~~~~~~~~~~
+000:1234567890123456789012345  000:1234567890123456789012345
+  1:Name                         2:Address
+  3:Telephone                    4:<UNNAMED>
+
+Elements (3):
+~~~~~~~~~~~~~
+[1]  Name:  Wibble
+     Address:  Wibbleland
+     Telephone:  0891 232323
+     (4):  Testing
+[2]  Name:  Somebody
+     Address:  Wibble House, 25 Wibbly Wobbly Road, Wibble Town, Wibble County,
+     WI8 8LE, Wibbleland
+     Telephone:  01234 123482
+     (4):  Hmmm
+[3]  Name:  Fred Bloggs
+     Address:  1 Something Road, Some Town.
+     Telephone:  123482
+     (4):  Something or other
+
+{In above, field names/numbers are displayed in yellow underlined text.}
+{Above info only displayed on 'examine' - 'look' produces list of elements
+ only.}
+{Support in @sort to sort the elements of the array by the contents of a
+ given field}

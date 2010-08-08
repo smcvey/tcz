@@ -1,0 +1,58 @@
+@field list <ARRAY>
+
+   List fields defined for <ARRAY>.
+
+@field add <ARRAY> = <FIELD>
+
+   Add new field with given name.  Upto 256 fields can be defined, each upto
+   20 chars in length.
+
+@field delete <ARRAY> = <FIELD>
+
+   Delete field with given name.  Removes field from all elements.
+
+@field rename <ARRAY> = <OLD FIELD> = <NEW FIELD>
+
+   Renames field <OLD FIELD> to <NEW FIELD>.
+
+Handling:
+
+  @desc array[element].field [= <DESCRIPTION>]
+  {@?desc array[element].field}
+
+Example:
+
+  @array test
+  @field add test = Name
+  @field add test = Rank
+  @desc test[1].name = Wibble
+  @desc test[1].rank = User
+
+/* ---->  Extra data for a dynamic array  <---- */
+struct db_array_data
+{
+       struct array_element *start;      /*  Pointer to first element   */
+       struct array_field_data *fields;  /*  Pointer to defined fields  */
+       u_long size;                      /*  Current size in KB         */
+};
+
+
+struct array_element_data
+{
+       struct array_element_data *next;   /*  Next element  */
+       struct array_element_data *left;   /*  Left element in binary tree  */
+       struct array_element_data *right;  /*  Left element in binary tree  */
+       struct array_field_data *fields;   /*  Pointer to set fields for element  */
+       char   *index;                     /*  Index name  */
+       char   *text;                      /*  Text (Description)  */
+}
+
+
+NOTE:  For each element, fields pointer contains linked list of fields which
+       are set.
+
+       Quota usage of array is worked out as size of array in Kb (Or 1, if
+       less than 1Kb in size.)
+
+       All elements have the field 'description', which points to text of
+       element.

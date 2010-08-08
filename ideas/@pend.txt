@@ -1,0 +1,136 @@
+USAGE:  @pend <COMMAND> [= <TIME> [= <MAX TIME>]]
+
+'@pend' implements a system of virtual multitasking, which allows the coding
+of complex compound commands which exceed the usual 3 second execution time
+limit.
+
+This is acheived by splitting the compound command up into several small 
+segments, each of which will not exceed the usual execution time limit.
+These units are executed one after another in a time-separated loop until
+the compound command is complete.
+
+This method has been employed by years by Admin., using an alarm to achieve
+the above effect to run long processing jobs.  The example below illustrates
+a simple multitasking loop using '@pend'...
+
+   @command multitask.loop = @temp $(loop) = \{@eval $(loop) + 1}
+                             @echo Multitask loop number:  $(loop)\
+                             @if \{@eval $(loop) < 10} then @pend \{@?myself}
+
+   @command multitask = @echo Multitask Example\
+                        @temp loop = 0\
+                        @pend multitask.loop
+
+   @set multitask = pend
+   @set multitask.loop = pend
+   multitask
+
+To use '@pend', all the relevant compound commands must have their PEND flag
+set.  A compound command without it's PEND flag cannot use the '@pend'
+command and cannot be pended by '@pend'.
+
+Only temporary variables are preserved between pended commands.  They can be
+used to store values for the duration of the multitasking compound commands.
+For example, a loop counter (As in the above example), $1, $2, $3, etc. can
+be stored in temporary variables, so their values are not lost.
+
+Pended compound commands do not support nesting.  A pended compound command
+will not be queued for execution until the compound command(s) where the
+'@pend' is issued have completed executing.
+
+Mortals may only execute one multitasking compound command at a time.  If
+you wish to stop its execution before it's finished, you can do this using
+the '@kill' command.
+
+<TIME> is the optional time before the pended compound command is executed.
+This can be anything upto 1 hour (Only Admin. can specify a time greater than
+this.)  If <TIME> is not specified, the pended compound command will be
+executed at the next available opportunity.
+
+There is no minimum limit for <TIME>.  However, the pended compound command
+will be delayed by atleast 1 complete cycle of processing user commands and
+system events.  Execution time of the calling compound command is also
+taken into account, delaying execution of the pending compound command
+by the appropriate amount of time.
+
+{CODING NOTE:  Take user's next execution time into account when processing
+               event.  Event also has last execution time stored to delay
+               repeat pend's.  Whichever is greater is used for delaying
+               execution.}
+
+<MAX TIME> is the maximum (Total) execution time for the pended compound
+command(s).  By default, this is 1 minute, but can be increased upto a
+maximum of 1 hour (Only Admin. can specify a time greater than this.)
+
+When executed, the pended compound command will be executed by the character
+who involked '@pend' under the irreversible ID (*) of the pended compound
+command's owner.
+
+(*)  If compound command is Admin. owned or set WIZARD, the ID is NOT
+     irreversible ('@unchpid' can be used to reverse it as normal.)
+
+NOTE:  It's possible that the user could move before the pended compound
+       command is executed.  If this will effect your compound command
+       adversely, you should store the user's location in a temporary
+       variable and check it at the beginning of the pended compound
+       command.
+
+       You should also be aware that more than one user may execute
+       the compound command simultaneously.  For this reason, it's
+       best to use temporary variables for storage, because these
+       are unique to each user.  Conflicts may occur if permanent
+       storage is used (Shared between all users.)
+
+       The SINGLE flag can be set on a compound command to prevent
+       more than one user executing it simultaneously.  This is
+       recommended if the compound command relies on permanent storage
+       and adverse conflicts could occur if more than one user is
+       executing it simultaneously.
+
+       Currently executing pending compound commands will not survive TCZ
+       server shutdown or a crash.  In the event of normal (Controlled)
+       shutdown ('@shutdown'), the kill compound command of each pending
+       compound command will be executed (If set, using '@kill'.)  In an
+       emergency shutdown or crash, the kill compound command will not be
+       executed.
+
+
+USAGE:  @kill <NUMBER> [= <COMMAND>]
+
+'@kill' is used to stop a pended multitasking compound command.  This is
+extremely useful for Mortals, who can only execute one multitasking
+compound command at a time, and may wish to stop a compound command
+before it has finished executing, or if it has gone wrong and you wish
+to stop it.
+
+In order to do this, you must first find out it's unique ID number (This is
+NOT it's database #ID number!)  To do this, simply type '@ps' (This lists the 
+multitasking compound command(s) you have executing.  Once you have it's
+ID (Far left column of '@ps'), you can simply type '@kill' followed by
+the ID to kill it.
+
+NOTE:  If you have built multitasking compound commands using '@pend', these
+       will also appear in the list if other users (Or yourself) are
+       executing them.  You can kill any of these using the '@kill'
+       command.
+
+Admin. can see all pending multitasking compound commands using '@ps'.  If
+<USER> is specified, pending multitasking compound commands which are owned
+by or currently being executed by that user will only be listed.
+
+If <COMMAND> is specified, '@kill' will not stop the multitasking compound
+command.  Instead, it will set a compound command to execute if the
+multitasking compound command is killed.  This allows the compound
+command to stop in a user controlled manner.
+
+
+USAGE:  @ps [page <NUMBER>] [= <USER>]
+
+ ID:    User:        Pend Cmd:    Kill Cmd:    Next:    Total:   Max:
+ 12345  #1234567890  #1234567890  #1234567890  ##m ##s  ##m ##s  ##h ##m
+
+* Shows #ID if write permission, otherwise truncated name.
+
+Next = Next time
+Total = Total time
+Max = Max time.

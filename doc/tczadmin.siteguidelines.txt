@@ -1,0 +1,128 @@
+ 			        _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   | 
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                  R U L E S    F O R    R E G I S T E R I N G  
+                         I N T E R N E T     S I T E S
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+  (1)   All site-names, towns, cities, states, provinces, territories and 
+	countries should be capitalised where neccessary (e.g. 'Pennsylvania', 
+	not 'pennsylvania'). Words such as 'of' and 'and' should not be 
+	capitalised, of course.
+
+  (2)   Abbreviations should never be used in site-names, towns, cities, 
+	states, provinces and territories (e.g. 'British Columbia' not 'BC'). 
+	Abbreviations - such as 'USA' - may be used for countries, but please 
+	keep this to a minimum.
+
+  (3)   Do not forget to include 'The' as the first word of a site-name, where
+	appropiate.
+
+  (4)	When entering the description for a site, it should contain the 
+	following items of information:
+
+	    i. Name of Internet Provider, University, Company or BBS.
+	   ii. Town or city that the site is located in.
+	  iii. State (if in the USA or Australia), Province (if in Canada) or 
+	       Territory (if in Australia) that the site is located in.
+	  iii. Country that the site is located in.
+
+  (5)   Where the site is an internet provider, please add '(Internet 
+	Provider)' after its name.
+	
+	For example... 
+	
+	NETAXS (Internet Provider), Philadelphia, Pennsylvania, USA.
+
+  (6)   Where the site-name includes its town/city, it can be left out in the 
+	appropiate part of the site description (i.e. if the site-name includes
+        the city that it is in - particularly true for universities - just 
+	state the site-name, state/province/territory (if in the USA, Canada or
+	Australia) and country).
+	As far as universities are concerned, those with their location 
+	included in the site-name should have their site-name in the form of
+	'The University of <LOCATION>'
+
+	For example...
+
+	The University of Leeds, England.
+
+  (7)   In a site's description, where the state/province/territory name is 
+	the same as the city name, add the word 'City' after the city's name.
+
+	For example...
+
+	Maestro (Internet Provider), New York City, New York, USA.
+
+  (8)   Internet sites are divided (for TCZ's purposes) into three classes:
+	A, B and C. These classes are defined as follows (where 'n' is a 
+	number forming part of an IP address)...
+
+            i. Class A - n.n.n.n - the site only has one or two IP addresses
+	       allocated to it. Most BBSs would normally be registered in this
+	       class, as would single-site companies.
+
+	   ii. Class B - n.n.n.* - the '*' has its usual wildcard meaning. This
+	       is the class that most internet sites would be registered 
+ 	       under. Each entry describes 256 IP addresses, so be careful
+	       when you add a Class B site to the database (i.e. it may 
+	       actually be a Class A site). Nearly all universities are Class
+	       B sites, many having multiple entries. This is also true for
+	       Internet Providers.
+
+	  iii. Class C - n.n.*.* - the '*' has its usual wildcard meaning. This
+	       is the class reserved for very large internet providers, and
+	       multi-national companies with internet links. Each entry 
+	       describes 65536 IP addresses, so be VERY careful when adding 
+	       entries of this class (instead of needing a Class C entry, a 
+	       site may only need four or five Class B entries). Only add 
+	       Class C sites when you are ABSOLUTLEY sure that the site is 
+	       not merely one that needs multiple Class B entries.
+
+  (9)   Internet providers rarely cover just one location, so only small 
+	providers will have a town/city in their description. Some may be
+	state-/province-/territory-wide - and some may be nationwide. In these 
+	cases, only state the state/province/territory/country that it covers 
+	(i.e. when asking a character for their site-name, find out how big 
+	their provider is, and how big an area it covers)...
+
+	    i. If the provider covers more than one town/city, do not include
+	       the town/city in the site description.
+
+	   ii. If the provider covers more than one state/province/territory 
+	       (if in the USA, Canada or Australia), do not include the state/
+	       province/territory in the site description.
+
+	  iii. If the provider covers more than one country, only include the
+	       country where the provider is based. Remember that many global
+	       providers, such as 'The IBM Global Network' have a Class B
+	       entry for each country that they cover.
+
+	For example...
+
+	Demon Internet (Internet Provider), England.
+	Infinet (Internet Provider), Ohio, USA.
+	   
+-------------------------------------------------------------------------------
+   For further info, type 'help @site' in TCZ, or read the Official Manual.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+

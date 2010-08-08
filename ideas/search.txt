@@ -1,0 +1,41 @@
+MATCH_CHARACTER		1	Character's possessions
+MATCH_ROOM		2	Room's contents
+MATCH_AREA		3	Commands in area
+MATCH_GLOBAL_COMMANDS	4       Global commands
+MATCH_GLOBAL_WEAPONS    5       Global weapons
+
+match_object(player,object,match_flags,start_phase,max_phase,restartable);
+free_match_data()  (Free match data after restartable search)
+push_match()
+pop_match()
+
+match_stack
+ |- match_data
+ |- match_data
+ `- match_data -> sub_match_data -> sub_match_data
+
+PHASE 1:
+	Character's possessions
+		EXITS
+		COMMANDS
+		CONTENTS
+		   Things = Commands, Things, Weapons, Shields, Items and Ammo
+                            (Recurse if open.)
+		   Weapons, Shields, Items and Ammo = Commands.
+		VARIABLES
+		FUSES
+	Room's contents
+                EXITS
+                COMMANDS
+                CONTENTS
+		   Things = Commands, Things, Weapons, Shields, Items and Ammo
+                            (Recurse if open.)
+		   Weapons, Shields, Items and Ammo = Commands.
+		VARIABLES
+		FUSES
+	Area's compound commands
+		COMMANDS
+	Global compound commands
+		COMMANDS
+	Global weapons
+		CONTENTS (Weapons)

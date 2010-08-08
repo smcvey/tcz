@@ -1,0 +1,58 @@
+Hardcoded mailing system commands...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TCZ>  help mail commands
+
+Morons, puppets and beings can't send/receive mail.
+Mail limit = 0 bans char from sending/receiving mail.
+Mail sent to 'admin' will not go to Admin chars who's mail redirect is set to
+   another Admin.
+No use of mail sending commands within @with/@for/@while/@dolist
+
+Sending mail to user with full mailbox gives user receiving a warning if they
+are connected, along with subject and message of mail.  If forwarding mail,
+no subject or message is given.
+
+#1 cmds:
+
+*mail read <NAME> = [page] <NUMBER>
+ mail review <NAME> = [page <NUMBER>]
+
+Mail redirect:  'mail redirect <NAME>'  -  Redirects mail to <NAME>, giving
+                them a warning message you're doing so (Perhaps a warning via
+                mail if they aren't connected)  -  Mail can't be redirected to
+                !MAIL friends.  If <NAME> has their redirect set to you,
+                'mail redirect <NAME>' stops the redirect.
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ The Chatting Zone Mail System Commands...
+-------------------------------------------------------------------------------
+*mail                                    List mail in your mail box.
+*mail [view] [page <NUMBER>]             List mail on page <NUMBER>.
+*mail read [=] <NUMBER>                  Read item of mail <NUMBER>.
+*mail [send] <NAME>=<SUBJECT> [= <MSG>]  Send mail to <NAME>.
+*mail reply <NUMBER> [= <MESSAGE>]       Reply to item of mail <NUMBER>.
+ mail delete [=] [<NUMBER>|all]          Delete item of mail <NUMBER>.
+ mail purge [<NUMBER>|all] = yes         Unconditionally delete item <NUMBER>.
+ mail undelete                           Undelete last deleted item of mail.
+ mail stop <NAME1> [= <NAME2>]           Stop (Deletes) last mail you sent to
+                                         <NAME1> (Providing it's unread) and
+                                         optionally re-send it to <NAME2>.
+*mail update [<NAME>]                    Display brief summary of your mail.
+ mail review [<NAME> =] [page <NUMBER>]  List who you've sent mail to.
+*mail forward <NUMBER> [=] <NAME>        Forward item of mail to <NAME>.
+ mail identify [=] <NUMBER>              Identify who sent mail <NUMBER> to
+                                         you, including their current name.
+ mail redirect [=] <NAME>                Redirect incoming mail to <NAME>.
+*mail keep [=] <NUMBER>                  Keep item of mail twice as long.
+*mail limit <NAME> [= <LIMIT>]           View/set <NAME>'s mailbox limit.
+-------------------------------------------------------------------------------
+ Also, see 'help mail'.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+{LIMIT VALS:  50 for Apps, 100 for Wiz's, 255 for Elders+.}
+
+TCZ> mail redirect wibble
+Mail sent to Mr Wibble will no-longer be redirected to you.
+TCZ> mail redirect test
+All further mail sent to you will be redirected to JC Digita's Test Character.
+Type 'mail redirect' to stop your mail from being redirected.

@@ -1,0 +1,182 @@
+New TCZ Export/Import Prototype (01/06/2000)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+USAGE:  @export <OBJECTS> [= <FILENAME>]
+
+Exports one or more objects in a portable format (ASCII text file), which can be imported
+into any TCZ-based MUD.
+
+Before using '@export', you will need to use a Telnet/MUD client which supports recording
+output.  Alternatively, if you use the World Wide Web Interface, you will be presented with
+a link that will directly download the resulting text-file to your computer when you click
+on it.
+
+Deities and the Supreme Being can specify a <FILENAME>, which will write the exported file
+to 'export/filename.tcz' on the server machine which TCZ is running on.
+
+
+<OBJECTS> specified what to export, which can be one or more of the following:
+
+#ID              A single object with the specified #ID.
+#ID+             As above, but also including all objects located within #ID.
+#ID++            As above, but also including all objects which #ID and objects within
+                 link to (For example, '@csucc'/'@cfail' links of compound commands.)
+#ID1-#ID2[+][+]  Range of objects between #ID1 and #ID2 (Inclusive)  -  '+' or '++' can
+                 be used to include objects located within objects in the range specified
+                 (As detailed above.)
+<TYPE>           Include objects of the specified type only ('all' for all object types.)
+*<NAME>          All objects owned by the character <NAME>.
+
+Any of the above can be EXCLUDED by prefixing with '!', e.g:  !#ID to exclude an the object
+#ID, !<TYPE> to exclude an object of type <TYPE>, etc.
+
+-------------------------------------------------------------------------------------------
+
+USAGE:  @import <OBJECTS> [= <DEFAULT OWNER> [= <FILENAME>]]
+
+Imports objects from a file generated using '@export'.
+
+If you are using the World Wide Web Interface, you will be given a file selection box to
+choose the text file from which you wish to import (From your own computer.)  Otherwise,
+you will be placed in an interactive mode into which you will need to cut and paste the
+contents of the file (Once finished, type '.exit' to exit this mode), e.g:
+
+
+TCZ> @import all = me
+
+Import ready to receive new objects.  Please cut and paste a file generated using '@export'
+now or type '.abort' to abort.  Once you have finished pasting the file, type '.exit'.
+
+IMPORT>
+
+[PASTE FILE HERE]
+
+.exit
+
+
+<OBJECTS> specified what to import, which can be one or more of the following:
+
+#ID              A single object with the specified #ID.
+#ID+             As above, but also including all objects located within #ID.
+#ID++            As above, but also including all objects which #ID and objects within
+                 link to (For example, '@csucc'/'@cfail' links of compound commands.)
+#ID1-#ID2[+][+]  Range of objects between #ID1 and #ID2 (Inclusive)  -  '+' or '++' can
+                 be used to include objects located within objects in the range specified
+                 (As detailed above.)
+<TYPE>           Include objects of the specified type only ('all' for all object types.)
+*<NAME>          All objects owned by the character <NAME>.
+ALL              All objects.
+
+Any of the above can be EXCLUDED by prefixing with '!', e.g:  !#ID to exclude an the object
+#ID, !<TYPE> to exclude an object of type <TYPE>, etc.
+
+<DEFAULT OWNER> is the name of a character who will take over ownership of any imported objects for which the original owner cannot be set (I.e:  They do not exist or you do not have permission to write to them/their objects.)  Unless you are a Wizard/Druid or above,
+this will in most cases be 'me'.  If <DEFAULT OWNER> is not specified, 'me' is assumed.
+
+Where possible, the original #ID numbers of imported objects will be used, providing they are still available.  Otherwise, a new unused #ID will be assigned.
+
+
+Database Import Options
+~~~~~~~~~~~~~~~~~~~~~~~
+DBOwner         Change ownership of ALL imported objects to <DEFAULT OWNER>.
+DBNew           Assign new #ID numbers to ALL imported objects (Do not try to use original
+                #ID, even if it is available.)
+DBOverwrite     Imported objects will overwrite existing objects owned by <DEFAULT OWNER>
+                (Useful for backup/restore of own objects or off-line editing.)
+DBNoOverwrite   Imported objects with same #ID as an existing object in the database will
+                not be imported.
+DBExpand        Allow database expansion to accommodate new objects with #ID higher than
+                current size of database (Elder+ only.)
+DBOverwriteAll  Imported objects will overwrite existing objects with same #ID, regardless
+                of owner (Deity+ only.)
+DBOriginal      Import objects maintaining original #ID numbers, even if this means
+                overwriting an existing object or expanding the database (Deity+ only.)
+
+
+Export File Format:
+~~~~~~~~~~~~~~~~~~~
+; = Comments for development purpose only - Wouldn't be included in file.
+
+NOTE:  < used within the text of a field MUST be protected with \, e.g: 
+           <NAME>\<Example></NAME>
+
+       \\ must be used for a \, e.g:  <NAME>This is a backslash: \\</NAME>
+
+       Indentation is automatically used to make file more readable, but is not
+       neccessary.  Text within fields MUST NOT be indented, for example when
+       it is multiple lines of text.)
+
+<EXPORT>                                ; Indicates start of formatted export file
+<NAME>filename.txt</NAME>
+<DESCRIPTION>TCZ Export File</DESCRIPTION>
+<FORMAT>1</FORMAT>                      ; Export file format version
+<CREATED>
+ <EPOCH>123546</EPOCH>                  ; Time in EPOCH format
+ <DATE>DD/MM/YY</DATE>                  ; Time in DD/MM/YYYY
+ <TIME>HH:MM:SS</TIME>                  ; Time in HH:MM:SS
+</CREATED>
+<SERVER>
+ <NAME>The Chatting Zone</NAME>         ; Name of MUD created from
+ <SHORTNAME>TCZ</SHORTNAME>             ; Short name of MUD created from
+ <VERSION>4.3.0</VERSION>               ; TCZ source code version
+ <CODEBASE>Original</CODEBASE>          ; TCZ source code code base
+ <IP>127.0.0.1</IP>                     ; IP address of server
+ <DNS>tcz.net</DNS>                     ; DNS address of server
+ <TELNET>8342</TELNET>                  ; Telnet port
+ <HTML>8343</HTML>                      ; HTML port
+ <WEBSITE>www.tcz.net</WEBSITE>         ; Web Site
+ <EMAIL>tczadmin@tcz.net</EMAIL>        ; Admin E-mail
+</SERVER>
+<OWNER><ID>#54321</ID><NAME>Name of character who did '@export'</NAME></OWNER>
+<DATABASE>
+ <LOWEST>#123</LOWEST>                  ; Lowest #ID in database
+ <HIGHEST>#9999</HIGHEST>               ; Highest #ID in database
+ <TOTAL>5555</TOTAL>                    ; Total objects in database
+ <SIZE>10000</SIZE>                     ; Database size (Inc. free objects.)
+</DATABASE>
+
+<OBJECT>
+ <ID>#12345</ID>
+ <NAME>Name Of Object</NAME>
+ <OWNER><ID>#54321</ID><NAME>Name Of Object Owner</NAME></OWNER>
+                                        ; Owner #ID and name is used to validate
+                                        ; owner in DB importing to.  If unmatched,
+                                        ; the default owner is used.
+ <LOCATION>
+  <ID>#11111</ID><NAME>Name of Object Location</NAME>
+  <OWNER><ID>#22222</ID><NAME>Name Of Object Location Owner</NAME></OWNER>
+                                        ; This info is used to validate the location
+                                        ; of the object.  If not matched, default
+                                        ; owner becomes location.  Not used if
+                                        ; object is nested within another being
+                                        ; imported.
+ </LOCATION>
+ <FLAGS>Flag1, Flag2, Flag3, Flag4, Flag5</FLAGS>
+ <DESCRIPTION>Description of object
+Second line of description
+Third line of description</DESCRIPTION>
+<CREATED>
+ <EPOCH>123546</EPOCH>                  ; Time in EPOCH format
+ <DATE>DD/MM/YY</DATE>                  ; Time in DD/MM/YYYY
+ <TIME>HH:MM:SS</TIME>                  ; Time in HH:MM:SS
+</CREATED>
+<LASTUSED>
+ <EPOCH>123546</EPOCH>                  ; Time in EPOCH format
+ <DATE>DD/MM/YY</DATE>                  ; Time in DD/MM/YYYY
+ <TIME>HH:MM:SS</TIME>                  ; Time in HH:MM:SS
+</LASTUSED>
+
+ <OBJECT>
+  <COMMENT>This shows an example of another object nested (Located) within this exported
+object - You will see this when + or ++ have been used when exporting objects.</COMMENT>
+ </OBJECT>
+</OBJECT>
+</EXPORT>
+
+
+Import steps:
+~~~~~~~~~~~~~
+(1)     Read source text file.
+(2)     Create objects and set basic fields (If imported objects are nested, place within
+        each other in correct lists.)
+(3)     Set object owners.
+(4)     Try to link/place in correct locations (If not nested.)

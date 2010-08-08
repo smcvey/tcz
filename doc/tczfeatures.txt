@@ -1,0 +1,233 @@
+                                _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   |
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  -  MUD's based on The Chatting Zone (TCZ) have the following features...  -
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+*  The TCZ source code is publicly released under the GNU General Public
+   License (GPL) and is available for download from:
+
+      http://www.sourceforge.net/projects/tcz
+
+*  Extensive, detailed built-in On-line Help System.
+   (Type 'help' on a TCZ-based MUD :-)
+
+*  Tutorials for new users (Teaches you the basics of TCZ-based MUD's (Talking,
+   moving around, using the internal mail system, BBS (Bulletin Board System),
+   etc.))  (Type 'tutorial' on a TCZ-based MUD.)
+
+*  World Wide Web Interface that allows you to connect to a TCZ-based MUD
+   using an ordinary World Wide Web browser (I.e:  Netscape Navigator,
+   Microsoft Internet Explorer, etc.), giving you graphics, links and
+   most other features and advantages of HTML from within a TCZ-based
+   MUD.  No additional software is required (The most recent versions
+   of Netscape Navigator or Microsoft Internet Explorer (Version 4.0
+   or better) are recommended for best results.)
+   (See 'help html' on a TCZ-based MUD.)
+
+*  Optional ANSI colour support for Telnet connections, along with a
+   substitution system that allows you to easily use colour in speech,
+   descriptions, etc.  The original TCZ-based MUD (The Chatting Zone)
+   was one of the first social orientated multi-user environments to
+   implement ANSI colour support.  (ANSI colour support was implemented
+   in TCZ v2.2 (27/06/1994.))  (Type 'help ansi colour' on a TCZ-based MUD.)
+
+*  Clear and easy to read output (E.g:  Room descriptions, user lists, object
+   details (When examined), etc.)  (Type 'look' on a TCZ-based MUD.)
+
+*  Built-in word-wrapping facility (Handles ANSI colour/terminal high-light
+   codes and indents text correctly (For example in lists.))
+   (Type 'help set wrap' on a TCZ-based MUD.)
+
+*  Chatting Channels (Which can optionally be made private.)
+   (Type 'help chat' on a TCZ-based MUD.)
+
+*  Localised yelling system (Allows Builders to let Mortals yell messages
+   across their area(s).)  (Type 'help yell' on a TCZ-based MUD.)
+
+*  Name prefixes and suffixes (Ask an administrator to set them for you.)
+   (Type 'help @prefix' and 'help @suffix' on a TCZ-based MUD.)
+
+*  Powerful (But easy to use) line editor for editing descriptions, compound
+   commands, etc.  The editor can be used to edit most object types in a
+   TCZ-based MUD.  (Type 'help editor' on a TCZ-based MUD.)
+
+*  Informative and easy to read statistics commands ('@stats'), '@contents'
+   command (Displays a summary of the contents of a object) and '@quota'
+   command (Displays summary on what you've used your Building Quota on.)
+   (Type 'help @stats', 'help @contents' and 'help @quota' on a TCZ-based
+   MUD.)
+
+*  User ranking facility ('@rank'.)  Ranks all users in the database by
+   total connect time, longest connect time, last connect time, score,
+   amount of credit, etc.  (See 'help @rank' on a TCZ-based MUD.)
+
+*  Grouping/range operators (Unique to TCZ-based MUD's)  -  A powerful
+   feature that allows lists of items to be paged and restricted to a
+   given range.)  (Type 'help group' and 'help range' on a TCZ-based MUD.)
+
+*  String/list/sentence processing queries.
+   (Type 'help advanced' on a TCZ-based MUD.)
+
+*  '@if', '@case', '@while' and '@for' selection/iteration commands.
+   (Type 'help @if', 'help @case', 'help @while' and 'help @for' on a
+   TCZ-based MUD.)
+
+*  '@break', '@breakloop', '@goto' and '@return' flow control commands.
+   (Type 'help @break', 'help @breakloop', 'help @goto' and 'help @return'
+   on a TCZ-based MUD.)
+
+*  Powerful '@with' command with indexing feature which makes the processing of
+   linked lists (Attached to objects), the list of connected characters and
+   the elements of dynamic arrays a breeze.  (Type 'help @with' on a TCZ-based
+   MUD.)
+
+*  '@foreach' command for processing lists of items.
+   (Type 'help @foreach' on a TCZ-based MUD.)
+
+*  Pronoun, ANSI colour, text attribute, text formatting and query
+   command/calculation substitutions which can be used in most text (E.g:
+   'say', 'emote', '@desc', '@succ', '@fail', '@drop', '@odesc', '@osucc',
+   '@ofail', '@odrop', '@echo', '@oecho', '@oemote', etc.)
+   (Type 'help substitutions' on a TCZ-based MUD.)
+
+*  Last command recalling facility.  (Type 'help !!' on a TCZ-based MUD.)
+
+*  Better Telnet protocol handling and terminal support (When not using ANSI
+   colour, hi-lights will be used instead (If your terminal supports them.))
+   (See 'help set' on a TCZ-based MUD.)
+
+*  User definable aliases for commands.
+   (See 'help @alias' and 'help aliases' on a TCZ-based MUD.)
+
+*  Personal friends/enemies lists, friend flags and friends chatting channel
+   facility.  (See 'help friends' on a TCZ-based MUD.)
+
+*  Dynamic arrays with optional element indexing.
+   (See 'help @array' on a TCZ-based MUD.)
+
+*  Ability to page/tell messages to a list of people rather than just a single
+   person.  (See 'help page' and 'help tell' on a TCZ-based MUD.)
+
+*  Facility for recalling and replying to the last 8 pages/tells sent to you.
+   (See 'help recall' on a TCZ-based MUD.)
+
+*  Inheritance  -  Standard fields (Description, success, failure, etc.),
+   locks, aliases (Characters only) and object lists (Contents, exits,
+   compound commands, etc.) of an object may be inherited from a parent object.
+   (See 'help inheritance' on a TCZ-based MUD.)
+
+*  Building Quota system  -  Each character has a Building Quota that restricts
+   the maximum amount of stuff they can have built at any one time (Of course,
+   the character must be a Builder to build anything in the first place.)
+   Building Quotas replace the old and obsolete Building Points system.
+   (See 'help @quota' on a TCZ-based MUD.)
+
+*  Database of registered Internet sites, which Internet sites can be added to,
+   modified, listed, modified, deleted, etc. on-line.  Flags can also be set
+   on individual sites to implement bans, create bans, etc.
+   (See 'help @site' on a TCZ-based MUD.)
+
+*  Easy to use, built-in topic-based Bulletin Board System (BBS.)
+   (See 'help bbs' on a TCZ-based MUD.)
+
+*  Temporary variables  -  These may be created within compound commands for
+   temporary storage, use as counters, etc.
+   (See 'help @temp' and 'help @desttemp' on a TCZ-based MUD.)
+
+*  Two distinctive types of administrator  -  Wizard ranks (Building
+   orientated), who should be your first choice for building help and advice,
+   and Druid ranks (Non-building orientated), who are there to help out new
+   users, non-building related questions/problems from existing users and to
+   sort out problems between users and abusive users, etc.
+   (See 'help druid' and 'help wizard' on a TCZ-based MUD.)
+
+*  Article support  -  Article specific flags may be set on objects to add
+   the correct article ('a', 'an' or 'some') to the object automatically, and
+   to all references to it (E.g:  'A chair', 'An oak chest', 'Some sweets'.)
+                                   ~          ~~              ~~~~
+   (See 'help articles' on a TCZ-based MUD.)
+
+*  'Interactive' prompting via the '@prompt' command  -  Allows creation of
+   menus, knowledge tests, etc. where the user can enter their choice/answer
+   at a prompt, rather than having to type a command followed by their
+   choice/answer.  (See 'help @prompt' on a TCZ-based MUD.)
+
+*  Users can tie the knot virtually and be 'net' married to each other.
+   (See 'help @partner' on a TCZ-based MUD.)
+
+*  System for handing out 'read', 'write', create and destroy permissions to
+   other characters (Allowing them access to your objects) via friend flags.
+   Both full and restricted access may be given, allowing other users to help
+   you with your building projects and/or work on them with you, and large
+   building projects to be worked on by groups of users.
+   (See 'help fset' and 'help group building' on a TCZ-based MUD.)
+
+*  Ability to recover accidentally destroyed objects.
+   (See 'help @undestroy' on a TCZ-based MUD.)
+
+*  Automatic maintenance of unused characters and objects in the database,
+   helping keep the database free of redundant objects.  Redundant characters
+   and objects are destroyed on a weekly basis.
+   (See 'help expiry', 'help @expiry', 'help junked objects', 'help date
+   stamps', 'help @admin' and 'help @maintenance' on a TCZ-based MUD.)
+
+*  User creatable vehicles, which can be driven/riden around the world of the
+   TCZ-based MUD (In locations which allow transport, such as streets, etc.)
+   (See 'help transport' on a TCZ-based MUD.)
+
+*  E-mail forwarding facility for users on the TCZ-based MUD.
+   (See 'help @email' on a TCZ-based MUD.)
+
+*  Automatically generated user home pages list and gallery of user
+   pictures.  This is generated by the TCZ-based MUD through its World
+   Wide Web Interface, and is available from TCZ-based MUD's web site.
+   Scans and profiles of users are also available too through the World
+   Wide Web Interface.
+
+*  System and user log files, making administration easy by allowing
+   administrators to browse categorised log files without requiring
+   access to the server machine.  User log files allow Builders to
+   see failed commands typed by users within their areas, as well as
+   logging their own custom entries using '@logentry'.
+   (See 'help @log' and 'help @logentry' on a TCZ-based MUD.)
+
+*  Low maintenance  -  Automatic database consistency checking and maintenance
+   (Such as deleting unused characters) makes life easier for the
+   administrators of TCZ-based MUD's.
+
+*  Zero Memory Database Dumping  -  Allows the TCZ-based MUD's database to be
+   dumped to disk in the background without forking a separate process or
+   using any extra memory on the server machine, preventing the TCZ-based MUD
+   from 'lagging' when the database dumps.
+
+*  Forked database dump for operating systems which properly support
+   copy-on-write memory pages (Such as recent versions of Linux.)  This has
+   the advantage of being quick (Taking only a few minutes to dump a large
+   database) and subject to no inconsistencies.  This is recommended rather
+   than the Zero Memory dump.  Falls back to the Zero Memory dump if the
+   forked dump fails for any reason.
+
+*  Command-line start-up options and configuration file support, allowing
+   many parameters to be changed without needing to recompile the source
+   code.

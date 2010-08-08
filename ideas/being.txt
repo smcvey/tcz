@@ -1,0 +1,44 @@
+@set name = [!]being
+
+
+.beingsettings dynamic array...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[move_probability]     Probability that being will move.
+[command_probability]  Probability that being will execute a command at random
+                       from those defined in array.
+[leave_command]        Executed before being moves (Optional.)
+[enter_command]        Executed after being has moved (Optional.)
+[command_count]        Number of defined commands.
+[command<N>]           Defined command (<N> starts at 0.)
+
+
+Being events take place every 10 seconds, with .beingsettings[move_probability]
+and .beingsettings[command_probability] determine whether being moves or
+executes a command (Picked at random from a pre-defined list.)  If being should
+both move and execute command in one go, command will be executed first.
+
+When being moves, it will go through an exit at random  -  If exit is locked
+against it, it will choose next exit and so on until it finds one it can go
+through.  If it can't find an exit it can go through in the current room, or
+there are no exits, it will return to its home location.
+
+As with puppets, beings appear in the contents lists of rooms.
+
+
+$8    On executing command, $8 holds the #ID/name of a connected character,
+      puppet or being (Not self) picked at random in the current room.
+
+
+Example:
+~~~~~~~~
+@character Fred = wibble
+@set *fred = being
+
+Example .beingsettings (For Fred)...
+
+[move_probability]     10
+[command_probability]  25
+[command_count]        3
+[command0]             :waves to {@?name $8}.
+[command1]             wibble at {@?name $8}.
+[command2]             :mutters something to {@?name $8}.

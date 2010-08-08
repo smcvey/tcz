@@ -1,0 +1,54 @@
+@being		Command to add/remove beings from the event queue, and to set
+		their timings, priorities, etc.
+
+ALIAS flag	If set, character's name will be taken from another (re-used)
+                field  -  Possibly TITLE  -  Being can then be given a
+                meaningless reference name, and then given a proper name,
+                such as 'Mighty Warrior' (Even if that name is already in
+                use)  -  There could even be more than one char of the same
+                name effectively.
+
+.dialogue       .response array for user defined automatic replies/responses
+                to messages directed at user with array:  (Intercepts pages,
+                tells, whispers.)  -  $1 = Character, $2 = Message.
+                  `--->  array[<KEYWORD>[;<KEYWORD>][;...]] = <COMMAND>
+                         @desc array[hi;hello] = .$1 = Hello there!
+
+.actions        .actions array, containing commands that will be executed at
+                random by Being, depending on priorities.
+
+.action         .Action array for user defined character actions???
+                  `--->  array[<ACTION>[;<ACTION>][;...]] = <COMMAND>
+                Involked using:  <ACTION> <NAME> [=] <PARAMS>.
+
+.attacked       See txt/@weapon.txt for details.
+
+
+                                <- Time ->  <- Move ->  <- Exec ->  <- Fight ->
+ Real name and (alias):         In:  Out:   In:   Out:  In:   Out:  In:   Out:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ CZ0001                   MIN:  15s  5m     10%   25%   25%   0%    25%   0%
+ Lethal Warrior           MAX:  10m  1h
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Beings listed:  1.
+
+ In:     When connected characters are in room with Being.
+ Out:    When no connected characters are in room with Being.
+ Time:   Minimum and maximum times between Being events (Random between these
+         two times.)
+ Move:   Probability (Per Being event) that Being will move.
+ Exec:   Probability that Being will execute a command from .actions
+ Fight:  Probability Being will use weapon at random from inventory to
+         attack a character (Either another connected character, or a Being)
+         at random.
+
+Being rules:  *  Beings can't be connected to TCZ.
+
+              *  Beings can't send mail or use BBS.
+
+              *  If Being tries to move, but can't go through any of the exits,
+                 it will return to its home room.
+
+              *  Beings can't enter rooms with the BEING flag set.
+
+              *  Order per event:  Move, Exec, Fight.

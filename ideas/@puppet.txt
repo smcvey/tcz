@@ -1,0 +1,13 @@
+@puppet <NAME> [= <CONTROLLER>]
+	Gives puppet with given <NAME> (If not in use)  -  Puppet name and
+        controller name will be logged to general.log (Connect entries go to
+        connect.log)  Puppet will only be given if they have a single puppet.
+        Puppet name will be '(Puppet) <NAME> (Controller's Real Name)'.
+
+        For Admin, command creates temp. puppet for the character <CONTROLLER>.
+        '@controller' may still be used to create permanent puppets by
+        Wizards/Druids and above.
+
+        For temp. puppets, after 24 hours, they will be destroyed on next
+        @Force (not connected) or next connection attempt.  If unused, DB
+        maintenance will destroy.

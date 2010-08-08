@@ -1,0 +1,722 @@
+ 			        _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   | 
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+   -:-          T  H  E    O  F  F  I  C  I  A  L    R U L E S            -:-
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+                The Official TCZ Rules (As from 01/08/2001)...
+
+
+Introduction...
+~~~~~~~~~~~~~~~
+The official rules are a detailed set of guidelines for ALL users and
+administrators of The Chatting Zone, implemented and intended to maintain
+order amongst both its users and administrators.
+
+These rules help keep TCZ a friendly and enjoyable environment for all of its
+users by helping keep it free from abusive and malicious people, and users who
+misuse privileges with which they have been entrusted (This includes Builders
+and administrators.)
+
+As a user of TCZ, you are expected to thoroughly read, understand and abide by
+these rules at all times.  If you fail to do so, and break rules intentionally
+or unintentionally, you will receive appropriate punishment.  This will
+initially be in the form of a verbal warning and possible removal of abused
+privileges, but if you continue to ignore and break rules, you could be banned
+from TCZ completely.
+
+Each rule may be preceeded by a rating (E.g:  '<<<1>>>'.)  The number (On a
+scale of 1 (Not too serious) to 5 (Very serious)) indicates how serious
+breaking that particular rule will be treated.  The ratings are intended as a
+guideline, and will be used to help decide on suitable punishment when a rule
+is broken.
+
+PLEASE NOTE:  If a rule has a low rating, this does not mean that it is
+              acceptable to purposely break it or ignore the fact that it
+              has been broken.  If a rule is broken, suitable punishment
+              must be issued promptly.
+
+              These rules apply to the date at the top of this file.  The
+              administrators of TCZ reserve the right to change, ammend or
+              add to these rules at any time without prior notice.  Any
+              significant additions or ammendments will be announced on The
+              Chatting Zone BBS in the NEWS topic (See 'help bbs' on TCZ.)
+
+
+Disclaimer...
+~~~~~~~~~~~~~
+NOTE:  For an up-to-date copy of the current disclaimer, please log into TCZ
+       and type DISCLAIMER.
+
+.-----------------------------------------------------------------------------.
+|    The term 'administrators' refers to the maintainers of this program,     |
+|           the maintainers and host of its server and web server.            |
+|-----------------------------------------------------------------------------|
+| In no event will the administrators of this program be liable to you or     |
+| anybody else for any damages, including any general, special, incidental    |
+| consequential or financial damages, arising from the use or inability to    |
+| use this program, or arising from the actions of yourself or other users.   |
+| This includes (But is by no means limited to) the fact that any statement   |
+| made by any user of this program is not necessarily the view of the         |
+| administrators, or supported by them.                                       |
+|-----------------------------------------------------------------------------|
+| The use of this program for the distribution/sharing of illegal or          |
+| pornographic material is STRICTLY prohibited.                               |
+|-----------------------------------------------------------------------------|
+| By using this program, you are explicitly and unconditionally accepting     |
+| the above terms and agree to abide by them and the rules (See 'help rules') |
+| at all times, for this and all future use of this program, and that you     |
+| indemnify the administrators against any damages or legal action arising    |
+| from your (Or anybody elses) use, misuse or inability to use this program.  |
+`-----------------------------------------------------------------------------'
+
+
+Terms used in the Official Rules...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Admin   Administrators of The Chatting Zone (TCZ)  -  Any character who is an
+        Apprentice Wizard/Druid or above.
+
+MUD     Any multi-user game, adventure/role playing game, talker or Bulletin
+        Board System (BBS) which can be accessed via the Internet.
+
+TCZ     The Chatting Zone.
+
+
+Safety Guidelines for ALL users of TCZ...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+All users of TCZ should be aware that things that occur in real life, either
+if they are directly or indirectly linked to occurances on TCZ, that the
+administrators cannot be held responsible, nor can they punish or ban users
+without proof that abuse has actually occurred on TCZ.  We advise that all
+users of TCZ, in common with all other forms of anonymous Internet
+communication, should follow some basic safety guidelines:
+
+*  NEVER give out your real life personal details (Home address, telephone
+   number, etc) to anyone you do not know in real life  -  Even if you've
+   known them 'virtually' for a long time, they may not be who you think they
+   are.
+
+*  NEVER forget that others may adopt 'Internet Personas' which may, or may
+   not, correspond to their real life personas.  In other words, don't believe
+   all you read!
+
+*  REMEMBER, if it sounds too good to be true, it probably is.
+
+If something is happening in real life as a result of the occurances of not
+following the above guidelines, please note, we can only advise the following:
+
+   Get in touch with the Police, or whatever other Authorities you can
+   (Offender's Internet Provider(s), etc.) and pass on the information
+   you know.  We can only act upon punishable offenses we see and have
+   proof of on TCZ.
+
+IMPORTANT:  The administrators of TCZ will *NOT* see fit to punish possible
+            users who use *NON* TCZ related incidents in order to cause or
+            inflict spite or punishment of other possible users.  To punish
+            a user requires solid proof that the user did do something wrong,
+            and that proof needs to be visible to other administrators on 
+            TCZ's server.
+
+
+Guidelines for Acceptable Behaviour...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Administrators of TCZ must take a conservative view towards certain
+forms of language and behaviour in public locations such as the BBS and the
+Swan Pub, regardless of their personal opinions about such things.
+
+The CENSOR flag (See 'help censor flag') was incorporated into TCZ to protect
+both younger users and TCZ itself from any complaints made to its host and/or
+server administrators.
+
+However, not all forms of slang/vulgarity are caught by the automatic bad
+language censor which is active in public locations, and the following
+guidelines are a companion to the auto-censor and guide for the user
+for acceptable language and behaviour in the public areas of TCZ.
+
+
+Public Rooms
+~~~~~~~~~~~~
+Public discussions of a sexual nature must use proper, clinical terminology,
+in its correct context.  If you use vulgarities/slang at all in public areas
+(This includes attempts to get around the auto-censor by using different
+spellings or ASCII characters), you will be asked to stop or take it to a
+private room or chat channel.
+
+Failure to comply with the Administrator's request will result in an Official
+Warning and/or further punishment.
+
+
+The BBS (Bulletin Board System)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Due to the nature of some BBS topics, sexual discussions take place.  Their
+purpose is to inform and help users with sexual problems or questions.
+This does not give license to use improper, vulgar terminology in these
+discussions.  You must use the proper, clinical terms in their correct context.
+
+Any malicious BBS post done merely to provoke a slagging match, 'spam'
+(Excessive posting), or to attack another user, will be censored or
+removed depending on the content and the user will be warned to stop.
+
+Any BBS post found to contain vulgar words and/or phrases (This also
+includes attempts to get around the auto-censor by using different spellings
+or ASCII characters) will be censored or removed by the Administrators, and
+if necessary an Official Warning will be given.
+
+Failure to comply with this may result in the loss of your BBS flag and an
+entry on your rapsheet.
+
+
+Final Words
+~~~~~~~~~~~
+The Admin have no wish to inhibit the users of TCZ.  Certain forms of
+discussions are not being prohibited, we merely ask that if you are going to
+be in a public location, such as The Swan Pub, you exercise caution when using
+terminology that might be considered offensive.
+
+What you do or say in private rooms is your business and no Admin will ever
+interfere with that.  However, public areas such as the BBS or The Swan Pub
+MUST BE KEPT CLEAN to protect younger users.
+
+
+Rules for General Users...
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  As a general (Mortal) user of The Chatting Zone, you are free to do and say
+   whatever you like within reason, providing it is not prohibited by the rules
+   or disclaimer of TCZ.
+
+*  If any complaints are received from other users about you, they will be
+   fully investigated and appropriate action will be taken if you refuse to
+   stop (Depending on the severity, this could involve imposing a ban on your
+   site and/or sending a complaint to your system Adminstrator(s) (Which could
+   result in you losing your access to the Internet.))
+
+*  <<<4>>>  You must not 'spam' (Send large quanities of output), abuse,
+   harrass, offend or invade the privacy of other users.
+
+*  <<<5>>>  The distribution/sharing of illegal or pornographic material
+   is STRICTLY prohibited.  This includes the use of TCZ's World Wide Web
+   Interface to provide links to or display material, resources or archives
+   which contain illegal, offensive or pornographic material.
+
+*  <<<3>>>  You must not create more than ONE character for your own use  -
+   If we discover that you are using more than one character, the additional
+   character(s) will be destroyed and the Internet site you connect from
+   could receive a ban on creating new characters.
+
+*  <<<3>>>  Do not advertise any other MUD which can be accessed via the
+   Internet, on a public channel, via TCZ internal mail or in a title/
+   description.  This includes saying the address in a room.  You can give
+   out the address of another MUD over a private channel to another user
+   (Providing they have asked you for it), e.g:  Via 'page', 'tell' or 'mail'.
+
+
+Rules for Builders...
+~~~~~~~~~~~~~~~~~~~~~
+As a Builder, the rules for General Users apply as well as the following...
+
+*  Before you can be given building privileges, you must atleast set your
+   PRIVATE E-mail address to your REAL E-mail address, by typing '@email
+   private <EMAIL ADDRESS>'.  An anonymous or forwarding E-mail address
+   can't be accepted.  Your private E-mail address is only visible to yourself
+   and the administrators of TCZ, and will be kept STRICTLY CONFIDENTIAL.
+
+*  As a Builder, you may have upto a maximum of ONE permanent puppet, providing
+   you can fully justify the need for it.  Temporary puppets can be obtained
+   by Builders for the purpose of testing building work from the point of view
+   of another user (Please ask Admin for details of the Puppet Bank.)
+
+*  <<<4>>>  You must not use your building privileges to purposely annoy, spam
+   (Send large quanities of output), abuse, harrass, offend or invade the
+   privacy of other users.
+
+*  <<<4>>>  You must not use your building privileges to hack or purposely
+   'lag' TCZ.
+
+*  <<<5>>>  You must not create compound commands which will inconvenience,
+   confuse or attempt to use/obtain the privileges of another user.  This
+   includes making compound commands which 'shadow' built-in commands (E.g:
+   '@command say;emote;page;tell', etc.)
+
+*  <<<5>>>  You must not use your building privileges to try and obtain
+   Apprentice Wizard/Druid or above powers, or compound commands which allow
+   you to execute commands under the ID or privileges of another character.
+
+
+Rules for Assistants and Experienced Builders...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+As an Assistant or Experienced Builder, the rules for both General Users and
+Builders apply as well as the following...
+
+*  The Assistant and Experienced Builder ranks are NOT part of the
+   administration team, and do not have any administrative rights or
+   privileges (With the exception of the use of the 'assist' and 'welcome'
+   commands when there are few or no Admin connected.)
+
+*  <<<3>>>  As an Assistant, you must be prepared to help any users who ask
+   you for it.  If you are unable to help them, you should direct them to
+   either a member of Admin or another Assistant/Experienced Builder who can.
+
+*  Providing help and assistance is a requirement of the Assistant rank, but
+   optional for Experienced Builders, who are given the rank as recognition
+   for their building skills and to help them to improve and extend their
+   skills further.  However, Experienced Builders must not outrightly refuse
+   to give help and assistance  -  If you do not wish to help the user, you
+   must redirect them to another Assistant, Experienced Builder or member of
+   Admin who can.
+
+*  <<<3>>>  If there are only a few members of Admin connected, or no Admin
+   connected at all, you should use the 'assist' command to check for and
+   provide assistance to users who require it, and welcome new users.
+
+*  <<<5>>>  Experienced Builders must not use their extra privileges to hack
+   or obtain privileges to which they are not entitled.  Experienced Builder
+   privileges are entrusted to the users to whom they are given.  Any abuse
+   of these extra privileges will result in removal of Experienced Builder
+   status.
+
+*  <<<4>>>  As an Experienced Builder or Assistant, you must behave reasonably
+   and responsibly at all times.  This is because you will be looked up to and
+   approached for help by both existing and new users.  Although giving help
+   and assistance is not a requirement of the Experienced Builder status (It is
+   a requirement of the Assistant status, however), you must not outrightly
+   refuse or be offensive to the user asking.  If you do not wish to help them
+   or are unable to, please refer them to another Assistant, Experienced
+   Builder or administrator.
+
+NOTE:  If an Experienced Builder has their HELP flag set, all rules which apply
+       to Assistants also apply to them (In addition to Experienced Builder
+       rules.)
+
+
+Rules for Apprentice Wizards/Druids and above...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+As an Apprentice Wizard/Druid or above, it's important that you act responsibly
+and fairly at all times, and give help and assistance to users as and when they
+need it to the best of your ability.  It's important that you bear in mind that
+anything you do or say in public reflects not only on yourself, but the entire
+Admin team and TCZ as a whole, both of which you are a part of and
+representing.
+
+These rules are designed as basic guidelines to what you should and shouldn't
+do as an administrator, and must be followed at all times.  Violating the rules
+will result in appropriate punishment and official warnings being issued.
+Failure to comply with the rules after official warnings have been issued
+could ultimately result in your demotion.
+
+
+General rules for administators...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  <<<5>>>  Do not do anything which could degrade the credibility of TCZ, its
+   Admin team, or the provider of its Internet connection.
+
+*  <<<5>>>  Do not harrass any user, or do anything which may cause users to
+   leave TCZ, and use another MUD instead.  If there are personal problems with
+   a certain user, then avoid contact with them.  If necessary, use the friend
+   flags to block all messages from them.  Type 'fadd <NAME>' and 'fset <NAME>
+   = enemy !fchat !link !mail !pagetell !pagetellfriends'.
+
+*  <<<4>>>  Do not connect to TCZ if you are depressed, drunk, or otherwise
+   likely to act irresponsibly and abuse your powers.
+
+*  <<<3>>>  Do not advertise any other MUD which can be accessed via the
+   Internet, on a public channel, via TCZ internal mail or in a title/
+   description.  This includes saying the address in a room.  You can give
+   out the address of another MUD over a private channel to another user
+   (Providing they have asked you for it), e.g:  Via 'page', 'tell' or 'mail'.
+
+*  <<<4>>>  Do not act irresponsibly elsewhere on the Internet, where you can
+   be recognised as a member of the TCZ Admin team.  This means do not go to
+   other MUD's and be abusive, or advertise TCZ on them.
+
+*  <<<5>>>  Do not 'hack' to obtain privileges higher than your level.  If you
+   need a certain privilege, ask someone of a higher level than you to help you
+   with it.
+
+*  <<<1>>>  Do not boot a dead connection unless it's absolutely necessary  -
+   The '@bootdead' command can be used by a user to boot any dead connections
+   they might have.  Connections that are 'stuck' can also be revived by
+   logging in again and taking them over.
+
+*  <<<1>>>  Mortal users are only allowed a maximum of ONE puppet, providing
+   the need for it can be fully justified.  Temporary puppets can be obtained
+   by Mortals from the Puppet Bank (This can be reached by typing 'puppet'.)
+   The use of a permanent puppet in a building project as a shopkeeper (For
+   example) is not a suitable use.  A suitably named object would give the
+   desired effect.
+
+
+Rules for dealing with other users....
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  <<<4>>>  Answer all assists and welcomes when you can, especially if there
+   are few Admin connected, or you are the only member of Admin connected.  If
+   there is a sufficient number of Admin connected, try to take it in turns to
+   do them.  New Admin have priority over assists and welcomes.  Remember that
+   higher ranking members of Admin may not see assist/welcome messages if a
+   sufficient number of lower ranking Admin are connected.
+
+*  <<<4>>>  If a user asks you for help, help them to the best of your ability
+   -  This is a priority over building or chatting to your friends.  If you are
+   not able to help them, ask someone who can.  It's important to stay and see
+   what the answer to the problem is, and to try and learn from it.  If no
+   other administrators are available to help, then TCZ mail someone who you
+   know is able to solve the problem, or direct them to an Experienced Builder
+   (If one is connected.)
+
+*  <<<4>>>  Do not summon users or teleport them around against their will.
+
+*  <<<2>>>  Feel free to teleport to other users locations to examine them and
+   their contents, but if the owner or other characters are connected and in
+   the location, then ask permission to visit first.
+
+*  <<<3>>>  If you find a room or thing that acts as a jail (Holds you there),
+   ask the user to remove it or disable it.  If they do not comply, use an
+   appropriate punishment.  If all else fails, remove their BUILDER flag.
+   (If you find yourself stuck in a jail, use the 'escape' command to get out.)
+
+
+Rules for dealing with abusive/problem users...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  <<<4>>>  If a user is abusive to you or other users  -  Deal with them
+   appropriately.  The order of punishment is as follows:
+
+   An official warning:  'warn <NAME> = <REASON>'. 
+                         Official warnings are logged to the 'Warn' log file.
+   
+   The Punishment Zone:  'punish <NAME> = <REASON>'.
+                         They will be broken off from all contact with other
+                         users, and have to type out some of TCZ's rules,
+                         before getting out.  (Use 'unpunish <NAME> = <REASON>'
+                         to let them out prematurely.)
+
+   Jail:                 'jail <NAME> = <REASON>'. 
+                         They will be unable to leave the jail.  Admin can get
+                         out by typing 'door' or 'escape'.  (Use 'free <NAME>
+                         = <REASON>' to let them out.)
+
+   Moron:                '@set *<NAME> = moron = <REASON>'. 
+                         They will then have negative privileges.  They will be
+                         unable to page people (Except Admin), use TCZ mail, or
+                         whisper secretly.  (Use '@set *<NAME> = !moron =
+                         <REASON>' to reset the moron flag.)
+
+   Boot:                 '@boot *<NAME> = <REASON> [= <BAN TIME>]'. 
+                         They will be booted (Forcefully disconnected) from
+                         TCZ, and a public message will be displayed showing
+                         the boot and the reason.  It's also logged to the
+                         'Boot' log file.  <BAN TIME> is an optional time in
+                         minutes (Upto 60 minutes) to ban the user, so that
+                         they can't reconnect again almost immediately.
+
+   Ban:                  '@ban *<NAME> = <TIME>|permanently = <REASON>'. 
+                         Bans the user for the time specified or permanently.
+                         Users can only be banned by Wizard/Druids and above.
+                         If you're an Apprentice Wizard/Druid and can't set a
+                         necessary ban, ask a higher level character to do so
+                         for you.  (Use '@ban *<NAME> = lift = <REASON>' to
+                         lift a ban.)  Be sure to send E-mail to the banned
+                         user explaining why they have been banned.
+
+*  Site bans  -  <<<3>>>  If a user keeps creating new duplicate characters
+                 and/or Guest characters, then a site ban may be necessary.
+
+                 *  To ban a site from creating characters, use:
+                    '@site set <ADDRESS> = !create = <REASON>'.
+                 *  Likewise, to stop Guest character being created from a
+                    site, use:
+                    '@site set <ADDRESS> = !guest = <REASON>'.
+                 *  The flags can be combined:
+                    '@site set <ADDRESS> = !create !guest = <REASON>'.
+
+                 If you set a site to be create or guest banned, you should
+                 re-describe it to reflect that  -  Use '@site desc
+                 <IP ADDRESS> = <DESCRIPTION>'.  Add '(Create Banned)',
+                 '(Guest Banned)', or '(Create and Guest Banned)' to the end
+                 of the site's description.
+
+*  Mail abuse  -  <<<4>>>  If a user is abusing the internal mail system, reset
+                  their MAIL flag using '@set *<NAME> = !mail = <REASON>'.
+                  This prevents them from sending or receiving any mail
+                  whatsoever.  If they're just harrasing one particular user,
+                  get that user to add them as a friend (Or enemy), and type
+                  'fset <NAME> = !mail'.  This prevents them sending mail to
+                  that one person.
+
+*  BBS abuse   -  <<<4>>>  If someone continually abuses the BBS by posting
+                  rude, offensive or degrading messages, then reset their BBS
+                  flag using '@set *<NAME> = !bbs = <REASON>'.
+
+*  Rap sheets  -  <<<2>>>  Log any abuse onto a user's rapsheet with the
+                  'addrap' command.  The usage is 'addrap <NAME> = <ABUSE>'.
+                  To see what they've done in the past, use 'checkrap <NAME>'.
+                  This helps to identify consistent problem users.
+
+*  Monitoring users  -  <<<4>>>  If a user is suspected of hacking or abuse,
+                        and needs to be watched, use the '@monitor' command.
+                        The basic use is '@monitor <NAME> = commands =
+                        <REASON>'.  Do not use '@monitor' unless it's strictly
+                        necessary, as it breaches on the user's privacy.  Use
+                        '@monitor <NAME> = off' to stop monitoring. 
+
+
+Rules for administrative privileges...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  <<<1>>>  Use the 'shout' command only for important messages which ALL users
+   connected need to see.  '@with connected ...' in conjunction with 'page',
+   'tell' or '@notify' is treated as a 'shout'.  Please remember that you are
+   representing the Admin team as a whole, and every connected user will see
+   your message.
+
+*  <<<1>>>  Do not use 'page', 'tell' or '@notify' in conjunction with '@with
+   friends' or '@with connected' as an alternative or substitute for the 'page
+   friends', 'tell friends' or 'shout' command.  This rule is for two simple
+   reasons...
+
+   (1)  It causes extra and unnecessary work for the server, especially if
+        you have a large friends list or there are a good number of users
+        connected.  'page friends', 'tell friends' or 'shout' will only take
+        a few milliseconds to execute, whereas '@with friends' or '@with
+        connected' can take upto several seconds, causing unnecessary 'lag'.
+
+   (2)  If '@notify' is used with these commands, the recipients have no easy
+        means of selectively blocking the messages if they do not wish to
+        receive them.  With 'page friends' and 'tell friends' they can simply
+        reset the PAGETELLFRIENDS friend flag on you if they do not wish to
+        receive the messages.  If 'page'/'tell' is used (I.e:  '@with friends
+        me do tell $6 = hello'), this can be extremely confusing for the
+        recipients, as to them it appears as though you have specifically and
+        individually sent the message to them, rather than your entire list
+        of friends.
+
+*  <<<5>>>  Do not give out your privileges to other characters, by giving out
+   your password or giving them a compound command with your '@chpid' in it.
+
+*  <<<4>>>  Do not use your privileges for your own personal gain, benefit or
+   pleasure.
+
+*  <<<4>>>  Do not use '@force' to force another character (Excluding your own
+   puppets) to execute a command or say something against their will.
+
+*  <<<4>>>  Do not use fuses to monitor rooms or characters.  This is a serious
+   breach of privacy.
+
+*  <<<1>>>  Do not destroy a character on user request under any circumstances.
+   If a character is left unused they will eventually be destroyed by the
+   automatic maintainence system. 
+
+*  <<<1>>>  Do destroy characters when they are found to be duplicates, but
+   only if you are certain that they're duplicates.  Remember that some users
+   will connect from the same account and might have the same E-mail address.
+
+*  <<<1>>>  Be very judicious in creating alarms, for your own or any other
+   character's use.  Several alarms going off at the same time, or on a
+   regular basis (I.e:  More than once every 5 minutes) can cause unnecessary
+   'lag'.  The same effect can often be achieved using a fuse and the
+   '{@?time}' query command, and should always be done as an alternative,
+   if possible.
+
+   The ownership of an alarm should never be changed to a Mortal character.
+
+*  <<<3>>>  Do not use the '@areawrite', '@oecho' or '@write' commands in #2,
+   #4, or a public area.  Likewise do not use these (And similar) commands
+   (I.e:  '@notify') to fake messages, or fake another user's actions or
+   speech.
+
+*  <<<1>>>  When adding Internet sites, use the rules for site adding as stated
+   in the APPRENTICES topic on The Chatting Zone BBS or in the file
+   'tczadmin.siteguidelines.txt', available from the FTP archive.
+
+*  <<<3>>>  Do not set an execution time limit greater than 3 seconds, unless
+   it's absolutely necessary for the compound command to function.  In most
+   cases (If not all), it will usually be possible to re-write the compound
+   command more efficiently, so that it doesn't need an execution time limit
+   greater than 3 seconds.  An execution time limit greater than 5 seconds
+   should never be used, as this will cause noticable lag.
+
+*  <<<1>>>  Do not teleport a Mortal owned command to a module in #4 (Or to #4
+   itself), if it's not set READONLY.  If the READONLY flag stops the compound
+   command working correctly, then it either needs to be re-written or Admin
+   owned instead (A Mortal's compound command should never be changed to Admin
+   ownership without first extensive checking for hacks, 'backdoors' or flaws
+   which could be taken advantage of by Mortals.)
+
+   An easy way to teleport commands into #4 is to use the 'telglobal' command,
+   which takes those rules into account.  Type 'telglobal <COMMAND>' to use it.
+   The 'checkmodule' command can be used to examine the modules in #4 for 
+   any commands which breach the rules.  Any global commands also need to be
+   coded efficiently, and use good grammar, spelling, and presentation.
+
+*  <<<5>>>  Do not disclose any information which is only readable/accessible
+   by Admin to non-Admin users.  This includes the 'natter' channel, restricted
+   BBS topics (Such as the Admin only topics), contents of log files, rap
+   sheets, and any other information/commands which a lower level user couldn't
+   access themselves.
+
+*  <<<4>>>  Do not destroy or modify objects which belong to other users (Both
+   Mortal and Admin owned), unless you have the permission from the owner to
+   do so (An exeception to this rule is if the object is being used to 'spam'
+   users/areas, is abusive/offensive in some way, or is being used to
+   lag/hack TCZ.)
+
+*  <<<3>>>  Do not adjust the bank account or credit in pocket of a user
+   without good reason (I.e:  The user has obtained credit by unfair means
+   or is in severe debt.)  This is important, because improper use of the
+   '@credit' command (I.e:  Injecting excessive money into the system or
+   taking it out) could ruin the entire monetry system and make it worthless.
+
+
+Rules for building and Building Quota limits...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  <<<1>>>  To obtain a BUILDER flag, a character must have a valid and unique
+   E-mail address.  This ensures that they are not duplicates.  To see if
+   anyone else on TCZ has the same E-mail address, use the 'checkb' command.
+   If so, enquire as to why their address is not unique.  To see if the address
+   is valid and not fake, the easiest way is to send an E-mail to it, and get
+   them to reply.  Do not set a BUILDER flag until you are sure that the
+   E-mail address is valid and the character isn't a duplicate.
+
+*  <<<2>>>  Do not raise a characters Building Quota limit above 200, unless
+   they really need it, and they are building something of good quality that
+   is beneficial to users of TCZ other than themselves and just a few friends.
+   This is IMPORTANT  -  'Good quality' means good, well written descriptions,
+   fields of exits are set ('@osucc', '@odrop' and '@drop'), compound commands
+   are well used and written, no objects are used that could be placed in a
+   description instead.  Be very stringent about giving out Building Quota
+   limits greater than 200.  It's irrelevant that many other users may already
+   have more than 200  -  That's the limit for Builders unless they are
+   building something exceptional.
+
+
+Rules for promotions and demotions...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  <<<5>>>  Do not promote a character to Assistant, Experienced Builder or
+   Apprentice Wizard/Druid or higher.  Promotions are carried out when there
+   is an Admin review (Or for Experienced Builders and Assistants, as the
+   result of a vote in favour between all administrators on The Chatting Zone
+   BBS.)  The exception to this is promoting your puppet to Experienced Builder
+   or Apprentice Wizard/Druid, if you are able.  If you're an Apprentice
+   Wizard/Druid yourself, you can still have your puppet promoted to the same
+   level  -  Just ask someone of a higher level to do it for you.
+
+   Assistants and Experienced Builders may be promoted after a votable message
+   on The Chatting Zone BBS gives them a 60% or more majority in favour.  The
+   message must be on the BBS for at least a week before a promotion is given,
+   and the voting must use the majority factor ('vote <NUMBER> = majority'.)
+
+*  <<<4>>>  Only users who are of 16 years of age or over may be promoted to
+   the rank of Apprentice Wizard/Druid or above.  This is because material
+   Admin may be subject to and situations they may need to deal with are
+   unsuitable for users below this age.  If a member of Admin is discovered
+   at a later date to be under the age of 16, they will be immediately demoted.
+
+*  <<<4>>>  Administrators on TCZ may not be administrators on any other MUD.
+   The main reason for this rule is that someone who is Admin on more than one
+   MUD will not be able to be fully dedicated to administrating TCZ, to which
+   they should be fully dedicated.  It's also unfair on other people who are
+   not administrators on any MUD, who's chances are reduced by people who are
+   administrators on more than one MUD.
+
+*  <<<4>>>  Administrators must be able to connect on a regular basis, as one
+   of their primary tasks is giving help and assistance to both existing and
+   new users and dealing with abusive/problem users.  Of course, allowances
+   are made for holidays and other periods where a member of Admin will be
+   away for a short period of time.  If you are going to be away for a period
+   of time, you must announce when and how long you will be away in the
+   ADMIN/ABSENCES topic of The Chatting Zone BBS.  If you fail to do this,
+   your demotion may occur.
+
+   A member of Admin should ideally connect for 24 hours or more each month.
+   If a member's connect time is considered insufficient in a period of 3
+   consecutive months, their status will be subject to review.
+
+*  <<<2>>>  If a member of Admin wishes to resign, then demote them, but be
+   sure to remind them that they have a period of 2 weeks in which to change
+   their mind.  After this period has passed, they will need to go through the
+   review process again to re-join the Admin team.  If an Experienced Builder
+   or Builder abuses their building privileges, take their flag away.  If you
+   are not sure about doing this, discuss it on '@nat' and have a vote if
+   necessary.
+
+*  <<<4>>>  The returning of a flag (Experienced Builder/Assistant and above)
+   should first go to an Admin vote, unless predefined by a time period
+   elapsing (I.e:  Their flag was taken away for one week and one week
+   has elapsed since its removal.)  The vote should be held in the BBS
+   'Admin/Voting' topic, where ALL Admin may vote.
+
+*  <<<5>>>  If a member of Admin starts maliciously abusing their power/
+   privileges, and refuses to stop, everything within the power of the
+   administrators connected at the time should be done to stop them,
+   including demotion, if necessary.
+
+
+Administrator duties in general (For ALL administration levels)...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  Welcoming new users to The Chatting Zone ('welcome [<NAME>]'.)
+
+*  Giving help and assistance to users who ask for it ('assist [<NAME>]'.)
+
+*  Dealing with requests for new characters ('@request'.)
+
+*  Dealing with duplicate and ASHCAN'ed characters ('@destroy *<NAME> = yes =
+   <REASON>'.)
+
+*  Dealing with users using the 'gripe' or 'emergency' commands, if you are
+   able to.
+
+*  Making sure titles are not abusive or offensive (These can be reset with
+   '@title *<NAME>', if the character refuses to change it, when asked.)
+
+*  Punishing abusive/problem users and hackers (See the Official Rules for
+   details of the punishments which should be issued, and the order in which
+   they are issued.)
+
+*  Setting name prefixes ('@prefix <NAME> = <NAME PREFIX>') and name suffixes
+   ('@suffix <NAME> = <NAME SUFFIX>'.)  Please make sure they are not abusive,
+   offensive or use censored words.
+
+*  Changing a forgotten password for a character ('@newpassword <NAME> =
+   <NEW PASSWORD>')  -  Please ensure that they are authentic, and not
+   somebody else, trying to hack into another person's character.  (One way
+   to do this is to check their E-mail address, and send their new password
+   to the E-mail address they have set on TCZ.)
+
+*  Setting BUILDER flags ('@set *<NAME> = builder'), after checking that the
+   potential Builder has set their E-Mail address, and is not a duplicate
+   character (Use 'checkb <NAME>' to check.)
+
+*  Teleporting Builders' Top Areas to 'The Top Area For Builders(#646)'
+   ('@tel #<ID> = #646' or 'toptel #<ID>'.)
+
+*  Assessing Building Quota rises for Builders ('@quotalimit'), having checked
+   the quality of what they have built so far.  Please see following section
+   on 'Building Quota' for further details regarding Building Quota increases.
+
+*  Setting Experienced Builder ('@set *<NAME> = experienced') or Assistant
+   ('@set *<NAME> = assistant') flags on users, as a result of a vote in
+   favour on The Chatting Zone BBS between all administrators of TCZ.
+
+*  Adding and checking Internet site descriptions ('@site add <ADDRESS> [=]
+   <DESCRIPTION>' and '@site desc <ADDRESS> [=] <DESCRIPTION>'  -  You may
+   also wish to investigate the use of the 'sitereport' commands for this
+   purpose.

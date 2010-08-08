@@ -1,0 +1,37 @@
+Implement @dump [local|generic|all] help:
+
+Dumps complete copy of on-line help in stand-alone format into TCZDIR/help
+
+Includes self-generated web pages for each topic, with index page and required
+images (background.gif?)
+
+Can be uploaded and used from standard web browser.
+
+Hyperlinks in pages need to be verified and linked to correct help topic, e.g: 
+'help adm' needs to be corrected to 'admin.html'.
+
+%INDEX - Index name for topic - Used for links to topic, name of HTML page and
+also generation of table of contents.
+
+------------------------------------------------------------------------------
+Help on 'Test'
+------------------------------------------------------------------------------
+Help text
+------------------------------------------------------------------------------
+Also, see 'blah'.
+------------------------------------------------------------------------------
+
+[ Help Index | Commands | Tutorials | Table of Contents ]
+
+
+contents-a.html
+------------------------------------------------------------------------------
+A B C D E F G H ... Z
+------------------------------------------------------------------------------
+admin
+------------------------------------------------------------------------------
+A B C D E F G H ... Z
+------------------------------------------------------------------------------
+
+[ Help Index | Commands | Tutorials | Table of Contents ]
+

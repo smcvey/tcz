@@ -1,0 +1,76 @@
+USAGE:  @tree <OBJECT> [= [<NESTING>] [[!]<OBJ TYPE>] [[!]<OBJ TYPE>] [...]]
+
+<OBJECT>    Object to display tree of.
+<NESTING>   Optional maximum nesting level (I.e:  '3' will only display objects
+            nested up to 3 levels deep.)
+<OBJ TYPE>  Optional additional object types to list (Or object types to
+            exclude, if preceeded by '!'.)  Rooms and things are listed
+            by default (Use '!rooms' and/or '!things' to exclude.)
+
+            Can be:  alarms, all (List all object types), arrays, characters,
+                     commands, exits, fuses, players (Same as characters),
+                     properties, rooms, things, variables.
+
+
+Rooms and things always listed by default (Use !rooms and !things to exclude.)
+
+KEY:  +       Indicates object is inherited from another object.
+      !       Indicates object owned by another character.
+      *       Indicates connected character.
+      `- (+)  Indicates further nested objects, which cannot be displayed due
+              to maximum nesting level being reached (Or maximum possible
+              nesting level, based on your screen width.)  To see the missing
+              part of the object tree, you will need to use '@tree' on the
+              object the '`- (+)' is attached to.
+
+TCZ>  @tree 201 = 5
+
+Object tree of My Top Area(#201 RH)...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+My Top Area(#201 RH)
+ |- My House(#123 RH)
+ |   |- Kitchen(#53 RH)
+ |   |   |- Sink(#42 T)
+ |   |   |- Cooker(#23 T)
+ |   |   |   `- (+)
+ |   |   `- Bin(#234 T)
+ |   |- Bathroom(#42 RH)
+ |   |   |- +Sink(#53 T)
+ |   |   `- +Toilet(#58 T)
+ |   |- Lounge(#32 RH)
+ |   |   `- !Wibble
+ |   `- Toilet(#10 RH)
+ |- My Adventure(#154 RH)
+ |   |- Room one;1(#43 E)
+ |   |- Room two;2(#32 E)
+ |   |- Instructions(#112 T)
+ |   |- !Receptionist(#432 pLy)
+ |   |- Start;play(#431 C)
+ |   `- Adventurers[11](#123 D)
+ `- My Secret Room(#11 RH)
+
+
+Max. nesting level = (SCR_WIDTH - 20) / 4
+
+
+Processing order:
+~~~~~~~~~~~~~~~~~
+Rooms
+Exits
+Things
+Characters
+Compound commands
+Fuses
+Properties
+Variables
+Dynamic arrays
+Alarms
+
+
+Example usages:
+~~~~~~~~~~~~~~~
+@tree <OBJECT> = commands characters  (Lists compound commands and characters
+                                      in tree as well as rooms/things)
+@tree <OBJECT> = all                  (Lists everything in tree)
+@tree <OBJECT> = all !exits           (Lists everything except exits in
+                                      tree.)

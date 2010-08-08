@@ -1,0 +1,347 @@
+ 			        _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   | 
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+   -:-         T U T O R I A L     F O R     N E W     U S E R S         -:-
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+The aim of this tutorial...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The aim of this tutorial is to get you accustomed to The Chatting Zone, so you
+can get around and chat with other users.  The Chatting Zone (Or TCZ for
+short) is a UNIQUE system, which means you'll find many things are different
+to other talkers/MUD's you may have used (Even though the basic talking
+commands should be similar.)
+
+If you've never used The Chatting Zone before, you should read the tutorial
+from the beginning.
+
+
+ Section:                                                    Type in (On TCZ):
+===============================================================================
+ (1)   Conventions used in this tutorial and the rest of TCZ      help guide 1
+ (2)   How to look at things and talk to other users              help guide 4
+ (3)   How to talk to other users in rooms                        help guide 6
+ (4)   How to explore the virtual world of TCZ                    help guide 8
+-------------------------------------------------------------------------------
+ (5)   Making yourself you (Setting your description, etc.)      help guide 11
+ (6)   How to use the internal mailing system                    help guide 15
+ (7)   Miscellaneous stuff                                       help guide 17
+ (8)   Summary of commands used for talking                      help chatting
+===============================================================================
+
+
+SECTION 1:  Conventions...
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Before we start, you need to know the following conventions, which are used
+throughout this tutorial, the TCZ On-Line Help System and the rest of The
+Chatting Zone...
+
+<TEXT>    This represents the sort of information you need to provide at that
+          point, for example:  tell <NAME> = <MESSAGE>.  To make the command
+          work (Tell in this case, which tells a message to someone), you must
+          supply the name of the person and the message to send to them, e.g:
+          tell jc digita = Hello, I think I'm getting the hang of this now.
+
+[<TEXT>]  This represents optional information, which can be provided at that
+          point if you wish, for example:  where [<NAME>]  This means you can
+          either type where on it's own (Which lists everyone connected and
+          where they currently are), or where followed by the name of someone
+          to find out where they currently are, e.g:  where jc digita
+
+'<TEXT>'  In most cases, text enclosed in ''s indicates something you type
+          at your keyboard, e.g:  '@set me = male'.  Don't type the ''s  -
+          Just type the text within, e.g:  @set me = male (This convention
+          is used throughout The Chatting Zone and the On-Line Help System.)
+
+From now on, the above conventions will be used in this tutorial.
+
+
+Two useful hints...
+~~~~~~~~~~~~~~~~~~~
+(1)  Firstly, The Chatting Zone isn't case sensitive, so it doesn't matter
+     whether you type commands in upper or lower case letters (Or both.)
+
+(2)  Secondly, for most commands that take someone's name as a parameter, you
+     can shorten their name to just the first few unique letters, e.g:  'cra'
+     for 'crafty' (REMEMBER:  Don't type the ''s!)
+
+Right, now that's over with, I can explain how you get around and talk on The
+Chatting Zone.
+
+-------------------------------------------------------------------------------
+
+SECTION 2:  Looking around and talking...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The first thing you need to know is how to look at things.  This is done by
+typing 'look' on its own (To see the room you're currently in and what it
+contains) or 'look <OBJECT>' to look at something in the room (Where <OBJECT>
+is the name of the object you'd like to look at  -  You don't have to type
+this name in full.)  When you look at something, you'll see a description of
+what it looks like (And if it's an object, you'll usually be given a clue how
+to use it (If it has a use.))
+
+You can also look at other characters by typing 'look *<NAME>' (The '*' is
+neccessary if they aren't in the same room as you), however the 'scan'/'finger'
+command is much better for this and gives more useful information about the
+person you're interested in, e.g:  You can scan 'JC Digita' by typing
+'scan jc digita' (NOTE:  No '*' is needed with 'scan'/'finger', even
+if the user being scanned is in another room.)
+
+The next most important thing to learn is how to talk to other users of TCZ...
+
+The Chatting Zone is a multi-user adventure game/talker, which means there's
+usually lots of other users connected at most times, enjoying themselves and
+chatting to their friends.  If you type 'who' you'll see a list of everyone
+connected (Including you.)
+
+You can speak to any of the users listed in the 'who' list by typing 'tell
+<NAME> = <MESSAGE>' (Remember it from earlier on in this tutorial?)  For
+example, you could say "hello" to NorthernGet (Providing he's connected) by
+typing 'tell north = hello' (REMEMBER:  You can shorten names down to just a
+few unique characters.)  If NorthernGet is awake, he'll probably answer you
+within a few seconds time.
+
+-------------------------------------------------------------------------------
+
+SECTION 3:  Talking to other users in rooms...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Using 'tell' is all very well, but it isn't as much fun as going into a room
+and talking to several users at once!  The Chatting Zone has a place set aside
+for chatting to your friends in/making new friends called 'The Swan Pub'.  You
+can enter the Swan Pub at any time from anywhere by simply typing 'pub'.
+
+Once in the pub (Or any other room in fact), you can talk to its occupants.
+When you type 'look' (To look at the contents of the room you're currently
+in), you'll usually see a heading 'Contents:'.  Underneath this, you'll see a
+number of items listed.  Any item with a '*' to the left of its name is
+another connected user, who you can talk to.
+
+You can say something by typing '"<MESSAGE>', e.g:  '"hello' (NOTE:  You don't
+need to type a closing '"'.)  When you do this, everyone in the room "hears"
+what you say (In otherwords, they see your message on their screen.)
+
+You can also do an action (Such as laughing, waving, etc.) by typing
+':<ACTION>', e.g:  ':waves' to make you wave to everyone in the room.
+
+You can let people know (In the same room as you of course) what you're
+thinking by typing '+<THOUGHT>', e.g:  '+I'm really getting the hang of
+this!'
+
+-------------------------------------------------------------------------------
+
+SECTION 4:  Exploring the virtual world...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Now you know how to chat to other users!  The next thing to learn is how to
+explore the virtual world.  To do this, you'll need to go through exits from
+time to time.
+
+When you look at a room (REMEMBER:  You can do this by typing 'look'), you'll
+see an 'Obvious exits:' list (Unless the room doesn't have any exits, in which
+case the only way out is to go to The Swan Pub or The Town Centre (Type 'pub'
+or 'town'.))  After the name of each exit, you'll see a shortened name in
+brackets (E.g:  'A large wooden door (Wooden)')  To go through an exit, simply
+type the name in brackets (Without the ()'s around it of course!), e.g:
+'wooden'.
+
+When you arrive in the destination room (The room where the exit leads to),
+you'll automatically see the description and contents of this room (So you
+don't have to type 'look'.)
+
+You can go straight to some of the main places by typing a single command  -
+These places and the commands used to reach them are listed in 'help places'.
+
+When exploring, you should 'look' at every object you come across  -  Some
+have hints in their description that will give you an idea what you have to do
+to use them.
+
+You can find out where everyone else who's connected to The Chatting Zone is
+by typing 'where'.  A list will be displayed with the names of all connected
+characters and the rooms they're currently in.  If you see a number and some
+letters in brackets after the room's name (E.g:  'The Maelstrom(#3227 RAy)'),
+it means you can go straight to that room (Providing it has the capital letter
+'A' (Which stands for 'ABODE'.))
+
+You can do this by using the 'to #<ID>' command, which teleports you to the
+given room number (E.g:  'to #3227' would teleport you to 'The Maelstrom'.)
+Every object in The Chatting Zone has its own unique ID number (Even 
+characters.)  You can also set your home room to any ABODE room (The
+place where you go when you type 'home' and when you disconnect.)  -
+To do this, simply type '@link me = #<ID>', e.g:  '@link me = #3227'.
+
+-------------------------------------------------------------------------------
+
+SECTION 5:  Making yourself you...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+One thing you need to do is give yourself a description.  This tells other
+users what you look like when they 'scan', 'finger' or 'look' at you.  A
+typical description is usually 4-5 lines long and doesn't have to describe
+what you actually look like In Real Life (IRL.)  You can use The Chatting
+Zone's in-built editor to write your description...
+
+First of all, type 'edit me'  -  This will put you into the editor, editing
+your description.  You should now have a prompt that looks something like
+'[1:0]-->'  -  This is the editor prompt, which tells you what line number
+you're editing (Number on the left of the ':'), and how many lines your
+description currently has (Number on right.)
+
+If you're editing your description for the first time, or want to write a new
+description from scratch, you should type '.delete all' to clear your current
+description.
+
+You can now type in your description  -  Simply type each line followed by the
+RETURN or ENTER key on your terminal.  Once you've finished, you can view your
+description by typing '.view' (The numbers in square brackets to the left of
+each line are only line numbers, which will not appear in your description.
+
+What if you've made a mistake?  Well, you can replace typing errors using the
+'.replace' command  -  Simply type '.replace all = "<INCORRECT WORD>"
+"<CORRECT WORD>" all'  -  For example, if you accidentally spelt the word
+'the' as 'teh', you can correct it by typing '.replace all = "teh" "the" all'.
+
+Once you're happy with your description, simply type '.save' to save it and
+exit the editor.
+
+There are many other things you can do in the editor  -  Type 'help editor' on
+TCZ for full details on how to use it.
+
+If you need to change your race, you can do this by typing '@race me =
+<WHATEVER>'  -  You can't use the editor on your race (It's a bit pointless
+because you aren't allowed to have a race that's more than one line.)
+
+When you type 'who' (To display the list of connected users), you'll notice
+that some people have messages after their name (E.g:  'JC Digita the Supreme
+*SPOD*'.)  You can set your own personal 'who' list title by typing 'title
+<TITLE>', e.g:  'title explores The Chatting Zone!'  Your title can be up to
+a maximum of 50 characters long, but may get truncated in the list if it's too
+long (Depending on the length of your name.)
+
+You can change your password at any time (We recommend that you change your
+password every month or so to prevent malicious use of your character (E.g:
+If someone else finds out your password.))  To do this, simply type
+'@password'.  You'll first be asked for your old password (To verify it is
+actually you), and then your new one.  You'll be asked to type your new
+password again for verification (In case you typed it wrong the first time.)
+
+You can also enjoy The Chatting Zone in full colour (Providing your terminal
+supports ANSI colour)  -  Type 'set ansi on' to try it out and type 'look'.  If
+your screen is cluttered up with weird control codes, your terminal isn't ANSI
+compatible  -  Type 'set ansi off' to turn it off.  Take a look at 'help ansi
+colour' for more details on ANSI colour.  'help ansi codes' is quite
+interesting (And fun too if you use the listed codes in your speech!)
+
+-------------------------------------------------------------------------------
+
+SECTION 6:  Using the mail system...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Chatting Zone has a built-in mail system that allows you to send mail to
+your friends (Even when they're not connected.)
+
+To list your mail, simply type 'mail'  -  You'll probably find that you have
+no messages yet.
+
+To send some mail to someone, simply type 'mail <NAME>'.  Type your message,
+pressing RETURN after each line.  Once you've finished, type '.view' to check
+it and then '.save' to save your changes and mail your message (If you're
+happy with it.)  Otherwise, type 'abort = yes' to abandon your message (And
+not mail it.)
+
+To read a message someone's sent to you, simply type 'mail read = <NUMBER>',
+where <NUMBER> is the number of the message to read (Type 'mail' to list your
+mail  -  You'll see a number to the left of each message.)  E.g:  'mail read =
+1'.
+
+To delete unwanted mail (You should do this regularly because you may only
+have a maximum of 50 mailed messages stored in your mailbox) simply type 'mail
+delete = <NUMBER>'.  You can't delete unread mail.
+
+You can delete all of your mail by typing 'mail delete = all'.
+
+-------------------------------------------------------------------------------
+
+SECTION 7:  Miscellaneous stuff...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+See 'help chatting' for a summary of talking commands.
+
+Once you're used to chatting, exploring and getting around The Chatting Zone,
+you can try your hand at building your own place  -  It could be a house, an
+adventure or anything that you think people will enjoy looking around.  Before
+you can do this, you'll need to be a Builder.
+
+Simply ask an administrator for your BUILDER flag (Type 'who admin' for a list
+of connected administrators), e.g:  'page admin = can I be a builder, please?'
+You will be required to set your private E-mail address before being given your
+Builder flag (If you are unsure of how to do this, the administrator you asked
+will be able to help you.)
+
+You may wish to download The Chatting Zone Official Manual, which is available
+from TCZ's home pages and FTP archive.
+
+You can leave The Chatting Zone at any time by typing 'QUIT' in capital
+letters (A kind of "Are you sure?")  -  You'll probably use this command the
+least!  :-)
+
+Sooner or later, you'll probably come across a really annoying character, who
+spends their time doing nothing else other than annoying, abusing or sexually
+harassing you and other characters.  If you come across a character like this,
+YOU CAN DO SOMETHING ABOUT IT...
+
+Type 'emergency' followed by the name of the character, '=' and the reason,
+e.g:  'emergency Fred Bloggs = He is being really abusive' (PLEASE NOTE:  The
+word 'emergency' must be typed in FULL.)  Using 'emergency' on a character
+causes all the commands they type to be logged for the next 5 minutes.  Your
+reason is also logged and sent to all connected Admin. (So they can sort out
+the nuisance character!)
+
+If you have any problems, or questions, simply type 'assist'  -  This will
+tell any connected Admin. that you need assistance and someone will be along
+to help you shortly (Providing there are some Admin connected)  -  If not,
+you can use 'complain' command  -  This is sent to all connected Admin and
+also logged to a log file, which is checked regularly by Admin.
+
+-------------------------------------------------------------------------------
+
+Summary of commands used for talking...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are several ways of chatting/communicating with other users on The
+Chatting Zone  -  These are:
+
+"<MESSAGE>   Makes you say "<MESSAGE>" to everyone in the same room as you.
+?<QUESTION>  Makes you ask "<QUESTION>".
++<THOUGHT>   Makes you think  . o O ( <THOUGHT> )
+:<MESSAGE>   Shows your name, with <MESSAGE> after it.  Used for actions.
+;<MESSAGE>   Broadcasts <MESSAGE> to everyone in the same room without
+             displaying your name (Can only be used in places you own.)
+
+yell <MESSAGE>  Yells <MESSAGE> to everyone in the same area as you.
+
+whisper <NAME> [=] <MESSAGE>  Secretly whispers <MESSAGE> to the character
+                              <NAME>.
+
+tell <NAME> [=] <MESSAGE>     Tells <MESSAGE> to character <NAME>.
+
+page <NAME> [=] <MESSAGE>     Pages <MESSAGE> to character <NAME>.
+
+You can use ' or ` instead of " if you prefer, when speaking.
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

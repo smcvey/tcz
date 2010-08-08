@@ -1,0 +1,85 @@
+'@rap'  -  Hard coded rap sheets...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+(USER)   @rap [list] [<PAGE NO>] [<NAME>]
+(USER)   @rap read [<NAME> =] <NUMBER>
+(ADMIN)  @rap add <NAME> = <DETAILS>
+(ADMIN)  @rap delete <NAME> = <REASON>
+(ADMIN)  @rap limit <NAME> = <LIMIT>  (Upto 999)
+(ADMIN)  @rap identify <NAME>
+
+Official warnings, Moroning, boots, bans, etc. are automatically added to the
+rap sheet of a user.
+
+'@rap limit' changes limit of entries on rap sheet (100.)
+'@rap identify <NAME>' searches through all rap sheets to find characters who
+                       were originally called <NAME> (Or a name containing the
+                       text <NAME>)  -  Used for tracking down problem
+                       characters who have changed their name to avoid
+                       punishment.  (Prefixes/suffixes not recorded  -
+                       Real name must be used.)
+
+TCZ>  @rap wibble
+
+ Wibble(#12345 Ply)'s rap sheet (Original name:  Wobble), created on Sunday
+ 20th May 1996, 2:10am...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ (1)    Official warning from JC Digita on Monday 20th May 1996, 2:10am.
+ (2)    Perp reported by Pythor on Monday 20th May 1996, 2:15am.
+ (3)    Moroned by Ratty on Monday 20th May 1996, 2:18am.
+ (4)    Booted by Pythor on Monday 20th May 1996, 2:23am.
+ (5)    Banned by JC Digita on Monday 20th May 1996, 2:30am.
+ (6)    Name changed [by <NAME>] on Monday 20th May 1996, 2:37am.
+ (7)    Monitored by JC Digita on Monday 20th May 1996, 2:40am.
+ (8)    E-mail address changed [by <NAME>] on Monday 20th May 1996, 2:37am.
+ (9)    Building Quota limit raise refused by <NAME> on <DATE>.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Total entries:  5 (Page 1 of 1).
+
+TCZ>  @rap read wibble = 1
+
+ (1)  Official warning from JC Digita on Monday 20th May 1996, 2:10am.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ If you do not stop being abusive, you will be Moroned and jailed  -  This is
+ your final warning.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ This entry was logged 10 days, 1 minute and 20 seconds ago.
+
+
+ (4)    Booted by Pythor on Monday 20th May 1996, 2:23am.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Reason:  For being abusive and refusing to stop.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ This entry was logged 10 days, 3 minutes and 2 seconds ago.
+
+
+ (5)    Banned by JC Digita on Monday 20th May 1996, 2:30am.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Duration:  1 day.
+
+   Reason:  Abusive characters will not be tolerated here  -  Banned for a
+            day.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ This entry was logged 10 days, 4 minutes and 34 seconds ago.
+
+
+ (6)    Name changed [by <NAME>] on Monday 20th May 1996, 2:37am.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Old name:  Joe Bloggs.
+ New name:  Fred Bloggs.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+TCZ>  @rap identify bloggs  (Output 'more' paged.)
+
+ Characters who have the text 'bloggs' in their name, their original name (When
+ they first connected) or a name they have recently used in the past...
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ (1)  (Original)  Joe Bloggs, currently known as Fred Bloggs(#12345 Ply).
+ (2)  (Recent)    Fred Bloggs, currently known as Fred Bloggs(#12345 Ply).
+ (3)  (Current)   Fred Bloggs(#12345 Ply).
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Characters identified:  3.
+
+(Original)  Original name of character (When they first created.)
+(Recent)    Name recently used by character (Changed with '@name'.)
+(Current)   Name currently being used by character.

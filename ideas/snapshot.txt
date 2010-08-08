@@ -1,0 +1,6 @@
+Plus, {@?snapshot[first|last] <COMMAND>}
+
+Records output (Upto 1st or last 4Kb), returning resulting output, e.g:
+
+@temp test = {@?snapshot who}
+

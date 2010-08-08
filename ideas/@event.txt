@@ -1,0 +1,62 @@
+@event add <LOCATION> = <NAME> = <TYPE> [<OPTIONS>] = <MATCH SPEC> = <COMMAND>
+
+<LOCATION>
+
+Location of event - Can be character, room, thing, exit (Blank defaults to 'me'.)
+
+<NAME>
+
+Short name for event, to refer to it when using '@event'.
+
+<TYPE> = command|input|output|move|login
+
+command = When given command is executed (Matched on first param of
+                   command-line.  {@?cmdname} = command, $1 = 1st param,
+                   $2 = 2nd param, $3 = all three.
+input   =  User input matches <MATCH SPEC> - $1/$2/$3 = Input as per compound command.
+output =  Screen output matches <MATCH SPEC> - $1/$3 = Output.
+move = When user moves $1 = Source, $2 = Destination
+login = When user connects/disconnects $1 = Connect | Disconnect.
+test = <MATCH SPEC> is command that's performed each time user types command - if sucessful <COMMAND> is executed, i.e:  test = {@?set me = male} = @echo (M)
+startup = Performed at TCZ start-up - <MATCH SPEC> is ignored.  Useful for setting defaults in areas, etc.  Exec limit is set to 2 secs as default.
+hourly|daily|weekly|monthly - Performed by TCZ once per hour, day, week or month - queued at 5 sec intervals with exec limit set to 2 secs.  Again useful for setting defaults or running timed events without use of alarms. 
+
+For hourly|daily|weekly|monthly,  <MATCH SPEC> is preferred time/day to run, in form HH:MM DD MT - DD = 1-31 (Day of month), MON-SUN (Day of week), LAST = Last day of month, MT = Month 1-12, JAN-DEC  -  * can be used in field to mean 'any'.
+
+Example:  hourly = *:30   -  Run at half-past the hour.
+12:00 TUE *  -  Run on Tuesday at midday.
+16:01 THU DEC - Run at 16:01 on Thursdays in December.
+23:00 LAST * - Run on last day of each month.
+
+<OPTIONS> = pre|post|abort
+
+pre = Execute before action
+post = Execute after (A bit like sticky fuse)
+abort = For pre, abort rest of command if matched (Only for admin, like abort fuses.) - Will also work on (W) set objects.  Use @continue to stop abort.
+
+<MATCH SPEC>
+
+Wildcard spec of what to match for - event executes if match.  Blank = no matching, always execute (Useful for 'move'/'login'.)  If no *'s are used, *<MATCH SPEC>* is assumed.   No matching is performed for 'move' and 'login' events.
+
+<COMMAND>
+
+Command to exec - Can either be #ID or a single command-line - executed with security model of execute_action_command() to prevent abuse (I.e: Under ID of event owner and no write access to user involking it.)
+
+@event delete <LOCATION> = <NAME> [= yes]  -  Delete event - 'yes' req. if deleting someone else's event (Admin.)
+@event list <LOCATION> = [<TYPE>] [<NAME>]  - List events.
+@event enable|disable <LOCATION> = <NAME>  -  Disable or enable an event.
+
+Special related query for use in '@event' commands:
+
+{@?event name|type|options|spec|cmd}
+
+
+@event details <LOCATION> = <NAME>
+
+Show detailed information about event, including when it will next run.  Could also include info such as who last involked it and at what time.
+
+User input event needs some sort of monitoring to stop 'spying'?
+
+When events are queued, entry on user determines time next event they own will be ran - 10 secs between events for normal users, 5 secs for admin.
+
+Cost of events = 1 quota per X events (To be determined.)

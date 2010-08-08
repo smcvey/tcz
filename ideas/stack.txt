@@ -1,0 +1,16 @@
+Compound command execution stack (Simplifies caching of compound
+command parameters and passing of temp. variables, etc.)  Esp.
+important for @queue.
+
+Flags:
+
+STACK_PARAMS    Store/retrieve parameters ($0, $1, $2, $3)
+STACK_TEMPS 	Keep temporary variables.
+
+command_push(int flags,int reset)
+
+	Push current command data onto stack:
+        reset:  
+	temps:  Keep temporary variables
+
+)  Push 

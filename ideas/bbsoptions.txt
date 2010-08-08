@@ -1,0 +1,3 @@
+USAGE:  [bbs] options <TOPIC>[/<SUBTOPIC>] [= [!]<OPTION> [[!]<OPTION>] [...]]
+        [bbs] options *<NAME> [= [!]<OPTION> [[!]<OPTION>] [...]]
+        [bbs] options list [<PAGE NO>]

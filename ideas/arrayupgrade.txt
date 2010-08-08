@@ -1,0 +1,55 @@
+struct array {
+       u_char *field;	Pointer to first field
+       u_char fields;   Number of fields (+2 (For index & first field) and *4
+                        gives size of each field.
+       long   size;     Current uncompressed size of array in bytes (This
+                        determines the Building Quota used (Mem used by
+                        struct for each element is also taken into account.)
+}
+
+Structure of each field is a block of u_char of appropriate size, divided into
+segments of 4, for the 32-bit pointers:
+
+[ NEXT | INDEX | FIELD 1 | FIELD 2 | ... ]
+
+
+Completely empty array costs 1q.  Extra 1q charged per extra 1024 bytes in use
+by the array.
+
+
+New commands:
+
+USAGE:  @field insert <ARRAY>[.<FIELD>] [= <NAME>]
+        @field set <ARRAY>[.<FIELD>] [= <NAME>]
+        @field delete <ARRAY> = <NUMBER>
+        @field add <ARRAY> [= <NAME>]
+
+This command is used to add, delete or modify the fields of a dynamic array.
+By default, a dynamic array has no fields, and only has a description and
+optional index name for each element.  Upto a maximum of 256 fields can be
+created, giving each element multiple independent fields (Doing this will
+effectively make the dynamic array two-dimensional.)
+
+One example use of fields on the elements of a dynamic array would be the
+creation of an address book.  For example, you want to be able to hold the
+TCZ name, real life name and E-mail address of some of your friends.  For
+this you could create a dynamic array, and then create the fields 'name',
+'reallife' and 'email'.  This is done using the '@field add' command, e.g:
+
+@array friends
+@field add friends = name
+@field add friends = reallife
+@field add friends = email
+
+Once a dynamic array has fields, you can refer to them by name or number, using
+'<ARRAY>[<ELEMENT>].<FIELD>', where <ARRAY> is the name or #ID number of the
+dynamic array, <ELEMENT> is the element number, range or index name and <FIELD>
+is the name or number of the <FIELD>, e.g:  'friends[1].email'.  You could now
+add your friends to the above dynamic array:
+
+@desc friends[1].name = Mr X
+@desc friends[1].realname = Fred Bloggs
+@desc friends[1].email = fred@wibble.com
+
+Describe each command individually for adding, deleting, etc. fields - Also,
+explain how to list the fields available on the array (Using 'examine'.)

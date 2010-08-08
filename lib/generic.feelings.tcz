@@ -1,0 +1,231 @@
+# .---------------------------------------------------------------------------.
+# | The Chatting Zone (TCZ)                          (C) J.P.Boggis 1993-2004 |
+# | ~~~~~~~~~~~~~~~~~~~~~~~                          ~~~~~~~~~~~~~~~~~~~~~~~~ |
+# |---------------------------------------------------------------------------|
+# | Generic feelings configuration file                                       |
+# | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                                       |
+# | USAGE:  <FEELING> <ACTION> <KEYWORD> <NAMES|TEXT>                         |
+# |                                                                           |
+# | If you wish to change or add your own feeling commands for your TCZ-based |
+# | MUD, please copy the relevant feeling(s) to lib/local.feeling.tcz and     |
+# | make your changes/additions (Feelings in local feelings file override     |
+# | generic feelings.)                                                        |
+# |                                                                           |
+# |  Feeling:  Feeling command name(s), separated by ';'.                     |
+# | Keywords:  Allowed keywords, separated by ';'.                            |
+# | DKeyword:  Default keyword (Used if <KEYWORDS> are ommited.)              |
+# |  DAction:  Default action (Used if <ACTION> is ommited.)                  |
+# |    Dtext:  Default text (Used if <NAMES|TEXT> is ommited.)                |
+# |    Flags:  One or more flags, separated by '|' from the following list:   |
+# |                                                                           |
+# |            ACTION        -  Allow use of <ACTION> in feeling command.     |
+# |            CONNECTED     -  Match <NAMES|TEXT> against names of connected |
+# |                             characters.                                   |
+# |            DISCONNECTED  -  Match <NAMES|TEXT> against names of           |
+# |                             non-connected characters.                     |
+# |            LIST          -  Allow list of multiple character names.       |
+# |            OBJECT        -  Match <NAMES|TEXT> against objects in same    |
+# |                             location as user.                             |
+# |            REMOTE        -  Allow characters not in same location.        |
+# |            SUBST         -  Process '%'-type substitution codes in        |
+# |                             <ACTION> and <NAMES|TEXT>.                    |
+# |            TEXT          -  Allow freehand text for <NAMES|TEXT>.         |
+# |            DEFAULT       -  ACTION|CONNECTED|LIST|SUBST|TEXT              |
+# |                                                                           |
+# |  DColour:  Default colour code for '%x' (%g%l)  -  Default colour.        |
+# |  UColour:  Default colour code for '%n' (%w%l)  -  Feeling user name.     |
+# |  RColour:  Default colour code for '$3' (%y%l)  -  Recipient names.       |
+# |    UEcho:  Message to output to feeling user.                             |
+# |    REcho:  Message to output to recipient user(s).                        |
+# |    OEcho:  Message to output to other users in the same location.         |
+# |                                                                           |
+# |       $1:  ' ' + <ACTION>                                                 |
+# |       $2:  ' ' + <KEYWORD> + ' '                                          |
+# |       $3:  <NAMES|TEXT>                                                   |
+# |       $6:  Name used to involke feeling command.                          |
+# |       %n:  Name of user involking feeling command.                        |
+# |       %.:  '.' if <NAMES|TEXT> is specified, otherwise blank.             |
+# |-------------------------[ Copyright Information ]-------------------------|
+# | This program is free software; you can redistribute it and/or modify      |
+# | it under the terms of the GNU General Public License as published by      |
+# | the Free Software Foundation; either version 2 of the License, or         |
+# | (at your option) any later version.                                       |
+# |                                                                           |
+# | This program is distributed in the hope that it will be useful,           |
+# | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+# | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+# | GNU General Public License for more details.                              |
+# |                                                                           |
+# | You should have received a copy of the GNU General Public License         |
+# | along with this program; if not, write to the Free Software Foundation,   |
+# | Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA             |
+# |----------------------[ Credits & Acknowledgements ]-----------------------|
+# | For full details of authors and contributers to TCZ, please see the files |
+# | MODULES and CONTRIBUTERS.  For full details of the GNU General Public     |
+# | License, under which TCZ is distributed, please see LICENSE.              |
+# |                                                                           |
+# | Module originally designed and written by:  J.P.Boggis 07/07/2000.        |
+# |-------------------------[ The Chatting Zone (TCZ) ]-----------------------|
+# |               For more information about TCZ, please visit:               |
+# |                  http://www.sourceforge.net/projects/tcz                  |
+# `---------------------------------------------------------------------------'
+#
+#   $Id: generic.feelings.tcz,v 1.1.1.1 2004/12/02 17:39:08 jpboggis Exp $
+
+
+# 'ack'  -  J.P.Boggis 07/07/2000
+ Feeling: ack
+AFeeling: 
+Keywords: at;to
+DKeyword: to
+ DAction: loudly
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You ack$1$2$3.
+   REcho: %w%l%n%x acks$1$2$3.
+   OEcho: %w%l%n%x acks$1$2$3.
+
+
+# 'aha'  -  J.P.Boggis 07/07/2000
+ Feeling: aha
+AFeeling: 
+Keywords: at;to
+DKeyword: to
+ DAction: abruptly
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You$1 point your finger in the air and shout "%w%lAHA!!!%x"$2$3%.
+   REcho: %w%l%n%x$1 points %p finger in the air and shouts "%w%lAHA!!!%x"$2$3%.
+   OEcho: %w%l%n%x$1 points %p finger in the air and shouts "%w%lAHA!!!%x"$2$3%.
+
+
+# 'ahem'  -  J.P.Boggis 07/07/2000
+ Feeling: ahem
+AFeeling: 
+Keywords: at;to
+DKeyword: to
+ Daction:
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You ahem$1$2$3.
+   REcho: %w%l%n%x ahems$1$2$3.
+   OEcho: %w%l%n%x ahems$1$2$3.
+
+
+# 'alien'  -  J.P.Boggis 07/07/2000
+ Feeling: alien
+AFeeling: 
+Keywords: to
+DKeyword: 
+ Daction:
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You shout "%y%lWe're on an express elevator to %r%lHELL%y%l!  %m%lGO-ING DOOWNN!%x"$2$3%.
+   REcho: %w%l%n%x shouts "%y%lWe're on an express elevator to %r%lHELL%y%l!  %m%lGO-ING DOOWNN!%x"$2$3%.
+   OEcho: %w%l%n%x shouts "%y%lWe're on an express elevator to %r%lHELL%y%l!  %m%lGO-ING DOOWNN!%x"$2$3%.
+
+
+# 'aliens'  -  J.P.Boggis 07/07/2000
+ Feeling: aliens;aliens2
+AFeeling: 
+Keywords: to
+DKeyword:
+ Daction:
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You say "%y%lI only need to know one thing...  %m%lWhere...they...are.%x"$2$3%%.
+   REcho: %w%l%n%x says "%y%lI only need to know one thing...  %m%lWhere...they...are.%x"$2$3%.
+   OEcho: %w%l%n%x says "%y%lI only need to know one thing...  %m%lWhere...they...are.%x"$2$3%.
+
+
+# 'angst'  -  J.P.Boggis 07/07/2000
+ Feeling: angst
+AFeeling: 
+Keywords: at;to
+DKeyword: to
+ Daction:
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You angst$1$2$3.
+   REcho: %w%l%n%x angsts$1$2$3.
+   OEcho: %w%l%n%x angsts$1$2$3.
+
+
+# 'baa'  -  J.P.Boggis 07/07/2000
+ Feeling: baa
+AFeeling: 
+Keywords: at;to
+DKeyword: to
+ Daction:
+   Dtext:
+   Flags: DEFAULT 
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: Doing your best sheep impression, you go "%w%lB-a-a-a-a-a!%x"$2$3%.
+   REcho: goes "%w%lB-a-a-a-a-a! Baaaaa!%x"$2$3%.
+   OEcho: goes "%w%lB-a-a-a-a-a! Baaaaa!%x"$2$3%.
+
+
+# 'dance'  -  J.P.Boggis 16/07/2000
+ Feeling: dance
+AFeeling: 
+Keywords: with;on
+DKeyword: with
+ DAction:
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You dance$1$2$3.
+   REcho: %w%l%n%x dances$1$2$3.
+   OEcho: %w%l%n%x dances$1$2$3.
+
+
+# 'puke'  -  J.P.Boggis 07/07/2000
+ Feeling: puke;sick;throwup;chuckup;barf
+Keywords: at;on;over;all over
+DKeyword: all over
+ Daction:
+   Dtext: the place
+   Flags: DEFAULT 
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You throw up$1$2$3.
+   REcho: %w%l%n%x throws up$1$2$3.
+   OEcho: %w%l%n%x throws up$1$2$3.
+
+
+# 'wave'  -  J.P.Boggis 07/07/2000
+ Feeling: wave
+Keywords: at;to
+DKeyword: to
+ Daction:
+   Dtext:
+   Flags: DEFAULT
+ DColour: %g%l
+ UColour: %w%l
+ RColour: %y%l
+   UEcho: You wave$1$2$3.
+   REcho: %w%l%n%x waves$1$2$3.
+   OEcho: %w%l%n%x waves$1$2$3.

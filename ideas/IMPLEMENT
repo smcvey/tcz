@@ -1,0 +1,663 @@
+Implementation/Debugging/Testing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  $Id: IMPLEMENT,v 1.1.1.1 2004/12/02 17:44:29 jpboggis Exp $
+
+Main stuff requiring implementation:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  *  @dataformat/@?dateformat.
+  *  @?datetime supports new formats.
+  *  Command parameter prompts (prompt.c)
+  *  Pagetell lists.
+  *  Mail system?
+
+  *  @import/@export.
+  *  New configurable character rank names.
+  *  get/drop credits + SECURE flag + documentation + @rank credit = include
+       column for credit in self-owned locations, but don't include in user's
+       total credit.
+  *  Bug fixes (Try and get rid of some of the stuff in this file!)
+  *  Name lists in page/tell and friends (Using lists.c)
+  *  'friends.c' using 'lists.c' for multiple users (I.e:  'fset friends = !inform'.)
+  *  Site database improvements.
+  *  Hard-coded channels.
+  *  Hard-coded mail system (Also using 'lists.c'.)
+  *  Hard-coded feelings.
+  *  Hard-coded global teleports.
+
+
+Command parameter prompts:  ( X> needs setting for appropriate commands!)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+  -> = Interactive prompts added.
+  X> = Interactive prompts not required.
+
+  Test '@desc' with interactive prompting.
+
+  General Commands...
+  ~~~~~~~~~~~~~~~~~~~
+X>!!            X>admin         X>aliases         afk             ask
+X>authors       X>bbs             bug             chat            close
+X>cls             comment         complain      X>converse      X>date
+X>disclaimer      drive           drop            edit            emergency
+  enter         X>events          examine         fadd            fchat
+  finger        X>flist         X>fothers         fremove       X>friends
+  fset          X>fwhere        X>fwho            get             give
+  go              goto            help          X>home          X>homeroom
+  idle          X>inventory       junk            kick            lastseen
+X>leave           lock          X>longspod      X>look          X>lwho
+X>map           X>modules       X>more          X>motd            move
+X>news            open            page          X>privileges    X>profile
+X>QUIT          X>read          X>recall          repeat          reply
+  ride            say           X>scan          X>score         X>screenconfig
+X>session         set             settings      X>spod            suggest
+  summon        X>swho            take            tell            think
+X>time            title         X>titles          to              unlock
+X>uptime          use           X>users         X>version         wake
+X>warp          X>where           whisper       X>who             visit
+  yell
+
+
+  Character Related Commands/Query Commands...
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  bank               finger             friends            inventory
+  pay                privileges         profile            scan
+  score              set                title              transfer
+
+  @bootdead          @controller        @credit            @desc
+  @email             @feeling           @homeroom          @link
+  @mass              @name              @partner           @password
+  @prefix            @profile           @race              @rank
+  @score             @set               @suffix            @title
+  @volume            @www
+
+
+  Combat Related Commands/Query Commands...
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  attributes      statistics
+
+  @damage         @delay          @heal           @score
+
+
+  Building Commands...
+  ~~~~~~~~~~~~~~~~~~~~
+  @alias          @array          @areaname       @areawrite      @beep
+  @begin          @break          @breakloop      @calc           @case
+  @censor         @cfail          @chown          @chpid          @chuid
+  @command        @contents       @continue       @create         @cstring
+  @csucc        ->@desc           @destroy        @desttemp       @dig
+  @drop           @duplicate      @echo           @echolist       @else
+  @end            @entrances      @estring        @eval           @execution
+  @expiry         @fail           @false          @find           @for
+  @foreach        @force          @fuse           @goto           @if
+  @index          @insert         @key            @link           @list
+  @lock           @log            @logentry       @mass           @name
+  @namelower      @notify         @odesc          @odrop          @oecho
+  @oemote         @ofail          @open           @osucc          @output
+  @owner          @parent         @pay            @pending        @prompt
+  @property       @purge          @quota          @remote         @return
+  @returnvalue    @set            @size           @skip           @sort
+  @stats          @succ           @teleport       @temp           @test
+  @transfer       @true           @unalias        @unchpid        @undestroy
+  @unlink         @unlock         @variable       @volume         @while
+  @with           @write
+
+
+  Administrative Commands/Query Commands...
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  assist          escape           email           hosts           last
+  natter          shout            sites           summon          warn
+  welcome
+
+  @admin          @ban             @banish         @boot           @bootdead
+  @character      @controller      @credit         @destall        @dump
+  @force          @log             @logentry       @maintenance    @monitor
+  @newpassword    @notify          @partner        @prefix         @puppet
+  @quotalimit     @reload          @request        @sanity         @shutdown
+  @site           @stats           @suffix
+
+
+prefs_set:
+~~~~~~~~~~
+Prompt for built-in command arguments:  Yes/No.
+           Automatically start editor:  Yes/No.
+
+preferences.c:  Move 'set' preference flags from flags2 to prefflags
+
+Custom date/time formats:
+~~~~~~~~~~~~~~~~~~~~~~~~~
+   @dateformat
+   @?dateformat
+   @?datetime
+
+Dates - Allow user to set format, plus add support for DMY to {@?datetime}
+        -  Test with 'help cvs' page.
+
+TIME - Warn users of daylight saving time change, plus add setting to
+       automatically adjust timediff so that daylight saving time is ignored
+       ('set daylight saving = off'?)
+
+db[x].owner = Owner(x)
+db[x].location = Location(x)
+db[x].destination = Destination(x)
+
+Use CVS variables (I.e:  $Date: 2004/12/02 17:44:29 $ and $Revision: 1.1.1.1 $ ) in modules.c
+
+HTML (View) (Use), etc. links - 'set' option to turn these on/off.
+
+New matching code gets stuck matching for area command within #4 (Something to
+  do with matching for globals in same place?)
+
+* give already done
+put <OBJ> in[to] <CONTAINER>
+drop <OBJ> in[to] <CONTAINER>
+get <OBJ> from <CONTAINER>
+take <OBJ> from <CONTAINER>
+
+MANUAL - Generalised upto 'TCZ-based MUD Character Levels' section (Needs
+         generalising in on-line help too.)
+
+HTML:  Refererer      - Use this to reject input/output connections that
+                        don't originate from already generated input/output
+                        pages, parent frame or connect/create form.
+
+@with:  @with fothers|eothers <NAME> do ...
+        @with <OBJECT TYPES> database do ... = TYPE;!TYPE;TYPE
+        @with <OBJECT TYPES> owned by <NAME> do ...
+        @with [unique]connected do ...
+        @with <OBJECT TYPES> (<FLAGS>) <OBJECT> do ...
+
+Userlogs - Code to go through directory and remove log files from users who
+           no-longer exist.  Possible to check date file was last accessed
+           and only delete if over 1 month old?
+
+@?char - Returns ID of 1 non-char then nothing.
+
+Flags:
+~~~~~~
+  Character flags db[x].data->player.flags for character specific flags?
+  Tertiary flags?  (For future expansion)
+
+Admin rank names - Make these customisable, plus generic names that will always
+                   work on any TCZ-based MUD, such as LEVEL1/DEITY,
+                   LEVEL2/ELDER, LEVEL3/WIZARD, LEVEL4/APPRENTICE, etc.
+
+User logs - *  Write code to go through logs and check that a character with
+               the ID exists at start-up - Delete logs of characters who
+               don't exist.
+            *  Don't delete log files which have had activity in them in the
+               past month (Last modified date of file.)
+            *  When creating new character, check for existence of log file
+               and delete.
+
+@snapshot (See ideas/snapshot.txt)
+
+FIELDS:      Allow custom fields to be attached to objects - Have name and
+             value, and are owned by creator - Appear like fields actually on
+             object, but can't over-ride hard-coded ones.
+
+             @field add|remove|set|flags|owner|colour|rename|list <OBJECT> = <FIELD> [= <DESCRIPTION>]
+
+             {@?field [flags|owner] <OBJECT> = <FIELD>}
+
+	     Maybe {@#<FIELD> <OBJECT>} ???
+
+             add = Add new field (Same as set)
+             remove = Remove field.
+	     set = Change field description (Create new field if not exist.)
+	     flags = Set/reset flags on field.
+             owner = Change owner.
+	     colour = Set colour of field name/desc (Single code letters, as used by colourmap), e.g:  RW (Red name, White desc.)
+	     rename = Rename field.
+             list = List fields on object.
+
+             Flags include:
+
+	     P	Permanent - Can be altered but not deleted or renamed.
+	     R	ReadOnly  - Can't be deleted or altered.
+	     p	Private	  - Hidden and inaccessible to anyone except owner and those above level.
+	     V	Visible	  - Name, description, owner and flags visible to everyone.
+	     H	Hidden    - Hide field in examine (Unless owner and those above level.)
+             W  Writable  - Object owner field is attached to can change its description (But not destroy it.)
+             T  Transferable - Object owner can can take over ownership of field if they wish.
+             I  Inheritable  - Child objects inherit field from parent (Unless they have field with same name attached.)
+             E  Examine   - Appears when object is examined?
+             X  Profile   - Appears on user profile (Desc substituted)?
+	     L  Look      - Appears when object looked at (Desc substituted)?
+
+             @field list MyObject
+
+             User-defined fields:
+             ~~~~~~~~~~~~~~~~~~~~
+	     My Field:  Wibble    {Not owner of object, visible object}
+	     My Field (JC Digita):  Wibble.   {Owner of object, but not field}
+             My Field [PRpVHWTEXL] (JC Digita):  Wibble.
+
+	     Appears on 'examine'.  Cost 1 quota per 10Kb? - Keep track of how
+             much they are using.
+
+SITES:  *  Tree structure for each part of IP address ip1 -> ip2 -> ip3 -> ip4
+	*  DNS lookup for DNS set records stored in IP record - Reset once
+           every 24 hours - Only for exact IP's (I.e:  No wildcards used.)
+	*  Connect/create/current connections stats - Update and inherit these
+           up the tree of IP's to the top.
+	*  Range of addresses, i.e:  172.[16-31].*.*
+	*  Future support for IPv6
+	*  Comments field ('@site comments') - To log reason for ban, etc.
+
+combat.c  -  Help on Combat Areas.
+
+SSL:  *  Port for SSL - SSL web connection automatically uses this rather than
+         8080?
+      *  Document SSL support in 'help ssl'.
+
+Allow custom profile entries to be created @profile <SECTION COLOUR> =
+    <NAME OF SECTION> = <SETTING>  -  Limit on number that can be created.
+Profile searching command.
+
+User log files:  Don't log if disk space is below (?)Mb (#define)
+
+Rename do_... to sourcefile_... in source.
+
+Place structures into separate H file instead of db.h - I.e:  structures.h
+
+Dynamically work out number of descriptors in currently in use, rather than
+   having hard-coded RESERVED_DESCRIPTORS?
+
+@maintenance general check - Check for new char requests not owned by Admin
+                             and put back into queue (This should also be
+                             done on demotion of Admin to mortal/retired.)
+                             request_check()?
+
+Requests - Add limit to number of requests in the queue (MAX_REQUESTS), and
+           add checks to requests code to stop request being assigned if
+           there are too many (User informed, plus logged to request log,
+           but no request entry created.)
+
+           Add limit to number of requests in queue for same character name,
+           and add checks to stop it being assigned if too many (Say 15).
+           User informed, plus logged, but no entry created.)
+
+'@request assign <NUMBER> = <NAME>' to assign/re-assign request to someone.
+
+tcz --generate  -  Generate new DB should create Mortal character called
+                   'maintenance' in #0 to become @admin maintenance owner,
+                   so root doesn't take over ownership of destroyed objects.
+
+CHECK NEW CONSTANTS:  YEAR, MONTH - Will affect code that uses these - values
+                      should be more accurate.
+
+'su' command for taking over identity of someone else (Similar to UNIX)
+
+Forked database dump:  @dump restart doesn't work correctly (Says dump crashed,
+                       when it didn't?)
+
+***  Does SIGUSR1 (Database dump restart) still work with forked dump?
+
+New 'set' option:  'set beep on|off' - When off, beep \007 code is filtered
+   out when output is sent to terminal, preventing beep from pages, clock, etc.
+
+'@logwatch' command (See '@logwatch.txt'.)
+
+Duplicate big array:  Takes quota it would have taken to duplicate all the
+                      elements, but doesn't create the elements - have to
+                      use '@quota initialise' to put quota usage back to
+                      normal.
+
+                      Allow duplication of large array in cmd with (E) flag
+                      set?
+
+BBS - Allow display of 1000-9999 messages in topics, i.e:
+
+      Topic  (100,1234)->Topic2 (1234,1234)
+      Topic3  (23,123)  *Topic4    (1,23)
+
+      On HTML, always display full counts.
+
+ANSI - New substitution that allows backtrack through stacked ANSI-codes?
+       i.e:  @echo %r%lHello %g%lGreen %?Back to red again.
+
+Change friends code to allow more friends as user clocks up total connect time.
+
+Use of META tags within HTML interface to prevent internet search engines
+   ('robots' metatag.)
+
+Binary tree on dynamic array index names  -  When loading from database,
+   element index names would need to be added randomly to the tree to ensure
+   it is reasonably balanced (I.e:  '@sort'ed dynamic array would kill
+   efficiency of binary tree.)
+
+Ability to block output from particular characters, possibly using IGNORE
+   friend flag.  output() would need additional parameters to make this
+   work (I.e:  Character causing output), which would result in lots of
+   typing/replacement work.
+
+Aliases  -  Sort these alphabetically when using 'aliases' to display them.
+
+When building as someone else, attempting to set SHARABLE flag on object
+   results in 'unable to set SHARABLE flag' message, but flag still gets set.
+
+'freeze' results of vote when it closes (Possibility), so that change of
+   rank doesn't cause weighted votes to change.
+
+'.prepend' BBS command - appends to start of line rather than end.
+
+'bbs movetopic' command (Moves subtopic to another topic.)
+
+'bbs move' should allow moving of message with replies - perhaps it could move
+   the replies too (One at a time) and then link them all up again afterwards.
+
+Support for crediting author in help topics, and displaying when users read
+   them, i.e:  %AUTHOR Fred Bloggs
+
+ICQ section on profile.
+
+Help on how to change gender between male/female/neuter.
+
+BBS ignore button on HTML interface?
+
+Ability to search log files from within TCZ.
+
+</> wrong way round in junk? - Can junk same/higher owned objects rather than
+   own and lower only.
+
+@controller tells user that they are no-longer a puppet when used to reset
+   controller of someone who isn't one.
+
+@undelete character - don't allow character with same name as existing one to be
+   undeleted.
+
+@destroy object = permanent - on permanent object gives message 'can't destroy
+   an object you own'.
+
+Allow force of HTML output (For Pueblo MUD client) - Perhaps 'set html = on'.
+
+Allow '@request list' in compound command.  Allow other '@request' commands
+   in WIZARD / ELDER set compound commands.
+
+Perhaps options to stop display of prefix/suffix, ()'s, etc. after name of
+   character.  Perhaps separate to flags.  Possibly under 'set'.
+
+Ability to redirect output to property/temp variable - Possibly '@redirect' - 
+   i.e:  '@redirect mytemp = who' to put output of 'who' into temp variable
+   mytemp.
+
+Ability to set time on Moron flag along with logged reason - Resets the flag
+   automatically after that period, or can be made indefinite (As currently.)
+
+No []'s allowed in @name, when used on an array.
+
+crashes if generate DB option is used, and standard directory structure
+doesn't exist (crashes on shutdown, when dumping DB.)
+
+* bbs.c:     Auto-append if message gets too long.
+
+             BBS options for topics:
+
+             Personal
+             ~~~~~~~~
+             FAVOURITE   Mark topic as favourite - enables options
+                         Shows summary on login of new messages.
+                         Also, 'summary favourites' (Or 'summary favorites')
+                         can be used to see summary at any time.
+
+             IGNORE      Ignore all unread messages (Makes it appear as
+                         though all have been read.)
+
+             NOTIFY      Inform of all messages added to topic.
+
+             QUIET       No inform of new messages, even when in BBS
+                         room.
+
+             *  Above options are inherited to sub-topic if no options
+                exist, or only topic access options are set.
+
+             Topic Access
+             ~~~~~~~~~~~~
+             MEMBER      Makes user a member of topic.  Topic can then be
+                         restricted to members only ('bbs accesslevel
+                         members'.)
+
+             BANNED      Ban user from accessing topic.
+
+             READONLY    Read-only access to topic (No posting messages.)
+
+             ADMIN       User can do basic topic admin, such as delete
+                         same/lower messages, append, etc.
+
+* page/tell/friends   Support for new name lookup.
+
+* friends.c: Friend groups.
+
+* censor.c:  Implement this, using txt/censor.txt as a guide.  For
+             pre-customisable censorship DB's, create default list of
+             censored words, based on those in bad_language_filter()
+
+* sanity.c:  sanity_output() function.
+	     Add options to check credit, balance, income, expenditure and
+             health for negative value.
+
+* finance.c:  'get'/'drop' work with credits (FINANCE and SECURE flags
+              taken into account.)  Calls 'withdraw' or 'deposit' to do
+              checks.  All usual stuff for 'get'/'drop' taken into
+              account.  In addition, 'withdraw'/'deposit' can be used
+              directly.  If object, they just call 'get'/'drop' which
+              then calls 'withdraw'/'deposit' again.  Perhaps also
+              allow 'pay' too (Matches 'here', character name, object
+              name in same location.)  '.pay'/'.payed' action
+              commands could be implemented, triggered when
+              character/object receives payment, or 'withdraw'/'deposit'
+              is used on object.  FINANCE and SECURE flags must be taken
+              into account when objects are concerned.  'get'/'drop' can
+              be linked up to call relevant finance commands to make things
+              more realistic (Must say 'drops' instead of 'deposits' though.)
+              Drop-to (And messages of location should be taken into account.
+
+                  drop: NAME drops N credits into OBJECT.
+                  take: NAME takes N credits from OBJECT.
+                   pay: NAME pays N credits into OBJECT.
+               deposit: NAME deposits N credits into OBJECT.
+              withdraw: NAME withdraws N credits from OBJECT.
+
+* combat.c:   Restrict @heal with negative values to WIZ set command.
+
+              Minimum delay on @damage, to prevent abuse in loops to
+              instant kill someone.  (I.e:  5 secs mimimum, unless
+              WIZ flag is set.)
+
+              Negative values with @delay require WIZ flag.
+
+              Combat log for @delay and @damage.
+
+              @team command - Sets team parameters for combat.
+
+              cwho command - Shows scores for current combat area.
+
+
+* sites.c:    Make format of site dump more expandable (Make similar to
+              TCZ database file.)
+ 
+* Combat stuff works?
+
+'profiles' searching command, and perhaps web interface search form to go
+with it.
+
+ @Array [Battle System] - Banned Users Array
+ Sorry, the name of a dynamic array mustn't contain the character '['.
+ @array Banned Users Array
+ Dynamic array Banned Users Array created with ID #34001.
+ @name #34001=[Battle System] - Banned Users Array
+ Banned Users Array(#34001 D)'s name set to '[Battle System] - Banned Users
+ Array'.
+
+'bbs ignore <NAME>' to ignore all posts from a particular character.  If
+  UNREAD, set to being READ.
+
+GRIPE:  (From Heathcliff(#23080) in Heathcliff's Command Workshop(#31))  How abo
+ut a BBS VOTE <no> = ABSTAIN ON|OFF option, which wouldn't actually stop ppl vot
+ing abstain on a message, but moreover, remove the abstain percentiles from the
+final result (E.g.  ABSTAIN ON - (Votes for:  3 (33%%), Against:  3 (33%%), Abst
+ain:  3 (33%%).) and ABSTAIN OFF - (Votes for:  3 (50%%), Against:  3 (50%%), Ab
+stain:  3 (0%%).))  [16:49 21/09/98]
+------>  Easy enough to implement.
+
+>>>@password on CygWin32 - Doesn't seem to change password correctly.
+   @newpassword seems to work.  Not important atm as CygWin32 is only used
+   for development.  CygWin32 doesn't support encrypted passwords either.
+
+DEBUG: BBS search:  Don't search in non-accessible topics.
+
+'bbs ignore' by user name (in topics can_access_topic())
+
+ Suggestions:  (96)  'Permant posts' left by Trub on Thursday 13th August 1998,
+                     6:50.24 pm.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ I think wizards/druids+ should be able to set an important post permant, so
+ that in never gets automaticly destroyed, like ones containing stuff like in
+ the news topic, changes to the rules or sumthin
+ -trub.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Readers:  50  (Replies:  1.)
+
+Perhaps .login/.logout aliases on a character, executed at login/logout,
+a bit like the similar commands.
+
+'bbs remove =yes' for non-owned messages (as well as multiple deletes.)
+
+.replace in editor:  If it makes text too big, don't do replace, instead give
+                     error message.
+
+Allow force of your puppet to @pay or @transfer when disconnected.
+
+'bbs hide' command to hide messages on the BBS (From everyone bar admin and
+topic owner.)
+
+Floating point support in @?sortnumeric
+
+Perhaps use of '!' in flags using '@list'.  Implementable?
+
+'tell' should count as global (like page) if anyone in list of names is not
+in the same room as recipient.  'friends' and 'admin' count as global.
+
+@?replace +last - option
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Error taking over WWW connection from telnet, when user hasn't connected
+ through WWW at all.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+(Censored Text) - Allow custom message to be set, such as (Page), (Tell).
+		  Can also be set with @censor.  Don't allow use of ANSI
+
+Allow set of puppet on any level character, but don't allow higher level to
+   to be controlled by lower.
+
+New money stuff - allow drop/get of credits, i.e:  drop 100 [= container],
+get 100 [= container]:  Pay restrictions apply to 'drop' within compound
+command (Except WIZARD set.)  No restrictions on 'get'.  Container must be
+open to take or drop credits in it.  All drop/get rules apply to credits.
+Credits should also have an appropriate mass/volume which should be taken
+into account.
+
+Problem with @breakloop all???  Jumping to wrong line number - needs checking.
+
+*****
+Summon should store location, and check to make sure it hasn't changed.  If
+so, summon should be rejected automatically.
+
+*****
+Reply to friends/enemies page or tell goes to friends/enemies instead of
+sender?
+
+*****
+Allow move of reply on BBS.  Reply becomes disassociated with it's original
+message and other replies.
+
+*****
+Allow setting of more than 1 hardcoded feeling?  Could be implemented with
+fixed size array and using ! to reset feelings.
+
+*****
+GRIPE:  (From Sony(#8410) in The Chatting Zone BBS(#5050))  If an append
+	doesn't fit on a post, is three a way that the append could be
+	rejected rather than adding an incomplete apppend?  [07:24 24/06/97]
+>>>>>>  Perhaps get TCZ to automatically add reply if can't append.
+
+*****
+'idle friends'???
+
+*****
+Is there any way to make it so you can type 'recall <name>'  and just get the
+tells and pages from one particular person??  (Recall last page/tell from
+NAME.)
+
+'bbs read unread' - lookup code looks up and returns error message approprirate
+		    for action, i.e:
+
+		    <NUMBER>  -  Sorry, message with that number doesn't exist.
+		    unread    -  Sorry, there are no unread messages...
+		    next      -  Sorry, there are no more messages in this topic.
+
+'read current' on BBS is getting corrupted by something (Possibly adding new
+message in same topic.)
+
+*** When BBS topic users list implemented, make IGNORE flag cover BBS-INFORM as
+    well as summary.
+
+Mail from Soccer Star Cyric on Saturday 12th July 1997, 5:34.29 pm...
+-------------------------------------------------------------------------------
+Um, I have a suggestion for the @profile thing
+It would be a plan or future category that tells people what you plan to do in
+future years of your life.
+Just thought I'd suggest that.
+-------------------------------------------------------------------------------
+This item of mail is 1 week, 1 day, 4 hours, 3 minutes and 25 seconds old.
+***  Plan:  ^^^^^^^^^^^^^^
+     Habbits:
+
+  @dump emergency
+
+'bbs overview' command:  Gives overview of BBS topics and sub-topics within
+			 them.
+
+ Topic:             Subtopics:
+==================================================
+ Admin              Main, Voting, etc.
+==================================================
+
+For msgs:  bbs append on|off|admin  -  Default allows anyone to append to
+	   message - 'off' disallows everyone, 'admin' only allows admin.
+
+	   Default:  ON    = mortaladd topic.
+		     ADMIN = non-mortaladd topic.
+
+implement:  summary <TOPIC>[/<SUBTOPIC>] to give summary of particular
+	    topic(s).
+
+latest TOPIC/SUBTOPIC doesn't work (It does for TOPIC on it's own though.)
+
+'readanon' on BBS should give appropriate error message when administrator
+	   tries to reveal identity of other administrator who posted msg.
+
+***  @?PAD:  Support use of ANSI codes within <PAD TEXT>?
+
+ Suggestions:  (98)  '@?Filterlist' left by Gwaredd on Friday 20th June 1997,
+		     4:57.17 pm.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ OK, something I've needed once or twice is a @?filterlist type command
+ One where you can filter out particular items from a list
+
+ For example
+ @?extract[exact] "x" ";" "a;b;x;c;d;x;e;x;x;x"
+ would return
+ a;b;c;d;e
+
+ Just an idea ;)
+ Gwaredd.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Readers:  25.
+
+***  Maybe .relogin command for taking over existing connection.
+
+GRIPE:  (From Heathcliff(#23080) in Heathcliff's Command Workshop(#31))  How
+	about adding an extra field to the @controller command, so that when
+	you give someone a puppet you have to specify a reason (I.e.
+	@controller <puppet> = <user> = Because of x y and of course z.)  [14:25 31/05/97]

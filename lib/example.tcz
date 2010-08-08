@@ -1,0 +1,134 @@
+# .---------------------------------------------------------------------------.
+# | The Chatting Zone (TCZ)                          (C) J.P.Boggis 1993-2004 |
+# | ~~~~~~~~~~~~~~~~~~~~~~~                          ~~~~~~~~~~~~~~~~~~~~~~~~ |
+# |---------------------------------------------------------------------------|
+# | EXAMPLE.TCZ  -  Example TCZ configuration file.                           |
+# |                                                                           |
+# |                 USAGE:  bin/tcz -c example                                |
+# |                         bin/tcz --config example                          |
+# |                                                                           |
+# |                 'lib/' is assumed if no path is specified.                |
+# |                 '.tcz' is assumed if no extension is specified.           |
+# |                                                                           |
+# |                 'lib/default.tcz' will be ran automatically at start-up   |
+# |                 if present.                                               |
+# |                                                                           |
+# |          NOTE:  DO NOT use '-C' (This is a totally different option that  |
+# |                 runs a forced full database consistency check.)           |
+# |                                                                           |
+# |                 Use '##' to insert a real '#' rather than a comment.      |
+# |-------------------------[ Copyright Information ]-------------------------|
+# | This program is free software; you can redistribute it and/or modify      |
+# | it under the terms of the GNU General Public License as published by      |
+# | the Free Software Foundation; either version 2 of the License, or         |
+# | (at your option) any later version.                                       |
+# |                                                                           |
+# | This program is distributed in the hope that it will be useful,           |
+# | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+# | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+# | GNU General Public License for more details.                              |
+# |                                                                           |
+# | You should have received a copy of the GNU General Public License         |
+# | along with this program; if not, write to the Free Software Foundation,   |
+# | Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA             |
+# |----------------------[ Credits & Acknowledgements ]-----------------------|
+# | For full details of authors and contributers to TCZ, please see the files |
+# | MODULES and CONTRIBUTERS.  For full details of the GNU General Public     |
+# | License, under which TCZ is distributed, please see LICENSE.              |
+# |                                                                           |
+# | Module originally designed and written by:  J.P.Boggis 19/03/2000.        |
+# |-------------------------[ The Chatting Zone (TCZ) ]-----------------------|
+# |               For more information about TCZ, please visit:               |
+# |                  http://www.sourceforge.net/projects/tcz                  |
+# `---------------------------------------------------------------------------'
+#
+#   $Id: example.tcz,v 1.1.1.1 2004/12/02 17:39:08 jpboggis Exp $
+
+
+# ---->  Message to display to users when the log into TCZ
+#        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#        (MOTD = Message Of The Day)  Must be on one line and may contain
+#        '%' substitutions (Use %{@?newline} to insert newlines into the
+#        text.)
+
+#        MOTD: Insert Message Here
+
+
+# ---->  Database Options  <----
+#        ~~~~~~~~~~~~~~~~
+
+     Database: main				# Name of database (name)
+#    Generate: minimal				# Generate new database (name)  -  Use in configuration file not recommended.
+
+AutomaticDump: Yes				# Automatically dump database (Yes/No)
+   ForkedDump: Yes 				# Forked automatic database dump (Yes/No)
+EmergencyDump: No				# Emergency database dump on crash (Yes/No)
+ CompressDisk: Yes				# Database compression on disk (Yes/No)
+  CompressMem: Yes				# Database compression in memory (Yes/No)
+DatabaseCheck: No				# Force full database consistency check (Yes/No)
+
+
+# ---->  Server Options  <----
+#        ~~~~~~~~~~~~~~
+
+     FullName: New TCZ-based MUD    		# Full name of server (The Chatting Zone)
+    ShortName: TCZ			 	# Short abbreviated name of server (TCZ)
+     Location: Not Specified 			# Name and location of ISP, company, university, etc. where TCZ server is located/hosted
+
+       Server: tcz.mud.host  			# Server DNS address (server.domain)
+   TelnetPort: 8342  				# Telnet port number (8342)
+
+        Local: No  				# Run locally (127.0.0.1, localhost) (Yes/No)
+   ServerInfo: Yes  				# Automatically lookup server information (Yes/No)
+     CoreDump: Yes				# Core dump on crash (Yes/No)
+     Guardian: Yes                              # Guardian alarm (Yes/No)
+
+   UserLogins: Yes				# User logins allowed? (Yes/No)
+          DNS: No				# DNS lookups (Yes/No)
+#    Backdoor: ExamplePassword			# Backdoor password (USE WITH CARE) (password)
+
+    NiceLevel: 0				# Run at nice level (N):  0.
+     Shutdown: No				# Immeditate shutdown after start-up (Yes/No)
+        Debug: No				# Run in debugging/developer mode (Yes/No)
+
+
+# ---->  HTML (WWW) Interface Options  <----
+#        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     HTMLPort: 8080				# HTML Interface port number (8080  -  Most firewalls should allow this port number.)
+      WebSite: http://www.website.host		# Web Site URL (http://server/path)
+      DataURL: http://www.website.host/tczhtml	# HTML Interface data URL (http://server/path)
+       Images: No                               # Serve images used by HTML Interface internally (Yes/No) (NOTE:  External web server (DataURL) may be faster.)
+          SSL: Yes				# SSL (Secure Socket Layer) connections (Yes/No)
+
+
+# ---->  E-mail Options  <----
+#        ~~~~~~~~~~~~~~
+
+   AdminEmail: admin@tcz.mud.host		# Admin E-mail address (name@domain)
+ EmailForward: tcz.email.domain			# E-mail forwarding domain name (domain)
+
+
+# ---->  Log file options  <----
+#        ~~~~~~~~~~~~~~~~
+
+  ConsoleLog:  Yes                              # Display all log file entries on console (stderr)
+LoggingLevel:  2				# Logging level (0 - 6)
+UserLogFiles:  Yes				# User log files (Yes/No)
+
+#  0 - Disabled
+#  1 - Normal (Failed commands logged)
+#  2 - Verbose (Top-level commands logged, user privacy upheld)
+#  3 - Low Debug (Top-level commands logged, user privacy breeched)
+#  4 - Medium Debug (Sub-commands in compound commands logged)
+#  5 - High Debug (Fuse and alarm execution logged)
+#  6 - IO Debug (Telnet/HTML descriptor input/output logged)
+#
+#  NOTE:  Logging levels 2 - 6 inherit all the options of the logging levels
+#         below them (E.g:  Logging level 4 inherits the options of 2 and 3.)
+
+
+# ---->  Display Current Option Settings  <----
+#        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#     Current: 					# Display current option settings

@@ -1,0 +1,78 @@
+Modify output() to allow different classes of output.
+
+output(descriptor,player,originator,0,1,0,class,"Text");
+
+ORGINATOR:  Character who created output - Will be used alongside new friend
+            flag that will allow selective blocking of all output from a
+            particular user.  Doesn't need to be specified in all uses of
+            output().
+
+CLASS:  One or more of:
+
+OP_AREA		Area activity (@areawrite, yell, etc.)
+OP_BROADCAST	Broadcast messages (Shout)
+OP_CHANNEL	Channel communication (Friends, Chat, etc.)
+OP_CONNECTION	Connection information (I.e:  [NAME has connected.])
+OP_COMMAND	Output from executed command.
+OP_ERROR	Error messages from executed commands.
+OP_EXPAND	Expanded execution of a command.
+OP_EXEC		Execution of a command (Before expansion.)
+OP_LOCAL	Local user activity (In same room, i.e:  Speech, movement)
+OP_PROMPT	'TCZ>' prompt (Along with typed command line on WWW interface.)
+OP_REMOTE	Remote user activity (Page, Tell, @notify, etc.)
+OP_RESULT	Return result of command.
+OP_SPEECH	Local user speech (In same room.)  Doesn't block movement, etc.
+
+OP_NORMAL	Normal output options (OP_AREA|OP_BROADCAST|OP_CHANNEL|OP_COMMAND|OP_ERROR|OP_PROMPT|OP_REMOTE|OP_SPEECH)
+OP_BUILDING	Building output options (OP_COMMAND|OP_ERROR|OP_LOCAL|OP_PROMPT|OP_SPEECH)
+OP_TRACE	Tracing output options (OP_ERROR|OP_EXEC|OP_EXPAND|OP_RESULT)
+
+
+@output on|off
+
+Turn output on/off.
+
+@output default [= [!]<TYPE> [[!]<TYPE>] [...]]
+
+Set or reset default output types, used when you connect.
+'@output default' shows your current default output types.
+
+@output type [= [!]<TYPE> [[!]<TYPE>] [...]]
+
+Outside of a compound command, sets your current output types, which will
+remain in effect until you disconnect.  '@output type' shows your current
+output types.
+
+Within a compound command, sets the output types used by @echo, @oecho, @write
+and @notify.  This allows soft-coded commands to set the correct output type,
+so that it doesn't get unwantedly filtered out.
+
+
+Uses:
+~~~~~
+User could have two connections, one with normal output options, and the other
+with BUILDING output options.  Output always goes to your current active
+connection (I.e:  The one used most recently.)  This stops you receiving
+pages, tells, @notify's, etc. on the connection used for building.
+
+
+Changes
+~~~~~~~
+output() to allow originator and output type(s) to be specified.
+
+getdsc() to allow output type(s) to be specified, so that the most recently
+         used connection which is NOT blocking those output types can be
+         found.
+
+Replace LISTEN flag with CONNECTION output type.
+
+Replace TRACING flag with TRACE output type.
+
+IGNORE friend flag to implement support of ORIGINATOR in output() - Only
+       looked up in friends list if ORIGINATOR != NOTHING.
+
+Page/Tell, etc. need to be changed to stop you from sending a message to a
+   user who you have set IGNORE.
+
+Every use of output() and getdsc() needs changing to support above (A lot of
+work!)

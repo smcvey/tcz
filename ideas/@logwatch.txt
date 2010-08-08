@@ -1,0 +1,48 @@
+USAGE:  @logwatch <LOGFILE> = [!]<KEYWORD> [[!]<KEYWORD>] [...]
+        @logwatch <LOGFILE> = [red|green|blue|yellow|cyan|magenta|white]
+        @logwatch <LOGFILE> = [on|off|beep]
+        @logwatch <LOGFILE> = [any|all]
+        @logwatch <PAGE NO>
+
+'@logwatch' is used to watch log files for specific keywords, or simply to
+watch all entries logged to specific log files.
+
+'@logwatch' without any parameters will list all of the log files that you
+are currently watching, along with any keywords that are being watched for.
+
+On/off switches watching on or off.
+
+Beep causes terminal to beep when log entry is displayed (Useful for important
+entries being watched out for.
+
+Colours cause log to be displayed in that colour rather than default of white.
+
+Specific keywords can be watched for by specifying <KEYWORD> (Upto 5 per log
+file), and removed by preceeding with '!'.  If keywords are specified, only
+log file entries which contain any of those keywords will be displayed.  If
+'@logwatch <LOG FILE> = all' is specified, only entries containing ALL of the
+keywords will be displayed.
+
+Implementation:  Add extra fields to character data to hold log file number,
+                 matched keywords, etc.  Will need DB sanity check to ensure
+                 log file number still exists.  Not available to Mortals.
+                 writelog() searches through connected characters who have
+                 log watch entries to see if it has an entry.
+
+                 Works by testing entries going through writelog(), testing
+                 for match against connected Admin characters with logs
+                 being watched.
+
+                 When match is found, entry is displayed with match(es)
+                 hi-lighted in different colour and preferably with background
+                 hi-light.
+
+ Log file:        Status:  Match:  Keywords:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 123456789012345  On       Any     (SHOW ALL ENTRIES)
+ Admin		  On       Any     Moron Wibble Test
+ Bugs		  Off      All     Bug Crash
+ Create           On       Any     (SHOW ALL ENTRIES)
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Log files watched:  4 (Page 1 of 1.)
+

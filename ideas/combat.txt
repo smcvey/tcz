@@ -1,0 +1,292 @@
+Combat Notes:
+
+
+League table holds current rank and updates in real time as score of user goes
+up/down.
+
+If lives are limited, score is doubled for character who takes last life of
+another.
+
+--------------------------------------------
+
+
+USAGE:  score[s] [<NAME>]
+
+Displays a list of all the combat areas which you have entered and engaged in
+combat, along with your current score.
+
+engaged in combat
+Lists combat areas in which you have taken part.  <NAME> can be used to view
+scores of another user to see how good they are.
+
+
+ Rank:       Score:      Won:        Lost:       Perf:  Combat Area:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 12345678th  1234567890  1234567890  1234567890  100%   Wibble
+ 12345678th  1234567890  1234567890  1234567890  100%   Owned by Wibble.
+-------------------------------------------------------------------------------
+      Best:  1234567890  1234567890  1234567890  100%   Combat Area Name
+     Worst:  1234567890  1234567890  1234567890  100%   Combat Area Name
+   Average:  1234567890  1234567890  1234567890  100%   N/A
+     Total:  1234567890  1234567890  1234567890  100%   N/A
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+USAGE:  @league [<ROOM> =] [on|off|reset] [<NAME>] [= <REASON>]
+
+Enables or disables the league table within a room.  When enabled, the room
+becomes a combat zone, where users can engage in combat.  <ROOM> optionally
+specifies the room, otherwise your current location is assumed.
+
+Once enabled, the owner of the room has full use of the combat building
+commands, enabling them to build a combat system complete with the commands,
+weapons, etc. neccessary for users to battle each other.
+
+Combat attributes such as health, health, score, battles won/lost, etc. are
+local to each combat area.
+
+The league table can be enabled by Wizards/Druids and above, but can only
+be disabled by Elder Wizards/Druids and above (This deletes the league table.)
+
+To disable the league table, a <REASON> must be given.
+
+The 'reset' option resets the attributes of a user in the league table, which
+can be done by the combat area owner, and Wizards/Druids and above.  The <NAME>
+of the user must be specified, e.g:  '@league reset Fred Bloggs'
+
+
+Combat Commands:
+
+
+USAGE:  @combat time [<ROOM> =] <TIME>
+
+Sets time limit for combat (Only really useful if scoring mode is 'hiscore'.)
+Time limit begins when first user enters and engages in combat.
+
+
+USAGE:  @combat start [<ROOM> =] [<TIME>]
+
+Sets (Or resets if <TIME> is omitted) a start time on battles.  When first
+user joins the battle, other users only have this time in which to join the
+battle before fighting starts.
+
+Ideal for tournament combat mode, where users cannot join the battle once
+it has started.
+
+
+USAGE:  @combat score [<ROOM> =] [accumulative|hiscore]
+
+Sets scoring mode in league table:
+
+accumulative   Points you gain or lose in battle are added to or taken away
+               from your league table score.  (DEFAULT)
+
+hiscore	       Your final score is recorded in the league table if it beats
+               your previous score.
+
+.  Accumulative increases/decreases score within league table
+as battles are won/lost.  'hiscore' starts score at zero when user begins
+combat.  On leaving, losing last life or time limit being reached, score is
+updated if it beats current hiscore in league table.
+
+
+
+USAGE:  @combat battles [<ROOM> =] [accumulative|incremented]
+
+Controls updating of battles won/lost in league table:
+
+accumulative   If you win a battle, battles won are incremented by 1 in the
+               league table, otherwise battles lost are incremented.
+
+               In order to win, you must remain in the battle until all
+               other opponents are dead, or time limit is reached (Must be
+               1st.)
+
+               This option works best with a time limit set on battles or
+               limited lives.  Also works best with 'match' or 'tornament'
+               battle mode.
+
+incremented    Battles won/lost are incremented each time you kill a victim or
+               someone kills you.  (DEFAULT)
+
+
+USAGE:  @combat mode [<ROOM> =] [normal|match|tournament]
+
+
+Controls battle mode, which affects joining and leaving:
+
+normal       Users can join and leave battle as they wish.  They can also
+             rejoin if they lose all their lives.  Not recommended if
+             accumulative battles option is being used.
+
+match	     Users can join battle, and can leave if they wish, but they
+             cannot rejoin if they lose all of their lives (They can
+             rejoin when battle is over.)  Limited lives and/or battle time
+             limit is recommended with this option.
+
+tournament   Users cannot join battle in progress.  Those wishing to
+             participate must join prior to battle starting (Setting a start
+             time with '@combat start' is recommended.)  Users can leave the
+             battle if they wish, but cannot rejoin until it has finished.
+
+             The battle continues until only one user remains alive or time
+             limit is reached.  Limited lives and/or time limit on battle is
+             recommended with this option.
+
+
+USAGE:  @combat lives [<ROOM> =] [<LIVES>]
+
+Sets (Or resets if <LIVES> is omitted) limited lives.
+
+
+USAGE:  @combat notify [<ROOM> =] on|off 
+
+Sets automatic combat messages within combat area:
+
+entry   Notifies users when you enter the combat area:
+
+	[<NAME> (Observer) has entered <COMBAT AREA>.]
+
+start   Notifies users of battle start time remaining:
+
+        [The battle will begin in <TIME>.]
+        [The battle has now started!]
+
+join    Notifies users when you join combat:
+        
+        [<NAME> is ready for action and has joined the battle.]
+
+leave   Notifies users when you leave combat:
+
+        [<NAME> has surrendered:  Rank: 1st, Score: 250.]
+
+exit    Notifies users when you exit the combat area:
+
+        [<NAME> (Observer) has left <COMBAT AREA>.]  {If observer}
+        [<NAME> has left <COMBAT AREA>:  Rank: 1st, Score: 250.]
+
+attack  Generate default attack messages, similar to original combat
+        system
+
+        Sorry, you cannot attack an observer.
+        Sorry, you cannot fight for another <TIME>.
+        You takes a swing at <VICTIM> but miss.        (MISS)
+        You hit <VICTIM>, reducing %p health to NNN%.  (DAMAGE)
+        You have killed <VICTIM>.                      (KILL)
+
+kill    Notifies when users kill each other:
+
+	[<NAME> has killed <NAME>.]
+
+heal    Generate default heal messages:
+
+        Your health increases to 100%.
+        Your health decreases to 10%.
+
+delay   Generate default delay messages ('@delay'):
+
+        You cannot fight for another <TIME>.
+
+update	Gives status update every minute, plus extra update at 30, 15, 10, 5
+        and 0 seconds remaining time if time limit is in place:
+
+        [1st, Score: 250, Won: 3, Lost: 1, Health: 100%, Lives: 9, Time: 10m.]
+
+final   Gives final message when you leave combat, lose your last life or time
+        runs out (This is followed by status update if enabled):
+
+        You surrender and leave the battle.
+        You have no lives remaining and have lost the battle.
+        [TIME IS UP!  The battle is over.]
+
+
+NOTE:  'kill' is not shown to users in the same room as the victim.
+
+
+USAGE:  @combat join|leave [<ROOM> =] <NAME>
+
+Enables user to take part in combat or leave it (Without leaving combat area.)
+If user leaves combat area, they automatically leave combat.
+
+
+USAGE:  yell
+
+Yell command works in combat area if YELL flag set on rooms.  Combat stuff is
+added to user's name.
+
+<NAME> (Observer) yells "Hello!" across <COMBAT AREA>.
+<NAME> (1st) (100%) [<TEAM>] yells "Hello!" across <COMBAT AREA>.
+
+
+USAGE:  @score
+
+Within combat area, awards score within league table when used under ID of
+combat area owner.  Otherwise awards score as normal (Must be Wiz+.)
+
+
+USAGE:  @kill [<NAME>]
+
+
+USAGE:  @team [<NAME>] [= <TEAM NAME>] [= <COLOUR>]
+
+Sets the character <NAME>'s team, who must be within a combat area which you
+own.  When assigned to a team, a character can only damage users who are a
+member of another team, or who are not a member of any team.
+
+<COLOUR> is the substitution codes of an optional colour to assign to the
+team, which will be used within the 'rank' and 'teams' commands.
+
+The name of the team is also shown in the 'Contents:' list of a room, e.g:
+
+*Fred Bloggs (1st) (100%) [RED TEAM]
+
+
+USAGE:  @?team - returns team user is on.
+
+
+USAGE:  ranks
+
+
+                                                         Won:    Lives:
+ Rank:  Name:                 Team:         Score:       Won:    Lost:   Perf:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ NNNth  12345678901234567890  123456789012  -1234567890  123456  123456  100%
+        NAME                  [OBSERVER]                              
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+NOTE:  Limited lives will replace 'Lost:' with 'Lives:'.
+
+
+USAGE:  teams
+
+
+ Rank:  Team:         Members:  Score:       Won:        Lost:       Perf:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ NNNth  123456789012  12345678  -1234567890  1234567890  1234567890  100%
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+USAGE:  league
+
+ Rank:       Name:                 Score:       Won:        Lost:       Perf:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ 12345678st  12345678901234567890  -1234567890  1234567890  1234567890  100%
+ ...
+ 10th
+-------------------------------------------------------------------------------
+ Last
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+USAGE:  attributes
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Battles won:       Score:
+ Battles lost:      Health:
+-------------------------------------------------------------------------------
+      Battle mode:  Tournament.              Lives: Unlimited.
+          Scoring:  Accumulative.       Start Time: None.
+ Battles won/lost:  Accumulative.       Time Limit: 00h 30m.
+-------------------------------------------------------------------------------
+     Notification:  Entry, Attack, etc.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

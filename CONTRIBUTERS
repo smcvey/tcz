@@ -1,0 +1,49 @@
+The Chatting Zone (TCZ)  -  Contributers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This file (CONTRIBUTERS) lists all contributers both past and present
+to The Chatting Zone (TCZ) project, along with the project(s) they
+are working on/have worked on.
+
+For more detailed information, please see the file MODULES or the on-line
+commands 'modules' and 'authors' within any TCZ-based MUD.
+
+
+ Name (Real/TCZ):      Date:       Project(s):
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Bennet Yee            1989        Developer of TinyMUD code on which UglyMUG
+ (N/A)				   and TCZ are based.
+-------------------------------------------------------------------------------
+ Dave Proctor	       1990-1991   Developer of UglyMUG code on which TCZ is
+ (N/A)	                           based.
+-------------------------------------------------------------------------------
+ David Applegate       1989        Developer of TinyMUD code on which UglyMUG
+ (N/A)				   and TCZ are based.
+-------------------------------------------------------------------------------
+ Gary D. Wallage       1990-1991   Developer of UglyMUG code on which TCZ is
+ (N/A)	                           based.
+-------------------------------------------------------------------------------
+ James Aspnes	       1989        Developer of TinyMUD code on which UglyMUG
+ (N/A)				   and TCZ are based.
+-------------------------------------------------------------------------------
+ Jonathan Boggis       21/12/1993  The Chatting Zone v1.0 - v4.3
+ (JC Digita)           11/04/1999  Commenced development of public release TCZ.
+ 		       02/12/2004  Publicly released TCZ source code under GPL.
+-------------------------------------------------------------------------------
+ Malcolm J. Harwood    1990-1991   Developer of UglyMUG code on which TCZ is
+ (N/A)	                           based.
+-------------------------------------------------------------------------------
+ Nick Huggins 	       1990-1991   Developer of UglyMUG code on which TCZ is
+ (N/A)	                           based.
+-------------------------------------------------------------------------------
+ Peter Crowther	       1990-1991   Developer of UglyMUG code on which TCZ is
+ (Ozzard)	                   based.
+-------------------------------------------------------------------------------
+ Robin Heydon 	       1990-1991   Developer of UglyMUG code on which TCZ is
+ (N/A)	                           based.
+-------------------------------------------------------------------------------
+ Shaun McVey           02/12/2004  Joined TCZ development.
+ (Monster)
+-------------------------------------------------------------------------------
+ Simon Boggis          27/02/2000  Joined TCZ development.
+ (Badpenny)            27/02/2000  Added 'serverinfo.c'.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

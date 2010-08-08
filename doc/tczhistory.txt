@@ -1,0 +1,352 @@
+ 			        _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   | 
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                   T H E   H I S T O R Y   O F   T C Z
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+ How it all began...
+ ~~~~~~~~~~~~~~~~~~~
+ The Chatting Zone (TCZ) all began as a dream I had to write the 'ultimate'
+ MUD/talker system.  In those days, I was only a user/builder on a
+ number of MUD's around at the time.  My aim was to design and develop
+ a system of my own, which was not only user-friendly and easy to use, but
+ also extremely flexible and powerful too.
+
+ On the 21st December, 1993 I downloaded the source to TinyMUD v1.5 and
+ began to turn it into the bare basics of TCZ.  At this time, I was
+ studying at the University of Greenwich in London, UK, and my Internet
+ access was very limited (Home Internet access in the UK at that time was
+ virtually non-existant.)
+
+ The game was ran locally on one of the servers at the university, where it
+ picked up its first ever regular users (Ratty, Diceman, The Captain and UK1
+ -  Most of these users are still with us today.)
+
+ After the Christmas 1993 holidays, I obtained an early version of the UglyMUG
+ source code (1990-1991 version)  -  Both this and the TinyMUD code (Which I
+ was still working on) were both very primitive and unstable.  Over the next
+ few weeks, I intergrated the TinyMUD code and most of the features I had
+ added to it into the UglyMUG code to produce the basics of TCZ v1.0 (10th
+ March 1994.)
+
+
+ TCZ goes 'live' at the University of Plymouth...
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Two months of hard work and bug fixing saw the completion of TCZ v2.0 (18th
+ May 1994)  -  This version was just about functional enough for networked
+ use  -  All I had to do was find an Internet site from where I could test
+ and run it.  After a few weeks of searching, I was offered the opportunity
+ to run it on a machine at the University of Plymouth, where a student BBS
+ system (Originally named 'Hades BBS', then later 'Flux BBS') was presently
+ operating.
+
+ I accepted the offer of a site and TCZ became available 'net-wide' for the
+ first time ever near the end of May 1994 (zeus.sc.plym.ac.uk, port number
+ 8342.)  The main administrators of the game were me (JC Digita), Whoosh,
+ Case and Nemo (Whoosh, Case and Nemo were the administrators of 'Flux BBS'.)
+
+ At this time, the game was very unstable (An up-time of 1 day was extremely
+ rare) and it had very few features.  Although we never had peaks of more than
+ 10-15 users at that time, running the game 'net-wide' enabled many bugs which
+ had evaded testing sessions to be tracked down and fixed, resulting in
+ greater stability.
+
+ Plymouth TCZ saw the introduction of a simple town structure to the game.
+ This was fairly successful, but wasn't planned or organised  -  I saw
+ the potential for a good town layout for the basis of the game, so I drew up
+ a map on paper (Which I still have today) and started to develop this town
+ on my own copy of TCZ, which was still running locally at the University of
+ Greenwich.
+
+ Near the end of June 1994 saw the completion of TCZ v2.2  -  In this version,
+ ANSI colour was implemented, the connection interface was improved (So you
+ were prompted to enter your name, password, etc. instead of having to type
+ 'connect <NAME> <PASSWORD>' or 'create <NAME> <PASSWORD>'), character names
+ with spaces were allowed (Thanks to the new connect interface) and early
+ versions of the '@if', '@for', '@with' and '@while' (Selection and interation)
+ commands were implemented.
+
+ After a few weeks of enjoying TCZ v2.2 at Plymouth, it was the end of term,
+ and the long (About 3 months or more) summer holidays began...
+
+
+ The summer re-write...
+ ~~~~~~~~~~~~~~~~~~~~~~
+ Over the summer holidays I had no access to the Internet (I didn't have a
+ modem at the time and there were no Internet Service Providers within 100
+ miles of my home town either.)
+
+ I decided that there was very little chance of the code in its present state
+ ever running reliably, and its design wasn't flexible enough for the
+ developments I had planned for TCZ in the future, so I spent most of my time
+ over the summer holidays taking the entire game apart, re-designing and
+ re-writing large portions of the code from scratch.
+
+ Nearing the end of the summer holidays, the more stable and efficient basis
+ for TCZ was nicely taking shape:  The entire database structure had been
+ improved to allow flexibility for future expansion, the socket code (Which
+ handles the Telnet connections of users) had been re-written from scratch
+ and the command-line editor was implemented, along with an early version of
+ the On-line Help System.
+
+ Thanks to downloading and installing Linux 1.0.8 on my 386DX/40 computer
+ before going home for the summer holidays, I was able to undertake the
+ vast task of redesigning, re-writing and testing the code without any
+ access to the Internet or the UNIX server machines at the university.
+
+ Help pages were created from the Official Manual ('manual.txt') and the
+ finishing touches were put to a number of the main locations in the town
+ (Such as The Swan Pub, The Chatting Zone Luxury Flats and several shops.)
+
+ Plymouth TCZ was scrapped over the summer holidays.
+
+
+ Term begins again...
+ ~~~~~~~~~~~~~~~~~~~~
+ The summer holidays passed very quickly, and before I knew it, I was back in
+ London again, living in student accommodation instead of halls of residence.
+ With just a week to go before lectures started again, I decided to splash out
+ and upgrade my computer.  Soon I was sitting at a 486DX/2 with 8 meg of RAM.
+
+ Soon I was back on the Internet, and enjoying the upgrades made to the
+ university's computer network over the holidays:  We now had full Internet
+ access, including Telnet, FTP, etc.  I soon had TCZ installed, compiled and
+ running again on one of the University's machines (atlas.gre.ac.uk, port
+ number 8342.)  I introduced my two flat mates (Scavy and Demon) to TCZ,
+ who very quickly became hooked to it.
+
+ Thanks to the re-write over the summer holidays, the game was more stable
+ and often stayed up for longer than a day without crashing.  Most of the
+ original Plymouth TCZ users were soon connecting to TCZ again, and a number
+ of them were recruited to form the new Admin team.  Crafty, Joliet Jake,
+ NorthernGet and Unicorn were given Wizard status, along with many other
+ users who were given Apprentice Wizard status.
+
+ From this point onwards, I started planning and implementing the huge number
+ of ideas and features (Many original and unique) which I had for TCZ and its
+ code.
+
+ TCZ very soon had peaks of 15-20 users, so it wasn't long before the staff
+ at the University began to notice it.  One member of University staff began
+ to explore the town and unfortunately wandered into an area built by a user
+ which was slightly X rated.  24-hours later I was forced to shut the game
+ down permanently at the University.
+
+
+ The search for a new site...
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ Having lost our University of Greenwich site (Where TCZ ran for about 2-3
+ weeks), the long, hard search for a new site began.  During the next month,
+ I sent out E-mails to every Internet Service Provider and suitable site I came
+ across.  After receiving many refusals, and being offered leased line rental
+ at a cost of 300 UK pounds or more per month, an error occurred in my favour.
+
+ An E-mailed reply, which was aimed at one of the many Internet Service
+ Providers I had been trying for a site accidentally ended up at a company
+ called Lasermoon Ltd., UK.  It turned out that they were having a 64Kb
+ leased line installed soon and would be setting up an FTP server on it.
+
+ As I was the first person who had asked, I was offered the opportunity to
+ put a machine of my own on their network, from which I could run TCZ.  The
+ leased line wouldn't be operational until late November, so I had several
+ weeks to try and get a suitable server machine together.
+
+ I still had the motherboard and case of my old 386DX/40, so this, along with
+ the addition of 8 meg of RAM, a 450Mb hard disk and a network card became the
+ basis of a server machine on which to run TCZ.
+
+ After having the machine delivered to Lasermoon, I eagerly awaited for their
+ leased line and the machine to go on-line.  Around 5pm on November 28th 1994,
+ I connected to the machine for the first time (Named Reliant (After the
+ Startrek starship, NOT the car :)
+
+ Having successfully managed to log on to the machine, I uploaded TCZ's code
+ and compiled it.  At around 6pm, users of TCZ when it was at the University
+ of Greenwich got the news they'd been waiting to hear:  TCZ was back!!!
+
+
+ The Chatting Zone at Lasermoon...
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ One of the biggest problems with starting up The Chatting Zone from its new
+ Lasermoon site was that we had to provide our own server machine on which to
+ run the game.  Being a student, I had very little money to spare, but luckily
+ I had recently upgraded my 386DX/40 to a 486DX/2 66mhz (I still had my
+ 386DX/40, which I originally planned to sell.)
+
+ To begin with, the 386 was perfectly adequate (With 8 meg of RAM) to run TCZ
+ (At this time there were only around 2,000 objects in the database.)  However,
+ the 386 soon began to get overloaded and over worked (Especially when
+ complicated compound commands were executed.)  It did manage to handle
+ 30 users though without getting too bogged down.
+
+ A few months on, the 386 was no-longer adequate, and was beginning to run low
+ on memory.  To solve the problem, I bought a 486DX/33 motherboard and an extra
+ 4 meg of RAM  -  This was installed in the machine, giving an instant
+ improvement in speed and giving it 12 meg of RAM.
+
+ Around early March 1995, we managed to establish a small overseas userbase,
+ which began to increase at a rapid rate, on top of the already established
+ UK userbase, which was also expanding at an equal rate.  It soon became
+ apparent that the Building Point system needed redesigning and replacing
+ with a more controlled system  -  Building Points were scrapped and replaced
+ with Building Quotas, which allowed us to keep a much tighter control on the
+ expansion rate of the database (At this time, the database was expanding
+ faster than we could cope  -  One week we put in an extra 4 meg of RAM, the
+ next week it was all used up.)
+
+ At 5:26pm, 28th November 1995 (Only an hour before TCZ celebrated its first
+ birthday of running at its Lasermoon site), a peak of 100 users was reached
+ for the first time ever.
+
+
+ The move to a new site...
+ ~~~~~~~~~~~~~~~~~~~~~~~~~
+ The site at Lasermoon was adequate for over a year, but fairly soon, problems
+ started setting in.  The company needed to use the line to transfer large
+ quantities of data as part of their day-to-day business, which very quickly
+ started causing problems by using up a lot of bandwidth and in turn slowing
+ connections to TCZ down to a crawl.  At first, this wasn't too much of a
+ problem, as it only occurred during business hours.  However, fairly soon,
+ it became a 24-hour problem, and as a result, TCZ and its reputation began
+ to suffer (As long periods of excessive delay (Or 'lag') which were not the
+ fault of TCZ itself spoilt the game for its users.)
+
+ By this time, I had already established a good friendship with a local
+ Internet Service Provider (AngliaNet Ltd.) in my home town of Ipswich,
+ England.  In return for the help and assistance I gave them, I was offered
+ the opportunity to move TCZ's server machine on-site.  This had many
+ advantages, including ample bandwidth and the server machine itself being
+ within a short distance of my home (To upgrade or resolve problems would
+ only require a 10 minute journey instead of an expensive 200 mile journey
+ to where Lasermoon were based.)
+
+ Everything was set, and the move took place.  Some 5000+ E-mails were sent
+ out to users of the game to inform them of its new address, and the major
+ task of changing its address on the 100's of MUD lists on which it was
+ registered began.  After a week, most regular users had found their way
+ to the new location and the number of new users being created began to
+ increase again.
+
+ With the move, several other changes took place, including a hardware upgrade
+ to the server machine and the moving of TCZ's FTP and World Wide Web sites to
+ its server machine.  The domain 'galaxsw.co.uk' was registered for GALAX
+ Software Ltd., giving the addresses 'tcz.galaxsw.co.uk' for TCZ,
+ 'www.galaxsw.co.uk' for its World Wide Web site and 'ftp.galaxsw.co.uk' for
+ its FTP archive.  In addition to this, E-mail could now be sent to
+ 'tczadmin@galaxsw.co.uk'.
+
+
+ Miscellaneous...
+ ~~~~~~~~~~~~~~~~
+ TCZ has exceeded all of my original expectations, and there's very little
+ in my original dream of writing the 'ultimate' MUD which hasn't been
+ achieved.  Even after so many years of development, TCZ still presents
+ a steady stream of new programming challenges, along with the enjoyment
+ of implementing them  -  I look forward to continuing the development
+ of the TCZ source code for many years to come, along with help from
+ others now that TCZ is public open source code released under the GNU
+ General Public License (GPL.)
+ 
+
+ 
+ TCZ facts...
+ ~~~~~~~~~~~~
+ *  TCZ is pronounced "tea-sea-zed"!
+
+ *  TCZ's first ever users were:  JC Digita, Ratty, Diceman, UK1 and The
+    Captain.
+
+ *  TCZ's first ever overseas user to be promoted to Admin (Apprentice
+    Wizard) status was:  Price (Now known as Steve.)
+
+ *  TCZ went on-line for the first time at its Lasermoon site on 28th
+    November 1994 at 6pm (GMT)
+
+ *  TCZ's first ever peak of over 100 users occurred on 28th November 1995 at
+    5:26pm (GMT)  -  Almost exactly one year after TCZ first opened to the
+    public.
+
+ *  As of 12th August 1996, there were over half a million connections to
+    TCZ, and over 35,000 characters created since March 1995 (When recording
+    of statistical data was first implemented.)  The highest ever peak so far
+    is currently 122 users simultaneously.
+
+ *  On Sunday 22nd June 1997, one million connections to TCZ was reached.
+
+ *  The longest recorded uptime of TCZ (Total running time, without being
+    shutdown for a code update, shutdown by a power failure or crashing)
+    is well over 2 months.
+
+ *  The TCZ 2000 Project commenced on 11th April 1999.  This ended nearly five
+    years of sole maintenance and development by J.P.Boggis (Aka JC Digita) by
+    introducing Simon A. Boggis (Aka Badpenny) to the source code and the
+    creation of plans for TCZ's long term future.
+
+ *  As of 22nd March 2000, the TCZ v4.3.0 source code consists of 51 source
+    files, totaling 3665kb in size and 61327 lines.
+
+ *  On Wednesday 30th May 2000, the original The Chatting Zone (TCZ) MUD was
+    finally closed after over six years of running. 
+    
+ *  On Wednesday 23rd May 2001, the original The Chatting Zone (TCZ) MUD
+    database was re-opened as part of an official research project of the
+    Information, Media and Communication (IMC) Research Group in the
+    Department of Computer Science, Queen Mary, University of London.
+
+ *  On Thursday 20th November 2003, TCZ was moved to a new dedicated machine
+    in the Department of Computer Science, Queen Mary, University of London.
+
+ *  On Thursday 20th November 2003 at 3.00am the TCZ version was changed
+    to v4.3.1 with the first minor bugfixes in a while.
+
+ *  The TCZ source code was released publicly under the GNU General Public
+    License (GPL) on 02/12/2004.  For further information, please visit:
+    
+    http://www.sourceforge.net/projects/tcz
+
+
+ Do you remember...
+ ~~~~~~~~~~~~~~~~~~~
+ *  When the town didn't exist, and the main locations (Of which there were
+    very few at the time) were all accessed from a room called
+    'The Crossroads'?  (Ratty, Diceman, UK1 and The Captain probably will :)
+ *  When you couldn't have spaces in your name or name prefixes/suffixes?
+ *  When you had to type 'connect <NAME> <PASSWORD>' to connect?
+ *  When there was no ANSI colour support (In the very early Plymouth days)?
+ *  When there was a code update almost every day to fix major bugs and
+    implement new features?
+ *  When an uptime of more than 1 day was extremely rare?
+ *  When there was no World Wide Web Interface?
+ *  When TCZ ran on a 386 PC with 8Mb RAM?
+ *  When you had to use '@desc' and lots of protecting backslashes to write
+    compound commands (Before the editor was implemented.)
+ *  When TCZ's source code was not publicly released under the GNU General
+    Public License (GPL)?
+
+
+Credits and acknowledgements...
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Please see the Official TCZ Manual (doc/manual.txt) for a full list of credits
+and acknowledements (These can be found at the bottom of the manual), or start
+TCZ, connect and type 'help acknowledgements'.

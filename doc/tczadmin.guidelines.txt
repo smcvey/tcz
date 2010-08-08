@@ -1,0 +1,210 @@
+
+ 			        _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   | 
+                     \   \          |_______||__|  \__||_______|        |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+         G U I D E L I N E S     F O R     A D M I N I S T R A T O R S
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+  .------------------------------------------------------------------------.
+  | IMPORTANT:  This document is now obsolete and is no-longer official.   |
+  | ~~~~~~~~~~  Parts may no-longer be relevant or up-to-date with current |
+  |             TCZ procedures, rules and/or guidelines.                   |
+  `------------------------------------------------------------------------'
+
+
+There are FIVE levels of power on The Chatting Zone:
+
+Apprentice Wizard...'Read Only'....................JUNIOR ADMINISTRATIVE LEVEL
+           Wizard...'Read/Write'...................MIDDLE ADMINISTRATIVE LEVEL
+     Elder Wizard...'Read/Write Extended'..........SENIOR ADMINISTRATIVE LEVEL
+    	    Deity...'System Maintainer'............SENIOR ADMINISTAATIVE LEVEL
+    Supreme Being...'System Maintainer Extended'...SENIOR ADMINISTRATIVE LEVEL
+
+
+The Apprentice Wizard
+~~~~~~~~~~~~~~~~~~~~~
+This is the first level of administration on The Chatting Zone.  They fall 
+under the description of 'Read-Only' due to the fact that Apprentice Wizards 
+can freely examine any object in the TCZ database, but may not edit or destroy
+any object which they do not own. 
+
+An exception to the 'Read-Only' rule is that Apprentice Wizards can set (And 
+reset) the MORON and BUILDER flags on characters below their level.  They may
+also set the prefix and suffix of themselves and any character under their
+level.  Apprentice Wizards may also hand out Building Quota, and boot
+lower-level characters from the game  -  But you should only boot characters
+where setting them MORON, and jailing them (With the 'jail' command) have
+failed.
+
+The primary duty of the Apprentice Wizard is to help 'newbies' (New characters 
+logging on for the first time), who may be unsure of how to communicate with 
+the virtual world at large.  Several commands are provided to help Apprentice
+Wizards in this duty, such as 'welcome' (Which welcomes the newbie to TCZ, and
+informs them that you're available to help them, if required), and 'assist'
+(Which teleports you to the newbie to allow you to provide help.)
+
+In common with other Admin. levels of TCZ, Apprentice Wizards also have access
+to information such as the IP address of the computer that a character is 
+connecting from.  This, in the output of the command 'hosts', is accompanied by
+a brief textual description.  Where there is no description, it is one of the 
+Apprentice Wizard's duties to find this out from the character, and add it to
+the database of registered Internet sites using the '@site add' command.
+
+Other commands providing information for all Admin. levels are the '@stats'
+group of commands, and 'last' (Which lists the last command of you and
+everyone below your level who is connected  -  But remember, 'say', 'tell', 
+'page', 'emote', 'mail', 'chat', etc. are censored from this list), which is 
+provided mainly to help newbies who are in trouble (I.e:  You can see if 
+someone is typing 'hello', rather than 'say hello':  Page them and tell them 
+about the commands allowing communication, such as 'say' and 'page', and tell
+them to look at the 'help chatting' part of the on-line help.)
+
+If a character uses the 'gripe' command, this is sent to Apprentice Wizards
+and above, so that they may quickly deal with the problem.  You can also see
+a list of E-mail addreses of all connected characters, by typing 'emaillist',
+or just 'email'.
+
+It is the Apprentice Wizard's responsibility to obtain a thorough knowledge of
+commands related to area-building (As you will be asked for help/advice on this
+area by new Builders.)  It is preferable (But NOT essential) that you have a 
+working knowledge of command-writing as well.  Bear in mind that all Admin. 
+levels have an infinite supply of Building Quota also.
+
+When asked by a character for promotion to Builder status, first check that
+there isn't another character with the same E-mail address (Use '@find email
+= *<EMAIL ADDRESS>*'.)  This check is essential to prevent characters
+bypassing the Building Quota limit on their character (There have been many
+instances of people using up to SEVEN characters.)  Building Quotas may be
+checked and set with the '@quota' and '@quotalimit' commands.
+
+Apprentice Wizards may communicate with all other connected TCZ administrators
+with the '@nat' command, and may view the system logs (With '@log'.)  They may
+also broadcast important messages with the 'shout' command (Although abuse of
+this may result in removal of the privilege.)
+
+The '@sanity' command may be used to check for characters with score, money or
+Building Quota over a specified amount.  It can also list every character who
+has built over their current Building Quota limit  -  And also check for and
+fix general database corruption (This is done automatically when the game
+firsts starts up, so these commands should never need to be used.)
+
+
+The Wizard
+~~~~~~~~~~
+Apprentice Wizards who have proved their worthiness by a good-knowledge of 
+command-creation (And helping Builders with their commands, of course!), may 
+see themselves promoted to the rank of Wizard.  Although it is still a
+Wizard's responsibility to help newbies out, this should usually only be
+undertaken if there are no Apprentice Wizards available (I.e:  All (If any)
+of the connected Apprentice Wizards are already helping a character.)  If an
+Apprentice Wizard IS available, please delegate the job to them  -  This is
+one of their primary duties (Where neccessary, reminding them that helping a
+newbie takes precedence over a building project.)
+
+Wizards have all of the privileges of an Apprentice Wizard, plus (Due to their 
+'Read/Write' status) the ability to modify and destroy any object owned by a 
+lower-level character.  They may also use '@force' to force a lower-level 
+character to execute a command (Although this should only be used where 
+ABSOLUTELY NECCESSARY), and have the ability to create characters (With 
+'@character') and turn them into puppets (With '@controller'.)
+
+Where the primary duty of an Apprentice Wizard is to help newbies, Wizards 
+should be helping Builders with their commands, and should also be one of the 
+first characters to respond to complaints against abusive characters.  Please 
+bear in mind however, that some complaints are fabricated by people in an 
+effort to give their enemies some trouble.
+
+Wizards may create alarms (With '@alarm'), though this should be used with 
+care, due to the high demands that they make on the server machine's processor
+(Many alarms going off at once may cause considerable 'lag'.)  Alarms should
+only be used where ABSOLUTELY NECCESSARY (E.g:  If a Mortal asked for an alarm
+to '@echo' a message every 2 minutes, this would obviously have to be denied.)
+
+To deal with characters who are continually abusive (E.g:  They reconnect
+after being booted several times, and still continue their wanton behaviour),
+the '@ban' command may be used.  This bans a specified character for a
+specified length of time, or permanently.  Like all Admin. privileges, it
+should be used with extreme care (E.g:  Do not ban a character (Not even for
+two minutes) because you have a personal disagreement)  -  This command should
+only be used where ABSOLUTELY NECCESSARY:  Jailing and Moroning the character
+should always be used in preference to this action.  If the abusive person
+simply creates a new character at the login screen, and continues their
+abusive behaviour, their site can be temporarily banned from creating new
+characters using the '@site set' command.
+
+A Wizard's building activities should be focused on making areas and commands 
+that can be used by all users of The Chatting Zone (Not just a private area 
+for themselves and friends), and since they control everything owned by 
+themselves and lower-level characters, they may use commands such as 'kick', 
+';', '@oecho' and '@write' in areas which they do not own.  Usage of these
+last three commands should be restricted to compound commands ONLY, and
+a ';' should NEVER be performed in #2, #4 or any other public area/area
+which contains public areas.
+
+
+The Elder Wizard
+~~~~~~~~~~~~~~~~
+The first level of senior administration of The Chatting Zone.  Elder Wizards 
+should have a full working-knowledge of ALL aspects of building (Due to the 
+fact that they will be called upon to help Builders with sometimes very 
+complicated compound commands.)  The new Elder Wizard should learn the art of 
+delegation to Wizards and Apprentice Wizards;  they should be concentrating on 
+building more advanced features of the game, rather than helping people all 
+the time (Although, they should still be available to help where it is 
+required.)
+
+In addition to the powers of a Wizard, Elder Wizards may cause a system
+shutdown (With '@shutdown'), although this should be used practically never,
+since only the Supreme Being can manually restart the game.
+
+The Elder Wizard also has the ability to change several '@admin' options, and
+may use '@sanity' to check for possible corruption in the linked lists of the 
+database.  (This is done automatically when the game firsts starts up, so
+this command should never need to be used.)
+
+
+The Deity
+~~~~~~~~~
+Second only to the Supreme Being, this high rank is given only to those Elder 
+Wizards who have proved time and time again their responsibility, and mastery 
+of building.  They can do anything that the Supreme Being can (But only to 
+themselves and lower-level characters), apart from set the Deity flag on a 
+character.  This includes use of the '@reload' command, and ability to fix 
+corruption in the linked lists of the database (With '@sanity'.)  (This is
+done automatically when the game firsts starts up, so this command should
+never need to be used.)
+
+
+The Supreme Being
+~~~~~~~~~~~~~~~~~
+The Supreme Being is the most privileged and powerful character on The
+Chatting Zone.  They have the ability to do whatever they like to any
+character or object in the entire database.
+
+Unlike the other levels of characters, there can only be one Supreme Being.
+The Supreme Being can promote/demote anyone they like, and is the only
+character who can promote characters to Deity status.
+
+-------------------------------------------------------------------------------
+ For further information, please see 'tczrules.txt' and 'manual.txt' (TCZ
+ Official Rules and TCZ Official Manual.)
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

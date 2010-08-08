@@ -1,0 +1,378 @@
+                                _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   |
+                     \   \          |_______||__|  \__||_______|  v4.3  |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+     The following is a detailed list of all additions, modifications and
+       improvements made to The Chatting Zone (TCZ) server version 4.3
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+===============================================================================
+Date:     Details:
+-------------------------------------------------------------------------------
+14/09/97  Warning of successful connection given to other active connections
+          of user (If any.)
+10/11/97  Colour added to 'is new to The Chatting Zone!' title for new
+          characters.
+10/11/97**Time to next payment now updates while using the World Wide Web
+          Interface.  This didn't work before because the interface zeroed
+          tbe user's idle time before the routine which updates payment
+          time was executed.
+10/11/97  Small memory leak in World Wide Web Interface code fixed.
+10/11/97  Colour added to AFK, banned, lost connection and birthday title.
+10/11/97**AFK title now differentiates between user typing 'afk' and TCZ
+	  automatically sending user AFK.
+10/11/97  Title of banned users in 'who' list replaced with message indicating
+	  they are banned.
+10/11/97  Guest characters are no-longer sent auto-AFK (They can't enter their
+	  password, because they haven't got one!)
+10/11/97  'privileges' command now tells you that you can't 'yell' in QUIET
+	  locations.
+12/11/97**Puppets no-longer receive hourly payments.
+12/11/97**Two or more active connections with the same character no-longer
+          count towards next payment, unless all of the connections except
+          one are idle for more than 5 minutes.
+12/11/97  Bug reduced idle time limit on payment update to 2 minutes instead
+          of 5.  Fixed.
+18/11/97  Date in writelog() is now year 2000 complient.
+24/11/97**Yearly events implemented.  Viewed using 'events' command.
+24/11/97  Old Christmas and New Year greetings removed from clock_notify()  -
+          Obsoleted by yearly events.
+26/11/97**Compound commands can now be set CENSOR (This is the default for
+          new compound commands.)  When reset, censorship will not be
+          applied to the command-line during the compound command's
+          execution, even if executed within a censored location or
+          by a censored character.  Resetting this flag on communication
+          commands is not recommended.
+26/11/97  DB revision 78 & 79 compatibility problem fixed (Caused when 2-3
+          weeks worth of coding was lost in a crash.)
+27/11/97  More fixes to DB compatibility  -  TCZ can now load all pre-v78
+          DB's (Tested down to v46, which is the oldest DB I have lying
+          around.)
+29/11/97**Automatically generated Admin mailing list implemented.  Updates
+          on a daily basis.
+29/11/97##Expiry added to new character request queue.  Requests expire
+          after 28 days.
+29/11/97  Option to manually start new character request queue maintenance
+          manually added to '@maintenance'.
+29/11/97**'home' can now be used to set your home as well as return to it.
+          Far easier than fiddling around with '@link'.
+30/11/97**Votes subject to secret ballot ('[bbs] vote <NUMBER> = secret') now
+          appear in message list of topic correctly ('[bbs] view'.)
+30/11/97  Improvements to initialisation of DB before and during loading.
+          Objects no-longer neccessarily need to be loaded in consecutive
+          order.
+30/11/97##Initialisation of voting expiry times on BBS messages fixed.
+          Originally wasn't initialised when adding new messages or making
+          copies of existing ones, giving unexpected results.
+30/11/97##Format for time remaining on messages with voting expiry times now
+          shows hours and days remaining, instead of rounded to nearest day.
+          Saves some confusion, especially when setting/extending expiry
+          times.
+30/11/97**AFK and lost connection are now shown in 'idle'.
+30/11/97**To delete a range of BBS messages, you must now type '[bbs] delete
+          <RANGE> = yes'.  Numbering when deleting multiple messages is now
+          correct too.
+30/11/97  'wake' now takes lost connections into account.
+30/11/97**Fixed problem with $1 & $2 at top-level triggering of fuses (I.e:
+          At point user type command on command-line, triggering fuses attached
+          to them or their current location.)  Was taking 'converse' mode into
+          account, regardless of whether user was using it or not.
+30/11/97**Assistants now have same majority weighting in BBS voting as
+          Experienced Builders.
+01/12/97##Format of '@boot' with ban times changed to be consistent with
+          format used for banning characters ('@ban'.)  I.e:  '@boot <NAME>
+          = <TIME> = <REASON>'.  '@boot' still functions normally if called
+          without ban time (I.e:  '@boot <NAME> = <REASON>'.)  Checking on
+          ban time specified (1-60 mins) now works correctly.
+01/12/97##'{@?pending}' query command implemented.  Returns date/time of
+          pending alarm.
+03/12/97**Mortal limit on temporary variables increased to 100.
+03/12/97**Users are now reminded to change their password every 3 months.
+03/12/97**Your messages on the BBS now show up as unread when appended to.
+03/12/97**Assistants/Experienced Builders (With HELP flag set) can now view
+          the list of users still waiting to be welcomed/given assistance.
+          If too many Admin are connected for them to respond immediately,
+          they may respond after two minutes, if not responded to by an
+          administrator within that time.
+03/12/97**Assists can be responded to with a 'tell' instead of teleporting
+          over to the user's location.  Ideal for responding to assists
+          which can be answered with a single message.
+04/12/97**Code determining whether Assistants/Experienced Builders (With HELP
+          flag set) can welcome/assist improved.  Can now welcome/assist if
+          less than 6 administrators connected who are not set QUIET, idle
+          (Over 5 minutes) or puppets.
+04/12/97**Welcome/assist reminder message improved.  Now displayed to at least
+          6 administrators over a minimum of 2 different level Admin ranks.
+          If less than 6 non-idle administrators are notified or Assistants &
+          Experienced Builders can currently assist/welcome, Assistants and
+          Experienced Builders (With HELP flag set) are also notified.
+          If total notified is still less than 6, all Admin (Inc. QUIET and
+          puppets) are notified, along with any remaining Assistants/
+          Experienced Builders (With HELP flag set.)
+04/12/97  Guests can now be created after typing NEW at the title screen.
+06/12/97  'use' command implemented (Allows objects with '.use' compound
+          command attached to be used.)
+07/12/97**'{@?credit}' can now be used to query amount of credit in a room or
+          thing, as well as credit in pocket of a character.  I.e:  '{@?credit
+          *<NAME>}' needs to be used to get credit of a character by name.
+08/12/97**Default usages for certain object types added to 'use' (When objects
+          do not have a '.use' compound command attached):
+
+	  *  Compound Command	Execute with parameters given to 'use'.
+	  *  Room/Thing		Look at room/thing.
+	  *  Character		Show character's 'scan'.
+          *  Exit               Go through exit.
+
+12/12/97  do_compound_command() no-longer tries to continue compound command
+          matching (I.e:  *HOME*/area compound commands) when called from
+          execute_response_command().  Resulted in corrupt entries on the
+          match stack, giving potential for a crash.
+15/12/97  Using '.move' in the editor to move lines in overwrite mode
+          no-longer overwrites lines at destination line number.  Moves
+          are always performed in insert mode.
+15/12/97  Default use for exits added:  Makes you go through them.
+05/01/98  Simple pointer bug in '@pending' fixed.
+21/01/98  'put' alias added for 'drop' (Sensible, when there is a 'get'
+          alias for 'take'.)
+26/01/98  Data read statistics shown after database load.  These show total
+          data read (Mb), total time taken (Secs) and average data rate
+          (Kb/Sec).
+27/01/98  Progress meter implemented (Shown on STDERR during database load/save
+          on start-up and shutdown.)  It is not logged, but is useful when
+          starting TCZ server up on the command-line, to see its progress.
+27/01/98  match_simple() is now used to match exit names (No need for full
+          match, because exits are only ever matched within current location.)
+25/02/98  'readanon' now gives error message when Admin. tries to read
+          anonymous message posted by another Admin.
+03/03/98  Old internal number representing HOME is now converted correctly on
+          DB load/general sanity check.
+23/03/98  'set timediff +1' now works.
+23/03/98  Change password suggestion message fixed (Gave incorrect time of
+          last password change and suggested password should be changed
+          every 90 months!)
+24/03/98  Appropriate error message is now given if '@' or '@?' is typed as a
+          command.
+24/03/98  Changing the description of WIZARD or APPRENTICE set objects within
+          a compound command set WIZARD no-longer results in 'Hack' log entry.
+24/03/98  Message now informs user of going auto-AFK, as well as displaying
+          the AFK prompt.
+14/04/98  Repeating idle warning messages bug fixed.
+15/04/98**Implementation of new matching system complete.  TCZ's matching code
+          has now been completely re-written from scratch to provide a more
+          efficient and sensible matching system.  New features are as
+          follows:
+
+          *  More efficient and sensible matching order (I.e:  Global and area
+             compound command names no-longer take preference over things in
+             your current location/inventory.)  For full details of the new
+             matching order, please see 'help matching'.
+
+          *  Fully supports inheritance.
+
+          *  Multiple matching in a hierachical manner, e.g:
+
+                ex here:mycontainer:mything:myvariable
+
+          *  Types of object matched can be user restricted, e.g:
+
+                ex @commands:object
+
+          *  Ability to force exact name matching for all object types
+             matched (Overriding the usual partial or prefix matching), e.g:
+
+                ex !object
+
+          *  '{@?myleaf <OBJECT>}' can now be used to find the effective
+             location of <OBJECT> (Taking inheritance into account.)
+
+             I.e:  The object 'MyThing' is in your current location ('MyRoom'.)
+                   It's inherited from 'MyParentRoom':
+
+                   '{@?myleaf mything}' returns 'MyRoom'.
+                   '{@?location mything}' returns 'MyParentRoom'.
+
+          *  '{@?match <OBJECT> [= <TYPES>]}' can be used to match for an
+             object, returning it's name/#ID if found, otherwise *NOTHING*.
+             <TYPES> can be used to restrict the match to objects of
+             particular types.  Doesn't give any on-screen error messages.
+29/04/98**'set afk' implemented.  Allows setting of auto-AFK idle time, or
+          disabling auto-AFK facility completely.
+04/05/98##DRUID flag is no-longer reset on Retired Admin on TCZ start-up
+          (Security check in general sanity didn't take Retired Admin into
+          account.)
+05/05/98  Small flaw in '{@?itemexact}' fixed.
+06/05/98##'Transaction' log implented (Logs financial transactions of users
+          ('deposit', 'withdraw', 'pay' and 'transaction'.))
+06/05/98  Amount of credits dropped in room now shown in description
+          (Take/drop credits from/into room still has to be implemented.)
+06/05/98  '@mass <OBJECT> = INFINITY' now works correctly.  Mass of a thing
+          cannot be set to INFINITY.
+20/05/98  '@banish add' no-longer gives error message when no characters exist
+          in the database with the banished name.
+20/05/98  When creating a character using '@character', if the name is
+          banished, the error message telling you this is displayed
+          properly.
+20/05/98  Names of characters within things are now matched, allowing (For
+          example) a character hiding inside a container to be looked at
+          by another character in the container's location.
+27/07/98  Hanging indent substitutions and similar are now ignored when
+          counting length of title in 'who' list.  List no-longer goes out
+          of alignment if someone accidentally puts %1 instead of %l, etc.
+27/07/98  Missing #'s in '@monitor' log entries added.
+27/07/98  'More' pager enabled for moving between rooms, going 'home', etc.
+27/07/98  'session' comments and titles are now substituted in relation to
+          the user who made them, rather than the viewer.
+27/07/98  'session reset' now resets session title, instead of asking who's
+          session title you'd like to reset.
+27/07/98  'bbs ignore' no-longer ignores messages in topics/sub-topics which
+          you do not have access to.
+27/07/98  'bbs summary' now censors titles of messages in topics/sub-topics
+          which have been set to censor bad language in messages.a
+27/07/98  Automatic welcome prompt message and can_assist() now take lost
+          connections into account.
+27/07/98  '@request refuse' and automatic maintenance now log correct error
+          messages (NAME: and E-MAIL: show correct data, instead of both
+          giving user name.)
+01/08/98  HTML interface parameters are now appropriately filtered for leading,
+          trailing and excessive spaces (I.e:  You can no-longer create a
+          character called ' JC Digita' for example.)
+01/08/98  ';' can now be aliased (E.g:  '@alias ; = @areawrite !*'.)
+01/08/98  Guest Characters can now page/tell messages to Assistants and
+          Experienced Builders as well as Admin.
+01/08/98  Starting editor on dynamic array with invalid element is now
+          handled correctly.
+01/08/98  Locking of site database is now performed while site database is
+          actually being dumped to disk (Dump status value was that of BBS
+          dump.)
+01/08/98##Alarms set PRIVATE are no-longer excluded from '@pending' list
+          for Apprentice Wizards/Druids and above.
+01/08/98**'@namelower' allows object with article set to be given a
+          lower-case name, allowing 'A television' instead of 'A Television'.
+          Cannot be used to set the name of a character.
+01/08/98##Aliases are no-longer substituted from within a compound command,
+          unless the compound command is set APPRENTICE, WIZARD or owned by
+          Admin.
+01/08/98  'summon' informs other users in the same room as the user being
+          summoned that they have been summoned.
+03/08/98**'@cstring' can now be used to set the contents string of rooms
+          and non-container things.
+03/08/98**'{@?cstring}' query command added.
+03/08/98**'@estring' command added (Allows alternative string to be set for
+          'Obvious Exits:'.)  Can be set on rooms and things.
+03/08/98**'{@?estring}' query command added.
+08/08/98  'whois' alias for 'scan' added.
+08/08/98  Name part of E-mail can be set to 1 character by Admin (I.e:
+          'j@wibble.wobble.com' is valid.)
+25/08/98  '@stats other <NAME>' now works correctly.
+25/08/98  'last' can now be used by anyone to list their own last command,
+          or that of their puppet(s).
+25/08/98  '{@?inteval}' now supports unsigned positive integer, allowing
+          positive intervals upto 136 years.
+25/08/98##'@sanity checkquota|quotalimits|credit|score' obsoleted ('@rank'
+          can provide the same functionality, in a sorted and nicely
+          formatted list.)
+25/08/98##'@rank quotaexcess' option added (Ranks users by exceeded Building
+          Quota limits.)  Can be used to check for users over their limit.
+14/09/98  'asshole' added to bad language censor.
+14/09/98  Portability:  TCZ compiles successfully under Linux (As always)
+                        and now also compiles and runs under Windows '95,
+                        '98 and NT using CygWin32.  Ideal for testing and
+                        development on Windows-based system, or local
+                        softcoding.  Not recommended for public running
+                        (Windows says it all! :)  With some of the changes
+                        made, porting to other systems should be easier.
+14/09/98  Embedded 'hard' ANSI codes are now stripped from 'gripe'.  Saves
+          annoyance to anyone trying to view this log file from outside of
+          TCZ in the Operating System.
+15/09/98**COMBAT flag implemented (Restricts usage of combat commands
+          '@delay', '@heal' and '@delay'.)
+15/09/98  Flags of friends list entry expanded to 32-bit integer to allow
+          further expansion.
+15/09/98**COMBAT friend flag implemented.
+15/09/98##Character names beginning with a number are no-longer allowed
+          because it causes confusion with commands which use grouping/range
+          operators to page their output (Number in name is seen as the
+          page number.)  Of course, '*<NAME>' gets around this, but is
+          impractical for the general user.  Elder Wizards/Druids and
+          above can still set names beginning with a number.
+15/09/98  For options in '@rank' where more than one column is displayed,
+          the title of the ranked column is hi-lighted and underlined to
+          make it more clearer.
+15/09/98**New rank options added:  'won', 'lost', 'battles' and 'performance'
+          allow users to be ranked by their combat statistics.
+15/09/98**'attributes'/'statistics' combat command now shows combat area
+          user is in (If any.)  Location must be set COMBAT and ideally
+          have an area name.
+16/09/98  '@rank quotaexcess' now works correctly.
+16/09/98  Removed obsolete object support for an old planned combat system
+          which was never implemented (And would probably be implemented
+          differently if ever implemented.)
+16/09/98##'Combat' log file implemented.  Logs usage of '@damage', '@delay'
+          and '@heal'.
+16/09/98  Support for exclusion of characters/objects based on flags in
+          '@find'/'@list' implemented.  If a flag can't be set on object,
+          objects won't be listed.  If a flag can't be set on character,
+          characters wont be listed.
+18/09/98  '@find'/'@list' and grouping/range operators now handle aliased
+          flags correctly (I.e:  Those with same value, but different name
+          and function for objects and characters.)  For example, '@list all
+          = combat' will not list characters with their MALE flag set as well
+          as objects with their COMBAT flag set.
+18/09/98  '@site' commands no-longer refuse execution because Internet site
+          database is currently be dumped, when it actually isn't.
+21/09/98  '@heal', '@delay' and '@damage' modified for new combat system
+          restrictions.
+21/09/98  '@heal' doesn't allow health to be increased above 999.9%
+21/09/98  COMBAT constraints are checked on execution of combat command.
+24/09/98  2dp floating point routines implemented.  Allows inaccurate C
+          'double' floating point values used for health, credits, etc.
+          to be replaced by customised 'currency' structure, which is
+          also under half the size of a 'double' (5 bytes instead of 12.)
+24/09/98  New accurate 2dp floating point routines allow your last 0.01
+          credit to be deposited into your bank account (0.01 as a double
+          would often be represented as 0.009999... , which when 0.01 is
+          deducted leaves -0.001...  TCZ doesn't allow you deposit an
+          amount which will leave a negative amount of credits in your
+          pocket, so the deposit fails.
+25/09/98##Object types ('characters', 'things', 'rooms') can be specified
+          for '@rank credits'.  This allows Admin to rank objects by the
+          credits dropped within them.  In this usage, characters are ranked
+          by total credit (Credit in pocket + bank balance.)
+25/09/98  Bullets in exits/contents list of room/thing are now correctly
+          coloured on HTML interface.
+25/09/98  '@rank income', 'expenditure' and 'profit' are now displayed
+          together.
+03/10/98  Check on new character restrictions in 'withdraw' bank command
+          now works correctly.  No-longer prevents Admin. with insufficient
+          connect time from making withdrawals (E.g:  On test database.)
+04/10/98  SENDHOME flag can't be set on rooms anymore.
+14/10/98##READONLY flag on character now prevents aliases from being
+          added, changed or removed.
+14/10/98##Invalid ANSI codes are now filtered at output level, preventing
+          unwanted custom escape sequences being used.  Temporary filtering
+          of 'hard' ANSI codes from query commands which could be used to
+          obtain the ESC character on its own have now been removed.
+-------------------------------------------------------------------------------
+KEY:  '--' = Needs testing, '**' = Document on BBS, '-*' = Both.
+      '##' = Document on Admin only.
+===============================================================================

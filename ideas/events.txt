@@ -1,0 +1,45 @@
+Customisable events/schedule
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+events	 Show events (In order of when they occur - Current events shown in
+                      different colour.)
+
+schedule [<TITLE>]            Show own personal schedule (In order)
+schedule *<NAME> [= <TITLE>]  Show other user's schedule (Public items)
+schedule {No params}          Interactively add schedule (Otherwise '@event'
+                              can be used with 'Schedule' flag.)
+
+@event add <EVENT> = <START DATE> = <END DATE> = <FLAGS> = <DESCRIPTION>
+
+@event start <EVENT> = <START DATE>
+@event end <EVENT> = <END DATE>
+@event flags <EVENT> = Beep Event Notify Repeat Public Localtime Schedule 
+                       Servertime None
+                       {NOTE:  Localtime/Servertime only shows to non-admin.}
+@event desc <EVENT> = <DESCRIPTION>
+@event remove <EVENT> [= <REASON>]  (Full name of event must be given.)
+
+@schedule  -  Same as above, except on personal schedule instead.
+
+
+ Start/End Date/Time:      Event:
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Sun 28/11/1999 00:00 am   Title of event here.
+ Sun 28/11/1999 23:59 pm   (LocalTime)
+-------------------------------------------------------------------------------
+ Sun 28/11/1999 00:00 am   Title of event here.
+ Sun 28/11/1999 23:59 pm   (ServerTime, Notify, Repeat)
+-------------------------------------------------------------------------------
+ Sun 28/11/1999 00:00 am   Title of event here.
+ Sun 28/11/1999 23:59 pm   (LocalTime)
+-------------------------------------------------------------------------------
+ Sun 28/11/1999 00:00 am   Title of event here.
+ Sun 28/11/1999 23:59 pm   (LocalTime)
+-------------------------------------------------------------------------------
+ Sun 28/11/1999 00:00 am   Title of event here.
+ Sun 28/11/1999 23:59 pm   (LocalTime)
+===============================================================================
+ For more information on one of the above events, type 'event <NAME>', where
+ <NAME> is the name of the event.
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+ Events listed:  9 (Page 1 of 1).
+

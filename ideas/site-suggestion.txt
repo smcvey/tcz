@@ -1,0 +1,15 @@
+Mail from Balor on Tuesday 31st December 1996, 4:51.41 am...
+-------------------------------------------------------------------------------
+Hi JC,
+I just had an idea (Prompted by a thoughly obnoxious person who
+claimed to be a hacker) to increase security.  The idea revolves around
+the fact that TCZ knows which site users connect from.  If we
+were allowed to set a valid list of sites from which we could log
+in, then that would screen out most potential hackers.  And if
+the default was loggin in from any site, then the users wouldnt
+HAVE to do anything if they didnt want to.
+
+Just a thought,
+Balor (Aka Thoomas Swann)
+-------------------------------------------------------------------------------
+This item of mail is 3 days, 19 hours, 41 minutes and 8 seconds old.

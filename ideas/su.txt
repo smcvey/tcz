@@ -1,0 +1,48 @@
+USAGE:  su <NAME>
+
+'su' allows you to assume the identity of another user, providing you
+know their password.  It can also be used to assume the identity of
+a puppet without needing to enter their password, providing you are
+their controller.
+
+To do this, simply type 'su' followed by the name of the user.  You
+will then be prompted to enter the user's password (Unless the user
+is your puppet.)
+
+If successful, your prompt will change to the name of the user, and all
+commands will be executed under their identity.
+
+You can execute commands as yourself (Rather than the 'su'ed user) by
+using '.x' or '.execute'.  For example, this allows you to reply to pages/tells as yourself rather than the 'su'ed user.
+
+When you have finished, you can stop 'su' by typing '.exit'.  This will
+return you to your normal identity.
+
+Unless the user is your puppet, all 'su' activity (Including all
+commands executed under the identity of the 'su'ed user) are logged
+to the 'SU' log file.  Commands executed under your own identity
+(Using '.x') are not logged.
+
+'su' can't be used from within a compound command.
+
+
+NOTES:  *  Can't be used from within a compound command.
+        *  Can't be used when within a 'su'.
+	*  Can't be used by disconnected user (I.e:  '@force'.)
+        *  Can't be used on a user who is currently connected.
+        *  Can't be used on self.
+	*  Log failed 'su' attempts in 'Password' and 'SU' log.
+        *  Test if user is a puppet and controlled by user - If so, no
+           password is required.
+	*  When running a command, it temporarily changes your ID to
+           that of the 'su'ed user and then executes the command.
+        *  Log start/end of 'su' in 'SU' and 'Admin' log files.
+        *  Commands executed under 'su' logged to 'SU' log file (Except
+           those executed under own identity with '.x'.)
+        *  Change prompt to name of SU'd user 
+        *  Don't log stuff if user is a puppet and controlled by user
+           doing 'su'.
+        *  Add '(SU)' to end of name in room contents.
+           I.e:  JC Digita (SU)
+        *  Add '[SU: Name]' to end of user's name in 'fullname()'.
+           I.e:  Test [SU: JC Digita]

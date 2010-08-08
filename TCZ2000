@@ -1,0 +1,365 @@
+The TCZ 2000 Project
+~~~~~~~~~~~~~~~~~~~~
+
+Introduction
+~~~~~~~~~~~~
+The Chatting Zone (Or TCZ for short) is a sophisticated Interactive
+Multi-user Environment, designed for use over the Internet for social
+(Chat) and gaming (Adventure) purposes.
+
+It has a wide variety of features, including integration with the
+World Wide Web (WWW), and the ability for users to construct and
+expand the virtual world (Database) from within, without the need
+for programming skills or advanced computer knowledge.
+
+The TCZ 2000 Project was setup on 11/04/1999 and was aimed at pratically
+continuing the development of TCZ for the millenium and beyond.
+
+Due to lack of time, work on this project ceased.  To allow continued
+development, TCZ has now been setup as a proper SourceForge project
+which can be found at:  http://www.sourceforge.net/projects/tcz
+
+
+History
+~~~~~~~
+TCZ is orginally based on a heavily modified combination of early
+TinyMUD & UglyMUG code-bases.  Development began in late 1993 by
+J.P.Boggis (Aka JC Digita) with the first public running version
+appearing about a year later (28/11/1994), following a number of
+successful test runs.
+
+The source code was kept closed between 1993 - 2004, and was
+maintained/developed by a sole coder (J.P.Boggis) who had complete
+control over the direction, development and progress of the code.
+During this time, the source code was never officially
+publicly distributed.
+
+Development was rapid during the period of 1993 - 1997, when the
+coder (J.P.Boggis) had a large amount of time to dedicate to TCZ
+and its development.  However, after entering full-time employment
+in 1997, development rapidly slowed down due to the inavailability
+of free time and the amount of work which required doing.
+
+As a result, the TCZ 2000 project was conceived to place TCZ's code
+and development into the public domain, to ensure its future,
+continued interest and development.
+
+TCZ's code is now publicly available under the GPL (GNU General
+Public License - See http://www.gnu.org) and can be obtained from:
+
+   http://www.sourceforge.net/projects/tcz
+
+
+Copyright
+~~~~~~~~~
+TCZ is free software, distributed under the GNU General Public License.
+Please see http://www.gnu.org for a full copy of the license and its
+terms/conditions (A copy of this license should also be included with
+any TCZ-based source code you download.)
+
+
+TCZ Project Aims
+~~~~~~~~~~~~~~~~
+*  To develop and maintain the TCZ source code:
+
+   *  Manage and maintain the TCZ CVS repository at SourceForge.
+
+   *  Co-ordinate all work on the source code.
+
+   *  Decide on suitability of new features for inclusion and who
+      should work on implementing them.
+
+   *  Prevent two or more people working independantly on the same or
+      similar coding project.
+
+   *  Ensure new features are consistent with the rest of the TCZ
+      code-base:
+
+      *  Proper layout and comments documenting the source code.
+      *  British English language (By default if multiple languages
+         are supported in the future.)
+      *  Correct spelling, punctuation and grammar.
+      *  Correct colour schemes and formatting.
+      *  Good, clear layout/formatting of any produced output.
+      *  Clear and concise help for TCZ Manual(s) & On-line Help.
+      *  Easy to understand tutorials where appropriate.
+      *  User-friendliness and ease of use.
+      *  Fully expandible for future additions/modifications.
+      *  Backwardly compatibility with earlier databases, commands, etc.
+      *  Consistency with other TCZ features.
+
+   *  Maintain accurate and detailed log of all changes made to the
+      source code, along with the date and who they were made by.
+
+   *  Ensure code is fully beta-tested and is reliable before it is put
+      into general use at sites running TCZ-based code.
+
+   *  Code updates occur on a regular basis (But not without thorough
+      testing prior to release), and sites running TCZ-based code are
+      made aware of availability of new, stable code so that they can
+      upgrade.
+
+*  To maintain up-to-date lists of the following:
+
+   *  Sites running TCZ code.
+
+   *  People working on or contributing to the TCZ, their role (Coder, tester,
+      etc.) and what they are currently working on.
+
+   *  Suggestions made by TCZ users for improvement, new features,
+      modification, etc.
+
+   *  New features to be implemented.
+
+   *  Bugs, hacks & security flaws which need fixing.
+
+   *  Improvements/optimisations to be made.
+
+   *  Assignment of the above to coders, testers and debuggers.
+
+   *  List of all changes made to the source code (Date, source file(s),
+      who made change and details of what has been changed.)
+
+*  Maintain central web site for the TCZ project and all resources
+   related to it:
+
+   *  Information about TCZ.
+
+   *  List of sites running TCZ (For proper use or development/
+      testing.)
+
+   *  Downloads of source code (Current, beta and older), compiled
+      binaries for popular OS's and other TCZ related resources.
+
+   *  Forums for TCZ users (And anybody else) to make suggestions for
+      improvement, new features, modifications, etc.
+
+   *  Questions/answers forum for the project (To allow questions to
+      be asked about TCZ source code, TCZ in general, 'soft' coding,
+      etc.
+
+   *  Mailing lists for:
+
+      *  People interested in the project.
+      *  Making suggestions/conveying ideas.
+      *  Discussing issues related to the project.
+      *  Coders, testers & debuggers.
+      *  Sites running TCZ code.
+
+   *  Ensure all information on the web site is kept up-to-date.
+
+
+TCZ Project Requirements
+~~~~~~~~~~~~~~~~~~~~~~~~
+*  People to plan and design new features.
+*  People to manage the code-base.
+*  People to manage TCZ project web site.
+*  Coders to implement new features.
+*  Coders to improve and optimise existing code.
+*  Testers to test existing, new & modified code for bugs, hacks &
+   security flaws.
+*  Coders to debug code to resolve bugs, hacks & security flaws.
+*  Coders to port code to different platforms.
+*  People to write/re-write clear and concise manuals, help pages and
+   tutorials.
+
+
+Some ideas for major improvements to TCZ
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*  Fully featured, built-in mail system (Currently exists as unfinished
+   BETA code), with support for mailing groups of people, subjects on
+   messages, stopping accidentally sent mail, auto-deletion of older
+   messages, etc.  Could also possibly allow sending and even receiving
+   small text-only Internet mails (Sending could be risky (Abuse),
+   although a full log of sent mails (Who sent them, subject and where
+   sent to) could be kept.)  Log of received mails (Who from, subject
+   and who to) could also be kept.  Users could be banned from sending
+   and receiving internal and/or external mail.  Would also need
+   anti-spam/mail-bomb features (Both sending and reception of mail.)
+
+*  Fully featured channel communication system (Currently exists as
+   unfinished BETA code), with named channels, member lists, ability
+   to ban users, etc.
+
+*  Improvements to the WWW Interface, making it fully compatible with
+   different browsers and implementing newer HTML features not
+   currently taken advantage of (I.e:  JAVA, style-sheets, etc.)
+
+*  User-friendly graphical JAVA interfaces for building, BBS, mail
+   (When implemented), character (Scan, profile, etc.), friends list,
+   etc.  For example, building interface would feature 'tree' style
+   list of objects you have access to, hierachically organised.
+   Each object type can be edited using its own JAVA-based editor
+   allowing descriptions, flags, etc. to be set easily.  Error
+   messages being displayed in dialogue boxes.
+
+*  Improvements to building language, with new building/coding
+   commands, delayed execution, timed execution (Replacing alarms),
+   ability to stop delayed/timed executed commands, delayed/timed
+   usable by Builders (Restraints to ensure they can't be abused
+   either accidentally or on purpose), and even possibly some sort
+   of multi-tasking to replace the present sequential execution of
+   compound commands.
+
+*  Ability to import/export objects in an independant manner (XML),
+   for backup, off-line editing, importing into another TCZ (Such
+   as a personal one running locally on user's computer), etc.  A
+   tool for off-line editing without running a TCZ server could be
+   developed, or better still, the JAVA interface for building could
+   work offline with import/export files, as well as on-line,
+   connected up to a TCZ-based server.  Import/export could work
+   using cut/paste (On user input/output), HTML upload/download,
+   E-mail (Possibility), FTP (Possibility) and files on hard disk
+   of server machine (Only practical for site Admin.)
+
+*  Port of TCZ to other Operating Systems, such as Win95/98/NT for
+   personal running (Has already been achieved using CygWin32, but
+   it would be nicer if it could run without any 3rd party software.)
+   Porting to other UNIX O/S's, such as BSD, SunOS (May be easy, as
+   early TCZ's were developed under SunOS), etc.
+
+*  Ability to change the names of different Admin ranks, etc. on TCZ,
+   and full support in all commands within TCZ, plus substitutions to
+   allow currect rank names to be easily inserted (Automatically) into
+   On-line Help, soft-coded compound commands, etc.
+
+*  Secure sockets (SSL) support for SSH and https:// connections to
+   TCZ, preventing packet snooping on conversations, passwords, etc.
+   Also, implemented into InterTCZ so that communication between
+   TCZ -> local InterTCZ server -> remote InterTCZ servers is
+   encrypted and secure.
+
+*  Communications between TCZ servers (InterTCZ), with compatibility
+   with InterMUD.  Would allow the following and more:
+
+   *  Separate InterTCZ server that communicates directly with TCZ
+      and remote InterTCZ servers (Preferably using secure sockets
+      (SSL)).
+
+   *  'info' facility, to show details of remote TCZ, such as name,
+      description (I.e:  Theme, etc.), Telnet/HTML address, web site,
+      Admin. E-mail, etc.  USAGE:  'info tczservername'.
+
+   *  'ping' facility, to determine if remote server is up or down.
+       USAGE:  'ping tczservername'
+
+   *  'verify' facility to verify existence of user on remote server
+      and their various preferences (Screen size, Telnet/HTML, etc.)
+      USAGE:  'verify name@tczservername'.
+
+   *  'globalwho' ('gwho') - To show user list of everyone connected
+      to a TCZ-based server, with login time, idle time and TCZ server
+      name.
+
+   *  Ability to view various user lists ('who', 'swho', etc.)
+      (InterMUD:  'who' only.)  USAGE:  'who@tczservername'.
+
+   *  Pages/tells to/from remote users (InterMUD:  'page' converted
+      to 'tell'.)  USAGE:  'page name@tczservername'.
+
+   *  Mail to/from remote users.  USAGE:  'mail name@tczservername'.
+
+   *  Ability to view scan and profile of users (InterTCZ only), i.e:
+      'scan name@tczservername'.
+
+   *  Remote BBS topics/sub-topics (I.e:  Topic hosted on one TCZ
+      server, other TCZ servers can link topics in their BBS's up
+      to it.)  (InterTCZ only.)
+
+   *  Ability to join channels on remote TCZ's (When implemented.)
+      Also, ability to have channels shared between TCZ's, with
+      messages relayed between the servers (I.e:  A TCZ channel
+      on each TCZ, all linked together, so user joins the channel
+      on the local TCZ, but messages are relayed/received to/from
+      the remote TCZ's.)
+
+   *  Ability to restrict access for local users to InterTCZ and
+      InterMUD (I.e:  If they are abusing it.)  Particular services
+      can be restricted, or all access can be barred.
+
+   *  Ability to restrict access for remote users (I.e:  Stop
+      somebody at a remote server from sending mail to users at the
+      local TCZ.)
+
+   *  Ability to control InterTCZ and InterMUD communications at
+      server level (I.e:  Which remote TCZ's/other InterMUD MUD's
+      have access to which services.)  Default can be set (For
+      unlisted/new servers), and ability to set for individually
+      named servers (I.e:  You can set default not to allow mail
+      from remote servers.  Those which can send mail would have
+      their own entry which allows mail.)
+
+   *  Security, to prevent anybody from just starting up a TCZ-based
+      server and using it to abuse InterTCZ.  For example, each TCZ
+      requires a code to communicate with each other TCZ, co-ordinated
+      by the TCZ project.  Each server authorised to use the system
+      (Would need to be a permanent server), would receive a list of
+      codes/certificates on a regular basis to allow communication
+      with other TCZ's on the system.  The list would be unique for
+      each TCZ server.  Servers that do not have authorisation could
+      still use InterTCZ in a restricted fashion (I.e:  No remote
+      page/tell, mail, etc., but 'safe' commands like remote 'who',
+      'globalwho', etc. would still work.)
+
+   *  Ability to export/import objects between TCZ's over the InterTCZ
+      system.
+
+   *  Possibility of reference objects that reference an object on a
+      remote TCZ, so it appears as though it is part of the local one.
+      And possibly exits that link to rooms on a remote TCZ.  Reference
+      objects could also reference objects on local TCZ too.
+
+   *  Ability to remote login to other TCZ's, and control the
+      connection from the local one (Via InterTCZ.)  I.e:  Execute
+      commands using 'command@tczservername', i.e:  'say@othertcz
+      "Hello!"'.  User list of remote TCZ would show that user was
+      remotely connected, i.e:  'NAME is remotely connected from
+      TCZServerName'.
+
+   *  Site DNS name lookup for lag free lookup.
+
+   *  Remote centralised TCZ site database with effecient lookup by
+      IP and centralised ban options for problem sites (Which 
+      individual TCZ servers can choose to utilise and optionally
+      override with their own local site database.)  Administration
+      of this central site database would be of course done and
+      controlled by the TCZ project.  TCZ sites could submit new
+      sites and corrections to the database to make it the
+      most accurate and comprehensive database available.
+
+   *  Within InterTCZ, usernames are transmitted with realname,
+      #ID and TCZ server InterTCZ name for full identification,
+      allowing barring, access control, etc. (#ID number used for this
+      purpose, as it doesn't change.)  Validity of #ID's is checked
+      rotationally, using identification facility of InterTCZ.  User
+      parameters, such as screen width/height, Telnet/HTML, ANSI colour
+      preference, etc. would be transmitted to allow correct formatting
+      (I.e:  So user lists can be made to fit the screen of the remote
+      user, etc., taking advantage of extra large screens.)
+
+      Example:  Fred.Bloggs@SomeTCZ|#12345|80x24,T16
+
+      (Space in realname replaced with '.', TCZ server InterTCZ name,
+      #ID of remote user (For validation), 80x24 screen, Telnet with
+      16 colour ANSI.)  Preferences can be omitted for remote
+      commands which do not need this info (I.e:  Sending mail.)
+  
+
+Directory Structure
+~~~~~~~~~~~~~~~~~~~
+*
+|- bin      Server executable and shell scripts.
+|- changes  Sourec code changes logs.
+|- ideas    Ideas for implementation/improvements.
+|- include  Contains header files for the source code.
+|- lib	    Server database files & configuration.
+|- log      Log files from running TCZ server.
+`- src	    Contains the source code.
+
+
+How to get involved
+~~~~~~~~~~~~~~~~~~~
+Please visit the TCZ project web site at:
+
+   http://www.sourceforge.net/projects/tcz
+

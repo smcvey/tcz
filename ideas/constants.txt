@@ -1,0 +1,21 @@
+FORMAT:  $?NAME
+
+Types:  CONSTANT_INTEGER     /*  Fixed integer           */  {double val}
+	CONSTANT_STRING	     /*  Fixed string            */
+	CONSTANT_CALCULATED  /*  Calculated by function  */
+
+Integer constants:
+~~~~~~~~~~~~~~~~~~
+Name:		Value:			Description:
+~~~~~           ~~~~~~                  ~~~~~~~~~~~~
+$?YEAR		31557600		Approx. seconds in a year.
+$?QUARTER				Seconds in a quarter (1/4 of a year.)
+$?MONTH		2629800			Approx. seconds in a month.
+$?DAY		86400			Seconds in a day.
+$?HOUR		3600			Seconds in an hour.
+$?MINUTE	60			Seconds in a minute.
+$?SECOND	1			Seconds in a second(!)
+
+Calculated constants:
+~~~~~~~~~~~~~~~~~~~~~
+$?UPTIME	TCZ's uptime, in seconds.

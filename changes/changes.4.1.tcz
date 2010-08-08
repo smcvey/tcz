@@ -1,0 +1,342 @@
+                                _____       ___
+  .----------------.     ____     |   |__| |__    ____
+  |    _________    |             |   |  | |___
+  |   |         `---'
+  |   |  .--. .--..-------..--------..--------..--..--.  .--..-------.
+  |   |  |  | |  ||   _   ||__.  .__||__.  .__||  ||   \ |  ||   ____|
+  |   |  |  `-'  ||  |_|  |   |  |      |  |   |  ||    `|  ||  |  __
+  |   |  |  .-.  ||   _   |   |  |      |  |   |  ||  |.    ||  |_|  |
+  |   |  |  | |  ||  | |  |   |  |      |  |   |  ||  | \   ||       |
+  |   |  `--' `--'`--' `--'   `--'      `--'   `--'`--'  `--'`-------'
+  |   `---------------------------------------------------------------------.
+  |_____________________________________________________________________    |
+               .-------------------..-------..--.  .--..-------.        |   |
+                \_______________   ||   _   ||   \ |  ||   ____|        |   |
+                               /   ||  | |  ||    `|  ||  `---.         |   |
+                   .----------'   / |  | |  ||  |.    ||   ___|         |   |
+                    \    _______/   |  `-'  ||  | \   ||  `----.        |   |
+                     \   \          |_______||__|  \__||_______|  v4.1  |   |
+                      \   `---------------------------------------------'   |
+                       \____________________________________________________|
+
+
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+     The following is a detailed list of all additions, modifications and
+       improvements made to The Chatting Zone (TCZ) server version 4.1
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+===============================================================================
+Date:     Details:
+-------------------------------------------------------------------------------
+17/03/96  If the owner of a room/thing with the SKIPOBJECTS flag set places
+          compound commands in it, they will no-longer be ignored (This problem
+          only effected non-Admin.)
+17/03/96  Bug in idle time checking code fixed (Introduced by implementation of
+          support for planned port concentrator and external database dumping
+          program.)
+17/03/96  Bug in 'Unknown command' message for Mortals fixed (Newbie-style
+          'Unknown command' message was always displayed.)
+17/03/96  Bug in new grouping/range operator code fixed.
+19/03/96  Bug in '{@?realtime}' query command fixed (When a value is given to
+          '{@?realtime}', that exact time will be returned (Without the user's
+          time difference being taken into account.)  If no parameter (Or '0')
+          is given, the current time is returned, with the user's time 
+          difference taken into account.)
+20/03/96  ANSI substitutions can now be used in the reason for '@shutdown'.
+20/03/96  String/sentence/list processing query commands improved and made more
+          efficient.
+21/03/96  '{@?sortnumeric}' list processing query command implemented (Sorts
+          items in list into numerical order rather than alphabetical order.)
+          ('@?sort' still sorts alphabetically, and is an alias for
+          '{@?sortalpha}'.)
+21/03/96  '{@?pad}' now accepts more than one character as the pad character
+          (I.e:  '@echo {@?padcentre 41 "-=" "[ Hello ]"}'.)
+22/03/96  New '@prompt' session can now be started from within the <SUCC CMD>
+          compound command of '@prompt' (Doesn't result in 'Sorry, '@prompt'
+          can't be used within an interactive '@prompt' session.' error
+          message.)
+25/03/96  Bug in do_csucc_or_cfail() fixed (Caused a crash when the CSUCC of
+          an alarm with blank description was set.)
+25/03/96  Binary search command look-up tables added, improving the efficiency
+          of look-up/matching of built-in commands.
+25/03/96  BBS commands take precedence over standard commands in the BBS room
+          (On the command line only.)  '|<COMMAND>' can be used to ignore BBS
+          commands completely (In the BBS room) and match to the nearest
+          standard built-in command instead.
+25/03/96  BBS can now be used from anywhere on TCZ, as well as the designated
+          BBS room ('bbs [<BBS COMMAND>]'.)
+25/03/96  Efficiency of compression routine improved by using binary search
+          on compression table instead of binary tree search.
+27/03/96  '{@?itemexact}' list processing query (Identical to '{@?item}',
+          except exact match is used, rather than partial match.)
+27/03/96  '{@?wordexact}' list processing query (Identical to '{@?word}',
+          except exact match is used, rather than partial match.)
+26/03/96  Support for substitution codes in <TEXT> of '{@?pad}'.
+28/03/96  Experienced Builders may no-longer use their extra read privileges
+          to execute non-owned compound commands that a Mortal character
+          couldn't execute.
+28/03/96  Small bug that stopped Admin from listing aliases of any other
+          character (Including characters of the same or higher level) fixed.
+28/03/96  Deities can now list the votes for/against a message owned by a
+          fellow Deity on the BBS.
+28/03/96  '%u' underline substitution only has effect if user has 'set
+          underline' preference switched 'on'.
+28/03/96  '@boot' can't be used within '@for', '@foreach', '@with' or '@while.'
+28/03/96  Builders can use '@with' on objects/characters in their own
+          locations (For Experienced Builders, #ID numbers are returned,
+          otherwise name only.)
+28/03/96  Message with votes for/against on the BBS can't be modified by
+          non-Admin without resetting votes first (Message can still be
+          appended to though.)
+28/03/96  'read next/prev' on BBS automatically adjusts to compensate for
+          new messages being added/messages being deleted.
+28/03/96  Parent of character can no-longer be set within compound command
+          (Unless set WIZARD.)
+28/03/96  '@with' can now be used by Mortals on ALL objects within their own
+          objects.
+28/03/96  '@with' now takes inheritance into account.
+28/03/96  Bug in 'split' Telnet protocol negotiation handling code fixed.
+29/03/96  '@foreach' command implemented (Replaces the old, now obsolete
+          '@dolist' command for processing lists.)
+29/03/96  Unneccessary command buffering removed from '@if', '@for', '@with'
+          and '@while' (Significantly reducing memory overhead of these
+          commands.)
+02/04/96  Multiple line formats of '@if', '@for', '@with', '@while' and
+          '@foreach' implemented (Allows blocks of commands to be executed
+          rather than single lines (Single line formats still supported.))
+02/04/96  '@end' and '@else' statements implemented for the above.
+07/04/96  '@sort' implemented (Sorts the elements/index names of dynamic
+          arrays into alphabetical or numerical order.)
+08/04/96  New trace sequence implemented.
+08/04/96  '{@?health}' returns health without trailing '%'.
+10/04/96  '{@eval n(m)}' (Where 'n' and 'm' are two numbers) now does
+          multiplication.
+10/04/96  Formatting of 'examine' slightly improved (Including use of hanging
+          indent.)
+10/04/96  'Title:' field added to 'examine' (Examining characters.)
+10/04/96  'settings' also displays other useful fields of object, such as
+          location, home/destination, CSUCC/CFAIL (Compound command), etc.
+11/04/96  '$#<LOCATION>:<NAME>' variable/property/array substitution bug fixed.
+11/04/96  '{$<NAME>}' takes all text between the {}'s as the variable/property/
+          array name (Similar to '$(<NAME>)'), rather than just upto the first
+          space in <NAME>.
+11/04/96  Event handling code extensively modified and improved (Alarms/fuses.)
+11/04/96  '{@?myleaf}' is now set correctly for compound commands executed by
+          inherited fuses.
+11/04/96  Bug which caused the clock to strike when the server time was
+          increased (I.e:  '@admin time = +1 hour', even if the new time
+          was not directly on the hour) fixed.
+12/04/96  Exits may now be set OPENABLE, which allows them to be opened,
+          closed, locked and unlocked.
+15/04/96  Deity Druids obsoleted:  Only one type of Deity is needed due to
+          the level of authority and skill characters of this rank should have.
+15/04/96  '@true', '@false', '@break', '@return' and '@breakloop' no-longer
+          change the current return value of a compound command.
+15/04/96  'current' can be used with '@break' and '@return' (Uses return
+          boolean of previous executed command instead of changing it (As
+          with 'true'/'false'.))
+15/04/96  Object creation/last usage time stamps implemented, along with
+          '{@?created}' and '{@?lastused}' query commands.
+15/04/96  'Users:' part of 'who' lists redesigned.
+16/04/96  Building Quota cost of fuses changed to 5.
+16/04/96  '.entercmd' and '.leavecmd' compound commands implemented (For
+          constructing custom enter/leave messages for characters without
+          using fuses.)
+16/04/96  'warp' command implemented (Teleports character to random ABODE
+          location.)
+16/04/96  'warn' command implemented (Allows Admin to issue official warnings
+          to other characters (Logged in 'Admin' log file.))
+16/04/96  'session' command implemented (Allows user to set session title and
+          other users to leave comments on it (Can only be changed once every
+          15 minutes.))
+21/04/96  Bug in free_boolexp() fixed (Caused crashes, especially when using
+          '@destall'.)
+23/04/96  '.tell' is no-longer executed for tells which are not directed at
+          you (In the same room.)
+23/04/96  Efficiency (CPU-wise) of compression routines optimised.
+24/04/96  Constraints to guard against infinite recursion added to matching
+          routines (match.c)
+24/04/96  VISIT friend flag implemented (Allows user with friend flag set to
+          visit you whenever they like (Setting your PRIVATE flag allows you
+          to temporarily disable the effect of the VISIT friend flag, whenever
+          you want/need privacy.))
+24/04/96  CSUCC/CFAIL of '.enter'/'.leave'/'.login'/'.logout' compound
+          commands automatically set to *HOME* on creation to prevent
+          accidental blocking of global/area '.enter'/'.leave'/'.login'/
+          '.logout' compound commands.
+24/04/96  'addanon' and 'replyanon' BBS commands added to add anonymous
+          messages/replies to messages to the BBS without having to do
+          'anon <NUMBER>'.
+25/04/96  Anonymous messages in topics remain anonymous, regardless of whether
+          anonymous messages are allowed in the topic or not (I.e:  Mortal
+          topic owner may no-longer use this as a method to find out who
+          added anonymous messages.)
+25/04/96  'addanon' and 'replyanon' BBS commands may not be used to add
+          anonymous messages to a topic which doesn't allow them.  'anon'
+          may not be used to make messages anonymous in a topic which
+          doesn't allow anonymous messages.
+25/04/96  'owner' BBS command added to allow Admin to change ownership of
+          a BBS message.
+25/04/96  'copy' BBS command added to allow Admin to make a copy of a BBS
+          message, placing it in another topic.
+25/04/96  '@ban' and '@log' can no-longer be used from within a compound
+          command (Unless it's WIZARD flag is set.)
+26/04/96  Readability of 'flist'/'fothers' improved (Column formatted, similar
+          to 'where'.)
+26/04/96  'tutorial' command implemented (Implements system of On-Line
+          Tutorials, similar to the On-Line Help System.)
+27/04/96  READ, WRITE, CREATE, DESTROY and SHARABLE friend flags implemented
+          (Allows you to give users 'read'/'write' permission to your objects.)
+28/04/96  'session' modified to disallow use of query substitutions in session
+          title/comments.
+28/04/96  User who set session title may change it upto 1 minute after setting
+          it (I.e:  If they made a mistake, etc.)
+28/04/96  DRUID flag is now removed when APPRENTICE/WIZARD/ELDER flag is
+          removed from a character who is Druid Admin.
+28/04/96  General sanity check on UID (Who character is building as)
+          implemented.
+28/04/96  '{@?cmdname}' query command implemented (Returns name by which
+          compound command was executed.)
+29/04/96  Text of help topics/tutorials substituted line-by-line (Instead of
+          all in one go)  -  Prevents help topics with lots of substitutions
+          from getting truncated.
+29/04/96  '{@?quota}' returns correct amount of Building Quota used by a
+          dynamic array with elements.
+29/04/96  'Majority factor' added to 'vote list' BBS command.
+30/04/96  Limit bug in substitution routine fixed (Allowed text to exceed 3Kb
+          limit after substitution, causing crash with {<SUBSTITUTION>} style
+          substitutions.)
+02/05/96  Majority/majority factor added to '(Votes for:  <N>, Against:  <N>)'
+          line of BBS messages.
+02/05/96  Support for 'large' substitutions added to On-Line Help System,
+          'look', 'scan', BBS 'read' command and mail 'read' command (In
+          preperation for new mail system.)
+02/05/96  The editor can now be used in multiple sessions (I.e:  If you're
+          connected twice or more, you can edit a different object on each
+          connection.)
+02/05/96  'More' paging facility implemented.
+03/05/96  Log files can be closed and re-opened using the '@log <LOGFILE> =
+          reopen' command.
+03/05/96  Automatic truncation of log files (When they exceed a given size)
+          implemented (Keeps log files at reasonable sizes, and makes them
+          self-maintaining.)
+03/05/96  '@prompt' can now be used in multiple sessions (I.e:  If you're
+          connected twice or more, you can have an '@prompt' on each
+          connection.)
+05/05/96  Binary search command look-up tables added to the editor, improving
+          the efficiency of look-up/matching of editor commands.
+05/05/96  '.numbering' editor command implemented (Allows line numbers to be
+          turned on/off.
+05/05/96  '.tutorial' editor command implemented (Allows browsing of tutorials
+          from within editor without using '.execute'.)
+08/05/96  Internal NON-EXECUTABLE flag implemented for safe-guards against
+          infinitely recursive fuses, locks and .enter/.leave/.login/.logout/
+          .page/.tell/.scan compound commands.
+09/05/96  Bug in '.message' fixed (Custom messages for !LINK and !MAIL friend
+          flags caused a crash.)
+11/05/96  Support for Experienced Builder privileges within compound command
+          in controls_for_read() routine.
+12/05/96  '@undestroy' command implemented (Allows destroyed objects to be
+          recovered, providing they are are still on the queue of destroyed
+          objects.)
+14/05/96  Global compound command binary tree added to improve efficiency of
+          global compound command lookup (I.e:  Those compound commands
+          located in #4, or compound command modules within #4.)  NOTE:
+          Adding, removing and modifying entries is done automatically.
+17/05/96  'Hard' ANSI codes are now ignored by bad language filter.
+17/05/96  Experienced Builders may no-longer drop objects in remote locations
+          (Which they don't have write permission to.)
+17/05/96  Messages which are currently being edited may no-longer be deleted
+          (Which caused a crash.)
+17/05/96  Majority of votes is displayed (As a percentage)  -  The vote can
+          be made subject to the 'majority factor' by using 'vote <NUMBER> =
+          majority' (Votes weighted by rank.)  To hold a vote based on the
+          'majority factor' system, 'vote <NUMBER> = majority' must be typed.
+17/05/96  'read page = <NUMBER>' and 'read = <NUMBER>' now supported.
+17/05/96  Percentage of idle and Admin users added to 'Users:' line of
+          WHO lists (Only displayed for Admin.)
+17/05/96  WHO lists are now auto-paged using the 'more' paging facility.
+17/05/96  Characters can't be renamed to a name with the word 'Guest' in it.
+17/05/96  Guest characters may no-longer add or reply to messages on the BBS.
+17/05/96  Characters with SECRET flag set are no-longer listed in 'where
+          *<NAME>'.
+19/05/96  Automatic object maintenance implemented  -  Allows objects which
+          haven't been used for a significant amount of time to be destroyed
+          automatically on a monthly basis.
+19/05/96  Bug fixed which prevented $1, $2 and $3 of an '@prompt' session being
+          passed to the <SUCC CMD> or <ABORT CMD>.
+19/05/96  Objects can be listed by '@list' and '@find' based on creation/last
+          usage date.
+20/05/96  Support for 'hard' ANSI codes in '{@?pad}' (Allowing use of
+          '{<SUBSTITUTION>}' in <TEXT>, without effecting justification.)
+20/05/96  '{@?filter}' query command implemented (Filters substitutions out
+          of a string.)
+21/05/96  New command priority system:  Each time you execute a command, TCZ
+          counts the time taken and delays your next command by an equal
+          amount of time (Giving other users' commands the chance to be
+          executed.)  This prevents a single user from either accidentally
+          or malliciously lagging the game by repetitively executing an
+          intensive command (It results in them lagging considerably.)
+25/05/96  '@stats bandwidth' implemented (Gives summary of bandwidth usage
+          of TCZ.)
+25/05/96  Bans imposed on characters are inherited by their puppets.
+25/05/96  Check on socket for incoming connections implemented  -  If no new
+          connections are received for a given amount of time, the socket is
+          closed and re-opened.
+25/05/96  WHO lists now match parameters against connected characters BEFORE
+          matching for TCZ flags (For example, 'who fred b' will match to the
+          user 'Fred Bloggs' instead of the user 'Fred' with the BUILDER flag
+          set.)
+26/05/96  Functionality of '{@?set}' for testing whether particular friend
+          flags are set improved.
+26/05/96  '@with friends do...' can no-longer be used to page/tell messages to
+          your friends (Used to get around the PAGETELLFRIENDS friend flag.)
+26/05/96  Mortals may use '@notify' to notify any character who's on property
+          which belongs to them.
+26/05/96  Flaw in '@with' which allowed characters to process the elements of
+          PRIVATE dynamic arrays fixed.
+26/05/96  Flaw in '@with' which allowed Mortals to process the friends lists
+          of other characters fixed.
+27/05/96  '@destall' re-written and optimised.
+27/05/96  'read next/prev' automatically updated as messages are added/removed
+          from the BBS.
+29/05/96  BBS flag implemented  -  If reset on a character, it prevents them
+          from adding new messages, replying to messages, modifying messages,
+          etc.  However, it still allows them to browse the BBS and read
+          messages on it.
+29/05/96  MAIL flag implemented  -  When hard-coded mail system is implemented,
+          and this flag is reset on a character, it will prevent them from
+          sending/receiving new mail.  In the mean time, the soft-coded mail
+          system will be updated in due course to support this flag and the
+          MAIL friend flag.
+29/05/96  Turning voting off on a message which has votes for/against it
+          no-longer removes voting summary from message header.
+29/05/96  You can no-longer page/tell messages to characters who you have
+          reset the PAGETELL friend flag on (I.e:  They'd have no way of
+          paging you back.)
+29/05/96  '{@?rank}' returns 111, 112, 113 as 111th, 112th, 113th instead of
+          111st, 112nd, 113rd.
+01/06/96  Password censored in 'lastcommands' list when changing password
+          using '@password'.
+01/06/96  BUILDER, EXPERIENCED and APPRENTICE flags may be set on puppets
+          controlled by Admin.
+02/06/96  Votes for/against a message may be made private (For a secret
+          ballot), using 'vote <NUMBER> = private'.  Votes may be made
+          public again (I.e:  Once vote is closed, to show the result)
+          using 'vote <NUMBER> = public'.
+02/06/96  You may reset your session comment by typing 'session comment'  -
+          Admin may also reset unsuitable session comments using 'session
+          reset = <NAME>'.
+02/06/96  CHOWN_OK flag removed from global commands (Those located in #4)
+          and warnings of Mortal owned global compound commands (Which
+          aren't set READONLY) logged to 'Admin' log.
+02/06/96  '@duplicate' can be used to produce a duplicate of an object which
+          makes as much use of inheritance as possible to save on memory
+          usage.
+02/06/96  Mass and volume of an object may be inherited from a parent object
+          by setting them to 'inherit', e.g:  '@mass mything = inherit'.
+-------------------------------------------------------------------------------
+KEY:  '--' = Needs testing, '**' = Document on BBS, '-*' = Both.
+      '##' = Document on Admin only.
+===============================================================================

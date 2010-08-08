@@ -1,0 +1,131 @@
+                    The Beginners Guide to Using....
+
+                        +-------------------+
+                        | The cHatTinG ZonE |
+                        +-------------------+
+
+                                 by
+                  the Chatting Zone's Chief Thickie
+
+
+                   --->>>>>>> Harlequin <<<<<<<---
+
+
+Right. Ok. Hmmm, this is a complete begginers guide to the Chatting
+Zone (TCZ). I wrote it 'cos I thought other people might like a
+kickstart, oh yeah, and to get more women.
+
+What is The Chatting Zone ?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+It's a Virtual World. Simple as that.
+When you're connected you can talk to other users (this is what
+most people use it for) but this takes place in rooms and places.
+Also wEiRd things happen. We have a fully working bus service
+where you can get on and off to take you to other rooms and
+places!! Also you can get building points which let you build
+your own rooms. You also get objects which you can pick up and
+mess around with. You can attack each other and do most 'normal'
+stuff you could do in the rEaL world. Cool huh ? We like to
+think so...
+
+Loggin In
+~~~~~~~~~
+Right to start off you'll need Telnet access. Once you've got
+this you need to telnet to this number:
+141.163.11.1 8342
+The last number (8342) is a port number. Do NOT put a dot between
+141.163.11.1 and 8342 OK ? Good.
+Right you should get a nice title screen.
+
+Creating a New Account
+~~~~~~~~~~~~~~~~~~~~~~
+After you have logged in you'll want to create a new account. To do
+this you'll need to type:
+create [newuser] [password]
+for example to create the user 'Fluffy' with the password 'Sheep'
+you'll need to type:
+create Fluffy Sheep
+That's it your now connected !!! Simple eh ???
+
+To connect to your account at a later date simply type:
+connect [user] [password]
+for example to re-connect to your Fluffy account you would type:
+connect Fluffy Sheep
+Dead simple. Even I can manage it !
+
+Starting Out
+~~~~~~~~~~~~
+Before you set off, you'll need a description, a sex, and a race.
+To do this you'l need to use some quite cunning commands...
+
+1)  Give yourself a description by typing '@desc me = <DESCRIPTION>'.
+2)  Give yourself a race by typing '@race me = <RACE>'.
+3)  Give yourself a gender by typing '@set me = male' or '@set me = female'.
+
+Also for on line help just type 'help' (duhh)
+
+Talking Commands
+~~~~~~~~~~~~~~~~
+The talking commands are VERY simple.
+
+"<MESSAGE>  Makes you say "<MESSAGE>" to everyone in the same room as you.
+:<MESSAGE>  Shows your name, with <MESSAGE> after it. Used for actions.
+
+e.g. If I was Fluffy and I typed:
+"Hello !!!
+Fluffy would say 'Hello' to everyone in the room.
+If Fluffy typed:
+:scratches his nose
+Every one would see 'Fluffy scratches his nose'
+and if Fluffy typed:
+
+The other rather useful command is called 'page'. Paging someone will
+send them a message from wherever you are to whever they are...
+So if Fluffy wanted to page Harlequin he would type
+page Harlequin = Hello Harlequin, my sister fancies you...
+And finally, the whisper command
+To whisper something to someone (they have to be in the same room)
+type the following (for example)
+whisper Harlequin = My sister wants your phone number...
+
+Going to other Rooms
+~~~~~~~~~~~~~~~~~~~~
+To go to another room simply type its name. The silly room is where
+most of the talking goes on so to go to it just type
+silly
+
+Other Useful Commands
+~~~~~~~~~~~~~~~~~~~~~
+look - shows you who and what is the room with you
+who - shows you who is on TCZ
+enter [room] - enter another room
+whereis *[person name] - tells you where someone is (and yes, you do
+  need the * in front of their name...
+QUIT - leave TCZ (must be in CAPITALS)
+take - take an object
+read - read something
+examine - examine an object
+give - give someone an object
+open - opens something
+wrap [number] - sets your wordwrap (like in a word processor) to
+  whatever number you specify...
+yell - yells something
+
+Well, ermm, that's it
+~~~~~~~~~~~~~~~~~~~~~
+Thats the basic stuff over with. The help command gives you help on
+all sorts a things so you can learn the advanced stuff from that...
+Anyway, I hope to see you on TCZ !!!
+
+If you want any help [or a date] mail me at....
+vaughan@sc.plym.ac.uk
+or catch me on TCZ as Harlequin.
+Also you can mail Elder Wizard Whoosh on
+A.McLean@argus.plym.ac.uk
+
+OK ? Good...
+
+Byeee....
+
+
+Harl
