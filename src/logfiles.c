@@ -163,6 +163,8 @@ void writelog(int logfile,int logdate,const char *title,const char *fmt, ...)
      if(lf || ((logfile >= 0) && logfs[logfile].file)) {
         fprintf((lf) ? lf:logfs[logfile].file,"%s:  ",title);
         vfprintf((lf) ? lf:logfs[logfile].file,fmt,ap);
+	va_end(ap);
+	va_start(ap, fmt);
         fprintf((lf) ? lf:logfs[logfile].file,"%s\n",(logdate) ? get_timedate():"");
         fflush((lf) ? lf:logfs[logfile].file);
      }
