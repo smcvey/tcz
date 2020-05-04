@@ -531,7 +531,7 @@ const char *lists_construct(dbref source,dbref target,struct userlist_data *user
       unsigned char friends      = 0, enemies     = 0;
       unsigned char assistants   = 0, experienced = 0;
       unsigned char retired      = 0, admin       = 0;
-      unsigned char everyone     = 0, groups      = 0;
+      unsigned char everyone     = 0;
       unsigned char disconnected = 0, count       = 0;
 
       unsigned char _continue,finished = 0,first = 1,addand = 0;
@@ -574,7 +574,6 @@ const char *lists_construct(dbref source,dbref target,struct userlist_data *user
                 if(ptr->userflags & USERLIST_RETIRED)     retired      = 1;
                 if(ptr->userflags & USERLIST_ADMIN)       admin        = 1;
                 if(ptr->userflags & USERLIST_ALL)         everyone     = 1;
-                if(ptr->userflags & USERLIST_GROUP)       groups       = 1;
              }
              if(ptr->userflags & USERLIST_DISCONNECTED)   disconnected = 1;
       }

@@ -102,11 +102,10 @@ unsigned char banish_add(const char *name,struct banish_data *node)
 struct banish_data *banish_lookup(const char *name,struct banish_data **last,unsigned char exact)
 {
        struct banish_data *current = banish;
-       int    value,length;
+       int    value;
 
        if(last) *last = NULL;
        if(Blank(name)) return(NULL);
-       length = strlen(name);
        if(current) {
           while(current) {
                 if((!exact && strncasecmp(current->name,name,strlen(current->name))) || (exact && strcasecmp(current->name,name))) {

@@ -1494,7 +1494,7 @@ void stats_rank(CONTEXT)
 {
      unsigned char            cached_scrheight,twidth = output_terminal_width(player);
      unsigned char            direction = 0,entities,order = 0,rtype = 0,found;
-     unsigned char            ravg = RANK_QUARTER,puppets = 1,colspan = 0;
+     unsigned char            puppets = 1, colspan = 0;
      struct   rank_data       *start = NULL,*current,*last,*new;
      int                      flags,types = 0,loop,loop2,pm;
      time_t                   now,lasttime,curtime,ptrtime;
@@ -1641,23 +1641,23 @@ void stats_rank(CONTEXT)
               *tmp = '\0';
 
               gettime(now);
-              if(BlankContent(scratch_return_string) || string_prefix("quarter",scratch_return_string)) ravg = RANK_QUARTER;
-                 else if(string_prefix("day",scratch_return_string)) {
+              
+              if(BlankContent(scratch_return_string) || string_prefix("quarter",scratch_return_string)) {
+                    stitle = "Average per quarter";
+                    rdiv   = (double) (now - (quarter - QUARTER)) / QUARTER;
+              } else if(string_prefix("day",scratch_return_string)) {
                     stitle = "Average per day";
                     rdiv   = (double) (now - (quarter - QUARTER)) / DAY;
-                    ravg   = RANK_DAY;
-		 } else if(string_prefix("week",scratch_return_string)) {
+              } else if(string_prefix("week",scratch_return_string)) {
                     stitle = "Average per week";
                     rdiv   = (double) (now - (quarter - QUARTER)) / WEEK;
-                    ravg   = RANK_WEEK;
-		 } else if(string_prefix("month",scratch_return_string)) {
+              } else if(string_prefix("month",scratch_return_string)) {
                     stitle = "Average per month";
                     rdiv   = (double) (now - (quarter - QUARTER)) / MONTH;
-                    ravg   = RANK_MONTH;
-		 } else {
+              } else {
                     output(p,player,0,1,0,ANSI_LGREEN"Please specify either '"ANSI_LWHITE"day"ANSI_LGREEN"', '"ANSI_LWHITE"week"ANSI_LGREEN"', '"ANSI_LWHITE"month"ANSI_LGREEN"' or '"ANSI_LWHITE"quarter"ANSI_LGREEN"'.");
                     return;
-		 }
+              }
               if(rdiv < 1) rdiv = 1;
 	   }
            for(; *arg1 && (*arg1 == ' '); arg1++);

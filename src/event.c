@@ -276,7 +276,7 @@ unsigned char event_trigger_fuses(dbref player,dbref object,const char *args,uns
 void event_pending(CONTEXT)
 {
      unsigned char cr = 1,cached_scrheight,twidth = output_terminal_width(player);
-     int      result,count = 0,event = 0,valid = 0;
+     int      result,count = 0,event = 0;
      struct   descriptor_data *p = getdsc(player);
      time_t   now,ftime,ttime;
      struct   tm *rtime;
@@ -295,7 +295,7 @@ void event_pending(CONTEXT)
                  for(tmp = scratch_buffer; *arg2 && (*arg2 != ' '); *tmp++ = *arg2++);
                  *tmp = '\0';
 
-                 if((result = parse_objecttype(scratch_buffer))) valid = event |= result;
+                 if((result = parse_objecttype(scratch_buffer))) event |= result;
                     else if(string_prefix("all",scratch_buffer)) event = SEARCH_ALL;
                  if(!result) output(p,player,0,1,0,"%s"ANSI_LGREEN"Sorry, '"ANSI_LWHITE"%s"ANSI_LGREEN"' is an unknown object type.",(cr) ? "\n":"",scratch_buffer), cr = 0;
 	      }

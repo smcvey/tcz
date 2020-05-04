@@ -2391,9 +2391,7 @@ void summon_user(dbref player,dbref summon,unsigned char unconditional,const cha
      int    ic_cache = in_command;
      struct descriptor_data *d;
      dbref  cached_loc,owner;
-     time_t now;
 
-     gettime(now);
      in_command = 1, owner = db[player].owner;
      cached_loc = db[player].location, db[player].owner = summon;
      if(!unconditional) for(d = descriptor_list; d; d = d->next)

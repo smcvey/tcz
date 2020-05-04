@@ -315,9 +315,9 @@ void look_simple(dbref player,dbref object)
            if(!Private(object) || can_read_from(player,object)) {
               int    counter = 1,spaces;
               const  char *ptr,*ptr2;
-              char   *tmp,*buf;
+              char   *tmp;
 
-              for(*scratch_buffer = '\0', buf = scratch_buffer, ptr = desc; *ptr; counter++) {
+              for(*scratch_buffer = '\0', ptr = desc; *ptr; counter++) {
                   if(*ptr == '\n') ptr++;
                   for(tmp = scratch_return_string; *ptr && (*ptr != '\n'); *tmp++ = *ptr++);
                   *tmp = '\0';
@@ -672,7 +672,7 @@ void look_examine(CONTEXT)
               unsigned char twidth = output_terminal_width(player);
               int           counter = 1;
               short         loop,width;
-              char          *tmp,*buf;
+              char          *tmp;
               const    char *title;
               const    char *ptr;
 
@@ -690,7 +690,7 @@ void look_examine(CONTEXT)
 	      }
 
               if(termflags) termflags = TXT_NORMAL;
-              for(*scratch_buffer = '\0', buf = scratch_buffer, ptr = getfield(thing,DESC); *ptr; counter++) {
+              for(*scratch_buffer = '\0', ptr = getfield(thing,DESC); *ptr; counter++) {
                   int  spaces;
                   char *ptr2;
 

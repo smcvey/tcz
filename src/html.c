@@ -852,7 +852,6 @@ const char *text_to_html(struct descriptor_data *d,const char *text,char *buffer
       static   const char    *codes = "01234567";
       unsigned short         exception,tagtype;
       char                   *dest = buffer;
-      unsigned char          defaults = 1;
       const    char          *ptr,*colour;
       short                  tag;
 
@@ -869,7 +868,6 @@ const char *text_to_html(struct descriptor_data *d,const char *text,char *buffer
             d->html->txtflags &= ~HTML_TAG;
 	 }
          if((*length + 1) > limit) overflow = 1;
-         defaults = 0;
       } else if(IsHtml(d) && (d->html->txtflags & HTML_COMMENT)) {
 
          /* ---->  Part way through HTML comment  <---- */

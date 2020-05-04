@@ -518,9 +518,7 @@ dbref connect_character(const char *name,const char *password,const char *hostna
       struct   descriptor_data *p;
       unsigned char failed = 1;
       dbref    player;
-      time_t   now;
 
-      gettime(now);
       if((player = lookup_nccharacter(NOTHING,name,0)) == NOTHING)
          return(NOTHING);
 

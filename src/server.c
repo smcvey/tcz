@@ -1035,17 +1035,14 @@ void server_process_commands(void)
 /*                           *  Disconnect idle connections                    */
 void server_mainloop(void)
 {
-     time_t                   diff,now,lastconn,lasthtml;
+     time_t                   diff,now;
      fd_set                   input_set,output_set;
-     unsigned char            newconnections = 1;
      int                      select_value,maxd;
      struct   descriptor_data *d,*dnext,*newd;
      struct   timeval         timeout;
      short                    np;
 
      gettime(activity);
-     lastconn = activity;
-     lasthtml = activity;
      
 #ifdef SOCKETS
      if((telnetport > 0) && (telnet >= 0))
@@ -1194,8 +1191,6 @@ void server_mainloop(void)
               if((telnet >= 0) && FD_ISSET(telnet,&input_set)) {
                  if((newd = server_new_connection(telnet,0))) {
                     gettime(activity);
-                    lastconn = activity;
-                    newconnections = 1;
                     if(idle_state == 1) {
                        writelog(SERVER_LOG,1,"SERVER","New Telnet connection  -  Leaving semi-idle state.");
                        idle_state = 0;
@@ -1210,8 +1205,6 @@ void server_mainloop(void)
               if((html >= 0) && FD_ISSET(html,&input_set)) {
                  if((newd = server_new_connection(html,1))) {
                     gettime(activity);
-                    lasthtml = activity;
-                    newconnections = 1;
                     if(idle_state == 1) {
                        writelog(SERVER_LOG,1,"SERVER","New HTML connection  -  Leaving semi-idle state.");
                        idle_state = 0;
@@ -2027,12 +2020,10 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 int server_connect_user(struct descriptor_data *d,const char *input)
 {
     char   str[TEXT_SIZE];
-    struct tm *the_time;
     dbref  user;
     time_t now;
 
     gettime(now);
-    the_time = localtime(&now);
     server_set_echo(d,1);
 
     if((d->clevel == 1) || (d->clevel == 28))

@@ -271,7 +271,7 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
      char     *tracecmd = NULL,*arg0,*arg1,*arg2,*q,*ptr;
      char     command[TEXT_SIZE],params[TEXT_SIZE];
      struct   descriptor_data *p = getdsc(player);
-     dbref    cached_curchar,cache = NOTHING;
+     dbref    cached_curchar;
      static   char buffer[BUFFER_LEN];
      const    char *cached_curcmdptr;
      struct   cmd_table *cmd = NULL;
@@ -490,7 +490,6 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
             for(ptr = arg2; *ptr; ptr++);
             for(ptr = (arg2 - 1); (ptr >= arg2) && (*ptr == ' '); ptr--) *ptr = '\0';
 
-            cache = current_command;
             if(*arg0 != ABSOLUTE_TOKEN) {
                if((*arg0 != COMMAND_TOKEN) && !converse && (command_type & OTHER_COMMAND)) {
                   if(shortcmd) {
@@ -1124,7 +1123,7 @@ unsigned char dump_emailforward()
 void tcz_time_sync(unsigned char init)
 {
      static time_t bbs_check = 1,character_check = 1,object_check = 1;
-     static time_t request_check = 1,email_forward = 1,warn_failed = 1;
+     static time_t request_check = 1, warn_failed = 1;
      static time_t event_check = 1,vote_expiry = 1,clock = 1;
      static dbref player,object,command,data;
      int    execution_counter = 0;
@@ -1194,7 +1193,6 @@ void tcz_time_sync(unsigned char init)
                     object_check = 0;
                     break;
                case 4:
-                    email_forward = 0;
                     break;
                case 5:
                     request_check = 0;

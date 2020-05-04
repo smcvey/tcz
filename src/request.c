@@ -368,7 +368,6 @@ void request_process(CONTEXT)
      char  command[32];
      short count = 0;
      const char *p1;
-     char  *ptr;
 
      setreturn(ERROR,COMMAND_FAIL);
      if(!in_command || Wizard(current_command)) {
@@ -376,7 +375,7 @@ void request_process(CONTEXT)
 
            /* ---->  Site command  <---- */
            for(; *arg1 && (*arg1 == ' '); arg1++);
-           for(ptr = command, p1 = arg1; *p1 && (*p1 != ' ') && (count < 31); command[count] = *p1, count++, p1++);
+           for(p1 = arg1; *p1 && (*p1 != ' ') && (count < 31); command[count] = *p1, count++, p1++);
            command[count] = '\0';
            for(; *p1 && (*p1 != ' '); p1++);
            for(; *p1 && (*p1 == ' '); p1++);

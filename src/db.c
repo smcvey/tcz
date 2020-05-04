@@ -4024,7 +4024,7 @@ dbref db_read_object(FILE *f,dbref i,int version)
 unsigned char db_read(FILE *f)
 {
 	 int    version,c = 1;
-	 dbref  i,last_entry = -1;
+	 dbref  i;
 	 time_t start,finish;
 	 char   *end,*p1;
 	 char   temp[16];
@@ -4178,7 +4178,6 @@ unsigned char db_read(FILE *f)
 		      case '#':
 			   i = db_read_dbref(f);
 			   db_read_object(f,i,version);
-			   last_entry = i;
 			   break;
 		      case '*':
 			   end = (char *) db_read_string(f,0,0);

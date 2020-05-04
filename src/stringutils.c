@@ -1408,11 +1408,10 @@ double tofloat(const char *str,char *dps)
 /* ---->  Convert hexadecimal string to integer  <---- */
 int tohex(const char *str)
 {
-    unsigned char negate = 0;
     int           value  = 0;
 
     if(Blank(str)) return(0);
-    if(*str && (*str == '-')) negate = 1, str++;
+    if(*str && (*str == '-')) str++;
     if(Blank(str)) return(0);
 
     while(*str && isxdigit(*str)) {
@@ -1483,7 +1482,7 @@ long parse_time(char *str)
 const char *date_to_string(time_t datetime,unsigned long longdate,dbref player,const char *defaultformat)
 {
       int    longday = 0, longmonth = 0, longyear = 0, longdoy = 0;
-      int    length = 0, count = 0, epoch  = 1, upper = 0;
+      int    length = 0, count = 0, upper = 0;
       static char buffer[RETURN_BUFFERS * KB];
       int    hour = 0, hour24 = 1, pm = 0;
       struct tm *rtime = NULL;
@@ -1501,7 +1500,6 @@ const char *date_to_string(time_t datetime,unsigned long longdate,dbref player,c
          if((datetime = longdate_to_epoch(longdate)) == NOTHING) {
 
 	    /* ---->  LONGDATE  <---- */
-	    epoch     = 0;
 	    longday   = (longdate  & 0xFF);
 	    longmonth = ((longdate & 0xFF00) >> 8);
 	    longyear  = ((longdate & 0xFFFF0000) >> 16);

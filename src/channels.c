@@ -168,12 +168,11 @@ struct channel_cmd_table *channel_search_cmdtable(const char *command)
 struct channel_data *channel_lookup(const char *name,struct channel_data **last,unsigned char exact)
 {
        struct channel_data *current = channelroot;
-       int    value,length;
+       int    value;
 
        chfound = 0;
        if(last) *last = NULL;
        if(Blank(name)) return(NULL);
-       length = strlen(name);
        if(current) {
           while(current)
                 if((!exact && strncasecmp(current->name,name,strlen(name))) || (exact && strcasecmp(current->name,name))) {

@@ -914,7 +914,6 @@ void userlist_admin(struct descriptor_data *d,unsigned char dsc)
      short                    deities = 0,elders = 0,delders = 0,wizards = 0,druids = 0,apprentices = 0,dapprentices = 0,retired = 0,dretired = 0,experienced = 0,assistants = 0,builders = 0,mortals = 0,beings = 0,puppets = 0,morons = 0,idle = 0;
      unsigned char            cached_scrheight;
      struct   descriptor_data *descriptor;
-     unsigned long            longdate;
      const    char            *colour;
      dbref                    object;
      char                     *ptr;
@@ -922,7 +921,6 @@ void userlist_admin(struct descriptor_data *d,unsigned char dsc)
 
      gettime(now);
      html_anti_reverse(d,1);
-     longdate = epoch_to_longdate(now);
      if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
      if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
 

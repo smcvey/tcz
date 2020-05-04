@@ -449,14 +449,6 @@ void query_datetime(CONTEXT)
      setreturn(querybuf,COMMAND_SUCC);
 }
 
-/* ---->  {J.P.Boggis 24/09/2000}  Return preferred date/time format  <---- */
-void query_datetimeformat(CONTEXT)
-{
-     dbref character;
-
-     character = query_find_character(player,arg1,0);
-}
-
 /* ---->  {@?delete <NUMBER> "<SEPARATOR>" "<LIST>"}  <---- */
 void query_delete(CONTEXT)
 {
@@ -1096,13 +1088,11 @@ void query_lock(CONTEXT)
 /* ---->  {J.P.Boggis 01/07/2000}  Return date of longest connect time of character  <---- */
 void query_longestdate(CONTEXT)
 {
-     time_t now;
      dbref  character;
 
      character = query_find_character(player,arg1,0);
      if(!Validchar(character)) return;
 
-     gettime(now);
      sprintf(querybuf,"%ld",(!Blank(arg2) && string_prefix("longdates",arg2)) ? epoch_to_longdate(db[character].data->player.longestdate):db[character].data->player.longestdate);
      setreturn(querybuf,COMMAND_SUCC);
 }
