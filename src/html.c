@@ -211,7 +211,7 @@ const char *html_header(struct descriptor_data *d,int output,const char *title,i
 
       /* ---->  Title  <---- */
       if(!Blank(title)) {
-         if(title == HTML_TITLE)
+	if (!strcmp(title, HTML_TITLE))
             sprintf(buffer + strlen(buffer),"<TITLE>"HTML_TITLE"</TITLE>",tcz_full_name,tcz_year);
                else sprintf(buffer + strlen(buffer),"<TITLE>%s</TITLE>",title);
       }
