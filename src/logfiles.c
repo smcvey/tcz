@@ -150,7 +150,6 @@ void writelog(int logfile,int logdate,const char *title,const char *fmt, ...)
 #endif
 
      if((logfile >= 0) && !logfs[logfile].maxsize) return;
-     va_start(ap,fmt);
 
      if(logfile >= 0) {
         if(!logfs[logfile].file) logfs[logfile].file = fopen(logfs[logfile].filename,"a+");
@@ -162,9 +161,9 @@ void writelog(int logfile,int logdate,const char *title,const char *fmt, ...)
      /* ---->  Log to log file  <---- */
      if(lf || ((logfile >= 0) && logfs[logfile].file)) {
         fprintf((lf) ? lf:logfs[logfile].file,"%s:  ",title);
+	va_start(ap, fmt);
         vfprintf((lf) ? lf:logfs[logfile].file,fmt,ap);
 	va_end(ap);
-	va_start(ap, fmt);
         fprintf((lf) ? lf:logfs[logfile].file,"%s\n",(logdate) ? get_timedate():"");
         fflush((lf) ? lf:logfs[logfile].file);
      }
@@ -185,11 +184,12 @@ void writelog(int logfile,int logdate,const char *title,const char *fmt, ...)
            fprintf(stderr,"%s:  (%s)  ",title,buffer);
 	} else fprintf(stderr,"%s:  ",title);
 
+	va_start(ap, fmt);
         vfprintf(stderr,fmt,ap);
+	va_end(ap);
         fprintf(stderr,"%s\n",(logdate) ? get_timedate():"");
         fflush(stderr);
      }
-     va_end(ap);
 
      /* ---->  Log file > MAXSIZE  -  Truncate to NEWSIZE  <---- */
      if((lf || ((logfile >= 0) && logfs[logfile].file)) && ((length = ftell((lf) ? lf:logfs[logfile].file)) > (((lf) ? USER_LOG_FILE_SIZE:logfs[logfile].maxsize) * KB))) {
