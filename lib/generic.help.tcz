@@ -15742,6 +15742,7 @@ Also, see '%g%l%<bbs%>%x'.
 The '%g%lset%x' command is used to set your preferences for the following:
 
 %[%g%l%(set wrap%)        %xWord-wrapping.
+%g%l%(set scrheight%)   %xTerminal window height.
 %g%l%(set lftocr%)      %xEnd-of-line termination sequence.
 %g%l%(set term%)        %xTerminal type.
 %g%l%(set echo%)        %xLocal echo.
