@@ -171,11 +171,11 @@ void set_areaname(CONTEXT)
               filter_spaces(scratch_buffer,arg2,0);
               if(strlen(scratch_buffer) <= 100) {
 	         if(!strchr(arg2,'\n')) {
-                    if(!(!Blank(scratch_buffer) && !ok_name(scratch_buffer))) {
+                    if(!(!BlankContent(scratch_buffer) && !ok_name(scratch_buffer))) {
                        setfield(thing,AREANAME,scratch_buffer,1);
                        if(!in_command) {
-                          sprintf(scratch_return_string,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s area name %s",Article(thing,UPPER,DEFINITE),unparse_object(player,thing,0),Blank(scratch_buffer) ? "reset.":"set to '");
-                          if(!Blank(scratch_buffer)) sprintf(scratch_return_string + strlen(scratch_return_string),ANSI_LYELLOW"%s"ANSI_LGREEN"'.",getfield(thing,AREANAME));
+                          sprintf(scratch_return_string,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s area name %s",Article(thing,UPPER,DEFINITE),unparse_object(player,thing,0),BlankContent(scratch_buffer) ? "reset.":"set to '");
+                          if(!BlankContent(scratch_buffer)) sprintf(scratch_return_string + strlen(scratch_return_string),ANSI_LYELLOW"%s"ANSI_LGREEN"'.",getfield(thing,AREANAME));
                           output(getdsc(player),player,0,1,0,"%s",scratch_return_string);
 		       }
                        setreturn(OK,COMMAND_SUCC);
@@ -282,7 +282,7 @@ void set_description(CONTEXT)
 				 default:
 				      if(!in_command) {
 					 sprintf(scratch_return_string," ("ANSI_LWHITE"%d"ANSI_LGREEN" new element%s created.)",new,Plural(new));
-					 sprintf(scratch_buffer,ANSI_LGREEN"Description of element%s %s of dynamic array ",((elementto == UNSET) || ((elementfrom == elementto) && !((elementto == INDEXED) && !Blank(indexto)))) ? "":"s",array_unparse_element_range(elementfrom,elementto,ANSI_LGREEN));
+					 sprintf(scratch_buffer,ANSI_LGREEN"Description of element%s %s of dynamic array ",((elementto == UNSET) || ((elementfrom == elementto) && !((elementto == INDEXED) && !BlankContent(indexto)))) ? "":"s",array_unparse_element_range(elementfrom,elementto,ANSI_LGREEN));
 					 output(getdsc(player),player,0,1,0,"%s"ANSI_LWHITE"%s"ANSI_LGREEN" set%s",scratch_buffer,unparse_object(player,thing,0),(new > 0) ? scratch_return_string:".");
 				      }
 			  }
@@ -1160,7 +1160,7 @@ void set_flag(CONTEXT)
                  for(p1 = scratch_buffer; *flaglist && (*flaglist != ' '); *p1++ = *flaglist, flaglist++);
                  *p1 = '\0';
 
-                 if(!Blank(scratch_buffer)) failed |= set_flag_by_name(player,thing,scratch_buffer,reset,reason,write,fflags);
+                 if(!BlankContent(scratch_buffer)) failed |= set_flag_by_name(player,thing,scratch_buffer,reset,reason,write,fflags);
                     else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify which flag you'd like to reset.");
 	   }
            if(!failed) setreturn(OK,COMMAND_SUCC);
@@ -2061,7 +2061,7 @@ void set_profile(CONTEXT)
               for(ptr = scratch_return_string; *params && (*params != ' '); *ptr++ = *params++);
               for(*ptr = '\0'; *params && (*params == ' '); params++);
 
-              if(!Blank(scratch_return_string)) {
+              if(!BlankContent(scratch_return_string)) {
                  if(!Blank(params)) sprintf(scratch_buffer,"now '"ANSI_LYELLOW"%s"ANSI_LGREEN"'",substitute(player,buffer,(char *) punctuate(params,2,'\0'),0,ANSI_LYELLOW,NULL,0));
                     else strcpy(scratch_buffer,"no-longer set");
                  if(player != character) sprintf(buffer,"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s",Article(character,UPPER,DEFINITE),getcname(NOTHING,character,0,0));

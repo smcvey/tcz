@@ -74,7 +74,7 @@ const char *array_unparse_element_range(int from,int to,const char *ansi)
       /* ---->  FROM element  <---- */
       switch(from) {
              case INDEXED:
-                  sprintf(buffer,"'"ANSI_LWHITE"%s%s'",(Blank(indexfrom)) ? "<BLANK INDEX>":indexfrom,ansi);
+                  sprintf(buffer,"'"ANSI_LWHITE"%s%s'",(BlankContent(indexfrom)) ? "<BLANK INDEX>":indexfrom,ansi);
                   break;
              case INVALID:
                   sprintf(buffer,ANSI_LWHITE"<INVALID>%s",ansi);
@@ -100,12 +100,12 @@ const char *array_unparse_element_range(int from,int to,const char *ansi)
       }
 
       /* ---->  TO element  <---- */
-      if((from != UNSET) && (to != UNSET) && ((from != to) || ((to == INDEXED) && !Blank(indexto)))) switch(to) {
+      if((from != UNSET) && (to != UNSET) && ((from != to) || ((to == INDEXED) && !BlankContent(indexto)))) switch(to) {
          case DEFAULT:
               sprintf(buffer + strlen(buffer),".."ANSI_LWHITE"DEFAULT%s",ansi);
               break;
          case INDEXED:
-              sprintf(buffer + strlen(buffer),"..%s'"ANSI_LWHITE"%s%s'",ansi,(Blank(indexto)) ? "<BLANK INDEX>":indexto,ansi);
+              sprintf(buffer + strlen(buffer),"..%s'"ANSI_LWHITE"%s%s'",ansi,(BlankContent(indexto)) ? "<BLANK INDEX>":indexto,ansi);
               break;
          case INVALID:
               sprintf(buffer + strlen(buffer),".."ANSI_LWHITE"<INVALID>%s",ansi);
@@ -204,7 +204,7 @@ int array_set_elements(dbref player,dbref array,int from,int to,const char *text
               case INDEXED:
 
                    /* ---->  Create new indexed element (From)  <---- */
-                   if(!ptr && (from == INDEXED) && !index_found && !Blank(indexfrom)) {
+                   if(!ptr && (from == INDEXED) && !index_found && !BlankContent(indexfrom)) {
                       if(!adjustquota(player,db[array].owner,ELEMENT_QUOTA)) return(ARRAY_INSUFFICIENT_QUOTA);
 
                       MALLOC(new,struct array_element);
@@ -220,14 +220,14 @@ int array_set_elements(dbref player,dbref array,int from,int to,const char *text
 
                    /* ---->  Set existing elements in range  <---- */
                    for(; ptr && !finished; last = ptr, ptr = ptr->next, position++) {
-                       if(Blank(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
+                       if(BlankContent(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
                        FREENULL(ptr->text);
                        ptr->text = (char *) alloc_string(compress(text,0));
                        (*count)++;
 		   }
 
                    /* ---->  Create new indexed element (To)  <---- */
-                   if(!ptr && !finished && !Blank(indexto)) {
+                   if(!ptr && !finished && !BlankContent(indexto)) {
                       if(!adjustquota(player,db[array].owner,ELEMENT_QUOTA)) return(ARRAY_INSUFFICIENT_QUOTA);
 
                       MALLOC(new,struct array_element);
@@ -443,7 +443,7 @@ int array_destroy_elements(dbref player,dbref array,int from,int to,int *count)
                 /* ---->  Destroy existing elements in range  <---- */
                 for(temp = last; ptr && !finished; ptr = last, position++) {
                     last = ptr->next;
-                    if(Blank(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
+                    if(BlankContent(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
                     adjustquota(player,db[array].owner,0 - ELEMENT_QUOTA);
                     for(chk = grp; chk; chk = chk->next)
                         if(ptr == &chk->nunion->element)
@@ -528,7 +528,7 @@ int array_subquery_elements(dbref player,dbref array,int from,int to,char *buffe
            case END:
                 for(; ptr; ptr = ptr->next) {
                     if(elements > 0) strcat_limits(&str_data,"\n");
-                    if(!Blank(ptr->text)) strcat_limits(&str_data,decompress(ptr->text));
+                    if(!BlankContent(ptr->text)) strcat_limits(&str_data,decompress(ptr->text));
                     elements++;
 		}
                 *(str_data.dest) = '\0';
@@ -537,7 +537,7 @@ int array_subquery_elements(dbref player,dbref array,int from,int to,char *buffe
 
                 /* ---->  Get contents of existing elements in range  <---- */
                 for(; ptr && !finished; ptr = ptr->next, position++) {
-                    if(Blank(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
+                    if(BlankContent(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
                     if(elements > 0) strcat_limits(&str_data,"\n");
                     if(!Blank(ptr->text)) strcat_limits(&str_data,decompress(ptr->text));
                     elements++;
@@ -615,7 +615,7 @@ int array_subquery_index(dbref player,dbref array,int from,int to,char *buffer)
                 /* ---->  Get index name(s) of existing elements in range  <---- */
                 for(; ptr && !finished; ptr = ptr->next, position++)
                     if(!Blank(ptr->index)) {
-                       if(Blank(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
+                       if(BlankContent(indexto) || (ptr->index && !strcasecmp(ptr->index,indexto))) finished = 1;
                        if(elements > 0) strcat_limits(&str_data,"\n");
                        strcat_limits(&str_data,ptr->index);
                        elements++;
@@ -708,15 +708,15 @@ int array_display_elements(dbref player,int from,int to,dbref array,int cr)
 
           /* ---->  Display element(s)  <---- */
           ptrelement = element, ptr = current;
-          if((to == INDEXED) && (Blank(indexto) || (current->index && !strcasecmp(current->index,indexto)))) finished = 1, elements++;
+          if((to == INDEXED) && (BlankContent(indexto) || (current->index && !strcasecmp(current->index,indexto)))) finished = 1, elements++;
           strcpy(buffer,Blank(temp = decompress(ptr->text)) ? "":temp);
           for(distance = 0; (((to == LAST) && current) || ((to == INDEXED) && current && !finished) || (((to != LAST) && (to != INDEXED)) && current && (element <= to))) && !strcasecmp(buffer,Blank(temp = decompress(current->text)) ? "":temp) && ((!ptr->index && !current->index) || (ptr->index && current->index && !strcasecmp(ptr->index,current->index))); current = current->next, element++, elements++, distance++)
-              if((to == INDEXED) && (Blank(indexto) || (current->index && !strcasecmp(current->index,indexto)))) finished = 1;
+              if((to == INDEXED) && (BlankContent(indexto) || (current->index && !strcasecmp(current->index,indexto)))) finished = 1;
           if(cr == 1) output(p,player,2,1,0,IsHtml(p) ? "\016<BR>\016":"\n"), cr = 0;
 
-          if(distance > 1) output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%d"ANSI_DCYAN".."ANSI_LCYAN"%d"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TT>\016":"",ptrelement,element - 1,IsHtml(p) ? "\016</TT></TH><TD>\016":"  ",(IsHtml(p) && Blank(buffer)) ? "\016&nbsp;\016":buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+          if(distance > 1) output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%d"ANSI_DCYAN".."ANSI_LCYAN"%d"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TT>\016":"",ptrelement,element - 1,IsHtml(p) ? "\016</TT></TH><TD>\016":"  ",(IsHtml(p) && BlankContent(buffer)) ? "\016&nbsp;\016":buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
 	     else if(ptr && !Blank(ptr->index)) output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%s"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN">\016":"",ptr->index,IsHtml(p) ? "\016</TH><TD>\016":"  ",!Blank(decompress(ptr->text)) ? decompress(ptr->text):IsHtml(p) ? "\016&nbsp;\016":"",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-                else output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%d"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TT>\016":"",ptrelement,IsHtml(p) ? "\016</TT></TH><TD>\016":"  ",(IsHtml(p) && Blank(buffer)) ? "\016&nbsp;\016":buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                else output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%d"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TT>\016":"",ptrelement,IsHtml(p) ? "\016</TT></TH><TD>\016":"  ",(IsHtml(p) && BlankContent(buffer)) ? "\016&nbsp;\016":buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
     }
 
     if(IsHtml(p)) {

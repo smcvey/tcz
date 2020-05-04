@@ -465,7 +465,7 @@ void pagetell_send(CONTEXT)
            for(; ((p2 - 1) >= scratch_buffer) && (*(p2 - 1) == ' '); p2--);  /*  Strip trailing blanks  */
            *p2 = '\0';
 
-           if(!Blank(scratch_buffer)) {
+           if(!BlankContent(scratch_buffer)) {
               if(!string_prefix("last",scratch_buffer)) {
                  char *scan = scratch_buffer;
                  int  count = 0;

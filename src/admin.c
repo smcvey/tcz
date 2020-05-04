@@ -230,11 +230,11 @@ void admin_options(CONTEXT)
               if(dumpstatus > 0) {
                  dumpstatus = 250;
                  db_write(p);
-                 if(!Blank(cmpbuf)) output(p,player,2,1,30,"%s",cmpbuf);
+                 if(!BlankContent(cmpbuf)) output(p,player,2,1,30,"%s",cmpbuf);
 	      }
               dumpstatus = 251;
               db_write(p);
-              if(!Blank(cmpbuf)) output(p,player,2,1,30,"%s",cmpbuf);
+              if(!BlankContent(cmpbuf)) output(p,player,2,1,30,"%s",cmpbuf);
               dumpstatus = cached_dumpstatus;
               if(dumpstatus <= 0) {
                  if(option_dumping(OPTSTATUS))
@@ -1176,7 +1176,7 @@ void admin_assist(CONTEXT)
                              writelog(ASSIST_LOG,1,"ASSIST","%s(#%d) asked for assistance%s  -  Their previous request was not dealt with.",getname(player),player,scratch_return_string);
                              strcat(scratch_buffer,ANSI_LMAGENTA"\007THIS CHARACTER HAS ALREADY ASKED FOR ASSISTANCE PREVIOUSLY AND WAS IGNORED"ANSI_LWHITE"  -  "ANSI_LCYAN""ANSI_BLINK"*PLEASE*"ANSI_LWHITE" type '"ANSI_LGREEN"assist"ANSI_LWHITE"' to teleport to this user and tell them that you're available to help.");
 			  } else {
-                             writelog(ASSIST_LOG,1,"ASSIST","%s(#%d) asked for assistance%s",getname(player),player,Blank(scratch_return_string) ? ".":scratch_return_string);
+                             writelog(ASSIST_LOG,1,"ASSIST","%s(#%d) asked for assistance%s",getname(player),player,BlankContent(scratch_return_string) ? ".":scratch_return_string);
                              strcat(scratch_buffer,"Type '"ANSI_LGREEN"assist"ANSI_LWHITE"' to teleport to this user and tell them that you're available to help.");
                              p->flags |= ASSIST;
 			  }

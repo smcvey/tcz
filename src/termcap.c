@@ -151,7 +151,7 @@ unsigned char reload_termcap(unsigned char reload)
 			for(ptr = buffer3, ptr2 = buffer2; *ptr && (*ptr != ':'); *ptr2++ = *ptr, ptr++);
 			*ptr2 = '\0';
 
-			if(!Blank(buffer2)) {
+			if(!BlankContent(buffer2)) {
 
 			   /* ---->  Create and initialise new entry  <---- */
 			   MALLOC(new,struct termcap_data);

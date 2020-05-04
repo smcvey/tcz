@@ -2095,7 +2095,7 @@ time_t string_to_date(dbref player,const char *str,unsigned char epoch,unsigned 
              /* ---->  Numeric month  <---- */
              if((temp = ABS(atol(str))) > 0x7F) temp = 0x7F;
              m_month = temp;
-	  } else if(!Blank(buffer)) {
+	  } else if(!BlankContent(buffer)) {
 
              /* ---->  Alphabetic month  <---- */
              for(temp = 0; (temp < 12) && !string_prefix(month[temp],buffer); temp++);

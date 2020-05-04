@@ -530,7 +530,7 @@ void command_execute(dbref player,dbref command,const char *commands,unsigned ch
                              if(option_loglevel(OPTSTATUS) >= 4)
                                 writelog(COMMAND_LOG,1,"SUB-COMMAND","%s",String(compound_command_buffer));
 
-                             if(!Blank(compound_command_buffer)) {
+                             if(!BlankContent(compound_command_buffer)) {
                                 gettimeofday(&currenttime,NULL);
                                 if(usec_difference(currenttime,command_time) > (command_timelimit * 1000000)) {
                                    if(!(command_type & WARNED)) {
@@ -1146,7 +1146,7 @@ void command_query_internal(CONTEXT)
         if(bbs)      offset += sprintf(querybuf + offset,"%sBBS",(*querybuf) ? ";":"");
         if(bank)     offset += sprintf(querybuf + offset,"%sBank",(*querybuf) ? ";":"");
 
-        if(Blank(querybuf)) return;
+        if(BlankContent(querybuf)) return;
         setreturn(querybuf,COMMAND_SUCC);
      }
 }

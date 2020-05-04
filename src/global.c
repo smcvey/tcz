@@ -1,4 +1,4 @@
-/*
+ /*
 
 .-----------------------------------------------------------------------------.
 | The Chatting Zone (TCZ)                            (C) J.P.Boggis 1993-2004 |
@@ -126,7 +126,7 @@ void global_add(dbref command)
               for(tmp = buffer; *ptr && (*ptr != LIST_SEPARATOR); *tmp++ = *ptr++);
               for(*tmp = '\0', tmp = buffer + strlen(buffer) - 1; (tmp >= buffer) && (*tmp == ' '); *tmp-- = '\0');
 
-              if(!Blank(buffer)) {
+              if(!BlankContent(buffer)) {
                  current = global, last = NULL;
                  if(!current) {
                     MALLOC(new,struct global_data);

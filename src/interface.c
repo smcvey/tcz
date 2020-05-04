@@ -609,16 +609,16 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
                            output(p,player,0,1,0,ANSI_LGREEN"\nSorry, the command '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown, %s"ANSI_LYELLOW"%s"ANSI_LGREEN".\n\nPlease type "ANSI_LWHITE""ANSI_UNDERLINE"TUTORIAL NEWBIE"ANSI_LGREEN" to read our tutorial for new users and "ANSI_LWHITE""ANSI_UNDERLINE"HELP CHATTING"ANSI_LGREEN" for a summary of commands used to talk to other users.\n\n"ANSI_LRED"If you're really stuck, type "ANSI_LYELLOW""ANSI_UNDERLINE"ASSIST"ANSI_LRED" and an administrator will be along to help you shortly.\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
                               else output(p,player,0,1,2,ANSI_LGREEN"Unknown command '"ANSI_LWHITE"%s"ANSI_LGREEN"', %s"ANSI_LYELLOW"%s"ANSI_LGREEN". \016&nbsp;\016 "ANSI_LBLUE"(Type "ANSI_LCYAN""ANSI_UNDERLINE"HELP"ANSI_LBLUE" for help!)\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
 		     } else output(p,player,0,1,2,ANSI_LGREEN"Sorry, the BBS command '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown, %s"ANSI_LYELLOW"%s"ANSI_LGREEN". \016&nbsp;\016 "ANSI_LBLUE"(Type "ANSI_LCYAN""ANSI_UNDERLINE"HELP BBS"ANSI_LBLUE" for help!)\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
-		  } else output(p,player,0,1,2,ANSI_LRED"Unknown command '"ANSI_LWHITE"%s%s%s"ANSI_LRED"' in line "ANSI_LWHITE"%d"ANSI_LRED" of "ANSI_LYELLOW"%s"ANSI_LRED" (This was expanded from '"ANSI_LWHITE"%s"ANSI_LRED"'.)\n",command,!Blank(params) ? " ":"",params,current_line_number,unparse_object(player,current_command,0),original_command);
+		  } else output(p,player,0,1,2,ANSI_LRED"Unknown command '"ANSI_LWHITE"%s%s%s"ANSI_LRED"' in line "ANSI_LWHITE"%d"ANSI_LRED" of "ANSI_LYELLOW"%s"ANSI_LRED" (This was expanded from '"ANSI_LWHITE"%s"ANSI_LRED"'.)\n",command,!BlankContent(params) ? " ":"",params,current_line_number,unparse_object(player,current_command,0),original_command);
 
                   /* ---->  Log failed commands  <---- */
                   strcpy(buffer,unparse_object(ROOT,Location(player),0));
                   if(!can_write_to(player,Owner(Location(player)),0))
-                     writelog(UserLog(Owner(Location(player))),1,"UNKNOWN COMMAND","(%s in %s)  >>>>>  %s%s%s",getcname(ROOT,player,1,0),buffer,command,!Blank(params) ? " ":"",params);
+                     writelog(UserLog(Owner(Location(player))),1,"UNKNOWN COMMAND","(%s in %s)  >>>>>  %s%s%s",getcname(ROOT,player,1,0),buffer,command,!BlankContent(params) ? " ":"",params);
 
                   if(option_loglevel(OPTSTATUS) == 1) {
                      sprintf(buffer + strlen(buffer)," owned by %s",getcname(ROOT,Owner(Location(player)),1,0));
-                     writelog(COMMAND_LOG,1,"UNKNOWN COMMAND","(%s in %s)  >>>>>  %s%s%s",getcname(ROOT,player,1,0),buffer,command,!Blank(params) ? " ":"",params);
+                     writelog(COMMAND_LOG,1,"UNKNOWN COMMAND","(%s in %s)  >>>>>  %s%s%s",getcname(ROOT,player,1,0),buffer,command,!BlankContent(params) ? " ":"",params);
 		  }
                   setreturn(ERROR,COMMAND_FAIL);
 	       }
@@ -918,7 +918,7 @@ void tcz_disconnect_character(struct descriptor_data *d)
      }
 
      /* ---->  Display boot reason message  <---- */
-     if(!Blank(bootmessage)) {
+     if(!BlankContent(bootmessage)) {
         add_cr = 1, output_queue_string(d,bootmessage,0), add_cr = 0;
         *bootmessage = '\0';
      }

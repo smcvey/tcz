@@ -485,8 +485,8 @@ void query_delete(CONTEXT)
 
               /* ---->  Delete item?  <---- */
               if((last && *ptr) || (!last && (loop != arg.numb[0]))) {
-                 if(!Blank(separator) && !((arg.numb[0] == 1) && (loop == 2))) strcat(temp,separator);
-                 if(!Blank(item)) strcat(temp,item);
+                 if(!BlankContent(separator) && !((arg.numb[0] == 1) && (loop == 2))) strcat(temp,separator);
+                 if(!BlankContent(item)) strcat(temp,item);
 	      }
               skip = 0;
 	}
@@ -759,7 +759,7 @@ void query_flags(CONTEXT)
         setreturn(ptr,COMMAND_SUCC);
      } else {
         unparse_flaglist(object,1,querybuf);
-        if(!Blank(querybuf) && (*(ptr = (querybuf + strlen(querybuf) - 1)) == '.')) *ptr = '\0';
+        if(!BlankContent(querybuf) && (*(ptr = (querybuf + strlen(querybuf) - 1)) == '.')) *ptr = '\0';
         setreturn(querybuf,COMMAND_SUCC);
      }
 }
@@ -884,7 +884,7 @@ void query_insert(CONTEXT)
               *tmp = '\0';
 
               /* ---->  Insert new item in front of current item?  <---- */
-              if((loop == arg.numb[1]) || ((arg.numb[1] == LAST) && !*ptr && Blank(separator))) {
+              if((loop == arg.numb[1]) || ((arg.numb[1] == LAST) && !*ptr && BlankContent(separator))) {
                  strcat(temp,arg.text[0]);
                  strcat(temp,arg.text[2]);
                  inserted = 1;
@@ -1182,9 +1182,9 @@ void query_modify(CONTEXT)
               *tmp = '\0';
 
               /* ---->  Modify item?  <---- */
-              if(!Blank(separator)) strcat(temp,separator);
+              if(!BlankContent(separator)) strcat(temp,separator);
               if((last && *ptr) || (!last && (loop != arg.numb[1]))) {
-	         if(!Blank(item)) strcat(temp,item);
+	         if(!BlankContent(item)) strcat(temp,item);
 	      } else strcat(temp,arg.text[0]);
               skip = 0;
 	}
@@ -2275,7 +2275,7 @@ void query_sort(CONTEXT)
         if(string_prefix("DESCENDING",arg.text[0]) || string_prefix("REVERSE",arg.text[0])) ascending = 0;
 
         strcpy(temp4,arg.text[2]);
-        while(!Blank(temp4) && (loop > 0)) {
+        while(!BlankContent(temp4) && (loop > 0)) {
 
               /* ---->  Skip <SEPARATOR>  <---- */
               ptr = temp4, tmp = temp2, item = 0, loop = 0;
@@ -2308,7 +2308,7 @@ void query_sort(CONTEXT)
                        for(tmp = temp3; *ptr && strncasecmp(ptr,arg.text[1],arg.len[1]); *tmp++ = *ptr++);
                        *tmp = '\0';
 
-                       if(!Blank(temp3)) {
+                       if(!BlankContent(temp3)) {
                           if(val1) {
 
                              /* ---->  Numerical sort  <---- */
@@ -2330,8 +2330,8 @@ void query_sort(CONTEXT)
 
               /* ---->  Add this item to new (Sorted) list and remove it from the old one  <---- */
               if(!item) item = 1;
-              if(!Blank(temp2)) {
-                 if(!Blank(temp)) {
+              if(!BlankContent(temp2)) {
+                 if(!BlankContent(temp)) {
                     strcat(temp,arg.text[1]);
                     strcat(temp,temp2);
 		 } else strcpy(temp,temp2);

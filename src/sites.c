@@ -95,7 +95,7 @@ const char *siteflags_description(short flags)
           if((flags & siteflags[i].flag) == siteflags[i].flag)
              sprintf(scratch_return_string + strlen(scratch_return_string),"%s%s",(*scratch_return_string) ? ", ":"",siteflags[i].name);
 
-      if(Blank(scratch_return_string)) strcpy(scratch_return_string,"None");
+      if(BlankContent(scratch_return_string)) strcpy(scratch_return_string,"None");
       return(scratch_return_string);
 }
 
@@ -439,7 +439,7 @@ void site_set(dbref player,char *ipaddress,const char *params)
                  for(p1 = scratch_buffer; *flaglist && (*flaglist != ' '); *p1++ = *flaglist, flaglist++);
                  *p1 = '\0';
 
-                 if(!Blank(scratch_buffer)) failed |= process_siteflag(player,site,scratch_buffer,reset,reason);
+                 if(!BlankContent(scratch_buffer)) failed |= process_siteflag(player,site,scratch_buffer,reset,reason);
                     else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify which Internet site flag you'd like to reset.");
 	   }
            if(!failed) setreturn(OK,COMMAND_SUCC);
@@ -591,7 +591,7 @@ void site_process(CONTEXT)
            command[count] = '\0';
            for(; *p1 && (*p1 != ' '); p1++);
            for(; *p1 && (*p1 == ' '); p1++);
-           if(!Blank(command)) {
+           if(!BlankContent(command)) {
 	      if(string_prefix("addsite",command)) {
                  site_add(player,(char *) p1,(char *) arg2);
 	      } else if(string_prefix("connections",command) || string_prefix("maxconnections",command) || string_prefix("maximumconnections",command)) {

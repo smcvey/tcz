@@ -504,7 +504,7 @@ void destroy_destroy(CONTEXT)
                        if(elementfrom != INVALID) {
                           array_destroy_elements(player,object,elementfrom,elementto,&count);
                           if(!in_command) {
-                             sprintf(scratch_buffer,ANSI_LGREEN"Element%s %s of dynamic array ",((elementto == UNSET) || ((elementfrom == elementto) && !((elementto == INDEXED) && !Blank(indexto)))) ? "":"s",array_unparse_element_range(elementfrom,elementto,ANSI_LGREEN));
+                             sprintf(scratch_buffer,ANSI_LGREEN"Element%s %s of dynamic array ",((elementto == UNSET) || ((elementfrom == elementto) && !((elementto == INDEXED) && !BlankContent(indexto)))) ? "":"s",array_unparse_element_range(elementfrom,elementto,ANSI_LGREEN));
                              output(getdsc(player),player,0,1,0,"%s"ANSI_LWHITE"%s"ANSI_LGREEN" %s.",scratch_buffer,unparse_object(player,object,0),(queue) ? "destroyed":/*"purged"*/"destroyed");
 			  }
                           if(count > 0) setreturn(OK,COMMAND_SUCC);
@@ -1084,7 +1084,7 @@ void destroy_undestroy(CONTEXT)
                  cr = 1;
 
                  /* ---->  Attempt to recover given object  <---- */
-                 if(!Blank(scratch_buffer)) {
+                 if(!BlankContent(scratch_buffer)) {
                     if((object = atol(scratch_buffer)) != 0) {
                        if(can_recover(player,object,NOTHING,0,0,0,0)) {
                           recovered = recover_object(player,object,owner,0,&cr);

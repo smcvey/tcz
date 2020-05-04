@@ -1233,7 +1233,7 @@ void bbs_latest(CONTEXT)
             if(!IsHtml(p)) truncatestr(scratch_return_string,scratch_return_string,0,(ranking[loop].message->flags & MESSAGE_REPLY) ? 28:32);
             sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"'",(ranking[loop].message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string);
             sprintf(scratch_return_string,"%s%s",bbs_unread_message(ranking[loop].message,player,&ignored) ? ANSI_LMAGENTA" (*UNREAD*)":(ignored) ? ANSI_LMAGENTA" (Ignored)":"",(ranking[loop].message->flags & MESSAGE_APPEND) ? ANSI_LBLUE" (Appended)":"");
-            if(!Blank(scratch_return_string)) sprintf(scratch_buffer + strlen(scratch_buffer)," \016&nbsp;\016%s",scratch_return_string);
+            if(!BlankContent(scratch_return_string)) sprintf(scratch_buffer + strlen(scratch_buffer)," \016&nbsp;\016%s",scratch_return_string);
             output(p,player,2,1,44,"%s%s",scratch_buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
 	}
      } else if(IsHtml(p)) output(p,player,2,1,0,(owner == NOTHING) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; SORRY, THERE ARE NO MESSAGES ON THE BBS AT THE MOMENT &nbsp; ***</I></TD></TR>\016":"\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO MESSAGES FOUND &nbsp; ***</I></TD></TR>\016");
@@ -1273,7 +1273,7 @@ void bbs_query_latest(CONTEXT)
                  if(topic->flags & TOPIC_CENSOR) bad_language_filter(querybuf,querybuf);
                  sprintf(cmpbuf,"%s"ANSI_LYELLOW"%s",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",querybuf);
                  sprintf(querybuf,"%s%s",bbs_unread_message(message,player,&ignored) ? ANSI_LMAGENTA" (*UNREAD*)":(ignored) ? ANSI_LMAGENTA" (Ignored)":"",(message->flags & MESSAGE_APPEND) ? ANSI_LBLUE" (Appended)":"");
-                 if(!Blank(querybuf)) sprintf(cmpbuf + strlen(cmpbuf),ANSI_IBLACK" %s",querybuf);
+                 if(!BlankContent(querybuf)) sprintf(cmpbuf + strlen(cmpbuf),ANSI_IBLACK" %s",querybuf);
                  setreturn(cmpbuf,COMMAND_SUCC);
 	      } else setreturn(ANSI_LCYAN"***  NO MESSAGES  ***",COMMAND_SUCC);
 	   } else {

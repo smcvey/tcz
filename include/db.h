@@ -312,6 +312,7 @@
 #define String(s)          (((s) != NULL) ? (s):"")
 #define StringDefault(s,d) (((s) != NULL) ? (s):(d))
 #define Blank(x)           (!((x) && *(x)))
+#define BlankContent(x)    (!*(x))
 #define Uid(x)             ((x != NOTHING) ? db[(x)].data->player.uid:NOTHING)
 
 

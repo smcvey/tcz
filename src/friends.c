@@ -186,7 +186,7 @@ const char *friendflags_description(int flags)
           if((flags & friendflags[i].flag) == friendflags[i].flag)
              sprintf(scratch_return_string + strlen(scratch_return_string),"%s%s%s",(*scratch_return_string) ? ANSI_DCYAN", ":"",(friendflags[i].flag == FRIEND_ENEMY) ? ANSI_LRED:(friendflags[i].flag == FRIEND_EXCLUDE) ? ANSI_LMAGENTA:(friendflags[i].flag & (FRIEND_READ|FRIEND_WRITE|FRIEND_COMMANDS|FRIEND_CREATE|FRIEND_DESTROY|FRIEND_COMBAT|FRIEND_SHARABLE)) ? ANSI_LYELLOW:ANSI_LWHITE,friendflags[i].name);
 
-      if(Blank(scratch_return_string)) strcpy(scratch_return_string,"No privileges");
+      if(BlankContent(scratch_return_string)) strcpy(scratch_return_string,"No privileges");
       return(scratch_return_string);
 }
 
@@ -518,7 +518,7 @@ void friends_set(CONTEXT)
 		 }
                  *p1 = '\0';
 
-                 if(!Blank(scratch_buffer)) result |= process_friendflag(player,friends,scratch_buffer,reset);
+                 if(!BlankContent(scratch_buffer)) result |= process_friendflag(player,friends,scratch_buffer,reset);
                     else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify which friend flag you'd like to reset.");
 	   }
 

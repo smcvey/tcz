@@ -717,7 +717,7 @@ void comms_session(CONTEXT)
      for(; *params && (*params == ' '); params++);
      for(start = params, ptr = scratch_buffer; *params && (*params != ' '); *ptr++ = *params, params++);
      for(*ptr = '\0'; *params && (*params == ' '); params++);
-     if(!Blank(scratch_buffer) && (string_prefix("title",scratch_buffer) || (string_prefix("reset",scratch_buffer) && (reset = 1)))) {
+     if(!BlankContent(scratch_buffer) && (string_prefix("title",scratch_buffer) || (string_prefix("reset",scratch_buffer) && (reset = 1)))) {
 
         /* ---->  Set/reset session title  <---- */
         if(!reset || Level4(db[player].owner)) {
@@ -781,7 +781,7 @@ void comms_session(CONTEXT)
 	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the character '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg2);
 	   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify who's session comment you'd like to reset.");
 	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may reset/change the current session title, or reset the session comment of an individual user.");
-     } else if(!Blank(scratch_buffer) && string_prefix("comment",scratch_buffer)) {
+     } else if(!BlankContent(scratch_buffer) && string_prefix("comment",scratch_buffer)) {
 
         /* ---->  Set your session comment  <---- */
         if(!Blank(session_title)) {

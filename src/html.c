@@ -1504,7 +1504,7 @@ const char *text_to_html(struct descriptor_data *d,const char *text,char *buffer
 			   for(ptr = (char *) text, linkdest = link; *ptr && (count < KB) && (*ptr != ' ') && (*ptr != '\n') && isprint(*ptr); *linkdest++ = (isupper(*ptr) ? tolower(*ptr):*ptr), ptr++, count++);
                            for(*(linkdest--) = '\0'; (linkdest >= link) && ispunct(*linkdest) && (*linkdest != '/'); *(linkdest--) = '\0', count--);
 
-                           if(!Blank(link)) {
+                           if(!BlankContent(link)) {
                               snprintf(buffer,sizeof(buffer),"<A HREF=\"%s%s\" TARGET=_blank>%s</A>",!strncasecmp(link,"ftp:",4) ? "":"ftp://",link,link);
                               if((*length + count) <= limit) {
 
@@ -1533,7 +1533,7 @@ const char *text_to_html(struct descriptor_data *d,const char *text,char *buffer
 			   for(ptr = (char *) text, linkdest = link; *ptr && (count < KB) && (*ptr != ' ') && (*ptr != '\n') && isprint(*ptr); *linkdest++ = (isupper(*ptr) ? tolower(*ptr):*ptr), ptr++, count++);
                            for(*(linkdest--) = '\0'; (linkdest >= link) && ispunct(*linkdest) && (*linkdest != '/') && (*linkdest != '&'); *(linkdest--) = '\0', count--);
 
-                           if(!Blank(link)) {
+                           if(!BlankContent(link)) {
                               snprintf(buffer,sizeof(buffer),"<A HREF=\"%s\" TARGET=_blank>%s</A>",link,link);
                               if((*length + count) <= limit) {
 
@@ -1563,7 +1563,7 @@ const char *text_to_html(struct descriptor_data *d,const char *text,char *buffer
                                if(*ptr == '@') at = 1;
                            for(*(linkdest--) = '\0'; (linkdest >= link) && ispunct(*linkdest); *(linkdest--) = '\0', count--);
 
-                           if(!Blank(link) && at) {
+                           if(!BlankContent(link) && at) {
                               snprintf(buffer,sizeof(buffer),"<A HREF=\"%s\">%s</A>",link,link);
                               if((*length + count) <= limit) {
 
@@ -1622,7 +1622,7 @@ const char *text_to_html(struct descriptor_data *d,const char *text,char *buffer
 			   for(ptr = (char *) text, linkdest = link; *ptr && (count < KB) && (*ptr != ' ') && (*ptr != '\n') && isprint(*ptr); *linkdest++ = (isupper(*ptr) ? tolower(*ptr):*ptr), ptr++, count++);
                            for(*(linkdest--) = '\0'; (linkdest >= link) && ispunct(*linkdest) && (*linkdest != '/') && (*linkdest != '&'); *(linkdest--) = '\0', count--);
 
-                           if(!Blank(link)) {
+                           if(!BlankContent(link)) {
                               snprintf(buffer,sizeof(buffer),"<A HREF=\"http://%s\" TARGET=_blank>%s</A>",link,link);
                               if((*length + count) <= limit) {
 
@@ -2368,7 +2368,7 @@ void html_process_input(struct descriptor_data *d,unsigned char *buffer,int leng
            for(; (ptr < end) && !((*ptr == '\r') || (*ptr == '\n')); *tmp++ = *ptr++);
            *tmp = '\0';
 
-           if(!Blank(htmlbuffer)) {
+           if(!BlankContent(htmlbuffer)) {
               for(tmp = htmlbuffer; *tmp && (*tmp == ' '); tmp++);
               for(tmp2 = tmp; *tmp2 && (*tmp2 != ':'); tmp2++);
               if(*tmp2) *tmp2 = '\0';
@@ -2378,9 +2378,9 @@ void html_process_input(struct descriptor_data *d,unsigned char *buffer,int leng
                  d->html->flags |= HTML_START;
 	      }
 	   }
-	} while((ptr < end) && !Blank(htmlbuffer));
+	} while((ptr < end) && !BlankContent(htmlbuffer));
 
-        if((ptr < end) && Blank(htmlbuffer)) {
+        if((ptr < end) && BlankContent(htmlbuffer)) {
            if(IsHtml(d) && !(d->html->flags & HTML_START)) {
               d->html->flags &= ~HTML_INPUT_PENDING;
               return;
@@ -3104,7 +3104,7 @@ unsigned char html_process_data(struct descriptor_data *d)
 	       for(cpy = buffer, tmp += 5; (tpos < d->neglen) && (count < 32) && (isdigit(*tmp) || (*tmp == '.')); *cpy++ = *tmp++, count++, tpos++);
 	       *cpy = '\0';
 
-	       if(!Blank(buffer)) {
+	       if(!BlankContent(buffer)) {
 		  sscanf(buffer,"%d.%d",&major,&minor);
 		  if((major == 1) && (minor == 0)) {
 		     d->html->protocol = HTML_PROTOCOL_HTTP_1_0;

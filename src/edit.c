@@ -332,7 +332,7 @@ void display_edittext(struct descriptor_data *d,int lineno,int lineto,int lines)
                     for(p2 = scratch_return_string, spaces = 0; *p2 && (*p2 == ' '); p2++, spaces++);
                     if((spaces + 8) > 50) spaces = (50 - 8);
 		 } else spaces = 0;
-                 output(d,d->player,2,1,8 + spaces,"%s%s[%03d%s%s%s%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TH WIDTH=10% BGCOLOR="HTML_TABLE_GREEN"><TT>\016":" ",(lineno == d->edit->line) ? ANSI_LGREEN:ANSI_DGREEN,lineno,(lineno == d->edit->line) ? "->":"]",IsHtml(d) ? "\016</TT></TH><TD>\016":(lineno == d->edit->line) ? " ":"  ",(lineno == d->edit->line) ? ANSI_LWHITE:ANSI_DWHITE,(IsHtml(d) && Blank(scratch_return_string)) ? "\016&nbsp;\016":scratch_return_string,IsHtml(d) ? "\016</TD></TR>\016":"\n");
+                 output(d,d->player,2,1,8 + spaces,"%s%s[%03d%s%s%s%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TH WIDTH=10% BGCOLOR="HTML_TABLE_GREEN"><TT>\016":" ",(lineno == d->edit->line) ? ANSI_LGREEN:ANSI_DGREEN,lineno,(lineno == d->edit->line) ? "->":"]",IsHtml(d) ? "\016</TT></TH><TD>\016":(lineno == d->edit->line) ? " ":"  ",(lineno == d->edit->line) ? ANSI_LWHITE:ANSI_DWHITE,(IsHtml(d) && BlankContent(scratch_return_string)) ? "\016&nbsp;\016":scratch_return_string,IsHtml(d) ? "\016</TD></TR>\016":"\n");
 	      } else if(!IsHtml(d)) {
 
                  /* ---->  Display line without line numbers  <---- */
@@ -341,7 +341,7 @@ void display_edittext(struct descriptor_data *d,int lineno,int lineto,int lines)
                     if((spaces + 1) > 50) spaces = (50 - 1);
 		 } else spaces = 0;
                  output(d,d->player,0,1,1 + spaces,"%s%s",(lineno == d->edit->line) ? ANSI_LGREEN">"ANSI_LWHITE:ANSI_DGREEN"~"ANSI_DWHITE,scratch_return_string);
-	      } else output(d,d->player,2,1,0,"\016<TR><TH WIDTH=4%% BGCOLOR="HTML_TABLE_GREEN">%s</TH><TD ALIGN=LEFT>\016%s%s\016</TD></TR>\016",(lineno == d->edit->line) ? (IsHtml(d) ? ANSI_LGREEN"->":ANSI_LGREEN">"):(IsHtml(d) ? "&nbsp;":ANSI_DGREEN"~"),(lineno == d->edit->line) ? ANSI_LWHITE:ANSI_DWHITE,Blank(scratch_return_string) ? "\016&nbsp;\016":scratch_return_string);
+	      } else output(d,d->player,2,1,0,"\016<TR><TH WIDTH=4%% BGCOLOR="HTML_TABLE_GREEN">%s</TH><TD ALIGN=LEFT>\016%s%s\016</TD></TR>\016",(lineno == d->edit->line) ? (IsHtml(d) ? ANSI_LGREEN"->":ANSI_LGREEN">"):(IsHtml(d) ? "&nbsp;":ANSI_DGREEN"~"),(lineno == d->edit->line) ? ANSI_LWHITE:ANSI_DWHITE,BlankContent(scratch_return_string) ? "\016&nbsp;\016":scratch_return_string);
 	   }
            linecount++, lineno++;
      }

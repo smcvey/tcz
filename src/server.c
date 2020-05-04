@@ -2038,7 +2038,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
     if((d->clevel == 1) || (d->clevel == 28))
        filter_spaces(str,input,1);
           else filter_spaces(str,input,0);
-    if(Blank(str)) return(1);
+    if(BlankContent(str)) return(1);
 
     /* ---->  Ensure someone isn't trying to use depreciated 'create <NAME> <PASSWORD>' or 'connect <NAME> <PASSWORD>' (Obsolete pre-TCZ v2.2)  <---- */
     if((d->clevel == 1) && (!strncasecmp(str,"connect ",8) || !strncasecmp(str,"create ",7))) {
@@ -2638,7 +2638,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
     } else if((d->clevel == 26) || (d->clevel == 27)) {
 
        /* ---->  E-mail address (Request new character)  <---- */
-       if(!Blank(str)) {
+       if(!BlankContent(str)) {
           if(strlen(str) <= 128) {
 	     if(!(string_prefix("no",str) || string_prefix("cancel",str)) && strcasecmp("none",str)) {
                 time_t rtime;

@@ -194,7 +194,7 @@ struct userlist_data *lists_parse(dbref player,const char *userlist,const char *
              for(; *userlist && ((*userlist == ',') || (*userlist == ';') || (*userlist == ' ')); userlist++);
 	  }
 
-          if(!Blank(keyword)) {
+          if(!BlankContent(keyword)) {
              keywordlen = strlen(keyword);
 
              /* ---->  Friends or enemies of user  <---- */
@@ -553,7 +553,7 @@ const char *lists_construct(dbref source,dbref target,struct userlist_data *user
 
                 /* ---->  Source/target users  <---- */
                 if((ptr->user == source) || (ptr->user == target)) {
-                   if(!Blank(next)) {
+                   if(!BlankContent(next)) {
                       if(!first) strcat_limits(&str_data,", ");
                       strcat_limits(&str_data,next), first = 0;
                    }
@@ -584,7 +584,7 @@ const char *lists_construct(dbref source,dbref target,struct userlist_data *user
       for(ptr = userlist; ptr; ptr = ((!ptr) ? NULL:ptr->next))
           if((ptr->userflags & USERLIST_INDIVIDUAL) && Validchar(ptr->user) && !(ptr->userflags & (USERLIST_EXCLUDED|USERLIST_INTERNAL)) && (ptr->user != source) && (ptr->user != target))
              if(all || ((ptr->userflags & incuser) && !(ptr->userflags & excuser) && (ptr->customflags & inccustom) && !(ptr->customflags & exccustom))) {
-                if(!Blank(next)) {
+                if(!BlankContent(next)) {
                    if(!first) strcat_limits(&str_data,", ");
                    strcat_limits(&str_data,next), first = 0;
                 }
@@ -627,7 +627,7 @@ const char *lists_construct(dbref source,dbref target,struct userlist_data *user
             finished = ((friends || enemies || assistants || experienced || retired || admin || everyone) == 0);
 
             if(!finished) {
-               if(!Blank(next)) {
+               if(!BlankContent(next)) {
                   if(!first) strcat_limits(&str_data,", ");
                   strcat_limits(&str_data,next), first = 0;
                }
@@ -713,7 +713,7 @@ const char *lists_construct(dbref source,dbref target,struct userlist_data *user
 */
 
       /* ---->  Remaining entity (NEXT)  <---- */
-      if(!Blank(next)) {
+      if(!BlankContent(next)) {
          if(!first) strcat_limits(&str_data," and ");
          strcat_limits(&str_data,next), first = 0;
       }

@@ -297,7 +297,7 @@ int help_register_topics(struct helptopic **topics,char *filename,const char *wi
                 if(topicfound == 2) {
 
                    /* ---->  Last page of help topic  <---- */
-                   if(!Blank(helptext)) {
+                   if(!BlankContent(helptext)) {
                       for(p2 = helptext + strlen(helptext) - 1; *p2 && ((*p2 == '\n') || (*p2 == ' ')); p2--);
                       if(*(++p2)) *p2 = '\0';
 
@@ -334,7 +334,7 @@ int help_register_topics(struct helptopic **topics,char *filename,const char *wi
                 if(!strcasecmp(p1,"%PAGE\n") || !strncasecmp(p1,"%PAGE ",6)) {
 
                    /* ---->  Next page of help topic  <---- */
-                   if(!Blank(helptext)) {
+                   if(!BlankContent(helptext)) {
                       for(p2 = helptext + strlen(helptext) - 1; *p2 && ((*p2 == '\n') || (*p2 == ' ')); p2--);
                       if(*(++p2)) *p2 = '\0';
 
@@ -373,7 +373,7 @@ int help_register_topics(struct helptopic **topics,char *filename,const char *wi
        if(topicfound == 2) {
 
           /* ---->  Last page of help topic  <---- */
-          if(!Blank(helptext)) {
+          if(!BlankContent(helptext)) {
              for(p2 = helptext + strlen(helptext) - 1; *p2 && ((*p2 == '\n') || (*p2 == ' ')); p2--);
              if(*(++p2)) *p2 = '\0';
 
@@ -911,7 +911,7 @@ void help_main(CONTEXT)
      }
 
      /* ---->  Parse page number  <---- */
-     if(!next && !prev && !current && !Blank(topicname)) {
+     if(!next && !prev && !current && !BlankContent(topicname)) {
         char *menu = NULL;
 
         if(!strncasecmp(topicname,"menu",4)) {
@@ -936,7 +936,7 @@ void help_main(CONTEXT)
      /* ---->  Lookup and display given page of help topic/tutorial (If it exists)  <---- */
      if((!val1) ? (generichelp || localhelp):(generictutorials || localtutorials)) {
         if(!topic) {
-           if(Blank(topicname)) strcpy(topicname,"index");
+           if(BlankContent(topicname)) strcpy(topicname,"index");
            topic = help_match_topic(topicname,!val1);
            if(topic && (topic->pages < page)) {
               output(p,player,0,1,0,ANSI_LGREEN"Sorry, the %s '"ANSI_LWHITE"%s"ANSI_LGREEN"' only has "ANSI_LYELLOW"%d"ANSI_LGREEN" page%s%s.",(val1) ? "tutorial":"help topic",topicname,topic->pages,Plural(topic->pages),(val1) ? "":" of help");
@@ -952,7 +952,7 @@ void help_main(CONTEXT)
 	      }
               *p1 = '\0';
            
-              if(!Blank(topicname) && !isdigit(*topicname) && strncasecmp(topicname,"menu",4)) {
+              if(!BlankContent(topicname) && !isdigit(*topicname) && strncasecmp(topicname,"menu",4)) {
                  for(p1 = topicname + strlen(topicname) - 1; (p1 >= topicname) && (isdigit(*p1) || (*p1 == ' ')); p1--);
                  *(++p1) = '\0';
 	      }

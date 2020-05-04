@@ -380,7 +380,7 @@ void request_process(CONTEXT)
            command[count] = '\0';
            for(; *p1 && (*p1 != ' '); p1++);
            for(; *p1 && (*p1 == ' '); p1++);
-           if(!Blank(command)) {
+           if(!BlankContent(command)) {
 	      if(string_prefix("newrequest",command)) {
                  request_new(player);
 	      } else if(string_prefix("refuserequest",command)) {

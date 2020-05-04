@@ -1534,7 +1534,7 @@ void stats_rank(CONTEXT)
         /* ---->  Ordering of list  <---- */
         for(tmp = scratch_return_string; *arg1 && !((*arg1 == ' ') || (*arg1 == ',') || (*arg1 == '/')); *tmp++ = *arg1++);
         *tmp = '\0';
-        if(!Blank(scratch_return_string)) {
+        if(!BlankContent(scratch_return_string)) {
          if(string_prefix("totaltimeconnected",scratch_return_string)) order = RANK_TOTAL;
 	  else if(string_prefix("active",scratch_return_string) || string_prefix("totalactive",scratch_return_string)) order = RANK_ACTIVE;
 	   else if(string_prefix("avgactive",scratch_return_string) || string_prefix("averageactive",scratch_return_string)) order = RANK_AVGACTIVE;
@@ -1616,7 +1616,7 @@ void stats_rank(CONTEXT)
                        for(; *arg1 && ((*arg1 == ',') || (*arg1 == '/')); arg1++);
                        for(tmp = scratch_return_string; *arg1 && (*arg1 != ' ') && (*arg1 != ','); *tmp++ = *arg1++);
                        *tmp = '\0';
-                       if(!Blank(scratch_return_string)) {
+                       if(!BlankContent(scratch_return_string)) {
                           if((result = parse_objecttype(scratch_return_string))) valid = types |= result;
                              else if(!strcasecmp("all",scratch_return_string)) types = SEARCH_ALL_TYPES, valid = 1, result++;
                           if(!result) output(p,player,0,1,0,"%s"ANSI_LGREEN"Sorry, '"ANSI_LWHITE"%s"ANSI_LGREEN"' is an unknown object type.",(cr) ? "\n":"",scratch_return_string), cr = 0;
@@ -1641,7 +1641,7 @@ void stats_rank(CONTEXT)
               *tmp = '\0';
 
               gettime(now);
-              if(Blank(scratch_return_string) || string_prefix("quarter",scratch_return_string)) ravg = RANK_QUARTER;
+              if(BlankContent(scratch_return_string) || string_prefix("quarter",scratch_return_string)) ravg = RANK_QUARTER;
                  else if(string_prefix("day",scratch_return_string)) {
                     stitle = "Average per day";
                     rdiv   = (double) (now - (quarter - QUARTER)) / DAY;
@@ -1667,7 +1667,7 @@ void stats_rank(CONTEXT)
         for(tmp = scratch_return_string; *arg1 && (*arg1 != ' '); *tmp++ = *arg1++);
         for(; *arg1 && (*arg1 == ' '); arg1++);
         *tmp = '\0';
-        if(!Blank(scratch_return_string)) {
+        if(!BlankContent(scratch_return_string)) {
            if(string_prefix("ascending",scratch_return_string)) {
               direction = 1;
 	   } else if(string_prefix("descending",scratch_return_string)) {

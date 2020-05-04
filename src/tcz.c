@@ -385,7 +385,7 @@ int tcz_get_timezone(int log,int restart)
     tmnow = localtime(&now);
     FREENULL(tcz_timezone);
 
-    if((strftime(buffer,TEXT_SIZE,"%Z",tmnow) > 0)  && !Blank(buffer)) {
+    if((strftime(buffer,TEXT_SIZE,"%Z",tmnow) > 0)  && !BlankContent(buffer)) {
        tcz_timezone = (char *) alloc_string(buffer);
        if(log) writelog(SERVER_LOG,0,(restart) ? "RESTART":"TIME ZONE","System time zone is %s.",tcz_timezone);
        return(1);

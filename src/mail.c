@@ -566,7 +566,7 @@ void mail_send(dbref player,const char *list,const char *params,unsigned char fo
                        for(; ((p2 - 1) >= scratch_buffer) && (*(p2 - 1) == ' '); p2--);  /*  Strip trailing blanks  */
                        *p2 = '\0';
 
-                       if(!Blank(scratch_buffer)) {
+                       if(!BlankContent(scratch_buffer)) {
 
                           /* ---->  Look up name as character in the DB  <---- */
                           if((who = lookup_character(player,scratch_buffer,0)) == NOTHING)
@@ -829,7 +829,7 @@ void mail_main(CONTEXT)
      command[count] = '\0';
      for(; *p1 && (*p1 != ' '); p1++);
      for(; *p1 && (*p1 == ' '); p1++);
-     if(Blank(command) || string_prefix("view",command) || string_prefix("read",command) || string_prefix("list",command) || string_prefix("headers",command)) {
+     if(BlankContent(command) || string_prefix("view",command) || string_prefix("read",command) || string_prefix("list",command) || string_prefix("headers",command)) {
         mail_view(player,(char *) p1,(char *) arg2);
      } else if(string_prefix("page",command)) {
         mail_view(player,(char *) arg1,(char *) arg2);

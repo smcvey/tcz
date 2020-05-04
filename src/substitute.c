@@ -627,7 +627,7 @@ const char *substitute(dbref player,char *dest,char *src,unsigned char addname,c
                                        break;
                                   case 'd':
                                   case 'D':  /* ---->  Dark (Normal) text  <---- */
-                                       if(!Blank(cur_ansi) && (*cur_ansi == '\x1B')) {
+                                       if(!BlankContent(cur_ansi) && (*cur_ansi == '\x1B')) {
  
                                           /* ---->  Split colour code from hi-light  <---- */
                                           for(p2 = cur_ansi; *p2 && (*p2 != 'm'); p2++);
@@ -1175,7 +1175,7 @@ void substitute_large(dbref player,dbref who,const char *str,const char *def_ans
               *ptr = '\0';
 
               substitute(player,substbuf,buffer,0,def_ansi,&subst,0);
-              if(!Blank(substbuf) && !((ptr = (char *) strchr(substbuf,'\x06')) && !((ptr > substbuf) && (*(ptr - 1) == '\x05')))) {
+              if(!BlankContent(substbuf) && !((ptr = (char *) strchr(substbuf,'\x06')) && !((ptr > substbuf) && (*(ptr - 1) == '\x05')))) {
                  if(censor) bad_language_filter(substbuf,substbuf);
                  output(p,who,0,1,0,"%s",substbuf);
 	      }

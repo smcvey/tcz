@@ -153,7 +153,7 @@ void match_parse_array_elements(const char *range)
                     elementfrom = ALL;
                     elementto   = ALL;
 		 } else if(!ascii) {
-                    elementfrom = (Blank(indexfrom)) ? NOTHING:atol(indexfrom);
+                    elementfrom = (BlankContent(indexfrom)) ? NOTHING:atol(indexfrom);
                     if(elementfrom < 1) elementfrom = INVALID;
 		 } else elementfrom = INDEXED;
 
@@ -174,7 +174,7 @@ void match_parse_array_elements(const char *range)
                        elementfrom = ALL;
                        elementto   = ALL;
 		    } else if(!ascii) {
-                       elementto = (Blank(indexto)) ? NOTHING:atol(indexto);
+                       elementto = (BlankContent(indexto)) ? NOTHING:atol(indexto);
                        if(elementto < 1) elementfrom = INVALID;
 		    } else elementto = INDEXED;
 	}
@@ -566,7 +566,7 @@ dbref match_object(dbref owner,dbref start,dbref end,const char *searchstr,unsig
                      for(ptr++; *ptr && ((*ptr == ' ') || (*ptr == ';') || (*ptr == ',')); ptr++);
                      for(dest = buffer; *ptr && !((*ptr == ':') || (*ptr == ';') || (*ptr == ',')); *dest++ = *ptr++);
 	             for(*dest-- = '\0', tmp = dest; (tmp >= buffer) && (*tmp == ' '); *tmp-- = '\0');
-                     if(!Blank(buffer)) {
+                     if(!BlankContent(buffer)) {
                         if((newtype = search_name_to_type(buffer)) == NOTHING) {
                            if(match->options & MATCH_OPTION_NOTIFY)
                               output(getdsc(match->owner),match->owner,0,1,2,ANSI_LGREEN"Sorry, the object type '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown.",buffer);
@@ -859,7 +859,7 @@ void match_query(CONTEXT)
               for(dest = querybuf; *arg2 && !((*arg2 == ';') || (*arg2 == ',')); *dest++ = *arg2++);
 	      for(*dest-- = '\0'; (dest >= querybuf) && (*dest == ' '); *dest-- = '\0');
 
-              if(!Blank(querybuf)) {
+              if(!BlankContent(querybuf)) {
                  if((preftype = search_name_to_type(querybuf)) == NOTHING)
                     output(getdsc(player),player,0,1,2,ANSI_LGREEN"Sorry, the preferred object type '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown.",querybuf);
 	               else preftypes |= (type_to_search[preftype]);

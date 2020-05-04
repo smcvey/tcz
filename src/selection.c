@@ -841,7 +841,7 @@ void selection_for(CONTEXT)
      for(; *params && (*params == ' '); params++);
      for(ptr = scratch_return_string; *params && (*params != ' '); *ptr++ = *params, params++);
      *ptr = '\0';
-     if(Blank(scratch_return_string)) {
+     if(BlankContent(scratch_return_string)) {
         output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify "ANSI_LYELLOW""ANSI_UNDERLINE"<FROM VALUE>"ANSI_LGREEN".");
         return;
      }
@@ -863,7 +863,7 @@ void selection_for(CONTEXT)
      while(*params && (*params == ' ')) params++;
      for(ptr = scratch_return_string; *params && (*params != ' '); *ptr++ = *params, params++);
      *ptr = '\0';
-     if(Blank(scratch_return_string)) {
+     if(BlankContent(scratch_return_string)) {
         output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify "ANSI_LYELLOW""ANSI_UNDERLINE"<TO VALUE>"ANSI_LGREEN".");
         return;
      }
@@ -877,7 +877,7 @@ void selection_for(CONTEXT)
         for(params += 4; *params && (*params == ' '); params++);
         for(ptr = scratch_return_string; *params && (*params != ' '); *ptr++ = *params, params++);
         *ptr = '\0';
-        if(Blank(scratch_return_string)) {
+        if(BlankContent(scratch_return_string)) {
            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify "ANSI_LYELLOW""ANSI_UNDERLINE"<STEP VALUE>"ANSI_LGREEN".");
            return;
 	}
