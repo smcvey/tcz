@@ -1436,7 +1436,7 @@ void delete_object(dbref object,unsigned char update,unsigned char queue)
                           /* ---->  Reset partner  <---- */
                           if(((dest->flags & MARRIED) || (dest->flags & ENGAGED)) && Validchar(dest->data->player.controller))
                              db[dest->data->player.controller].flags &= ~(MARRIED|ENGAGED);
-                          FREENULL(/* (char *) */ dest->data->player.password);
+                          FREENULL(dest->data->player.password);
 
                           /* ---->  Free character's list of aliases  <---- */
                           if(dest->data->player.aliases) {
@@ -1563,15 +1563,15 @@ void delete_object(dbref object,unsigned char update,unsigned char queue)
 
            /* ---->  Free object's fields  <---- */
            FREENULL(/* (char *) */ dest->name);
-           if((Fields(dest->type) & DESC)  != 0) FREENULL(/* (char *) */ dest->data->standard.desc);
-           if((Fields(dest->type) & DROP)  != 0) FREENULL(/* (char *) */ dest->data->standard.drop);
-           if((Fields(dest->type) & FAIL)  != 0) FREENULL(/* (char *) */ dest->data->standard.fail);
-           if((Fields(dest->type) & SUCC)  != 0) FREENULL(/* (char *) */ dest->data->standard.succ);
-           if((Fields(dest->type) & ODESC) != 0) FREENULL(/* (char *) */ dest->data->standard.odesc);
-           if((Fields(dest->type) & ODROP) != 0) FREENULL(/* (char *) */ dest->data->standard.odrop);
-           if((Fields(dest->type) & OFAIL) != 0) FREENULL(/* (char *) */ dest->data->standard.ofail);
-           if((Fields(dest->type) & OSUCC) != 0) FREENULL(/* (char *) */ dest->data->standard.osucc);
-           FREENULL(/* (union db_extra_data *) */ dest->data);
+           if((Fields(dest->type) & DESC)  != 0) FREENULL(dest->data->standard.desc);
+           if((Fields(dest->type) & DROP)  != 0) FREENULL(dest->data->standard.drop);
+           if((Fields(dest->type) & FAIL)  != 0) FREENULL(dest->data->standard.fail);
+           if((Fields(dest->type) & SUCC)  != 0) FREENULL(dest->data->standard.succ);
+           if((Fields(dest->type) & ODESC) != 0) FREENULL(dest->data->standard.odesc);
+           if((Fields(dest->type) & ODROP) != 0) FREENULL(dest->data->standard.odrop);
+           if((Fields(dest->type) & OFAIL) != 0) FREENULL(dest->data->standard.ofail);
+           if((Fields(dest->type) & OSUCC) != 0) FREENULL(dest->data->standard.osucc);
+           FREENULL(dest->data);
      }
 
      /* ---->  Remove object from physical database and add to free chain  <---- */

@@ -2017,7 +2017,7 @@ void admin_newpassword(CONTEXT)
 
                        gettime(db[character].data->player.pwexpiry);
                        if(Controller(character) != player) writelog(ADMIN_LOG,1,"PASSWORD","%s(#%d) changed %s(#%d)'s password.",getname(player),player,getname(character),character);
-                       FREENULL(/* (char *) */ db[character].data->player.password);
+                       FREENULL(db[character].data->player.password);
 #ifdef CYGWIN32
                        db[character].data->player.password = (char *) alloc_string(scratch_buffer);
 #else
