@@ -144,11 +144,6 @@ void comms_afk(CONTEXT)
                      d->flags2     &= ~(SENT_AUTO_AFK);
                      d->clevel      =  14;
                      if(d != p) prompt_display(d);
-#ifdef QMW_RESEARCH
-		     qmwlogsocket("AFK:%d:%d:%d",
-				  player, privilege(player,255),
-				  db[player].location);
-#endif /* #ifdef QMW_RESEARCH */
 		  }
 
               if(!Invisible(db[player].location) && !Quiet(db[player].location))
@@ -186,11 +181,6 @@ void comms_ask(CONTEXT)
         if(!Blank(params)) {
            output(getdsc(player),player,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"ask",'?',NONE,PLAYER - 2,params,2,DEFINITE));
            output_except(db[player].location,player,NOTHING,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"asks",'?',NONE,OTHERS - 2,params,2,DEFINITE));
-#ifdef QMW_RESEARCH
-	   qmwlogsocket("ASK:%d:%d:%d:%s",
-			player, privilege(player,255),
-			db[player].location,params);
-#endif /* #ifdef QMW_RESEARCH */
            setreturn(OK,COMMAND_SUCC);
 	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What question would you like to ask?");
      } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, this is a quiet %s  -  You can't ask questions in here.",(Typeof(db[player].location) == TYPE_ROOM) ? "room":"container");
@@ -670,11 +660,6 @@ void comms_pose(CONTEXT)
      if(!Quiet(db[player].location)) {
         if(!Blank(params)) {
            output_except(Location(player),NOTHING,NOTHING,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"",'.',1,OTHERS,params,2,DEFINITE));
-#ifdef QMW_RESEARCH
-	   qmwlogsocket("EMOTE:%d:%d:%d:%s",
-			player, privilege(player,255),
-			db[player].location,params);
-#endif /* #ifdef QMW_RESEARCH */
            setreturn(OK,COMMAND_SUCC);
 	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What action/pose would you like to do?");
      } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, this is a quiet %s  -  You can't emote in here.",(Typeof(db[player].location) == TYPE_ROOM) ? "room":"container");
@@ -691,11 +676,6 @@ void comms_say(CONTEXT)
         if(!Blank(params)) {
            output(getdsc(player),player,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"",'.',NONE,PLAYER,params,2,DEFINITE));
            output_except(db[player].location,player,NOTHING,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"",'.',NONE,OTHERS,params,2,DEFINITE));
-#ifdef QMW_RESEARCH
-	   qmwlogsocket("SAY:%d:%d:%d:%s",
-			player, privilege(player,255),
-			db[player].location,params);
-#endif /* #ifdef QMW_RESEARCH */
            setreturn(OK,COMMAND_SUCC);
 	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What would you like to say?");
      } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, this is a quiet %s  -  You can't talk in here.",(Typeof(db[player].location) == TYPE_ROOM) ? "room":"container");
@@ -826,11 +806,6 @@ void comms_think(CONTEXT)
         if(!Blank(params)) {
            output(getdsc(player),player,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"",'.',2,PLAYER,params,2,DEFINITE));
            output_except(db[player].location,player,NOTHING,0,1,2,"%s",construct_message(player,ANSI_LWHITE,(in_command) ? ANSI_LCYAN:ANSI_DWHITE,"",'.',2,OTHERS,params,2,DEFINITE));
-#ifdef QMW_RESEARCH
-	   qmwlogsocket("THINK:%d:%d:%d:%s",
-			player, privilege(player,255),
-			db[player].location,params);
-#endif /* #ifdef QMW_RESEARCH */
            setreturn(OK,COMMAND_SUCC);
 	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What thought would you like to share with everyone in the room?");
      } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, this is a quiet %s  -  You can't share your thoughts in here.",(Typeof(db[player].location) == TYPE_ROOM) ? "room":"container");
@@ -936,14 +911,6 @@ void comms_whisper(CONTEXT)
                              substitute(player,scratch_return_string,punctuate((char *) arg2,1,'\0'),0,ANSI_LWHITE,NULL,0);
                              output(getdsc(player),player,0,1,2,ANSI_LCYAN"You whisper \"%s"ANSI_LCYAN"\" to %s"ANSI_LWHITE"%s"ANSI_LCYAN".",scratch_return_string,Article(target,LOWER,DEFINITE),getcname(NOTHING,target,0,0));
                              command_type &= ~COMM_CMD;
-#ifdef QMW_RESEARCH
-			     qmwlogsocket("WHISPER:%d:%d:%d:%d:%d:%d:%s",
-					  player, privilege(player,255),
-					  db[player].location,
-					  target,  privilege(target,255),
-					  db[target].location,
-					  (char *)arg2);
-#endif /* #ifdef QMW_RESEARCH */
 
                              if(!Moron(player) || Quiet(db[player].location)) {
                                 output(getdsc(target),target,0,1,2,ANSI_LCYAN"%s"ANSI_LWHITE"%s"ANSI_LCYAN" whispers \"%s"ANSI_LCYAN"\" to you.",Article(player,UPPER,DEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
@@ -1036,11 +1003,6 @@ void comms_yell(CONTEXT)
 
                     output(getdsc(player),player,0,1,2,"%s%s",construct_message(player,ANSI_LWHITE,ANSI_LGREEN,"yell",'\0',0,PLAYER - 2,params,0,DEFINITE),buffer);
                     command_type &= ~COMM_CMD;
-#ifdef QMW_RESEARCH
-		    qmwlogsocket("YELL:%d:%d:%d:%s",
-				 player, privilege(player,255),
-				 db[player].location,params);
-#endif /* #ifdef QMW_RESEARCH */
                     setreturn(OK,COMMAND_SUCC);
 		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What message would you like to yell?");
 	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"You yell as loud as you can, but the walls just seem to swallow up your words.");

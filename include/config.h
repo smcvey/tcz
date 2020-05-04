@@ -229,10 +229,6 @@
 
                                         The cause is unknown at present.  */
 
-#undef  QMW_RESEARCH         /*  Enables changes made to TCZ for research
-                                 purposes (Computer Science, Queen Mary,
-                                 University of London, UK.)  */
-
 #define RESTRICT_MEMORY      /*  When defined, maximum memory usage by TCZ
                                  will be restricted.  The stack will be
                                  restricted to LIMIT_STACK and the data/

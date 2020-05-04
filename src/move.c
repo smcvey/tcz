@@ -85,12 +85,6 @@ unsigned char move_to(dbref source,dbref destination)
 
 	 switch(Typeof(source)) {
 		case TYPE_CHARACTER:
-#ifdef QMW_RESEARCH
-		  qmwlogsocket("MOVE:%d:%d:%d:%d",
-			       source, privilege(source,255),
-			       db[source].location,
-			       destination);
-#endif /* #ifdef QMW_RESEARCH */
 		case TYPE_THING:
 		case TYPE_ROOM:
 		     if(!Valid(destination)) return(0);

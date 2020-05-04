@@ -243,7 +243,6 @@ SRC = \
 	preferences.c \
 	primary_flags.c \
 	prompt.c \
-        qmwlogsocket.c \
         query.c \
 	quota.c \
         request.c \

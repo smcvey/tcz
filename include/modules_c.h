@@ -447,13 +447,6 @@
         "JPB | Y | 02/10/2000 | NULL >>>"
 
 
-/* ---->  From qmwlogsocket.c  <---- */
-#define module_qmwlogsocket_c_date "20/08/2001"
-#define module_qmwlogsocket_c_desc "Log to a unix domain socket (QMW research)"
-#define module_qmwlogsocket_c_authors \
-        "SAB | Y | 20/08/2001 | NULL >>>"
-
-
 /* ---->  From query.c  <---- */
 #define module_query_c_date "21/12/1993"
 #define module_query_c_desc "'{@?query}' commands"

@@ -1913,24 +1913,10 @@ void admin_chat(CONTEXT)
 {
      struct descriptor_data *d;
      const  char *title;
-#ifdef QMW_RESEARCH
-     int qmwpose = 0; /* place to store pose for qmwlogsocket */
-     char *qmwposestr[3] = { "STD", "EMOTE", "THINK" };
-     int qmwparams = 0; /* shift in params to loose any pose char */ 
-#endif /* #ifdef QMW_RESEARCH */
 
      setreturn(ERROR,COMMAND_FAIL);
      if(Level4(db[player].owner)) {
         if(!Blank(params)) {
-#ifdef QMW_RESEARCH
-	  /* ----> Save pose and params shift for qmwlogsocket() later */
-	  if(*params && ((*params == *POSE_TOKEN) || (*params == *ALT_POSE_TOKEN)))
-	    qmwpose = 1;
-	  else if(*params && ((*params == *THINK_TOKEN) || (*params == *ALT_THINK_TOKEN)))
-	    qmwpose = 2;
-	  if (qmwpose > 0) 
-	    qmwparams = 1;
-#endif /* #ifdef QMW_RESEARCH */
            if(!Quiet(player)) {
               if(!Level1(player)) {
                  if(Level2(player)) {
@@ -1965,16 +1951,6 @@ void admin_chat(CONTEXT)
               for(d = descriptor_list; d; d = d->next)
 		if((d->flags & CONNECTED) && Validchar(d->player) && (d->player != player) && Level4(d->player) && !Quiet(d->player)) {
                      output(d,d->player,0,1,0,"%s",scratch_buffer);
-#ifdef QMW_RESEARCH
-		     qmwlogsocket("NAT:%s:%d:%d:%d:%d:%d:%d:%s",
-				  
-				  qmwposestr[qmwpose],
-				  player, privilege(player,255),
-				  db[player].location,
-				  d->player,  privilege(d->player,255),
-				  db[d->player].location,
-				  (char *)(params+qmwparams));
-#endif /* #ifdef QMW_RESEARCH */
 		}
               wrap_leading = 0;
               setreturn(OK,COMMAND_SUCC);

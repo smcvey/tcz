@@ -296,11 +296,6 @@ void pagetell_send(CONTEXT)
      dbref                    who;
      time_t                   now;
      char                     *p2;
-#ifdef QMW_RESEARCH
-     int qmwpose = 0; /* place to store pose for qmwlogsocket */
-     char *qmwposestr[3] = { "STD", "EMOTE", "THINK" };
-     int qmwarg2 = 0; /* shift in arg2 to loose any pose char */ 
-#endif /* #ifdef QMW_RESEARCH */
 
      setreturn(ERROR,COMMAND_FAIL);
      comms_spoken(player,1);
@@ -573,17 +568,6 @@ void pagetell_send(CONTEXT)
 	} else {
 
            /* ---->  Tell/page message  <---- */
-
-#ifdef QMW_RESEARCH
-	  /* ----> Save pose and arg2 shift for qmwlogsocket() later */
-	  if(*arg2 && ((*arg2 == *POSE_TOKEN) || (*arg2 == *ALT_POSE_TOKEN)))
-	    qmwpose = 1;
-	  else if(*arg2 && ((*arg2 == *THINK_TOKEN) || (*arg2 == *ALT_THINK_TOKEN)))
-	    qmwpose = 2;
-	  if (qmwpose > 0) 
-	    qmwarg2 = 1;
-#endif /* #ifdef QMW_RESEARCH */
-
            if(val1) {
 
               /* ---->  'Emoted'/'thought' tell?  <---- */
@@ -625,15 +609,6 @@ void pagetell_send(CONTEXT)
 			      *(str_data.dest) = '\0';
 			   }
 			   output(getdsc(who),who,0,1,2,"%s",buffer);
-#ifdef QMW_RESEARCH
-			   qmwlogsocket("PAGETELL:SAMEROOM:%s:%d:%d:%d:%d:%d:%d:%s",
-					qmwposestr[qmwpose],
-					player, privilege(player,255),
-					db[player].location,
-					who, privilege(who,255),
-					db[who].location,
-					(char *)(arg2+qmwarg2));
-#endif /* #ifdef QMW_RESEARCH */
 			}
 		     }
 		 }
@@ -657,15 +632,6 @@ void pagetell_send(CONTEXT)
                      pagetell_store_message(ptr->player,player,now,buffer,1);
                      output(getdsc(ptr->player),ptr->player,0,1,2,"%s",buffer);
                      command_execute_action(ptr->player,NOTHING,".tell",NULL,getname(player),arg2,arg2,0);
-#ifdef QMW_RESEARCH
-		     qmwlogsocket("PAGETELL:TELL:%s:%d:%d:%d:%d:%d:%d:%s",
-				  qmwposestr[qmwpose],
-				  player, privilege(player,255),
-				  db[player].location,
-				  ptr->player,  privilege(ptr->player,255),
-				  db[ptr->player].location,
-				  (char *)(arg2+qmwarg2));
-#endif /* #ifdef QMW_RESEARCH */
 	          }
               command_type &= ~COMM_CMD;
 	   } else {
@@ -697,15 +663,6 @@ void pagetell_send(CONTEXT)
                      output(getdsc(ptr->player),ptr->player,0,1,2,"");
                      output(getdsc(ptr->player),ptr->player,0,1,2,"%s",buffer);
                      command_execute_action(ptr->player,NOTHING,".page",NULL,getname(player),arg2,arg2,0);
-#ifdef QMW_RESEARCH
-		     qmwlogsocket("PAGETELL:PAGE:%s:%d:%d:%d:%d:%d:%d:%s",
-				  qmwposestr[qmwpose],
-				  player, privilege(player,255),
-				  db[player].location,
-				  ptr->player,  privilege(ptr->player,255),
-				  db[ptr->player].location,
-				  (char *)(arg2+qmwarg2));
-#endif /* #ifdef QMW_RESEARCH */
 		  }
               command_type &= ~COMM_CMD;
               if(!in_command) output(p,player,0,1,0,ANSI_LGREEN"Message sent to %s.",pagetell_construct_list(player,player,(union group_data *) head,listsize - blocked,scratch_return_string,ANSI_LWHITE,ANSI_LGREEN,0,targetgroup,DEFINITE));

@@ -871,10 +871,6 @@ extern  void            prompt_user_input       (struct descriptor_data *d,char 
 extern  int             prompt_user             (dbref player,const char *prompt,const char *promptmsg,const char *defaultval,const char *blankmsg,const char *incmdmsg,const char *command,int setarg,const char *params,const char *arg1,const char *arg2,const char *arg3);
 
 
-/* ---->  From qmwlogsocket.c <---- */
-extern  int		qmwlogsocket		(const char *fmt,...);
-
-
 /* ---->  From query.c  <---- */
 extern  char            querybuf                [BUFFER_LEN];
 extern  dbref           query_find_object       (dbref player,const char *name,int preferred,unsigned char need_control,unsigned char private);
