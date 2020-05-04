@@ -355,26 +355,26 @@ unsigned char will_fit(dbref victim,dbref destination)
 		     switch(Typeof(destination)) {
 			    case TYPE_THING:
 				 if((!Container(destination))
-				    || ((destination_volume != INFINITY)
-				    && ((contents_of_dest_volume == INFINITY)
+				    || ((destination_volume != TCZ_INFINITY)
+				    && ((contents_of_dest_volume == TCZ_INFINITY)
 				    || ((victim_volume + contents_of_dest_volume) < 0)
 				    || ((victim_volume + contents_of_dest_volume) >= destination_volume))))
 				       return(0);
 				 break;
 			    case TYPE_ROOM:
-				 if(((destination_volume !=INFINITY)
-				    && ((contents_of_dest_mass == INFINITY)
+				 if(((destination_volume !=TCZ_INFINITY)
+				    && ((contents_of_dest_mass == TCZ_INFINITY)
 				    || ((victim_volume + contents_of_dest_volume) < 0) 
 				    || ((victim_volume + contents_of_dest_volume) >= destination_volume)))
-				    || ((destination_mass != INFINITY)
-				    && ((contents_of_dest_volume == INFINITY) 
+				    || ((destination_mass != TCZ_INFINITY)
+				    && ((contents_of_dest_volume == TCZ_INFINITY) 
 				    || ((victim_mass + contents_of_dest_mass) < 0) 
 				    || ((victim_mass + contents_of_dest_mass) >= destination_mass))))
 				       return(0);
 				 break;
 			    case TYPE_CHARACTER:
-				 if(Level3(destination) || (destination_volume == INFINITY)) return(1);
-				 if((victim_volume == INFINITY)
+				 if(Level3(destination) || (destination_volume == TCZ_INFINITY)) return(1);
+				 if((victim_volume == TCZ_INFINITY)
 				    || ((victim_volume + contents_of_dest_volume) >= destination_volume * 2)
 				    || (victim_volume >= destination_volume)
 				    || ((victim_mass + contents_of_dest_mass) > (STANDARD_CHARACTER_STRENGTH / 10)))
@@ -399,15 +399,15 @@ unsigned char will_fit(dbref victim,dbref destination)
 		     switch(Typeof(destination)) {
 			    case TYPE_THING:
 				 if((!Container(destination))
-				    || ((destination_volume != INFINITY)
+				    || ((destination_volume != TCZ_INFINITY)
 				    && ((victim_volume + contents_of_dest_volume) >= destination_volume)))
 				       return(0);
 				 break;
 				 /*  Fall through  */
 			    case TYPE_ROOM:
-				 if(((destination_volume != INFINITY)
+				 if(((destination_volume != TCZ_INFINITY)
 				    && ((victim_volume + contents_of_dest_volume) >= destination_volume))
-				    || ((destination_mass != INFINITY)
+				    || ((destination_mass != TCZ_INFINITY)
 				    && ((victim_mass + contents_of_dest_mass) >= destination_mass)))
 				       return(0);
 				 break;
@@ -433,7 +433,7 @@ int find_volume_of_contents(dbref thing,unsigned char level)
        if(HasField(object,VOLUME) && (Typeof(object) != TYPE_ROOM)) {
           total_volume += get_mass_or_volume(object,1);
           if(Typeof(object) == TYPE_CHARACTER) total_volume += find_volume_of_contents(object,level + 1);
-          if(total_volume < 0) return(INFINITY);
+          if(total_volume < 0) return(TCZ_INFINITY);
        }
        getnext(object,CONTENTS,currentobj);
     } while(Valid(object));
@@ -451,7 +451,7 @@ int find_mass_of_contents(dbref thing,unsigned char level)
     if(Valid(object)) do {
        if(HasField(object,MASS) && (Typeof(object) != TYPE_ROOM)) {
           total_mass += get_mass_or_volume(object,0) + find_mass_of_contents(object,level + 1);
-          if(total_mass < 0) return(INFINITY);
+          if(total_mass < 0) return(TCZ_INFINITY);
        }
        getnext(object,CONTENTS,currentobj);
     } while(Valid(object));

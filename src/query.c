@@ -863,7 +863,7 @@ void query_insert(CONTEXT)
      if(!((arg.count < 4) || ((arg.numb[1] <= 0) && (arg.numb[1] != LAST) && (arg.numb[1] != END)) || Blank(arg.text[2]))) {
         ptr = arg.text[3], *temp = '\0';
         if(Blank(ptr)) arg.numb[1] = 1;
-           else if(arg.numb[1] == END) arg.numb[1] = INFINITY;
+           else if(arg.numb[1] == END) arg.numb[1] = TCZ_INFINITY;
 
         while(*ptr) {
 
@@ -1252,7 +1252,7 @@ void query_next(CONTEXT)
      if(!Blank(arg2)) {
         if(!strcasecmp(arg2,"FIRST")) count = 1;
            else if(!strcasecmp(arg2,"LAST")) {
-              count = INFINITY;
+              count = TCZ_INFINITY;
               last  = 1;
 	   } else {
               count = atol(arg2);
@@ -1369,7 +1369,7 @@ void query_object(CONTEXT)
      if(!Blank(arg2)) {
         if(!strcasecmp(arg2,"FIRST")) count = 1;
            else if(!strcasecmp(arg2,"LAST")) {
-              count = INFINITY;
+              count = TCZ_INFINITY;
               last  = 1;
 	   } else {
               count = atol(arg2);
@@ -1862,7 +1862,7 @@ void query_quotalimit(CONTEXT)
 {
      dbref character = query_find_character(player,params,0);
      if(!Validchar(character)) return;
-     sprintf(querybuf,"%ld",(!Level4(character)) ? db[character].data->player.quotalimit:INFINITY);
+     sprintf(querybuf,"%ld",(!Level4(character)) ? db[character].data->player.quotalimit:TCZ_INFINITY);
      setreturn(querybuf,COMMAND_SUCC);
 }
 

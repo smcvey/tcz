@@ -1382,14 +1382,14 @@ void set_mass(CONTEXT)
      thing = match_preferred(player,player,arg1,MATCH_PHASE_KEYWORD,MATCH_PHASE_GLOBAL,SEARCH_ALL,SEARCH_PREFERRED,MATCH_OPTION_DEFAULT);
      if(!Valid(thing)) return;
 
-     if(string_prefix("infinity",arg2) || string_prefix("infinite",arg2) || (ABS(atol(arg2)) >= INFINITY)) {
+     if(string_prefix("infinity",arg2) || string_prefix("infinite",arg2) || (ABS(atol(arg2)) >= TCZ_INFINITY)) {
         if(!Level4(db[player].owner)) {
            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may set the mass of %s to infinity.",object_type(thing,1));
            return;
 	} else if(Typeof(thing) == TYPE_THING) {
            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the mass of a thing cannot be set to "ANSI_LWHITE"INFINITY"ANSI_LGREEN".");
            return;
-	} else mass = INFINITY;
+	} else mass = TCZ_INFINITY;
      } else mass = (string_prefix("inheritable",arg2)) ? INHERIT:ABS(atol(arg2));
 
      if((Typeof(thing) != TYPE_CHARACTER) || !in_command || Wizard(current_command)) {
@@ -1417,7 +1417,7 @@ void set_mass(CONTEXT)
                                       if(Valid(db[thing].parent)) sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LGREEN" from %s"ANSI_LYELLOW"%s"ANSI_LGREEN".",Article(db[thing].parent,LOWER,INDEFINITE),getcname(player,db[thing].parent,1,0));
                                       output(getdsc(player),player,0,1,0,"%s",scratch_buffer);
                                       break;
-                                 case INFINITY:
+                                 case TCZ_INFINITY:
                                       output(getdsc(player),player,0,1,0,ANSI_LGREEN"Mass%s of %s"ANSI_LWHITE"%s"ANSI_LGREEN" set to "ANSI_LYELLOW"INFINITY"ANSI_LGREEN".",(Typeof(thing) == TYPE_ROOM) ? " limit":"",Article(thing,LOWER,DEFINITE),getcname(player,thing,1,0));
                                       break;
                                  default:
@@ -2770,11 +2770,11 @@ void set_volume(CONTEXT)
      thing = match_preferred(player,player,arg1,MATCH_PHASE_KEYWORD,MATCH_PHASE_GLOBAL,SEARCH_ALL,SEARCH_PREFERRED,MATCH_OPTION_DEFAULT);
      if(!Valid(thing)) return;
 
-     if(string_prefix("infinity",arg2) || string_prefix("infinite",arg2) || (ABS(atol(arg2)) >= INFINITY)) {
+     if(string_prefix("infinity",arg2) || string_prefix("infinite",arg2) || (ABS(atol(arg2)) >= TCZ_INFINITY)) {
         if(!Level4(db[player].owner)) {
            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may set the volume of %s to infinity.",object_type(thing,1));
            return;
-	} else volume = INFINITY;
+	} else volume = TCZ_INFINITY;
      } else volume = (string_prefix("inheritable",arg2)) ? INHERIT:ABS(atol(arg2));
 
      if((Typeof(thing) != TYPE_CHARACTER) || !in_command || Wizard(current_command)) {
@@ -2805,7 +2805,7 @@ void set_volume(CONTEXT)
                                          if(Valid(db[thing].parent)) sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LGREEN" from %s"ANSI_LYELLOW"%s"ANSI_LGREEN".",Article(db[thing].parent,LOWER,INDEFINITE),unparse_object(player,db[thing].parent,0)); 
                                          output(getdsc(player),player,0,1,0,"%s",scratch_buffer);
                                          break;
-                                    case INFINITY:
+                                    case TCZ_INFINITY:
                                          output(getdsc(player),player,0,1,0,ANSI_LGREEN"Volume%s of %s"ANSI_LWHITE"%s"ANSI_LGREEN" set to "ANSI_LYELLOW"INFINITY"ANSI_LGREEN".",(Typeof(thing) == TYPE_ROOM) ? " limit":"",Article(thing,LOWER,DEFINITE),getcname(player,thing,1,0));
                                          break;
                                     default:

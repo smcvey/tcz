@@ -1604,8 +1604,8 @@ void db_create(void)
 	db[room].flags  |=  (ABODE|QUIET|HAVEN|INVISIBLE);
 	db[room].flags2 |=  SECURE;
 	db[room].flags2 &= ~(WARP|VISIT);
-	db[room].data->room.mass   = INFINITY;
-	db[room].data->room.volume = INFINITY;
+	db[room].data->room.mass   = TCZ_INFINITY;
+	db[room].data->room.volume = TCZ_INFINITY;
 	writelog(SERVER_LOG,0,"RESTART","Created room #%d (The Junkpile.)",room);
      } else {
         writelog(SERVER_LOG,0,"RESTART","Unable to create required room #%d (The Junkpile.)",ROOMZERO);
@@ -3773,8 +3773,8 @@ dbref db_read_object(FILE *f,dbref i,int version)
                  if((version < 54) && !RoomZero(i) && !Start(i) && !Global(i)) o->flags2 |= (WARP|VISIT);
                  if(RoomZero(i)) {
                     db[i].flags2           |= SECURE;
-                    db[i].data->room.mass   = INFINITY;
-                    db[i].data->room.volume = INFINITY;
+                    db[i].data->room.mass   = TCZ_INFINITY;
+                    db[i].data->room.volume = TCZ_INFINITY;
                  }
                  if(Global(i))   db[i].flags2 |=  SECRET;
                  if(Sendhome(i)) db[i].flags2 &= ~SENDHOME;

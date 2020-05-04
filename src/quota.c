@@ -61,7 +61,7 @@ int maxquotalimit[6] =
     /*  <= Mortal                */  0,  /*  Mortals/Morons can't set quota limit  */
     /*  Apprentice Wizard/Druid  */  500,
     /*  Wizard/Druid             */  1000,
-    /*  Elder Wizard/Druid       */  INFINITY,
-    /*  Deity                    */  INFINITY,
-    /*  Supreme Being            */  INFINITY,
+    /*  Elder Wizard/Druid       */  TCZ_INFINITY,
+    /*  Deity                    */  TCZ_INFINITY,
+    /*  Supreme Being            */  TCZ_INFINITY,
 };

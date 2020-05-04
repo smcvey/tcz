@@ -1346,7 +1346,7 @@ int digit_wrap(int offset,int value)
 /* ---->  Convert given string to floating point number (Now supports rounding to given number of D.P's by using <DP>:<NUMBER>)  <---- */
 double tofloat(const char *str,char *dps)
 {
-       int           count,negate = 0,dp = INFINITY;
+       int           count,negate = 0,dp = TCZ_INFINITY;
        double        temp,result  = 0;
        unsigned char dp_spec      = 0;
        static   char buffer[17];

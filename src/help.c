@@ -546,7 +546,7 @@ int help_display_topic(struct descriptor_data *d,struct helptopic *topic,unsigne
 struct helptopic *help_match_topic(const char *topic,int help)
 {
      struct helptopic *pos,*local,*generic,*pnearest = NULL,*inearest = NULL;
-     int    plen = INFINITY,ilen = INFINITY,clen,len,temp;
+     int    plen = TCZ_INFINITY,ilen = TCZ_INFINITY,clen,len,temp;
 
      local   = (help) ? localhelp:localtutorials;
      generic = (help) ? generichelp:generictutorials;

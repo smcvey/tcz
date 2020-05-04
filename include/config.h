@@ -438,10 +438,10 @@
 
 
 /* ---->  Standard object mass  <---- */
-#define STANDARD_CHARACTER_MASS        70        /*  Starting mass of character (Kg)  */
-#define STANDARD_THING_MASS            1         /*  Starting mass of thing (Kg)  */
-#define STANDARD_ROOM_MASS             INFINITY  /*  Starting mass of room (Kg)  */
-#define STANDARD_MASS                  0         /*  Starting mass of all other objects (Kg)  */
+#define STANDARD_CHARACTER_MASS        70            /*  Starting mass of character (Kg)  */
+#define STANDARD_THING_MASS            1             /*  Starting mass of thing (Kg)  */
+#define STANDARD_ROOM_MASS             TCZ_INFINITY  /*  Starting mass of room (Kg)  */
+#define STANDARD_MASS                  0             /*  Starting mass of all other objects (Kg)  */
 
 
 /* ---->  Reserved database objects  <---- */

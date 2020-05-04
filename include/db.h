@@ -69,7 +69,7 @@
 #define UNSET_DATE      0xFFFFFFFF
 #define OPTCONTEXT      dbref player,const char *title,const char *value,int status,int *error,int *critical
 #define OPTSTATUS       NOTHING,NULL,NULL,1,NULL,NULL
-#define INFINITY        0x7FFFFFFF
+#define TCZ_INFINITY    0x7FFFFFFF
 #define SITEMASK        0xFFFFFFFF
 #define CONTEXT         dbref player, char *params, char *arg0, char *arg1, char *arg2, int val1, int val2
 #define NOTINT          0x80000000

@@ -2085,15 +2085,15 @@ void stats_rank(CONTEXT)
                               case RANK_QUOTAEXCESS:
 
                                    /* ---->  Building Quota excess  <---- */
-                                   if((db[current->object].data->player.quota - (Level4(current->object) ? INFINITY:db[current->object].data->player.quotalimit)) == (db[ptr].data->player.quota - (Level4(ptr) ? INFINITY:db[ptr].data->player.quotalimit))) found = 1;
-                                      else if((db[current->object].data->player.quota - (Level4(current->object) ? INFINITY:db[current->object].data->player.quotalimit)) < (db[ptr].data->player.quota - (Level4(ptr) ? INFINITY:db[ptr].data->player.quotalimit))) comparison = 1;
+                                   if((db[current->object].data->player.quota - (Level4(current->object) ? TCZ_INFINITY:db[current->object].data->player.quotalimit)) == (db[ptr].data->player.quota - (Level4(ptr) ? TCZ_INFINITY:db[ptr].data->player.quotalimit))) found = 1;
+                                      else if((db[current->object].data->player.quota - (Level4(current->object) ? TCZ_INFINITY:db[current->object].data->player.quotalimit)) < (db[ptr].data->player.quota - (Level4(ptr) ? TCZ_INFINITY:db[ptr].data->player.quotalimit))) comparison = 1;
                                          else comparison = -1;
                                    break;
                               case RANK_QUOTALIMIT:
 
                                    /* ---->  Building Quota limit  <---- */
-                                   if((Level4(current->object) ? INFINITY:db[current->object].data->player.quotalimit) == (Level4(ptr) ? INFINITY:db[ptr].data->player.quotalimit)) found = 1;
-                                      else if((Level4(current->object) ? INFINITY:db[current->object].data->player.quotalimit) < (Level4(ptr) ? INFINITY:db[ptr].data->player.quotalimit)) comparison = 1;
+                                   if((Level4(current->object) ? TCZ_INFINITY:db[current->object].data->player.quotalimit) == (Level4(ptr) ? TCZ_INFINITY:db[ptr].data->player.quotalimit)) found = 1;
+                                      else if((Level4(current->object) ? TCZ_INFINITY:db[current->object].data->player.quotalimit) < (Level4(ptr) ? TCZ_INFINITY:db[ptr].data->player.quotalimit)) comparison = 1;
                                          else comparison = -1;
                                    break;
                               case RANK_SCORE:
@@ -2630,8 +2630,8 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                         case RANK_QUOTA:
 
                              /* ---->  Building quota excess/limit/currently in use  <---- */
-                             if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,(Level4(grp->cunion->list.player) ? INFINITY:db[grp->cunion->list.player].data->player.quotalimit),colour,db[grp->cunion->list.player].data->player.quota - (Level4(grp->cunion->list.player) ? INFINITY:db[grp->cunion->list.player].data->player.quotalimit));
-                                else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12d%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,(Level4(grp->cunion->list.player) ? INFINITY:db[grp->cunion->list.player].data->player.quotalimit),db[grp->cunion->list.player].data->player.quota - (Level4(grp->cunion->list.player) ? INFINITY:db[grp->cunion->list.player].data->player.quotalimit));
+                             if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,(Level4(grp->cunion->list.player) ? TCZ_INFINITY:db[grp->cunion->list.player].data->player.quotalimit),colour,db[grp->cunion->list.player].data->player.quota - (Level4(grp->cunion->list.player) ? TCZ_INFINITY:db[grp->cunion->list.player].data->player.quotalimit));
+                                else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12d%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,(Level4(grp->cunion->list.player) ? TCZ_INFINITY:db[grp->cunion->list.player].data->player.quotalimit),db[grp->cunion->list.player].data->player.quota - (Level4(grp->cunion->list.player) ? TCZ_INFINITY:db[grp->cunion->list.player].data->player.quotalimit));
                              break;
                         case RANK_SCORE:
 

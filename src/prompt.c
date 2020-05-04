@@ -170,7 +170,7 @@ void prompt_display(struct descriptor_data *d)
                          output(d,d->player,0,1,0,REACCEPT_DISCLAIMER_PROMPT,tcz_full_name,tcz_short_name,tcz_short_name);
                          if(d->clevel == 30) {
                             output(d,d->player,2,0,0,"\n"SIMPLE_PAGER_PROMPT""ANSI_DWHITE" ");
-                            d->page = INFINITY;
+                            d->page = TCZ_INFINITY;
 			 }
 		      }
 		   } else d->page = 0;
@@ -309,7 +309,7 @@ void prompt_display(struct descriptor_data *d)
      }
 
      if(d->clevel == 30) {
-        if(d->page != INFINITY) {  /*  Required for re-accept disclaimer prompt  */
+        if(d->page != TCZ_INFINITY) {  /*  Required for re-accept disclaimer prompt  */
 
            /* ---->  {J.P.Boggis 17/06/2001}  Simple 'more' pager (Optionally used by disclaimer and/or title screens at login)  <---- */
 	   int   line,page,pos,firstpage = 0,pageadjust = 0;
@@ -388,12 +388,12 @@ void prompt_display(struct descriptor_data *d)
 		    } else ptr = buffer;
 
                     /* ---->  Last page:  Room to display with user prompt?  <---- */
-                    if((pageadjust > 0) && (d->page != (INFINITY - 1)))
+                    if((pageadjust > 0) && (d->page != (TCZ_INFINITY - 1)))
                        if((line + pageadjust) >= d->terminal_height)
-                          d->page = (INFINITY - 1);
+                          d->page = (TCZ_INFINITY - 1);
 
                     /* ---->  No further pages, end pager  <---- */
-		    if(d->page != (INFINITY - 1)) {
+		    if(d->page != (TCZ_INFINITY - 1)) {
 		       d->clevel = d->page_clevel;
 		       d->page = NOTHING, d->page_clevel = 0;
 		    }
@@ -421,7 +421,7 @@ void prompt_display(struct descriptor_data *d)
 
 	         /* ---->  No further pages, end pager  <---- */
  	         d->clevel = d->page_clevel;
-                 if(((d->clevel != 31) || (d->page == (INFINITY - 1))) && userprompt && (*userprompt != '\n'))
+                 if(((d->clevel != 31) || (d->page == (TCZ_INFINITY - 1))) && userprompt && (*userprompt != '\n'))
 		    output(d,d->player,0,0,0,"");
 	         d->page = NOTHING, d->page_clevel = 0;
                  prompt_display(d);

@@ -38,7 +38,7 @@
 #define USER_LOG_FILE_SIZE   1000                      /*  Maximum size of user log files  */
 #define USER_LOG_FILE_RESET  (USER_LOG_FILE_SIZE / 2)  /*  Size to truncate to (If maximum size is exceeded)  */
 
-#define UserLog(x)           (((x) > 0) ? (0 - (x)):(1 - INFINITY))
+#define UserLog(x)           (((x) > 0) ? (0 - (x)):(1 - TCZ_INFINITY))
 
 
 /* ---->  Log files (Log file index numbers must be consecutive,     <---- */
