@@ -528,7 +528,7 @@ int array_subquery_elements(dbref player,dbref array,int from,int to,char *buffe
            case END:
                 for(; ptr; ptr = ptr->next) {
                     if(elements > 0) strcat_limits(&str_data,"\n");
-                    if(!BlankContent(ptr->text)) strcat_limits(&str_data,decompress(ptr->text));
+                    if(!Blank(ptr->text)) strcat_limits(&str_data,decompress(ptr->text));
                     elements++;
 		}
                 *(str_data.dest) = '\0';
