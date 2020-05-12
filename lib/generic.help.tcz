@@ -11388,7 +11388,6 @@ A log file may also be re-opened using '%g%l@log <LOGFILE> = reopen%x' (If it is
 %9%8%y%lOwner           %xChange of object ownership ('%g%l%(@owner%)%x'.)
 %9%8%y%lPassword        %xPassword changes ('%g%l%(@newpassword%)%x'.)
 %9%8%y%lRequest         %xRequests for new characters ('%g%l%(@request%)%x'.)
-%9%8%y%lResearch        %xResearch log file (%m%lSupreme Being%x only.)
 %9%8%y%lSanity          %xResults of database integrity checks ('%g%l%(@sanity%)%x'.)
 %9%8%y%lServer          %xServer start-up, shutdown and run-time messages.
 %9%8%y%lShout           %xShouted messages/announcements ('%g%l%(shout%)%x'.)
