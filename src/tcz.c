@@ -140,7 +140,6 @@ void tcz_version(struct descriptor_data *d,int console)
 
 	query_version(NOTHING,NULL,NULL,NULL,NULL,0,0);
         output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_YELLOW">"ANSI_LYELLOW"Version:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LYELLOW"    Version:  "ANSI_LWHITE"%s\n",command_result);
-        output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_YELLOW">"ANSI_LYELLOW"CVS:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LYELLOW"        CVS:  "ANSI_LWHITE"%s\n\n",TCZ_CVS_ID);
         output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Code Base:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LRED"  Code Base:  "ANSI_LWHITE"%s\n",punctuate(CODEBASE,3,'.'));
         output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Description:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LRED"Description:  "ANSI_LWHITE"%s\n",punctuate(CODEDESC,3,'.'));
         output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Web Site:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;<A HREF=\"%s\" TARGET=_blank TITLE=\"Click to visit the official web site of this code base...\">\016%s\016</A></TD></TR>\016":ANSI_LRED"   Web Site:  "ANSI_LBLUE""ANSI_UNDERLINE"%s%s\n",IsHtml(d) ? html_encode_basic(CODESITE,buffer,NULL,512):"",CODESITE);
@@ -150,7 +149,6 @@ void tcz_version(struct descriptor_data *d,int console)
 	fputs("Version Information:\n~~~~~~~~~~~~~~~~~~~~\n",stderr);
 	query_version(NOTHING,NULL,NULL,NULL,NULL,0,0);
 	fprintf(stderr,"    Version:  %s\n",command_result);
-	fprintf(stderr,"        CVS:  %s\n\n",TCZ_CVS_ID);
 	fprintf(stderr,"  Code Base:  %s\n",punctuate(CODEBASE,3,'.'));
 	fprintf(stderr,"Description:  %s\n",punctuate(CODEDESC,3,'.'));
 	fprintf(stderr,"   Web Site:  %s\n",CODESITE);

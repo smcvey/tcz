@@ -48,9 +48,6 @@
 #include "db.h"
 #include "flagset.h"
 
-/* ---->  CVS ID tag, used by '--version'  <---- */
-#define TCZ_CVS_ID "$Id: externs.h,v 1.2 2005/07/07 20:23:22 tcz_monster Exp $"
-
 
 /* ---->  Misc. #define's  <---- */
 #define ABS(n)               (((n) > 0) ? (n):(-(n)))
