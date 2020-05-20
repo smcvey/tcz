@@ -27,10 +27,8 @@
 | Module originally modified for TCZ by:  J.P.Boggis 21/12/1993.              |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: db.h,v 1.2 2005/01/25 19:21:12 tcz_monster Exp $
 
 */
 

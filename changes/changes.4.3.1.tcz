@@ -1,6 +1,5 @@
 The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- $Id: changes.4.3.1.tcz,v 1.2 2004/12/07 21:56:15 jpboggis Exp $
 
  Date:       Name, Source, Func/Procedure & Description of change:
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -134,5 +133,3 @@ The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.1
  KEY:  '**' = Document to users (I.e:  On BBS.)
        '##' = Document to Admin only.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
- $Id: changes.4.3.1.tcz,v 1.2 2004/12/07 21:56:15 jpboggis Exp $

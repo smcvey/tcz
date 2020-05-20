@@ -28,10 +28,8 @@
 | Module originally designed and written by:  J.P.Boggis 01/06/1995.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: combat.c,v 1.2 2005/01/25 18:54:51 tcz_monster Exp $
 
 */
 

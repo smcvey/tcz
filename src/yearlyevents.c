@@ -30,10 +30,8 @@
 | Module originally designed and written by:  J.P.Boggis 24/11/1997.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: yearlyevents.c,v 1.2 2005/06/29 20:09:39 tcz_monster Exp $
 
 */
 

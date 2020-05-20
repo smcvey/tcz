@@ -30,10 +30,8 @@
 | Module originally designed and written by:  J.P.Boggis 13/10/1994.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: substitute.c,v 1.2 2005/06/29 20:28:04 tcz_monster Exp $
 
 */
 

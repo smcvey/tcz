@@ -27,7 +27,7 @@
 | Module originally designed and written by:  J.P.Boggis 30/07/2000.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
 
 */

@@ -31,10 +31,8 @@
 | Module originally designed and written by:  J.P.Boggis 21/06/1996.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: html_tags.h,v 1.1.1.1 2004/12/02 17:43:25 jpboggis Exp $
 
 */
 

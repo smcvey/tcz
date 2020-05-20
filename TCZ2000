@@ -16,8 +16,8 @@ The TCZ 2000 Project was setup on 11/04/1999 and was aimed at pratically
 continuing the development of TCZ for the millenium and beyond.
 
 Due to lack of time, work on this project ceased.  To allow continued
-development, TCZ has now been setup as a proper SourceForge project
-which can be found at:  http://www.sourceforge.net/projects/tcz
+development, TCZ has now been setup as a proper GitHub project
+which can be found at:  https://github.com/smcvey/tcz
 
 
 History
@@ -47,7 +47,7 @@ continued interest and development.
 TCZ's code is now publicly available under the GPL (GNU General
 Public License - See http://www.gnu.org) and can be obtained from:
 
-   http://www.sourceforge.net/projects/tcz
+   https://github.com/smcvey/tcz
 
 
 Copyright
@@ -100,8 +100,6 @@ TCZ Project Aims
       upgrade.
 
 *  To maintain up-to-date lists of the following:
-
-   *  Sites running TCZ code.
 
    *  People working on or contributing to the TCZ, their role (Coder, tester,
       etc.) and what they are currently working on.
@@ -361,5 +359,5 @@ How to get involved
 ~~~~~~~~~~~~~~~~~~~
 Please visit the TCZ project web site at:
 
-   http://www.sourceforge.net/projects/tcz
+   https://github.com/smcvey/tcz
 

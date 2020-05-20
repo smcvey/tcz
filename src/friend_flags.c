@@ -27,10 +27,8 @@
 | Module originally designed and written by:  J.P.Boggis 20/05/2000.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: friend_flags.h,v 1.1.1.1 2004/12/02 17:43:23 jpboggis Exp $
 
 */
 

@@ -34,10 +34,8 @@
 | Module originally designed and written by:  J.P.Boggis 23/03/1995.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: sanity.c,v 1.2 2005/06/29 20:21:50 tcz_monster Exp $
 
 */
 

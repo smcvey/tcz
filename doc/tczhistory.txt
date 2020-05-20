@@ -323,7 +323,7 @@
  *  The TCZ source code was released publicly under the GNU General Public
     License (GPL) on 02/12/2004.  For further information, please visit:
     
-    http://www.sourceforge.net/projects/tcz
+    https://github.com/smcvey/tcz
 
 
  Do you remember...

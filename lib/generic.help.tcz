@@ -5,8 +5,6 @@
 %COMMENT  lib/local.help.tcz and then make your changes (Topics in the local
 %COMMENT  help file override the generic topics.)
 
-%COMMENT  $Id: generic.help.tcz,v 1.12 2005/07/07 20:29:34 tcz_monster Exp $
-
 %COMMENT  %TOPIC         Defines name(s) of topic.
 %COMMENT  %TUTORIAL      Adds '[TUTORIAL AVAILABLE]' to topic pages.
 %COMMENT  %TITLE         Defines title of topic.
@@ -539,7 +537,7 @@ It supports both %m%l%(Telnet%)%x and %m%l%(World Wide Web%)%x connections and f
 
 For full details of %y%lThe Chatting Zone%x (%y%lTCZ%x), and other %c%lTCZ resources%x (Latest documentation, source code, binary executables, etc.), please visit:
 
-        %b%l%u%{@?link "" "http://www.sourceforge.net/projects/tcz" "Click to visit the TCZ project web site..."}%x
+        %b%l%u%{@?link "" "https://github.com/smcvey/tcz" "Click to visit the TCZ project web site..."}%x
 
 <-SEPARATOR->
 Also, see '%g%l%<gpl%>%x', '%g%l%<version%>%x', '%g%l%<version info%>%x', '%g%l%<bug fixes%>%x', '%g%l%<history%>%x', '%g%l%<acknowledgements%>%x', '%g%l%<modules%>%x' and '%g%l%<authors%>%x'.
@@ -1818,7 +1816,7 @@ With the move, several other changes took place, including a hardware upgrade to
 
 %4%y%l*  %xOn %y%lThursday 20th November 2003%x, TCZ was moved to a new dedicated machine in the Department of Computer Science, Queen Mary, University of London.
 
-%4%r%l*  %xThe %y%lTCZ source code%x was released publicly under the %c%lGNU General Public License%x (%c%lGPL%x) on %y%l02/12/2004%x (See '%g%l%<gpl%>%x' and visit %b%l%u%{@?link "" "http://www.sourceforge.net/projects/tcz" "Click to visit the TCZ project web site..."}%x)
+%4%r%l*  %xThe %y%lTCZ source code%x was released publicly under the %c%lGNU General Public License%x (%c%lGPL%x) on %y%l02/12/2004%x (See '%g%l%<gpl%>%x' and visit %b%l%u%{@?link "" "https://github.com/smcvey/tcz" "Click to visit the TCZ project web site..."}%x)
 
 %PAGE
 
@@ -1849,7 +1847,7 @@ Also, see '%g%l%<features%>%x', '%g%l%<version info%>%x', '%g%l%<bug fixes%>%x',
 %~%c%{@?pad {@?strlen "{%@%n}"} "~"}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %4%y%l*  %xThe TCZ source code is publicly released under the %c%lGNU General Public License%x (%c%l%(GPL%)%x) (See '%g%l%<tcz%>%x' and '%g%l%<gpl%>%x') and is available for download from:
 
-      %7%m%l%u%{@?link "" "http://www.sourceforge.net/projects/tcz" "Click to visit the TCZ project web site..."}%x
+      %7%m%l%u%{@?link "" "https://github.com/smcvey/tcz" "Click to visit the TCZ project web site..."}%x
 
 %4%r%l*  %xExtensive, detailed built-in On-line Help System (You're using it now %m%l:)%x)
 
@@ -3935,7 +3933,7 @@ Once the web site has loaded, simply click on %y%lCreate Character%x menu item a
 %~%c~~~~~~~~~~~~~~~~~~~~~~~~~
 %xEnter your %r%lFULL%x and %m%lvalid%x E-mail address.  This is required to ensure that you are a %r%lgenuine%x new user, and to allow Admin. to contact you should the need arises.
 
-%c%lE.g:  %g%lFred.Bloggs@tcz.net
+%c%lE.g:  %g%lFred.Bloggs@email.com
 
 %xIf you wish to obtain %(Builder%) privileges to build your %(rooms%) and areas, you will need a valid private E-mail address ('Free' E-mail addresses from %c%lHotmail%x and similar services are not acceptable, because these can be obtained anonymously by anybody.)
 

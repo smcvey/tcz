@@ -27,10 +27,8 @@
 | Module originally designed and written by:  J.P.Boggis 03/06/2000.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: yearlyevents.h,v 1.4 2004/12/07 19:38:07 jpboggis Exp $
 
 */
 
@@ -51,7 +49,7 @@ struct yearly_event_data yearly_events[] = {
        {NULL, "Bonfire Night",             05, 11, 00, 00, LONGDATEFMT,  1,  1,  "%r%lRemember, remember the %y%l5th of November%x!  Have a great bonfire night, and enjoy the fireworks!"},
        {NULL, "Peak of 100 Users",         28, 11, 17, 26, FULLDATEFMT,  0, 0,  "%r%lThe original TCZ MUD reached a peak of %w%l100 users simultaneously%r%l for the first time on %y%l28th November 1995%r%l at %y%l5:26pm (GMT)%r%l."},
        {NULL, "TCZ's Birthday",            28, 11, 18, 00, FULLDATEFMT,  1, 0,  "%r%lHappy Birthday %y%lThe Chatting Zone%r%l!  -  The original TCZ MUD was first opened to the public on %y%lMonday 28th November 1994%r%l at %y%l6pm (GMT)%r%l.  Today it celebrates its %y%l%{@?rank {@eval {@?wordno 4 {@?realtime = date}} - 1994}}%r%l birthday."},
-       {NULL, "TCZ Public GPL Release",    02, 12, 17, 39, FULLDATEFMT,  1, 0,  "%r%lThe %y%lTCZ source code%r%l was released publicly under the %w%lGNU General Public License%r%l (%w%l%(GPL%)%r%l) on %y%l02/12/2004%r%l (See '%w%l%<gpl%>%r%l' and visit %y%l%u%{@?link \"\" \"http://www.sourceforge.net/projects/tcz\" \"Click to visit the TCZ project web site...\"}%r%l"},
+       {NULL, "TCZ Public GPL Release",    02, 12, 17, 39, FULLDATEFMT,  1, 0,  "%r%lThe %y%lTCZ source code%r%l was released publicly under the %w%lGNU General Public License%r%l (%w%l%(GPL%)%r%l) on %y%l02/12/2004%r%l (See '%w%l%<gpl%>%r%l' and visit %y%l%u%{@?link \"\" \"https://github.com/smcvey/tcz\" \"Click to visit the TCZ project web site...\"}%r%l"},
        {NULL, "TCZ Development Commenced", 21, 12, 00, 00, LONGDATEFMT,  1, 0,  "%r%lHappy Birthday %w%lTCZ%r%l source code!  -  Development of the TCZ source code first commenced on %y%lTuesday 21st December 1993%r%l by %m%lJ.P.Boggis%r%l.  It celebrates its %w%l%{@?rank {@eval {@?wordno 4 {@?realtime = date}} - 1993}}%x birthday."},
        {NULL, "Christmas",                 25, 12, 00, 00, LONGDATEFMT,  1, 1,  "%r%lMerry Christmas and a Happy New Year!"},
        {NULL, NULL,                        00, 00, 00, 00, FULLDATEFMT,  0, 0,  NULL},

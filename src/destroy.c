@@ -27,10 +27,8 @@
 | Module originally designed and written by:  J.P.Boggis 24/03/1995.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: destroy.c,v 1.2 2005/01/25 18:59:01 tcz_monster Exp $
 
 */
 

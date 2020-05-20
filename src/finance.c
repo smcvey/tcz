@@ -28,10 +28,8 @@
 | Module originally designed and written by:  J.P.Boggis 03/01/1997.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: finance.c,v 1.3 2005/06/29 21:04:50 tcz_monster Exp $
 
 */
 

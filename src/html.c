@@ -27,10 +27,8 @@
 | Module originally designed and written by:  J.P.Boggis 21/06/1996.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: html.c,v 1.3 2005/06/29 21:20:46 tcz_monster Exp $
 
 */
 
@@ -1985,7 +1983,7 @@ void html_preferences_form(struct descriptor_data *d,unsigned char saved,unsigne
      if(!set) checked = (defaults || html_lookup("LINKS",0,0,0,0,1));
         else checked = ((d->html->flags & HTML_LINKS) != 0);
      output(d,NOTHING,1,0,0,"<TR VALIGN=TOP><TD WIDTH=25><INPUT NAME=LINKS TYPE=CHECKBOX%s></TD>",(checked) ? " CHECKED":"");
-     output(d,NOTHING,1,0,0,"<TD><B>Enable automatically formatted links:</B><P><I>Automatically turns links into proper HTML hyperlinks (I.e:  </I><A HREF=\"http://www.sourceforge.net/projects/tcz\" TARGET=_blank>www.sourceforge.net/projects/tcz</A></I> instead of </I><B>www.sourceforge.net/projects/tcz</B><I>)</I></TD></TR>");
+     output(d,NOTHING,1,0,0,"<TD><B>Enable automatically formatted links:</B><P><I>Automatically turns links into proper HTML hyperlinks (I.e:  </I><A HREF=\"https://github.com/smcvey/tcz\" TARGET=_blank>github.com/smcvey/tcz</A></I> instead of </I><B>github.com/smcvey/tcz</B><I>)</I></TD></TR>");
 
      /* ---->  Graphical Smileys (Emoticons)  <----- */
      if(!set) checked = (defaults || html_lookup("SMILEY",0,0,0,0,1));
@@ -3946,7 +3944,7 @@ unsigned char html_process_data(struct descriptor_data *d)
 		     output(d,NOTHING,1,0,0,"<LI><A HREF=\"%s\" TARGET=_parent>%s source code module authors.</A><P></LI>",html_server_url(d,0,0,"authors"),tcz_short_name);
 		     output(d,NOTHING,1,0,0,"</UL><BR>");
 		     output(d,NOTHING,1,0,0,"<HR><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_DRED"><TR><TH><FONT COLOR="HTML_LYELLOW">");
-                     output(d,NOTHING,1,0,0,"TCZ is free software, which is distributed under <B><I>version 2</I></B> of the <B>GNU General Public License</B> (See '<A HREF=\"%sTOPIC=gpl&\" TARGET=_blank TITLE=\"Click to read the GNU General Public License...\"><FONT COLOR="HTML_LWHITE">help gpl</FONT></A>' in TCZ, or visit <A HREF=\"http://www.gnu.org\" TARGET=_blank TITLE=\"Visit the GNU web site...\"><FONT COLOR="HTML_LWHITE">http://www.gnu.org</FONT></A>) &nbsp; For more information about the TCZ, please visit: &nbsp; <A HREF=\"http://www.sourceforge.net/projects/tcz\" TARGET=_blank TITLE=\"Visit the TCZ project web site...\"><FONT COLOR="HTML_LWHITE">http://www.sourceforge.net/projects/tcz</FONT></A>",html_server_url(d,0,1,"help"));
+                     output(d,NOTHING,1,0,0,"TCZ is free software, which is distributed under <B><I>version 2</I></B> of the <B>GNU General Public License</B> (See '<A HREF=\"%sTOPIC=gpl&\" TARGET=_blank TITLE=\"Click to read the GNU General Public License...\"><FONT COLOR="HTML_LWHITE">help gpl</FONT></A>' in TCZ, or visit <A HREF=\"http://www.gnu.org\" TARGET=_blank TITLE=\"Visit the GNU web site...\"><FONT COLOR="HTML_LWHITE">http://www.gnu.org</FONT></A>) &nbsp; For more information about the TCZ, please visit: &nbsp; <A HREF=\"https://github.com/smcvey/tcz\" TARGET=_blank TITLE=\"Visit the TCZ project web site...\"><FONT COLOR="HTML_LWHITE">https://github.com/smcvey/tcz</FONT></A>",html_server_url(d,0,1,"help"));
                      output(d,NOTHING,1,0,0,"</FONT></TH></TR></TABLE><HR>");
                      output(d,NOTHING,1,0,0,"</BODY></HTML>");
 		     server_shutdown_sock(d,0,2);

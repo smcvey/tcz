@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  17/12/2004.
+                     Manual release date:  01/05/2020.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -40,7 +40,7 @@
 | General Public License (See 'help gpl' in TCZ, or visit http://www.gnu.org) |
 |-----------------------------------------------------------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `============================================================================='
 
 ===============================================================================
@@ -13605,7 +13605,7 @@ In most cases, things are given priority.
   '@www' is used to set the web site address of your home page on the World
   Wide Web (WWW) (If you have one.)
   
-  E.g:  '@www me = http://www.sourceforge.net/projects/tcz'.
+  E.g:  '@www me = https://github.com/smcvey/tcz'.
 
   Other characters will see your web site address when they 'scan' you or view
   your profile.
@@ -14694,13 +14694,13 @@ In most cases, things are given priority.
   Web Interface.
 
   <IMAGE URL> is the URL of the image, e.g:
-  http://www.tcz.net/images/tczlogo3.gif
+  https://www.website.com/images/tczlogo3.gif
 
   <DESCRIPTION> is a text description of the image, which will be seen by
   users who have images switched off, or are using a text-only browser.
 
   <DESTINATION URL> is the URL of an optional web site link for when the image
-  is clicked on by the user, e.g:  http://www.sourceforge.net/projects/tcz
+  is clicked on by the user, e.g:  https://github.com/smcvey/tcz
 
   The best way to insert an image into a description is using query substition,
   i.e:  '%{@?image ...}' (NOTE:  If you type this on the command-line, you will
@@ -14713,8 +14713,8 @@ In most cases, things are given priority.
 
   Example:
   ~~~~~~~~
-  @desc me = %\{@?image "http://www.tcz.net/images/tczlogo3.gif" "TCZ City
-     Picture" "http://www.sourceforge.net/projects/tcz"}
+  @desc me = %\{@?image "https://www.website.com/images/tczlogo3.gif" "TCZ City
+     Picture" "https://github.com/smcvey/tcz"}
 
 -------------------------------------------------------------------------------
 
@@ -14936,7 +14936,7 @@ In most cases, things are given priority.
   click on.
 
   <DESTINATION> is the destination URL of the link, for example:
-  http://www.sourceforge.net/projects/tcz
+ https://github.com/smcvey/tcz 
 
   <HELPTEXT> is optional quick help text that will be displayed in recent
   browsers if the user holds their mouse pointer still over the link.
@@ -14953,7 +14953,7 @@ In most cases, things are given priority.
   Example:
   ~~~~~~~~
   @desc me = Visit the TCZ project by clicking %\{@?link "HERE"
-      "http://www.sourceforge.net/projects/tcz" "Click to visit
+      "https://github.com/smcvey/tcz" "Click to visit
       the TCZ project web site..."}.
 
 -------------------------------------------------------------------------------
@@ -16364,7 +16364,7 @@ In most cases, things are given priority.
   Version    Returns the code base version number (E.g:  'v4.3.0')
   OS         Returns the operating system (E.g:  'Linux'.)
   WebSite    Returns the code base web site (E.g:
-  	     'http://www.sourceforge.net/projects/tcz')
+  	     'https://github.com/smcvey/tcz')
 
 -------------------------------------------------------------------------------
 

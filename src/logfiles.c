@@ -34,10 +34,8 @@
 | Module originally designed and written by:  J.P.Boggis 11/03/2000.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: logfiles.c,v 1.1.1.1 2004/12/02 17:41:44 jpboggis Exp $
 
 */
 

@@ -29,10 +29,8 @@
 | Module originally designed and written by:  J.P.Boggis 17/04/1995.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: pagetell.c,v 1.2 2005/06/29 20:18:21 tcz_monster Exp $
 
 */
 

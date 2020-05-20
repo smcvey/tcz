@@ -120,11 +120,11 @@ NOTE:  < used within the text of a field MUST be protected with \, e.g:
  <VERSION>4.3.0</VERSION>               ; TCZ source code version
  <CODEBASE>Original</CODEBASE>          ; TCZ source code code base
  <IP>127.0.0.1</IP>                     ; IP address of server
- <DNS>tcz.net</DNS>                     ; DNS address of server
+ <DNS>website.com</DNS>                     ; DNS address of server
  <TELNET>8342</TELNET>                  ; Telnet port
  <HTML>8343</HTML>                      ; HTML port
- <WEBSITE>www.tcz.net</WEBSITE>         ; Web Site
- <EMAIL>tczadmin@tcz.net</EMAIL>        ; Admin E-mail
+ <WEBSITE>www.website.com</WEBSITE>         ; Web Site
+ <EMAIL>tczadmin@website.com</EMAIL>        ; Admin E-mail
 </SERVER>
 <OWNER><ID>#54321</ID><NAME>Name of character who did '@export'</NAME></OWNER>
 <DATABASE>

@@ -45,10 +45,8 @@
 | Module originally designed and written by:  J.P.Boggis 19/02/1996.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: compression.c,v 1.1.1.1 2004/12/02 17:40:57 jpboggis Exp $
 
 */
 

@@ -34,10 +34,8 @@
 | Module originally modified for TCZ by:  J.P.Boggis 21/12/1993.              |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: config.h,v 1.4 2005/06/29 21:44:34 tcz_monster Exp $
 
 */
 
@@ -144,7 +142,7 @@
                                  then be placed in '/etc/aliases', allowing
                                  users of TCZ to be sent E-mail using
                                  'tcz.user.name@tczserver.domain', e.g:
-                                 'jc.digita@tcz.net'.  */
+                                 'jc.digita@thechattingzone.uk'.  */
 
 #define EXPERIENCED_HELP     /*  When, Assistants and Experienced Builders
                                  will be allowed to use the 'welcome' and
@@ -343,7 +341,7 @@
 #define HTML_MAX_IMAGE_SIZE   (MB / 2)                  /*  Maximum size (In bytes) of HTML Interface image  */
 #define HTML_IMAGE_PATH       "tczhtml/"                /*  Path to HTML Interface images (From current working directory)  */
 #define HTML_DATA_URL         "http://"TCZ_SERVER_NAME"/tczhtml/"  /*  URL prefix of HTML interface data (Inc. images used by interface)  */
-#define HTML_HOME_URL         "http://www.sourceforge.net/projects/tcz"  /*  URL of TCZ home pages  */
+#define HTML_HOME_URL         "https://github.com/smcvey/tcz"  /*  URL of TCZ home pages  */
 #define HTML_MATCHES          10                        /*  Number of matches to display per page in HTML help search  */
 #define TCZMAP_PATH           "map/tczmapm.html"        /*  Web site URL path to go to when map is clicked (Appended to HTML_HOME_URL)  */
 #define TCZMAP_IMG	      "tczmap.jpg"              /*  Name of TCZ map image (Used by 'map' command)  */
@@ -402,7 +400,7 @@
                               " TCZ is free software, which is distributed under version 2 of the GNU General\n" \
                               " Public License (See 'help gpl' in TCZ, or visit http://www.gnu.org)  For more\n" \
                               " information about the TCZ, please visit:\n\n" \
-			      "                    http://www.sourceforge.net/projects/tcz\n" \
+			      "                    https://github.com/smcvey/tcz\n" \
 			      "-------------------------------------------------------------------------------\n" \
                               " Type:  INFO  -  For more information about TCZ.\n" \
                               "        NEW   -  To create a new character.\n" \

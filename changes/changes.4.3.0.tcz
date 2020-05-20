@@ -1,6 +1,5 @@
 The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- $Id: changes.4.3.0.tcz,v 1.1.1.1 2004/12/02 17:44:20 jpboggis Exp $
 
  Date:       Name, Source, Func/Procedure & Description of change:
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -213,8 +212,7 @@ The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.0
  22/01/2000  (J.P.Boggis: move.c:do_move())  '.exit' and '.exited' action
              compound commands added for exits.
  27/01/2000  (J.P.Boggis: look.c,tcz.c,config.h)  Added support for #define
-             PREGPL to add pre-GPL release message (So TCZ 4.3 can be ran at
-             tcz.net and code can be fully prepared before release.)
+             PREGPL to add pre-GPL release message.
  29/01/2000  (J.P.Boggis: look.c)  'scan' now displays '(Still connected.)'
              in 'Last time connected:' section if the scanned user is
              currently connected.
@@ -1141,7 +1139,7 @@ The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.0
              that new executable is compiled to tcz.new, so that multiple
              compiles do not overwrite current executable, which prevents
              the core dump of the current running TCZ being debugged
-             properly if it crashes.  bin/tcz.net must be moved to bin/tcz
+             properly if it crashes.  bin/tcz.new must be moved to bin/tcz
              before any newly compiled code will be used when TCZ restarts.
  26/07/2001  (J.P.Boggis: options.c:option_guardianalarm())  Guardian alarm
 	     option added ('--guardian') so that guardian alarm can be
@@ -1270,5 +1268,3 @@ The Chatting Zone (TCZ)  -  Changes log for TCZ v4.3.0
  KEY:  '**' = Document to users (I.e:  On BBS.)
        '##' = Document to Admin only.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
- $Id: changes.4.3.0.tcz,v 1.1.1.1 2004/12/02 17:44:20 jpboggis Exp $

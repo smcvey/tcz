@@ -29,10 +29,8 @@
 | Module originally designed and written by:  J.P.Boggis 12/04/1997.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: banish.c,v 1.1.1.1 2004/12/02 17:40:28 jpboggis Exp $
 
 */
 

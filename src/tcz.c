@@ -28,10 +28,8 @@
 | Module originally designed and written by:  J.P.Boggis 21/12/1993.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: tcz.c,v 1.4 2005/06/29 20:29:47 tcz_monster Exp $
 
 */
 
@@ -93,7 +91,7 @@ void tcz_version(struct descriptor_data *d,int console)
                  else tilde_string(d->player,buffer,"",ANSI_DCYAN,0,0,5);
 	} else output(d,d->player,2,1,0,"%s",buffer);
 
-        output(d,d->player,2,1,0,"%s%s%s",IsHtml(d) ? "\016<TR><TD ALIGN=LEFT COLSPAN=2>\016":"",substitute(d->player,buffer,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%<gpl%>%x' in TCZ, or visit %b%l%u%{@?link \"\" \"http://www.gnu.org\" \"Visit the GNU web site...\"}%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%{@?link \"\" \"http://www.sourceforge.net/projects/tcz\" \"Visit the TCZ project web site...\"}%x",0,ANSI_LWHITE,NULL,0),IsHtml(d) ? "\016</TD></TR>\016":"\n\n\n");
+        output(d,d->player,2,1,0,"%s%s%s",IsHtml(d) ? "\016<TR><TD ALIGN=LEFT COLSPAN=2>\016":"",substitute(d->player,buffer,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%<gpl%>%x' in TCZ, or visit %b%l%u%{@?link \"\" \"http://www.gnu.org\" \"Visit the GNU web site...\"}%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%{@?link \"\" \"https://github.com/smcvey/tcz\" \"Visit the TCZ project web site...\"}%x",0,ANSI_LWHITE,NULL,0),IsHtml(d) ? "\016</TD></TR>\016":"\n\n\n");
      }
 
      /* ---->  Description of TCZ  <---- */
@@ -126,7 +124,7 @@ void tcz_version(struct descriptor_data *d,int console)
         fputs("TCZ is based on TinyMUD (1989) and UglyMUG (1990-1991.)  It was\ndesigned and developed by J.P.Boggis from 21/12/1993 before\nrelease under the GPL license on 02/12/2004.\n\n",stderr);
 	
         fputs("Please see the file MODULES or type 'modules' on TCZ for\ndetailed author information.\n\n",stderr);
-        fputs("For more information about TCZ, please visit:\n\n   http://www.sourceforge.net/projects/tcz\n\n\n",stderr);
+        fputs("For more information about TCZ, please visit:\n\n   https://github.com/smcvey/tcz\n\n\n",stderr);
      }
 
      /* ---->  Version Information  <---- */
@@ -492,7 +490,7 @@ int main(int argc,char **argv)
     /* ---->  Display start-up header  <---- */
     sprintf(scratch_buffer,"The Chatting Zone (TCZ v"TCZ_VERSION".%d)  -  (C) J.P.Boggis 1993 - %d.",TCZ_REVISION,tcz_year);
     fprintf(stderr,"\n%s\n%s\n",scratch_buffer,strpad('~',strlen(scratch_buffer),scratch_return_string));
-    fputs("TCZ is free software, which is distributed under version 2 of\nthe GNU General Public License (See 'help gpl' in TCZ, or visit\nhttp://www.gnu.org)  For more information about the TCZ, please\nvisit:  http://www.sourceforge.net/projects/tcz\n\n",stderr);
+    fputs("TCZ is free software, which is distributed under version 2 of\nthe GNU General Public License (See 'help gpl' in TCZ, or visit\nhttp://www.gnu.org)  For more information about the TCZ, please\nvisit:  https://github.com/smcvey/tcz\n\n",stderr);
 
     /* ---->  Demonstration TCZ  <---- */
 #ifdef DEMO

@@ -27,10 +27,8 @@
 | Module originally modified for TCZ by:  J.P.Boggis 21/12/1993.              |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: look.c,v 1.3 2005/06/29 21:26:10 tcz_monster Exp $
 
 */
 
@@ -1389,7 +1387,7 @@ void look_motd(CONTEXT)
 
      sprintf(scratch_buffer,"\n%s (TCZ v"TCZ_VERSION")  -  (C) J.P.Boggis 1993 - %d.",tcz_full_name,tcz_year);
      tilde_string(player,scratch_buffer,"",ANSI_DCYAN,0,0,5);
-     output(p,player,0,1,0,"%s",substitute(player,scratch_return_string,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%<gpl%>%x' in TCZ, or visit %b%l%u%{@?link \"\" \"http://www.gnu.org\" \"Visit the GNU web site...\"}%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%{@?link \"\" \"http://www.sourceforge.net/projects/tcz\" \"Visit the TCZ project web site...\"}%x\n",0,ANSI_LWHITE,NULL,0));
+     output(p,player,0,1,0,"%s",substitute(player,scratch_return_string,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%<gpl%>%x' in TCZ, or visit %b%l%u%{@?link \"\" \"http://www.gnu.org\" \"Visit the GNU web site...\"}%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%{@?link \"\" \"https://github.com/smcvey/tcz\" \"Visit the TCZ project web site...\"}%x\n",0,ANSI_LWHITE,NULL,0));
 
 #ifdef DEMO
      output(p,player,0,1,0,ANSI_LGREEN"\nWelcome to the demonstration version of "ANSI_LWHITE"%s"ANSI_LGREEN" (TCZ v"TCZ_VERSION"), %s"ANSI_LYELLOW"%s"ANSI_LGREEN"!\n",tcz_full_name,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));

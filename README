@@ -28,7 +28,7 @@
 |    TCZ is free software, which is distributed under version 2 of the GNU    |
 |     General Public License (See 'help gpl' in TCZ, the file LICENSE, or     |
 |      visit http://www.gnu.org)  For more information about TCZ, please      |
-|               visit:  http://www.sourceforge.net/projects/tcz               |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
 
 
@@ -59,7 +59,7 @@ sites running TCZ-based servers.
 
 For full details of The Chatting Zone (TCZ), and other TCZ resources
 (Latest documentation, source code, binary executables, etc.), please
-visit:  http://www.sourceforge.net/projects/tcz
+visit:  https://github.com/smcvey/tcz
 
 
 *IMPORTANT*:  Copyright information and disclaimer:
@@ -70,7 +70,7 @@ Please see the files LICENSE, COPYRIGHT and MODULES.
 | TCZ is free software, which is distributed under version 2 of the GNU |
 |  General Public License (See 'help gpl' in TCZ, the file LICENSE, or  |
 |   visit http://www.gnu.org)  For more information about TCZ, please   |
-|            visit:  http://www.sourceforge.net/projects/tcz            |
+|                 visit:  https://github.com/smcvey/tcz                 |
 `-----------------------------------------------------------------------'
 
 
@@ -210,8 +210,8 @@ doc/tczfeatures.txt	List of some of the major features/unique features in
 doc/tczhistory.txt	The history of TCZ.
 doc/tczintro.txt	Basic introduction to TCZ, suitable for E-mailing to
 			prospective new users.
-doc/tczrules.txt	Current rules for users of TCZ at tcz.net
-                        (Ammend as you see fit, ensuring you also ammend
+doc/tczrules.txt	Current rules for users of TCZ.
+                        (Amend as you see fit, ensuring you also ammend
                         the copy within 'lib/help.tcz' ('%TOPIC tczrules')
                         also.)
 doc/tcztutorial.txt	More in-depth tutorial for users who are completely

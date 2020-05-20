@@ -29,10 +29,8 @@
 | Module originally designed and written by:  J.P.Boggis 26/11/1995.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: termcap.c,v 1.2 2005/06/29 20:11:14 tcz_monster Exp $
 
 */
 

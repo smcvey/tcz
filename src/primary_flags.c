@@ -27,10 +27,8 @@
 | Module originally designed and written by:  J.P.Boggis 15/03/2000.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: primary_flags.h,v 1.2 2005/01/25 19:23:28 tcz_monster Exp $
 
 */
 

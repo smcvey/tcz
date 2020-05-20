@@ -30,10 +30,8 @@
 |           Improved Telnet handling by:  J.P.Boggis 28/10/1995.              |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: server.c,v 1.3 2005/06/29 20:25:00 tcz_monster Exp $
 
 */
 

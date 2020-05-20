@@ -3,8 +3,6 @@
 %COMMENT  Place your own custom help topics for your TCZ-based MUD in this
 %COMMENT  help file.  DO NOT modify lib/generic.help.tcz
 
-%COMMENT  $Id: local.help.tcz,v 1.1.1.1 2004/12/02 17:39:07 jpboggis Exp $
-
 %COMMENT  %TOPIC         Defines name(s) of topic.
 %COMMENT  %TUTORIAL      Adds '[TUTORIAL AVAILABLE]' to topic pages.
 %COMMENT  %TITLE         Defines title of topic.

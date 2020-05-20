@@ -34,10 +34,8 @@
 |                           '@site' code by:  J.P.Boggis 04/09/1995.          |
 |-------------------------[ The Chatting Zone (TCZ) ]-------------------------|
 |                For more information about TCZ, please visit:                |
-|                   http://www.sourceforge.net/projects/tcz                   |
+|                        https://github.com/smcvey/tcz                        |
 `-----------------------------------------------------------------------------'
-
-  $Id: sites.c,v 1.2 2005/01/25 19:14:05 tcz_monster Exp $
 
 */
 

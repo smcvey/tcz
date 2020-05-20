@@ -1,8 +1,6 @@
 The Chatting Zone (TCZ)  - Known Bugs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- $Id: BUGS,v 1.2 2004/12/14 22:42:03 tcz_monster Exp $
-
   Date:       Name, Reported By, Bug
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
  23/11/2003%%(S.A.Boggis, Monster) password corruption:
@@ -23,5 +21,3 @@ The Chatting Zone (TCZ)  - Known Bugs
        '%%' = Unconfirmed.
        '??' = Unreproducible so far.
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-
- $Id: BUGS,v 1.2 2004/12/14 22:42:03 tcz_monster Exp $
