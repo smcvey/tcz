@@ -14703,7 +14703,7 @@ You can test whether you have set/reset particular friend flags on a user, or wh
 
 %c%l%$The following friend flags may be set/reset on your friends...
 %~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%y%l%(^friend Beep%)%x, %y%l%(^friend Combat%)%x, %y%l%(^friend Create%)%x, %y%l%(^friend Destroy%)%x, %r%l%(^friend Enemy%)%x, %m%l%(^friend Exclude%)%x, %y%l%(^friend Fchat%)%x, %y%l%(^friend Inform%)%x, %y%l%(^friend Link%)%x, %y%l%(^friend Mail%)%x, %y%l%(^friend PageTell%)%x, %y%l%(^friend PageTellFriends%)%x, %y%l%(^friend Read%)%x, %y%l%(^friend Sharable%)%x, %y%l%(^friend Visit%)%x and %y%l%(^friend Write%)%x.
+%y%l%(^friend Beep%)%x, %y%l%(^friend Combat%)%x, %y%l%(^friend Commands%)%x, %y%l%(^friend Create%)%x, %y%l%(^friend Destroy%)%x, %r%l%(^friend Enemy%)%x, %m%l%(^friend Exclude%)%x, %y%l%(^friend Fchat%)%x, %y%l%(^friend Inform%)%x, %y%l%(^friend Link%)%x, %y%l%(^friend Mail%)%x, %y%l%(^friend PageTell%)%x, %y%l%(^friend PageTellFriends%)%x, %y%l%(^friend Read%)%x, %y%l%(^friend Sharable%)%x, %y%l%(^friend Visit%)%x and %y%l%(^friend Write%)%x.
 <-SEPARATOR->
 Further help is available on the above friend flags  -  Simply type '%g%lhelp <FLAG NAME> friend flag%x', where %y%l<FLAG NAME>%x is the name of the flag you want help on, e.g:  '%g%l%<inform friend flag%>%x'.  %c%lAlso, see '%g%l%<friends%>%c%l'.
 
