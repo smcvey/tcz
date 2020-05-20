@@ -3320,7 +3320,6 @@ static struct profile_data *db_read_profile(FILE *f,int version)
              profile->dob     = db_read_int(f);
              profile->picture = (char *) db_read_string(f,1,1);
 	  }
-          if(!hasprofile) FREENULL(profile);
        }
        return(profile);
 }

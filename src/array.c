@@ -149,7 +149,7 @@ int array_set_elements(dbref player,dbref array,int from,int to,const char *text
                 for(; ptr && ptr->next; last = ptr, ptr = ptr->next, position++);
                 break;
            case INDEXED:
-                for(; ptr && !(ptr->index && indexfrom && !strcasecmp(ptr->index,indexfrom)); last = ptr, ptr = ptr->next, position++);
+                for(; ptr && !(ptr->index && !strcasecmp(ptr->index,indexfrom)); last = ptr, ptr = ptr->next, position++);
                 if(ptr) index_found = 1;
                 break;
            default:
@@ -320,7 +320,7 @@ int array_set_index(dbref player,dbref array,int element,const char *indexname)
                 for(; ptr && ptr->next; ptr = ptr->next);
                 break;
            case INDEXED:
-                for(; ptr && !(ptr->index && indexfrom && !strcasecmp(ptr->index,indexfrom)); ptr = ptr->next);
+                for(; ptr && !(ptr->index && !strcasecmp(ptr->index,indexfrom)); ptr = ptr->next);
                 break;
            default:
                 for(; ptr && (position < element); ptr = ptr->next, position++);
@@ -355,7 +355,7 @@ int array_nextprev_element(dbref player,dbref array,int *element,char *in_index,
                 for(; ptr && ptr->next; last = ptr, ptr = ptr->next, position++);
                 break;
            case INDEXED:
-                for(; ptr && !(ptr->index && indexfrom && !strcasecmp(ptr->index,indexfrom)); last = ptr, ptr = ptr->next, position++);
+                for(; ptr && !(ptr->index && !strcasecmp(ptr->index,indexfrom)); last = ptr, ptr = ptr->next, position++);
                 break;
            default:
                 for(; ptr && (position < *element); last = ptr, ptr = ptr->next, position++);
@@ -414,7 +414,7 @@ int array_destroy_elements(dbref player,dbref array,int from,int to,int *count)
                 for(; ptr && ptr->next; last = ptr, ptr = ptr->next, position++);
                 break;
            case INDEXED:
-                for(; ptr && !(ptr->index && indexfrom && !strcasecmp(ptr->index,indexfrom)); last = ptr, ptr = ptr->next, position++);
+                for(; ptr && !(ptr->index && !strcasecmp(ptr->index,indexfrom)); last = ptr, ptr = ptr->next, position++);
                 break;
            default:
                 for(; ptr && (position < from); last = ptr, ptr = ptr->next, position++);
@@ -516,7 +516,7 @@ int array_subquery_elements(dbref player,dbref array,int from,int to,char *buffe
                 for(; ptr && ptr->next; ptr = ptr->next, position++);
                 break;
            case INDEXED:
-                for(; ptr && !(ptr->index && indexfrom && !strcasecmp(ptr->index,indexfrom)); ptr = ptr->next, position++);
+                for(; ptr && !(ptr->index && !strcasecmp(ptr->index,indexfrom)); ptr = ptr->next, position++);
                 break;
            default:
                 for(; ptr && (position < from); ptr = ptr->next, position++);
@@ -592,7 +592,7 @@ int array_subquery_index(dbref player,dbref array,int from,int to,char *buffer)
                 for(; ptr && ptr->next; ptr = ptr->next, position++);
                 break;
            case INDEXED:
-                for(; ptr && !(ptr->index && indexfrom && !strcasecmp(ptr->index,indexfrom)); ptr = ptr->next, position++);
+                for(; ptr && !(ptr->index && !strcasecmp(ptr->index,indexfrom)); ptr = ptr->next, position++);
                 break;
            default:
                 for(; ptr && (position < from); ptr = ptr->next, position++);
@@ -644,7 +644,6 @@ int array_subquery_indexno(dbref player,dbref array,int element)
 
     switch(element) {
            case INDEXED:
-                if(!indexfrom) return(NOTHING);
                 for(; ptr; ptr = ptr->next, count++)
                     if(ptr->index && !strcasecmp(ptr->index,indexfrom))
                        return(count + 1);
@@ -691,7 +690,7 @@ int array_display_elements(dbref player,int from,int to,dbref array,int cr)
                 for(; current && current->next; current = current->next, element++);
                 break;
            case INDEXED:
-                for(; current && !(current->index && indexfrom && !strcasecmp(current->index,indexfrom)); current = current->next, element++);
+                for(; current && !(current->index && !strcasecmp(current->index,indexfrom)); current = current->next, element++);
                 break;
            default:
                 for(; current && (element < from); current = current->next, element++);
