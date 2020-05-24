@@ -1147,7 +1147,7 @@ const char *substitute(dbref player,char *dest,char *src,unsigned char addname,c
       return(dest);
 }
 
-/* ---->  Large substitution (Used where substitution may exceed 3Kb limit)  <---- */
+/* ---->  Large substitution (Used where substitution may exceed limit)  <---- */
 void substitute_large(dbref player,dbref who,const char *str,const char *def_ansi,char *buffer,unsigned char censor)
 {
      struct substitution_data subst;

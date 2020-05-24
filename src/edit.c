@@ -220,7 +220,7 @@ int insert(struct descriptor_data *d,char *text,int lineno,int overwrite,unsigne
     int  editline = 1,newline = 0;
     char *p1,*p2,*p3;
 
-    /* ---->  Truncate TEXT if > MAX_LENGTH (3k)  <---- */
+    /* ---->  Truncate TEXT if > MAX_LENGTH  <---- */
     if(strlen(text) > MAX_LENGTH) text[MAX_LENGTH] = '\0';
 
     p1 = d->edit->text;
