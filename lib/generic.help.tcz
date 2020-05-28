@@ -9579,9 +9579,9 @@ This command can only be used by %y%lApprentice Wizards/%yDruids%x and above.
 
 It allows two characters to be first engaged to each other, then subsequently married.  It also allows engaged or married couples to be divorced.
 
-The first step in marriage is to become engaged to another character.  You can then ask a member of Admin to engage you to this character.  They can do this by typing '%g%l@partner engage <NAME1> = <NAME2>%x', where one name is yours, and the other is your partner.
+The first step is to propose to your partner, after which (If successful), you can ask a member of Admin to link you both as engaged.  They can do this by typing '%g%l@partner engage <NAME1> = <NAME2>%x', where one name is yours, and the other is your partner.
 
-The next step is to propose to your partner, after which (If successful), you can ask a member of Admin to marry you and your partner (A wedding ceremony will usually be held.)  They can do this by typing '%g%l@partner marry <NAME1> = <NAME2>%x'.
+The next step is marriage.  You can ask a member of Admin to marry you and your partner (A wedding ceremony will usually be held.)  They can do this by typing '%g%l@partner marry <NAME1> = <NAME2>%x'.
 
 %PAGE
 If you no-longer wish to be engaged to your partner, or your marriage doesn't go quite as planned, you can ask a member of Admin to divorce you and your partner.  They can do this by typing '%g%l@partner divorce <NAME>%x', where %y%l<NAME>%x is either your name, or your partners (It doesn't matter which.)
