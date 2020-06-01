@@ -43,7 +43,7 @@
 /*                  starting from 0, and must match entries in table       */
 /*                  defined in include/logfile_table.h)                    */
 
-#define LOG_COUNT       44  /*  Last log file index number + 1  */
+#define LOG_COUNT       43  /*  Last log file index number + 1  */
 
 #define ADMIN_LOG       0
 #define ASSIST_LOG      1

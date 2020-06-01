@@ -1541,7 +1541,7 @@ void query_peak(CONTEXT)
         sprintf(querybuf,"%ld",stats[stat_ptr].peak);
      } else if(string_prefix("currentpeak",params)) {
         struct descriptor_data *d;
-        int    count;
+        int    count = 0;
 
         for(d = descriptor_list; d; d = d->next)
             if(d->flags & CONNECTED) count++;
