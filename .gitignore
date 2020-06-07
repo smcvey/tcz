@@ -1,0 +1,11 @@
+#### .gitignore file for TCZ project
+
+# C files generated during make
+*.o
+*.d
+
+# Core files
+core.*
+
+# VIM temporary files
+*.swp
