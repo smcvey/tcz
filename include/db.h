@@ -577,7 +577,12 @@ extern int                      can_teleport_object   (dbref player,dbref object
 extern void                     filter_comexitname    (dbref object);
 extern void                     capitalise            (char *str);
 extern struct   boolexp         *getlock              (dbref object,int key);
-extern long                     getvalue              (dbref object,void *value,unsigned short size,long def);
+extern long                     getmassplayer         (dbref object);
+extern long                     getvolumeplayer       (dbref object);
+extern long                     getmassroom           (dbref object);
+extern long                     getvolumeroom         (dbref object);
+extern long                     getmassthing          (dbref object);
+extern long                     getvolumething        (dbref object);
 extern const    char            *getfield             (dbref object,int field);
 extern long                     get_mass_or_volume    (dbref object,unsigned char volume);
 extern void                     setfield              (dbref object,int field,const char *str,unsigned char capitals);

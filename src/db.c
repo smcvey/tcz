@@ -1,4 +1,4 @@
-/*
+ /*
 
 .-----------------------------------------------------------------------------.
 | The Chatting Zone (TCZ)                            (C) J.P.Boggis 1993-2004 |
@@ -796,28 +796,118 @@ struct boolexp *getlock(dbref object,int key)
        return(lock);
 }
 
-/* ---->  Get value field (Taking inheritance into account)  <---- */
-long getvalue(dbref object,void *value,unsigned short size,long def)
+long getmassplayer(dbref object)
 {
-     static long   offset;
      static long   result;
      static time_t now;
-     static long   *ptr;
 
      gettime(now);
-     inherited = -1, result = INHERIT, size = ((sizeof(long) - size) * 8);
-     offset = (long) (value - ((void *) &(db[object].data->standard)));
+     inherited = -1, result = INHERIT;
      while((result == INHERIT) && (object != NOTHING)) {
            inherited++;
-           ptr = (((void *) &(db[object].data->standard)) + offset);
-           result = (*ptr) >> size;
+	   result = db[object].data->player.mass;
            if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(object))) db[object].lastused = now;
 
            /* ---->  Handle inheritance  <---- */
            object = db[object].parent;
      }
      if(inherited < 0) inherited = 0;
-     return((result == INHERIT) ? def:result);
+     return((result == INHERIT) ? STANDARD_CHARACTER_MASS : result);
+}
+
+long getvolumeplayer(dbref object)
+{
+     static long   result;
+     static time_t now;
+
+     gettime(now);
+     inherited = -1, result = INHERIT;
+     while((result == INHERIT) && (object != NOTHING)) {
+           inherited++;
+           result = db[object].data->player.volume;
+           if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(object))) db[object].lastused = now;
+
+           /* ---->  Handle inheritance  <---- */
+           object = db[object].parent;
+     }
+     if(inherited < 0) inherited = 0;
+     return((result == INHERIT) ? STANDARD_CHARACTER_VOLUME : result);
+}
+
+long getmassroom(dbref object)
+{
+     static long   result;
+     static time_t now;
+
+     gettime(now);
+     inherited = -1, result = INHERIT;
+     while((result == INHERIT) && (object != NOTHING)) {
+           inherited++;
+           result = db[object].data->room.mass;
+           if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(object))) db[object].lastused = now;
+
+           /* ---->  Handle inheritance  <---- */
+           object = db[object].parent;
+     }
+     if(inherited < 0) inherited = 0;
+     return((result == INHERIT) ? STANDARD_ROOM_MASS : result);
+}
+
+long getvolumeroom(dbref object)
+{
+     static long   result;
+     static time_t now;
+
+     gettime(now);
+     inherited = -1, result = INHERIT;
+     while((result == INHERIT) && (object != NOTHING)) {
+           inherited++;
+           result = db[object].data->room.volume;
+           if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(object))) db[object].lastused = now;
+
+           /* ---->  Handle inheritance  <---- */
+           object = db[object].parent;
+     }
+     if(inherited < 0) inherited = 0;
+     return((result == INHERIT) ? STANDARD_ROOM_VOLUME : result);
+}
+
+long getmassthing(dbref object)
+{
+     static long   result;
+     static time_t now;
+
+     gettime(now);
+     inherited = -1, result = INHERIT;
+     while((result == INHERIT) && (object != NOTHING)) {
+           inherited++;
+           result = db[object].data->thing.mass;
+           if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(object))) db[object].lastused = now;
+
+           /* ---->  Handle inheritance  <---- */
+           object = db[object].parent;
+     }
+     if(inherited < 0) inherited = 0;
+     return((result == INHERIT) ? STANDARD_THING_MASS : result);
+}
+
+long getvolumething(dbref object)
+{
+     static long   result;
+     static time_t now;
+
+     gettime(now);
+     inherited = -1, result = INHERIT;
+     while((result == INHERIT) && (object != NOTHING)) {
+           inherited++;
+           result = db[object].data->thing.volume;
+           if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(object))) db[object].lastused = now;
+
+           /* ---->  Handle inheritance  <---- */
+           object = db[object].parent;
+     }
+     if(inherited < 0) inherited = 0;
+     return((result == INHERIT) ? STANDARD_THING_VOLUME : result);
 }
 
 /* ---->  Get object field (Taking inheritance into account)  <---- */
@@ -892,13 +982,13 @@ long get_mass_or_volume(dbref object,unsigned char volume)
      if(!Valid(object)) return(0);
      switch(Typeof(object)) {
             case TYPE_CHARACTER:
-                 return((volume) ? getvalue(object,&(db[object].data->player.volume),sizeof(db[object].data->player.volume),STANDARD_CHARACTER_VOLUME):getvalue(object,&(db[object].data->player.mass),sizeof(db[object].data->player.mass),STANDARD_CHARACTER_MASS));
+		return ((volume) ? getvolumeplayer(object) : getmassplayer(object));
                  break;
             case TYPE_THING:
-                 return((volume) ? getvalue(object,&(db[object].data->thing.volume),sizeof(db[object].data->thing.volume),STANDARD_THING_VOLUME):getvalue(object,&(db[object].data->thing.mass),sizeof(db[object].data->thing.mass),STANDARD_THING_MASS));
+		return ((volume) ? getvolumething(object) : getmassthing(object));
                  break;
             case TYPE_ROOM:
-                 return((volume) ? getvalue(object,&(db[object].data->room.volume),sizeof(db[object].data->room.volume),STANDARD_ROOM_VOLUME):getvalue(object,&(db[object].data->room.mass),sizeof(db[object].data->room.mass),STANDARD_ROOM_MASS));
+		return ((volume) ? getvolumeroom(object) : getmassroom(object));
                  break;
             default:
                  return((volume) ? STANDARD_VOLUME:STANDARD_MASS);

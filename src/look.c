@@ -989,12 +989,12 @@ void look_examine(CONTEXT)
                     output(p,player,2,1,0,"%s"ANSI_LRED"Weight of contents:%s"ANSI_LWHITE"%d Kilogram%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
 
                     /* ---->  Volume limit  <---- */
-                    if((temp = getvalue(thing,&(db[thing].data->room.volume),sizeof(db[thing].data->room.volume),STANDARD_ROOM_VOLUME)) != TCZ_INFINITY)
+                    if((temp = getvolumeroom(thing)) != TCZ_INFINITY)
                        output(p,player,2,1,0,"%s"ANSI_LRED"%solume limit:%s"ANSI_LWHITE"%d Litre%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited v":"V",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
                           else output(p,player,2,1,0,"%s"ANSI_LRED"%solume limit:%s"ANSI_LWHITE"Infinity.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited v":"V",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
 
                     /* ---->  Mass limit  <---- */
-                    if((temp = getvalue(thing,&(db[thing].data->room.mass),sizeof(db[thing].data->room.mass),STANDARD_ROOM_MASS)) != TCZ_INFINITY)
+                    if((temp = getmassroom(thing)) != TCZ_INFINITY)
                        output(p,player,2,1,0,"%s"ANSI_LRED"%sass limit:%s"ANSI_LWHITE"%d Kilogram%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited m":"M",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
                           else output(p,player,2,1,0,"%s"ANSI_LRED"%sass limit:%s"ANSI_LWHITE"Infinity.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited m":"M",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
 		 }
@@ -1154,12 +1154,12 @@ void look_examine(CONTEXT)
                     output(p,player,2,1,0,"%s"ANSI_LRED"Weight:%s"ANSI_LWHITE"%d Kilogram%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"\n",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
 
                     /* ---->  Volume  <---- */
-                    if((temp = getvalue(thing,&(db[thing].data->player.volume),sizeof(db[thing].data->player.volume),STANDARD_CHARACTER_VOLUME)) != TCZ_INFINITY)
+                    if((temp = getvolumeplayer(thing)) != TCZ_INFINITY)
                        output(p,player,2,1,0,"%s"ANSI_LRED"%solume:%s"ANSI_LWHITE"%d Litre%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited v":"V",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
                           else output(p,player,2,1,0,"%s"ANSI_LRED"%solume:%s"ANSI_LWHITE"Infinity.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited v":"V",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
 
                     /* ---->  Mass  <---- */
-                    if((temp = getvalue(thing,&(db[thing].data->player.mass),sizeof(db[thing].data->player.mass),STANDARD_CHARACTER_MASS)) != TCZ_INFINITY)
+                    if((temp = getmassplayer(thing)) != TCZ_INFINITY)
                        output(p,player,2,1,0,"%s"ANSI_LRED"%sass:%s"ANSI_LWHITE"%d Kilogram%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited m":"M",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
                           else output(p,player,2,1,0,"%s"ANSI_LRED"%sass:%s"ANSI_LWHITE"Infinity.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited m":"M",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
 		 }
@@ -1190,12 +1190,12 @@ void look_examine(CONTEXT)
                     output(p,player,2,1,0,"%s"ANSI_LRED"Weight:%s"ANSI_LWHITE"%d Kilogram%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
 
                     /* ---->  Volume  <---- */
-                    if((temp = getvalue(thing,&(db[thing].data->thing.volume),sizeof(db[thing].data->thing.volume),STANDARD_THING_VOLUME)) != TCZ_INFINITY)
+                    if((temp = getvolumething(thing)) != TCZ_INFINITY)
                        output(p,player,2,1,0,"%s"ANSI_LRED"%solume:%s"ANSI_LWHITE"%d Litre%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited v":"V",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
                           else output(p,player,2,1,0,"%s"ANSI_LRED"%solume:%s"ANSI_LWHITE"Infinity.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited v":"V",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
 
                     /* ---->  Mass  <---- */
-                    if((temp = getvalue(thing,&(db[thing].data->thing.mass),sizeof(db[thing].data->thing.mass),STANDARD_THING_MASS)) != TCZ_INFINITY)
+                    if((temp = getmassthing(thing)) != TCZ_INFINITY)
                        output(p,player,2,1,0,"%s"ANSI_LRED"%sass:%s"ANSI_LWHITE"%d Kilogram%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited m":"M",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",temp,Plural(temp),IsHtml(p) ? "\016</TD></TR>\016":"\n");
                           else output(p,player,2,1,0,"%s"ANSI_LRED"%sass:%s"ANSI_LWHITE"Infinity.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016":"",(inherited > 0) ? "Inherited m":"M",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
 		 }
