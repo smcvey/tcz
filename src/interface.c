@@ -768,12 +768,22 @@ void tcz_command(struct descriptor_data *d,dbref player,const char *command)
 void update_lasttotal(dbref player,int update)
 {
      time_t total,last,now = -1;
+     struct descriptor_data *d;
 
      /* ---->  Update total/longest time connected?  <---- */
      if(update & 2) {
         if(now < 0) gettime(now);
         last = (db[player].data->player.lasttime == 0) ? now:db[player].data->player.lasttime;
         db[player].data->player.totaltime += (now - last);
+
+        /* ---->  Update idle time  <---- */
+        for(d = descriptor_list; d; d = d->next) {
+                if(d->player == player)
+                        if ((now - d->last_time) >= (IDLE_TIME * MINUTE)) {
+                                db[player].data->player.idletime += (now - d->last_time);
+                                break;
+                        }
+        }
 
         if((total = (now - db[player].data->player.lasttime)) == now) total = 0;
         if(db[player].data->player.longesttime < total) {

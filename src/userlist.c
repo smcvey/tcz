@@ -170,7 +170,7 @@ void userlist_who(struct descriptor_data *d)
 
            /* ---->  Character's login time and name  <---- */
            strcpy(scratch_buffer,colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
-           if((now - grp->cunion->descriptor.last_time) >= MINUTE) idle++;
+           if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
 
            sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016<TR ALIGN=CENTER><TD>\016%s%s":" %s%s  ",IsHtml(d) ? colour:"",(char *) userlist_shorttime(grp->cunion->descriptor.start_time,now,scratch_return_string,1));
            ptr = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
@@ -346,7 +346,7 @@ void userlist_swho(struct descriptor_data *d)
 	   }
 
            sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",IsHtml(d) ? "\016<TD WIDTH=25%>\016":"",(char *) privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
-           if((now - grp->cunion->descriptor.last_time) >= MINUTE) idle++;
+           if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            if(grp->condition == 204) {
               if(!(flags = friend_flags(grp->player,grp->cunion->descriptor.player))) {
                  flags  = FRIEND_STANDARD;
@@ -515,7 +515,7 @@ void userlist_where(struct descriptor_data *d,int lwho)
 
            /* ---->  Character's name  <---- */
            sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD WIDTH=25%>\016":"",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
-           if((now - grp->cunion->descriptor.last_time) >= MINUTE) idle++;
+           if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            if(grp->condition == 204) {
               if(!(flags = friend_flags(grp->player,grp->cunion->descriptor.player))) {
                  flags  = FRIEND_STANDARD;
@@ -607,7 +607,7 @@ void userlist_email(struct descriptor_data *d,int number)
 
            /* ---->  Character's name  <---- */
            sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD WIDTH=25%%>\016":"",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
-           if((now - grp->cunion->descriptor.last_time) >= MINUTE) idle++;
+           if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cunion->descriptor.player));
@@ -670,7 +670,7 @@ void userlist_last(struct descriptor_data *d)
 
            /* ---->  Character's name  <---- */
            sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR><TD ALIGN=LEFT WIDTH=25%>\016":"",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
-           if((now - grp->cunion->descriptor.last_time) >= MINUTE) idle++;
+           if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cunion->descriptor.player));
@@ -949,7 +949,7 @@ void userlist_admin(struct descriptor_data *d,unsigned char dsc)
 
            /* ---->  Character's login time and idle time  <---- */
            strcpy(scratch_buffer,colour = privilege_countcolour(object,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
-           if(descriptor && ((now - descriptor->last_time) >= MINUTE)) idle++;
+           if(descriptor && ((now - descriptor->last_time) >= IDLE_TIME * MINUTE)) idle++;
            sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016<TR ALIGN=CENTER><TD>\016%s%s":" %s%s  ",IsHtml(d) ? colour:"",(descriptor) ? (char *) userlist_shorttime(descriptor->start_time,now,scratch_return_string,1):IsHtml(d) ? "\016&nbsp;\016":"       ");
            sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016</TD><TD>\016%s%s":"%s%-9s",IsHtml(d) ? colour:"",(descriptor) ? (char *) userlist_shorttime(descriptor->last_time,now,scratch_return_string,0):IsHtml(d) ? "\016&nbsp;\016":"       ");
 
