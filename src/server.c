@@ -1282,8 +1282,6 @@ void server_mainloop(void)
 
                         /* ---->  Maximum allowed idle time of connected user exceeded (MAX_IDLE_TIME minutes)  <---- */
                         sprintf(bootmessage,"\n"ANSI_WRED"\x07[You have been idle for "ANSI_WWHITE"%d minute%s"ANSI_WRED"  -  You have been automatically disconnected from %s...]\n",MAX_IDLE_TIME,Plural(MAX_IDLE_TIME),tcz_full_name);
-			/* Stop people getting 60 full active minutes */
-			db[d->player].data->player.idletime += ((MAX_IDLE_TIME - 5) * 60);
                         server_shutdown_sock(d,0,0);                        
 		     } else if(diff > ((WARN_IDLE_TIME + (d->warning_level * 5)) * MINUTE)) {
 
