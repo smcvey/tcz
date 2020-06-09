@@ -2714,11 +2714,7 @@ int server_command(struct descriptor_data *d,char *command)
        }
     } else if(!(d->flags & CONNECTED)) {
 
-       if(((now - d->last_time) >= (IDLE_TIME * MINUTE)) && Validchar(d->player))
-          db[d->player].data->player.idletime += (now - d->last_time);
-
        d->warning_level = 0;
-       d->last_time     = now;
        
        if(!strcasecmp(command,"WHO") || !strncasecmp(command,"WHO ",4)) {
           while(*command && (*command != ' ')) command++;
@@ -2796,7 +2792,6 @@ int server_command(struct descriptor_data *d,char *command)
        } else if(!server_connect_user(d,command)) return(0);
        } else if(!compoundonly && (d->clevel > 0)) {
        d->warning_level = 0;
-       d->last_time     = now;
        if(!server_connect_user(d,command)) return(0);
     } else server_current_last(d,command);
 
