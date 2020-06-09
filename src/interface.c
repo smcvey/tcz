@@ -699,6 +699,12 @@ void tcz_command(struct descriptor_data *d,dbref player,const char *command)
            writelog(MONITOR_LOG,1,"MONITOR","(%s(#%d) (%s) in %s)  >>>>>  %s",getname(player),player,IsHtml(d) ? "HTML":"Telnet",unparse_object(ROOT,Location(player),0),ptr);
 	}
 
+     /* ---->  Track idle time  <---- */
+     if(d->flags & CONNECTED)
+        if(((now - d->last_time) >= (IDLE_TIME * MINUTE)) && Validchar(d->player))
+           db[d->player].data->player.idletime += (now - d->last_time); 
+     d->last_time = now;
+
      /* ---->  Update hourly payment counter and zero idle time of user  <---- */
      finance_payment(d);
 
