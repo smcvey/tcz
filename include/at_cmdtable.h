@@ -99,15 +99,9 @@ struct cmd_table at_cmds[] = {
        {AT_COMMAND,    "@describetemporary",     (void *) temp_describe,             0, 0, 0},
        {AT_COMMAND,    "@desctemp",              (void *) temp_describe,             0, 0, 0},
        {AT_COMMAND,    "@desctemporary",         (void *) temp_describe,             0, 0, 0},
-       /* Commented out because there's a bug when creating a ton of items then
-	  destroying them, for the moment, all destroys are now purges */
-       /* {AT_COMMAND,    "@dest",                  (void *) destroy_destroy,           0, 0, 0}, */
-       {AT_COMMAND,    "@dest",                  (void *) destroy_destroy,
-	1, 0, 0},
+       {AT_COMMAND,    "@dest",                  (void *) destroy_destroy,           0, 0, 0},
        {AT_COMMAND,    "@destall",               (void *) destroy_destroyall,        0, 0, 0},
-       /* Same as above, all destroys are now purges (put back to 0, 0, 0 for
-	  old (dangerous) behaviour */
-       {AT_COMMAND,    "@destroy",               (void *) destroy_destroy,           1, 0, 0},
+       {AT_COMMAND,    "@destroy",               (void *) destroy_destroy,           0, 0, 0},
        {AT_COMMAND,    "@destroyall",            (void *) destroy_destroyall,        0, 0, 0},
        {AT_COMMAND,    "@destroytemp",           (void *) temp_destroy,              0, 0, 0},
        {AT_COMMAND,    "@destroytemporary",      (void *) temp_destroy,              0, 0, 0},

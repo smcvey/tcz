@@ -1636,13 +1636,13 @@ void delete_object(dbref object,unsigned char update,unsigned char queue)
                   case TYPE_FREE:
                        break;
                   case TYPE_COMMAND:
-	    	       if(dest->data->command.lock) free_boolexp(&(dest->data->command.lock));
+	    	       if(dest->data && dest->data->command.lock) free_boolexp(&(dest->data->command.lock));
                        break;
                   case TYPE_EXIT:
-	               if(dest->data->exit.lock) free_boolexp(&(dest->data->exit.lock));
+	               if(dest->data && dest->data->exit.lock) free_boolexp(&(dest->data->exit.lock));
                        break;
                   case TYPE_FUSE:
-		       if(dest->data->fuse.lock) free_boolexp(&(dest->data->fuse.lock));
+		       if(dest->data && dest->data->fuse.lock) free_boolexp(&(dest->data->fuse.lock));
                        break;
                   default:
                        writelog(BUG_LOG,1,"BUG","(delete_object() in db.c)  Tried to delete unknown (0x%0X) object %s(#%d)  -  Object set ASHCAN.",dest->type,String(dest->name),dobj);
@@ -1651,6 +1651,7 @@ void delete_object(dbref object,unsigned char update,unsigned char queue)
 
            /* ---->  Free object's fields  <---- */
            FREENULL(/* (char *) */ dest->name);
+	if (dest->data) {
            if((Fields(dest->type) & DESC)  != 0) FREENULL(dest->data->standard.desc);
            if((Fields(dest->type) & DROP)  != 0) FREENULL(dest->data->standard.drop);
            if((Fields(dest->type) & FAIL)  != 0) FREENULL(dest->data->standard.fail);
@@ -1660,6 +1661,7 @@ void delete_object(dbref object,unsigned char update,unsigned char queue)
            if((Fields(dest->type) & OFAIL) != 0) FREENULL(dest->data->standard.ofail);
            if((Fields(dest->type) & OSUCC) != 0) FREENULL(dest->data->standard.osucc);
            FREENULL(dest->data);
+	}
      }
 
      /* ---->  Remove object from physical database and add to free chain  <---- */
