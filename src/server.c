@@ -2790,6 +2790,10 @@ int server_command(struct descriptor_data *d,char *command)
        } else if(!server_connect_user(d,command)) return(0);
        } else if(!compoundonly && (d->clevel > 0)) {
        d->warning_level = 0;
+       if (((now - d->last_time) >= (IDLE_TIME * MINUTE)) && Validchar(d->player))
+          db[d->player].data->player.idletime += (now - d->last_time);
+       d->last_time = now;
+
        if(!server_connect_user(d,command)) return(0);
     } else server_current_last(d,command);
 
