@@ -855,14 +855,13 @@ const char *bad_language_filter(char *dest,const char *src)
                           else if(bad_matched("BITCH",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
                            else if(bad_matched("PUSSY",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
                             else if(bad_matched("WHORE",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
-                             else if(bad_matched("BUGGER",src,last,"E",0,as)) bad_filter(6,&src,&dest,&last,as);
-                              else if(bad_matched("NIGGER",src,last,"S",0,as)) bad_filter(6,&src,&dest,&last,as);
-                               else if(bad_matched("ASSHOLE",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
-                                else if(bad_matched("BOLLOCK",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
-                                 else if(bad_matched("BASTARD",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
-                                  else if(bad_matched("BARSTARD",src,last,NULL,0,as)) bad_filter(8,&src,&dest,&last,as);
-                                   else if(bad_matched("COCKSUCKER",src,last,NULL,0,as)) bad_filter(8,&src,&dest,&last,as);
-                                    else last = *src, *dest++ = *src++;
+                             else if(bad_matched("NIGGER",src,last,"S",0,as)) bad_filter(6,&src,&dest,&last,as);
+                              else if(bad_matched("ASSHOLE",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
+                               else if(bad_matched("BOLLOCK",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
+                                else if(bad_matched("BASTARD",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
+                                 else if(bad_matched("BARSTARD",src,last,NULL,0,as)) bad_filter(8,&src,&dest,&last,as);
+                                  else if(bad_matched("COCKSUCKER",src,last,NULL,0,as)) bad_filter(8,&src,&dest,&last,as);
+                                   else last = *src, *dest++ = *src++;
 	    }
       }
       *dest = '\0';
