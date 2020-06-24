@@ -57,8 +57,8 @@ int objectquota[] =
 int maxquotalimit[6] =
 {
     /*  <= Mortal                */  0,  /*  Mortals/Morons can't set quota limit  */
-    /*  Apprentice Wizard/Druid  */  500,
-    /*  Wizard/Druid             */  1000,
+    /*  Apprentice Wizard/Druid  */  1000,
+    /*  Wizard/Druid             */  2000,
     /*  Elder Wizard/Druid       */  TCZ_INFINITY,
     /*  Deity                    */  TCZ_INFINITY,
     /*  Supreme Being            */  TCZ_INFINITY,

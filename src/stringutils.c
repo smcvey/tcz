@@ -749,7 +749,7 @@ char *separator(int scrwidth,int trailing_cr,const char ch1,const char ch2)
      return(buf);
 }
 
-/* ---->  Is given swereword in given text?  <---- */
+/* ---->  Is given swearword in given text?  <---- */
 int bad_matched(const char *word,const char *text,const char last,const char *leading,int exact,int allow_spaces)
 {
     if(!(word && *word) || !(text && *text)) return(0);
@@ -847,14 +847,14 @@ const char *bad_language_filter(char *dest,const char *src)
                   else if(bad_matched("WANK",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
                    else if(bad_matched("SHAG",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
                     else if(bad_matched("DICK",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
-                     else if(bad_matched("COCK",src,last,NULL,1,as)) bad_filter(4,&src,&dest,&last,as);
-                      else if(bad_matched("KUNT",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
-                       else if(bad_matched("FVCK",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
-                        else if(bad_matched("CVNT",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
-                         else if(bad_matched("SLUT",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
-                          else if(bad_matched("BITCH",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
-                           else if(bad_matched("PUSSY",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
-                            else if(bad_matched("WHORE",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
+                     else if(bad_matched("KUNT",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
+                      else if(bad_matched("FVCK",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
+                       else if(bad_matched("CVNT",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
+                        else if(bad_matched("SLUT",src,last,NULL,0,as)) bad_filter(4,&src,&dest,&last,as);
+                         else if(bad_matched("BITCH",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
+                          else if(bad_matched("PUSSY",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
+                           else if(bad_matched("WHORE",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
+                            else if(bad_matched("NIGGA",src,last,NULL,0,as)) bad_filter(5,&src,&dest,&last,as);
                              else if(bad_matched("NIGGER",src,last,"S",0,as)) bad_filter(6,&src,&dest,&last,as);
                               else if(bad_matched("ASSHOLE",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
                                else if(bad_matched("BOLLOCK",src,last,NULL,0,as)) bad_filter(7,&src,&dest,&last,as);
