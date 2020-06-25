@@ -518,7 +518,7 @@ dbref match_object(dbref owner,dbref start,dbref end,const char *searchstr,unsig
             for(ptr = searchstr; *ptr && (*ptr == ' '); ptr++);
             for(dest = buffer; *ptr && (*ptr != ':'); *dest++ = *ptr++);
             for(*dest-- = '\0', tmp = dest; (tmp >= buffer) && (*tmp == ' '); *tmp-- = '\0');
-            NMALLOC(match->search,unsigned char,strlen(buffer) + 1);
+            NMALLOC(match->search,char,strlen(buffer) + 1);
             strcpy(match->search,buffer);
 
             /* ---->  Set dynamic array index pointer  <---- */
@@ -531,7 +531,7 @@ dbref match_object(dbref owner,dbref start,dbref end,const char *searchstr,unsig
                for(ptr++; *ptr && (*ptr == ' '); ptr++);
                for(dest = buffer; *ptr; *dest++ = *ptr++);
                for(*dest-- = '\0', tmp = dest; (tmp >= buffer) && (*tmp == ' '); *tmp-- = '\0');
-               NMALLOC(match->remainder,unsigned char,strlen(buffer) + 1);
+               NMALLOC(match->remainder,char,strlen(buffer) + 1);
                strcpy(match->remainder,buffer);
             }
 

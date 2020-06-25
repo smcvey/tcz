@@ -453,7 +453,7 @@ unsigned char process_friendflag(dbref player,struct friend_data *fptr,const cha
 	 }
 
 	 /* ---->  Set/reset friend flag  <---- */
-	 if(friend && Validchar(fptr->friend)) {
+	 if(fptr && Validchar(fptr->friend)) {
 	    if(reset) fptr->flags &= ~flag;
 	       else fptr->flags   |=  flag;
 	    if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LYELLOW"%s"ANSI_LGREEN" friend flag %s on %s"ANSI_LWHITE"%s"ANSI_LGREEN"  "ANSI_LCYAN"--->  "ANSI_LWHITE"%s"ANSI_DCYAN".",friendflags[pos].name,(reset) ? "reset":"set",Article(fptr->friend,LOWER,DEFINITE),getcname(player,fptr->friend,1,0),friendflags_description(fptr->flags));
