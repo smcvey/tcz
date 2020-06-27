@@ -9717,8 +9717,8 @@ Also, see '%g%l%<quota%>%x', '%g%l%<@size%>%x', '%g%l%<@stats%>%x', '%g%l%<@coun
 
 This command (Which can only be used by %y%lApprentice Wizards/%yDruids%x and above) is used to change the Building Quota limit of a character.
 
-%y%lApprentice Wizards/%yDruids%x can't set Building Quota limits higher than %c%l500%x.
-%c%lWizards/%cDruids%x can't set Building Quota limits higher than %c%l1000%x.
+%y%lApprentice Wizards/%yDruids%x can't set Building Quota limits higher than %c%l1000%x.
+%c%lWizards/%cDruids%x can't set Building Quota limits higher than %c%l2000%x.
 %g%lElder Wizards/%gDruids%x and above are unrestricted.
 <-SEPARATOR->
 Also, see '%g%l%<quota%>%x', '%g%l%<@quota%>%x' and '%g%l%<@?quotalimit%>%x'.
