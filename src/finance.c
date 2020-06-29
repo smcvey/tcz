@@ -428,7 +428,7 @@ void finance_transaction(CONTEXT)
 					       }
 
                                                if(!in_command || !Apprentice(current_command))
-                                                  writelog(TRANSACTION_LOG,1,"PAYMENT","%s(#%d) payed %.2f credits into %s(#%d)'s %s.",getname(player),player,amount,getname(who),who,(account) ? "bank account":"pocket");
+                                                  writelog(TRANSACTION_LOG,1,"PAYMENT","%s(#%d) paid %.2f credits into %s(#%d)'s %s.",getname(player),player,amount,getname(who),who,(account) ? "bank account":"pocket");
                                                pay_victim = who, pay_time = now + TRANSACTION_TIME, pay_who = player;
                                                setreturn(OK,COMMAND_SUCC);
 					 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you have insufficient credit%s to pay "ANSI_LYELLOW"%.2f"ANSI_LGREEN" credits %s %s"ANSI_LWHITE"%s"ANSI_LGREEN"%s.",(val1) ? " in your bank account":"",amount,(account) ? "into":"to",Article(who,LOWER,DEFINITE),getcname(NOTHING,who,0,0),(account) ? "'s bank account":"");
