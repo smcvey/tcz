@@ -17214,7 +17214,20 @@ A '%g%l.login%x' compound command in a room or container executes when a charact
 
 If the csuccess/cfailure branch of a '%g%l.login%x' compound command is set to '%y%lHOME%x', %@%m will continue searching up the area-tree for another '%g%l.login%x' compound command and execute it.
 <-SEPARATOR->
-Also, see '%g%l%<.logout%>%x', '%g%l%<.enter%>%x', '%g%l%<.leave%>%x' and '%g%l%<.action%>%x'
+Also, see '%g%l%<.reconnect%>%x', '%g%l%<.logout%>%x', '%g%l%<.enter%>%x', '%g%l%<.leave%>%x' and '%g%l%<.action%>%x'
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC .reconnect
+%TOPIC .reconnectcommand
+%TITLE Help on the '%w%l.reconnect%x' compound command
+A '%g%l.reconnect%x' compound command attached to you executes when you reconnect to %@%n (Useful for setting your preferences (Word-wrap, prompt, width, etc.))
+
+A '%g%l.reconnect%x' compound command in a room or container executes when a character reconnects to %@%n and is in that room or any of the rooms within it.
+
+If the csuccess/cfailure branch of a '%g%l.reconnect%x' compound command is set to '%y%lHOME%x', %@%m will continue searching up the area-tree for another '%g%l.reconnect%x' compound command and execute it.
+<-SEPARATOR->
+Also, see '%g%l%<.login%>%x', '%g%l%<.logout%>%x', '%g%l%<.enter%>%x', '%g%l%<.leave%>%x' and '%g%l%<.action%>%x'
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -17227,7 +17240,7 @@ A '%g%l.logout%x' compound command in a room or container executes when a charac
 
 If the csuccess/cfailure branch of a '%g%l.logout%x' compound command is set to '%y%lHOME%x', %@%m will continue searching up the area-tree for another '%g%l.logout%x' compound command and execute it.
 <-SEPARATOR->
-Also, see '%g%l%<.login%>%x', '%g%l%<.enter%>%x', '%g%l%<.leave%>%x' and '%g%l%<.action%>%x'
+Also, see '%g%l%<.login%>%x', '%g%l%<.reconnect%>%x', '%g%l%<.enter%>%x', '%g%l%<.leave%>%x' and '%g%l%<.action%>%x'
 
 %COMMENT --------------------------------------------------------------------->
 

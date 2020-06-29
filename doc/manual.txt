@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  01/05/2020.
+                     Manual release date:  06/29/2020.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -5432,9 +5432,9 @@ In most cases, things are given priority.
   compound command with the same name as the compound command currently
   being executed and execute it.
 
-  Setting the csuccess/cfailure branch of '.enter', '.leave', '.login' and
-  '.logout' compound commands to 'home' allows further '.enter', '.leave',
-  etc. compound commands up the area-tree to be executed.
+  Setting the csuccess/cfailure branch of '.enter', '.leave', '.login', 
+  '.reconnect', and '.logout' compound commands to 'home' allows further 
+  '.enter', '.leave', etc. compound commands up the area-tree to be executed.
 
 -------------------------------------------------------------------------------
 
@@ -17133,6 +17133,7 @@ In most cases, things are given priority.
   leave     .leave     RT   Container or area is exited.
             .leavecmd  C    Character leaves a room.
             .login     CRT  Character connects.
+            .reconnect CRT  Character reconnects.
   QUIT      .logout    CRT  Character disconnects.
   page      .page      C    'page' message is sent to character.
   profile   .profile   C    Profile of character is viewed.
@@ -17203,6 +17204,22 @@ In most cases, things are given priority.
   If the csuccess/cfailure branch of a '.login' compound command is set to
   'HOME', the TCZ-based MUD will continue searching up the area-tree for
   another '.login' compound command and execute it.
+
+-------------------------------------------------------------------------------
+
+  .reconnect
+  ~~~~~~
+  A '.reconnect' compound command attached to you executes when you reconnect 
+  to the TCZ-based MUD (Useful for setting your preferences (Word-wrap, prompt, 
+  etc.))
+
+  A '.reconnect' compound command in a room or container executes when a
+  character reconnects to the TCZ-based MUD and is in that room or any
+  of the rooms within it.
+
+  If the csuccess/cfailure branch of a '.reconnect' compound command is set to
+  'HOME', the TCZ-based MUD will continue searching up the area-tree for
+  another '.reconnect' compound command and execute it.
 
 -------------------------------------------------------------------------------
 
