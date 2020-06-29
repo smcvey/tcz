@@ -2618,7 +2618,7 @@ In most cases, things are given priority.
 
   Your 'wage'
   ~~~~~~~~~~~
-  For every hour you spend connected to the TCZ-based MUD, you will be payed
+  For every hour you spend connected to the TCZ-based MUD, you will be paid
   25 credits into your bank account.  This figure doubles if you stay
   connected for 8 or more hours within a single login session (Giving you
   '*SPOD*' status in the user list ('who'.))
@@ -5910,9 +5910,9 @@ In most cases, things are given priority.
   amount of credit you would like to pay to them.  For example, 'pay fred
   bloggs = 10' will pay 10 credits to the user Fred Bloggs.
 
-  If 'account' is specified, the credit will be payed directly into the user
-  <NAME>'s bank account.  If 'pocket' is specified, the credit will be payed
-  into the user's pocket.  If neither are specified, it will be payed into the
+  If 'account' is specified, the credit will be paid directly into the user
+  <NAME>'s bank account.  If 'pocket' is specified, the credit will be paid
+  into the user's pocket.  If neither are specified, it will be paid into the
   user's pocket by default (Or their bank account, if used within a compound
   command.)
 

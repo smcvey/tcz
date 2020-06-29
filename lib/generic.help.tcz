@@ -2719,7 +2719,7 @@ Every user on %@%m starts off with %c%l500%x credits in their bank account and %
 
 %c%l%$Your 'wage'
 %~%c~~~~~~~~~~~
-%xFor every hour you spend connected to %@%m, you will be payed %c%l25 credits%x into your bank account.  This figure doubles if you stay connected for %c%l8 or more hours%x within a single login session (Giving you '%y%l*SPOD*%x' status in the user list ('%g%l%(who%)%x'  -  See '%g%l%<who%>%x'.))
+%xFor every hour you spend connected to %@%m, you will be paid %c%l25 credits%x into your bank account.  This figure doubles if you stay connected for %c%l8 or more hours%x within a single login session (Giving you '%y%l*SPOD*%x' status in the user list ('%g%l%(who%)%x'  -  See '%g%l%<who%>%x'.))
 
 %c%l%8NOTE:  %xIdling (Not typing any commands) for over %c%l5 minutes%x does not count towards your next payment.
 
@@ -12228,7 +12228,9 @@ The '%g%lpay%x' command is used to perform transactions with other characters.  
 
 %y%l<NAME>%x is the name of the user who you would like to pay and %y%l<AMOUNT>%x is the amount of credit you would like to pay to them.  For example, '%g%lpay fred bloggs = 10%x' will pay %c%l10 credits%x to the user %y%lFred Bloggs%x.
 
-If '%y%laccount%x' is specified, the credit will be payed directly into the user %y%l<NAME>%x's bank account.  If '%y%lpocket%x' is specified, the credit will be payed into the user's pocket.  If neither are specified, it will be payed into the user's pocket by default (Or their bank account, if used within a compound command.)
+If '%y%laccount%x' is specified, the credit will be paid directly into the user %y%l<NAME>%x's bank account.  If
+'%y%lpocket%x' is specified, the credit will be paid into the user's pocket.  If neither are specified, it will
+be paid into the user's pocket by default (Or their bank account, if used within a compound command.)
 
 You can also transfer credit to users directly from your bank account, by using the '%g%l%(transfer%)%x' command (See '%g%l%<transfer%>%x'.)
 
