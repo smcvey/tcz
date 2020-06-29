@@ -17208,7 +17208,7 @@ In most cases, things are given priority.
 -------------------------------------------------------------------------------
 
   .reconnect
-  ~~~~~~
+  ~~~~~~~~~~
   A '.reconnect' compound command attached to you executes when you reconnect 
   to the TCZ-based MUD (Useful for setting your preferences (Word-wrap, prompt, 
   etc.))
