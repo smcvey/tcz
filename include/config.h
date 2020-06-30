@@ -535,7 +535,6 @@
 #define DEFAULT_DEBIT                  20.0      /*  Default debit rate     */
 #define RAISE_MAXIMUM                  1000.0    /*  Maximum number of credits (Total) user may be given ('@credit')  */
 #define PAYMENT_GUARD                  10.0      /*  Default maximum payment which user can make from within a compound command  */
-#define IDLE_PAYMENT                   5         /*  Maximum idle time (In minutes) which counts towards next payment  */
 
 
 /* ---->  Profile constraints (Maximum lengths)  <---- */
