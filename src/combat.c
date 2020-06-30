@@ -283,7 +283,7 @@ void combat_delay(CONTEXT)
 /* ---->  Heal a character (Increase their health)  <---- */
 void combat_heal(CONTEXT)
 {
-     double   old,health,amount;
+     double   old = 0.0, health = 0.0, amount = 0.0;
      unsigned char exceed = 0;
      dbref    victim;
 
