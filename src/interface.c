@@ -859,7 +859,7 @@ void tcz_connect_character(struct descriptor_data *d,dbref player,int create)
         db[d->player].owner              = cached_owner;
         db[d->player].data->player.chpid = cached_chpid;
      }
-    match_done();
+     match_done();
 
      /* ---->  Execute character's personal '.login' compound command  <---- */     
      command = match_simple(d->player,".login",COMMANDS,0,1);

@@ -67,9 +67,12 @@
 
 #include "descriptor_flags.h"
 #include "object_types.h"
+#include "objectlists.h"
 #include "signallist.h"
 #include "flagset.h"
 #include "fields.h"
+#include "search.h"
+#include "match.h"
 #include "html.h"
 
 #ifndef CYGWIN32
@@ -2019,6 +2022,12 @@ int server_connect_user(struct descriptor_data *d,const char *input)
     dbref  user;
     time_t now;
 
+    /* vars for .reconnect */
+    unsigned char number;
+    dbref command;
+    dbref cached_owner;
+    dbref cached_chpid;
+
     gettime(now);
     server_set_echo(d,1);
 
@@ -2347,6 +2356,43 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                 output_listen(d,4);
                 sprintf(bootmessage,ANSI_LRED"\n[You have taken over this connection at the login screen because it has stopped responding.]\n");
                 server_shutdown_sock(c,1,0);
+
+                /* ---->  Execute .reconnect compound commands in area  <---- */
+                setreturn(UNSET_VALUE,COMMAND_INIT);
+                command = match_object(d->player,Location(d->player),NOTHING,".reconnect",MATCH_PHASE_AREA,MATCH_PHASE_GLOBAL,SEARCH_COMMAND,MATCH_OPTION_DEFAULT_AREA_COMMAND,SEARCH_ALL,NULL,0);
+                if(Valid(command) && Executable(command)) {
+                   number         = Number(d->player);
+                   cached_owner   = db[d->player].owner;
+                   cached_chpid   = db[d->player].data->player.chpid;
+                   command_type  |= AREA_CMD;
+                   if((d->player != db[command].owner) && !Level4(d->player)) db[d->player].flags |= NUMBER;
+                   if(!(Wizard(command) || Level4(db[command].owner))) db[d->player].owner = db[d->player].data->player.chpid = db[command].owner;
+                   command_clear_args();
+                   command_arg0 = ".reconnect";
+                   command_cache_execute(d->player,command,1,1);
+                   command_type                    &= ~AREA_CMD;
+                   if(!number) db[d->player].flags &= ~NUMBER;
+                   db[d->player].owner              = cached_owner;
+                   db[d->player].data->player.chpid = cached_chpid;
+                }
+                match_done();
+
+                /* ---->  Execute personal .reconnect compound connect if exists  <---- */
+                command = match_simple(d->player,".reconnect",COMMANDS,0,1);
+                if(Valid(command) && Executable(command)) {
+                   number         = Number(d->player);
+                   cached_owner   = db[d->player].owner;
+                   cached_chpid   = db[d->player].owner;
+                   if((d->player != db[command].owner) && !Level4(d->player)) db[d->player].flags |= NUMBER;
+                   if(!(Wizard(command) || Level4(db[command].owner))) db[d->player].owner = db[d->player].data->player.chpid = db[command].owner;
+                   command_clear_args();
+                   command_arg0 = ".reconnect";
+                   command_cache_execute(d->player,command,1,1);
+                   if(!number) db[d->player].flags &= ~NUMBER;
+                   db[d->player].owner              = cached_owner;
+                   db[d->player].data->player.chpid = cached_chpid;
+                }
+
                 if(d->pager && d->pager->prompt) {
                    pager_display(d);
 		} else if(d->edit) {
