@@ -213,21 +213,18 @@ void finance_payment(struct descriptor_data *p)
      struct descriptor_data *d;
      time_t now;
 
-     /* ---->  Update counter, if idle time is less than IDLE_PAYMENT minutes  <---- */
+     /* ---->  Update counter, if idle time is less than IDLE_TIME minutes  <---- */
      if(!p || !Validchar(p->player)) return;
      gettime(now);
      diff = (now - p->last_time);
 
-     if((now - p->last_time) >= (IDLE_TIME * MINUTE))
-        db[p->player].data->player.idletime += (now - p->last_time);
-
      p->warning_level = 0;
      p->last_time     = now;
-     if(Puppet(p->player) || (diff > (IDLE_PAYMENT * MINUTE))) return;
+     if(Puppet(p->player) || (diff > (IDLE_TIME * MINUTE))) return;
 
-     /* ---->  If user has more than one connection below IDLE_PAYMENT idle time, don't update counter  <---- */
+     /* ---->  If user has more than one connection below IDLE_TIME time, don't update counter  <---- */
      for(d = descriptor_list; d; d = d->next)
-         if((d->player == p->player) && (d != p) && ((now - d->last_time) < (IDLE_PAYMENT * MINUTE)))
+         if((d->player == p->player) && (d != p) && ((now - d->last_time) < (IDLE_TIME * MINUTE)))
 	    return;
      db[p->player].data->player.payment += diff;
 
