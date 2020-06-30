@@ -441,7 +441,7 @@ doesn't exist (crashes on shutdown, when dumping DB.)
               directly.  If object, they just call 'get'/'drop' which
               then calls 'withdraw'/'deposit' again.  Perhaps also
               allow 'pay' too (Matches 'here', character name, object
-              name in same location.)  '.pay'/'.payed' action
+              name in same location.)  '.pay'/'.paid' action
               commands could be implemented, triggered when
               character/object receives payment, or 'withdraw'/'deposit'
               is used on object.  FINANCE and SECURE flags must be taken
