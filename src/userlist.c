@@ -1249,7 +1249,7 @@ void userlist_set_title(CONTEXT)
                  if(Blank(arg2) || !instring("%{",arg2)) {
                     if(Blank(arg2) || !instring("%h",arg2)) {
                        if(Blank(arg2) || Level2(db[player].owner) || (*arg2 != '.')) {
-                          if(!Blank(arg2) || (strlen(arg2) <= 100)) {
+                          if(!Blank(arg2) && (strlen(arg2) <= 100)) {
 		   	     ansi_code_filter((char *) arg2,arg2,0);
                              setfield(character,TITLE,arg2,0);
                              if(!in_command) {
