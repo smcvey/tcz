@@ -661,7 +661,7 @@
 #define BANNED_TITLE                   ANSI_LRED" is currently "ANSI_LMAGENTA""ANSI_UNDERLINE"banned"ANSI_LRED" from "ANSI_LYELLOW"%s"ANSI_LRED"."
 #define GUEST_TITLE                    ANSI_LCYAN"is a guest to "ANSI_LYELLOW"%s"ANSI_LCYAN"."
 #define LOST_TITLE		       ANSI_DCYAN" has lost %s connection."
-#define ROOT_TITLE                     ANSI_LGREEN"is the administrator of "ANSI_LYELLOW"%s"ANSI_LGREEN"."
+#define ROOT_TITLE                     "%%g%%lis the administrator of %%y%%l%s%%g%%l."
 #define AFK_TITLE	               ANSI_LMAGENTA" is "ANSI_LRED""ANSI_UNDERLINE"AFK"ANSI_LMAGENTA" and idle."
 #define NEW_TITLE                      ANSI_LGREEN"is new to "ANSI_LYELLOW"%s"ANSI_LGREEN"!"
 
