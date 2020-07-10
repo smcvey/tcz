@@ -65,6 +65,8 @@ struct author_details authors[] = {
        {NULL, NULL, NULL, 0, 0,
 	  "NH",  "Nick Huggins",       NULL,        NULL},
        {NULL, NULL, NULL, 0, 0,
+	  "NA",  "Noah Anderson",      "Starace",   "noahmanderson@gmail.com"},
+       {NULL, NULL, NULL, 0, 0,
 	  "PC",  "Peter Crowther",     "Ozzard",    NULL},
        {NULL, NULL, NULL, 0, 0,
 	  "RH",  "Robin Heydon",       NULL,        NULL},
