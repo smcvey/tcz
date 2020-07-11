@@ -825,11 +825,16 @@ void tcz_connect_character(struct descriptor_data *d,dbref player,int create)
      struct   descriptor_data *p;
      unsigned char number;
      short    cc;
+     time_t   now;
 
      if(((cc = server_count_connections(player,1)) == 1) || (db[player].data->player.lasttime == 0)) {
         update_lasttotal(player,1);
         d->start_time = db[player].data->player.lasttime;
      } else gettime(d->start_time);
+     gettime(now);
+     if (((now - d->last_time) >= (IDLE_TIME * MINUTE)) && Validchar(d->player))
+        db[d->player].data->player.idletime += (now - d->last_time);
+     d->last_time = now;
      server_sort_descriptor(d);
      if(cc == 1) db[player].flags2 &= ~(CHAT_OPERATOR|CHAT_PRIVATE);
      db[player].flags2 |=  CONNECTED;
