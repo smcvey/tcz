@@ -2289,8 +2289,10 @@ int isnumber(char *message)
 {
    int i, length = strlen(message);
    for(i =0; i < length; i++) {
-      if(isdigit(message[i])) {
-         return 1;
+      if(!isdigit(message[i])) {
+         return 0;
       }
    }
+
+   return 1;
 }
