@@ -764,6 +764,21 @@ void query_format(CONTEXT)
         else setreturn(punctuate(arg.text[0],1,'.'),COMMAND_SUCC);
 }
 
+/* ---->   {@?formatnumber "<STRING>"}   <---- */
+void query_format_number(CONTEXT)
+{
+	struct arg_data arg;
+	
+	unparse_parameters(params,1,&arg,0);
+	if(arg.count < 1) {
+      setreturn ("", COMMAND_SUCC);
+      return;
+   }
+
+	if(!isnumber(arg.text[0]) == 1) setreturn(arg.text[0], COMMAND_FAIL);
+	   else setreturn(format_commas(arg.text[0]),COMMAND_SUCC);
+}
+
 /* ---->  Is given user a friend/enemy of PLAYER?  <---- */
 /*        (val1:  0 = Friend, 1 = Enemy.)                */
 void query_friend(CONTEXT)

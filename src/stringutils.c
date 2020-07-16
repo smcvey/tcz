@@ -2260,3 +2260,37 @@ unsigned long longdate_difference(unsigned long longdate1,unsigned long longdate
 	    interval++, m_month1++;
 	 return(interval);
 }
+
+char *format_commas(char *message)
+{
+   static char commas[50];
+   char tmp[50];
+   sprintf(tmp, "%s", message);
+   char *src, *dst;
+
+   src = tmp + strlen(tmp) - 1;
+   dst = commas + 50 - 1;
+
+   int len = strlen(tmp);
+   int cnt = 0;
+
+   do {
+      if ( *src <= '9' && *src >= '0') {
+         if( cnt && !(cnt % 3)) *dst-- = ',';
+         cnt++;
+      }
+      *dst-- = *src--;
+   } while (--len);
+
+   return dst+1;
+}
+
+int isnumber(char *message)
+{
+   int i, length = strlen(message);
+   for(i =0; i < length; i++) {
+      if(isdigit(message[i])) {
+         return 1;
+      }
+   }
+}

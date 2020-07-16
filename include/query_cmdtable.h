@@ -155,6 +155,7 @@ struct cmd_table query_cmds[] = {
        {QUERY_COMMAND, "@?flags",                (void *) query_flags,               0, 0, 0},
        {QUERY_COMMAND, "@?format",               (void *) query_format,              0, 0, 0},
        {QUERY_COMMAND, "@?formattext",           (void *) query_format,              0, 0, 0},
+       {QUERY_COMMAND, "@?formatnumber",	     (void *) query_format_number,       0, 0, 0},
        {QUERY_COMMAND, "@?friend",               (void *) query_friend,              0, 0, 0},
        {QUERY_COMMAND, "@?fullname",             (void *) query_fullname,            0, 0, 0},
        {QUERY_COMMAND, "@?fuses",                (void *) query_object,              TYPE_FUSE, 0, 0},

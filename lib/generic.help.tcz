@@ -299,12 +299,12 @@ Also, see '%g%l%<menu%>%x', '%g%l%<2%>%x', '%g%l%<3%>%x' and '%g%l%<6%>%x'.
 %c%l%$String processing query commands:%x
 %~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %[%g%l%(@?alpha%)         %(@?alnum%)         %(@?boolean%)       %(@?capitalise%)    %(@?censor%)
-%(@?colourmap%)     %(@?digit%)         %(@?filter%)        %(@?format%)        %(@?head%)
-%(@?islower%)       %(@?isupper%)       %(@?leftstr%)       %(@?length%)        %(@?lower%)
-%(@?midstr%)        %(@?number%)        %(@?pad%)           %(@?padcentre%)     %(@?padleft%)
-%(@?padright%)      %(@?protect%)       %(@?punct%)         %(@?replace%)       %(@?rightstr%)
-%(@?separator%)     %(@?strlen%)        %(@?strpos%)        %(@?strprefix%)     %(@?tail%)
-%(@?upper%)         %(@?wildcard%)%]
+%(@?colourmap%)     %(@?digit%)         %(@?filter%)        %(@?format%)      %(@?formatnumber%)
+%(@?head%)          %(@?islower%)       %(@?isupper%)       %(@?leftstr%)     %(@?length%)
+%(@?lower%)         %(@?midstr%)        %(@?number%)        %(@?pad%)         %(@?padcentre%)
+%(@?padleft%)       %(@?padright%)      %(@?protect%)       %(@?punct%)       %(@?replace%)
+%(@?rightstr%)      %(@?separator%)     %(@?strlen%)        %(@?strpos%)      %(@?strprefix%)
+%(@?tail%)          %(@?upper%)         $(@?wildcard%)%]
 
 
 %c%l%$Sentence processing query commands:%x
@@ -6052,6 +6052,22 @@ Formats the string %y%l<STRING>%x (Auto-capitalises and adds punctuation) and re
 %[%g%l%(@echo%) {@?format "this text will be auto-formatted"}%]%x
 <-SEPARATOR->
 Also, see '%g%l%<@?upper%>%x', '%g%l%<@?lower%>%x', '%g%l%<@?capitalise%>%x' and '%g%l%<advanced queries%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC @?formatnumber
+%TITLE Help on '%w%l{@?formatnumber}%x'
+%[%c%lUSAGE:  %g%l{@?formatnumber "<STRING>"}%]%x
+
+Formats the string of numbers %y%l<STRING>%x and returns resulting string with commas
+in the correct places (ie: 1,234).
+
+
+%c%l%$Example:%x
+%~%c~~~~~~~~
+%[%g%l%(@echo%) {@?formatnumber "1234"}%]%x
+<-SEPARATOR->
+Also, see '%g%l%<advanced queries%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 

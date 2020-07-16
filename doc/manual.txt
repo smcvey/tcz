@@ -2332,12 +2332,13 @@ In most cases, things are given priority.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   {@?alpha}          {@?alnum}          {@?boolean}        {@?capitalise}
   {@?censor}         {@?colourmap}      {@?digit}          {@?filter}
-  {@?format}         {@?head}           {@?islower}        {@?isupper}
-  {@?leftstr}        {@?length}         {@?lower}          {@?midstr}
-  {@?number}         {@?pad}            {@?padcentre}      {@?padleft}
-  {@?padright}       {@?protect}        {@?punct}          {@?replace}
-  {@?rightstr}       {@?separator}      {@?strlen}         {@?strpos}
-  {@?strprefix}      {@?tail}           {@?upper}          {@?wildcard}
+  {@?format}         {@?formatnumber}   {@?head}           {@?islower}
+  {@?isupper}        {@?leftstr}        {@?length}         {@?lower}
+  {@?midstr}         {@?number}         {@?pad}            {@?padcentre}
+  {@?padleft}        {@?padright}       {@?protect}        {@?punct}
+  {@?replace}        {@?rightstr}       {@?separator}      {@?strlen}
+  {@?strpos}         {@?strprefix}      {@?tail}           {@?upper}
+  {@?wildcard}
 
 
   Sentence processing query commands:
@@ -16699,6 +16700,20 @@ In most cases, things are given priority.
   Example:
   ~~~~~~~~
   @echo {@?format "this text will be auto-formatted"}
+
+-------------------------------------------------------------------------------
+
+  {@?formatnumber}
+  ~~~~~~~~~~
+  USAGE:  {@?formatnumber "<NUMBER>"}
+
+  Formats the string of numbers <STRING> and returns resulting string with commas
+  in the correct places (ie: 1,234).
+
+
+  Example:
+  ~~~~~~~~
+  @echo {@?formatnumber "1234"}
 
 -------------------------------------------------------------------------------
 
