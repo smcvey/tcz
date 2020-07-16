@@ -6057,7 +6057,7 @@ Also, see '%g%l%<@?upper%>%x', '%g%l%<@?lower%>%x', '%g%l%<@?capitalise%>%x' and
 
 %TOPIC @?formatnumber
 %TITLE Help on '%w%l{@?formatnumber}%x'
-%[%c%lUSAGE:  %g%l{@?formatnumber "<STRING>"}%]%x
+%[%c%lUSAGE:  %g%l{@?formatnumber "<NUMBER>"}%]%x
 
 Formats the string of numbers %y%l<STRING>%x and returns resulting string with commas
 in the correct places (ie: 1,234).

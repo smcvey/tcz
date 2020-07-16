@@ -764,7 +764,7 @@ void query_format(CONTEXT)
         else setreturn(punctuate(arg.text[0],1,'.'),COMMAND_SUCC);
 }
 
-/* ---->   {@?formatnumber "<STRING>"}   <---- */
+/* ---->   {@?formatnumber "<NUMBER>"}   <---- */
 void query_format_number(CONTEXT)
 {
 	struct arg_data arg;
