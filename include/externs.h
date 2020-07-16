@@ -905,7 +905,7 @@ extern  void            query_finance           (CONTEXT);
 extern  void            query_first_name        (CONTEXT);
 extern  void            query_flags             (CONTEXT);
 extern  void            query_format            (CONTEXT);
-extern	void		      query_format_number	   (CONTEXT);
+extern  void		      query_format_number	   (CONTEXT);
 extern  void            query_friend            (CONTEXT);
 extern  void            query_fullname          (CONTEXT);
 extern  void            query_head              (CONTEXT);
