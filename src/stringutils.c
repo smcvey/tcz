@@ -2263,6 +2263,10 @@ unsigned long longdate_difference(unsigned long longdate1,unsigned long longdate
 
 char *format_commas(char *message)
 {
+   if (strlen(message) == 0) {
+      return message;
+   }
+
    static char commas[50];
    char tmp[50];
    sprintf(tmp, "%s", message);
