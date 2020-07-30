@@ -40,8 +40,6 @@
 struct yearly_event_data yearly_events[] = {
        {NULL, "New Year",                  01, 01, 00, 00, LONGDATEFMT,  1, 1,  "%r%lHappy New Year!  Welcome to the year %y%l%{@?wordno 4 {@?realtime = date}}%r%l!"},
        {NULL, "Record Peak of 122 Users",  05, 03, 00, 00, LONGDATEFMT,  0, 0,  "%r%lThe original TCZ MUD reached a record peak of %w%l122 users simultaneously%r%l on %y%l5th March 1996%r%l."},
-       {NULL, "TCZ 2000 Project",          11, 04, 00, 00, LONGDATEFMT,  1, 0,  "%r%lThe %w%lTCZ 2000 Project%r%l celebrates its anniversary!  -  The TCZ 2000 Project commenced on %y%lSunday 11th April 1999%r%l to ensure the future of the TCZ source code.  It celebrates its %w%l%{@?rank {@eval 0:(real ({@?time} - {@?datetime 11/04/1999}) / 31557600)}}%x birthday."},
-       {NULL, "TCZ Closed Down",           30, 05, 00, 00, FULLDATEFMT,  0, 0,  "%r%lOn %y%lWednesday 30th May 2000%r%l, the original TCZ MUD was finally closed after over six years of running.  It was re-opened again on %y%lWednesday 23rd May 2001%r%l as an official research project of the %w%lInformation, Media and Communication (IMC) Research Group%r%l in the %w%lDepartment of Computer Science, Queen Mary, University of London%r%l."},
        {NULL, "One Million Connections",   22, 06, 00, 00, LONGDATEFMT,  0, 0,  "%r%lThe original TCZ MUD reached a total of %w%lone million%r%l (Non-unique) connections on %y%lSunday 22nd June 1997%r%l."},
        {NULL, "Independence Day",          04, 07, 00, 00, LONGDATEFMT,  1,  1,  "%r%lHappy Independence Day to all our American users %l - %l Enjoy the fireworks!"},
        {NULL, "Halloween",                 31, 10, 00, 00, LONGDATEFMT,  1,  1,  "%r%lHappy Halloween!  Watch out for those spooks, ghosts and ghouls!"},
