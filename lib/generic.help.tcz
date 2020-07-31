@@ -8160,7 +8160,7 @@ The first form causes the alarm to go off at the same time each week.
 
 Days are numbered from %y%l1 - 7%x, with day 1 being Monday.  If you enter a '%y%l*%x' in any field instead of a number, the alarm will execute regardless of the value of that field, e.g:  '%g%l0 0 12 *%x' would cause the alarm to go off at midday every day.
 
-The second form causes the alarm to go off only once, the amount of time that you specify into the future, e.g:  '%g%l+ 0 0 1 0%x' causes the alarm to go off one hour into the future.
+The second form causes the alarm to go off every given interval of time, e.g: '%g%l+ 0 10 0 0%x' would cause the alarm to execute every 10 minutes and '%g%l+ 0 0 2 0%x' would cause the alarm to execute every 2 hours. 
 
 %PAGE
 You can disable an alarm (Without destroying it), by either resetting its description or csuccess branch ('%g%l%(@csucc%)%x'.)
