@@ -755,7 +755,8 @@ void array_traverse_elements(struct array_sort_data *current)
 /* ---->  Secondary sort key  <---- */
 unsigned char array_secondary_key(const char *ptr,const char **sortptr,int *ofs,int *len,unsigned char alpha,short offset,unsigned char elements,const char *separator)
 {
-	 unsigned short loop, pos = 0;
+	 unsigned short loop = 0;
+         unsigned short pos  = 0;
 
 	 if(!Blank(ptr)) {
 	    *sortptr = ptr, ptr = (elements) ? decompress(ptr):ptr;
@@ -784,11 +785,17 @@ unsigned char array_secondary_key(const char *ptr,const char **sortptr,int *ofs,
 	       *ofs = pos, *len = 0;
 	       return(1);
 	    } else {
+               if (atoi(ptr) != 0) {
+                   *ofs = pos;
+                   *len = 0;
+                   return(1);
+               }
 	       for(; *ptr && !isdigit(*ptr); ptr++, pos++);
 	       for(loop = 1; *ptr && (loop < offset); loop++) {
 		   for(; *ptr && isdigit(*ptr); ptr++, pos++);
 		   for(; *ptr && !isdigit(*ptr); ptr++, pos++);
 	       }
+               
 	       *ofs = pos, *len = 0;
 	       return(1);
 	    }
@@ -814,8 +821,8 @@ int array_secondary_match(const char *sortkey1,unsigned short sortofs1,unsigned 
     if(!alpha) {
        int num1,num2;
 
-       num1 = (isdigit(*scratch_buffer)) ? atol(scratch_buffer):0;
-       num2 = (isdigit(*scratch_return_string)) ? atol(scratch_return_string):0;
+       num1 = (isdigit(*scratch_buffer) || *scratch_buffer == '-') ? atol(scratch_buffer):0;
+       num2 = (isdigit(*scratch_return_string) || *scratch_return_string == '-') ? atol(scratch_return_string):0;
        return(num2 - num1);
     } else return(strcasecmp(scratch_return_string,scratch_buffer));
 }
