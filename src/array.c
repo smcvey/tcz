@@ -36,6 +36,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 #include "structures.h"
 #include "command.h"
@@ -785,7 +786,7 @@ unsigned char array_secondary_key(const char *ptr,const char **sortptr,int *ofs,
 	       *ofs = pos, *len = 0;
 	       return(1);
 	    } else {
-               if (atoi(ptr) != 0) {
+               if (atof(ptr) != 0.0) {
                    *ofs = pos;
                    *len = 0;
                    return(1);
@@ -819,11 +820,13 @@ int array_secondary_match(const char *sortkey1,unsigned short sortofs1,unsigned 
        strcpy(scratch_return_string,(!sortkey2) ? "":((elements) ? decompress(sortkey2):sortkey2) + sortofs2);
     }
     if(!alpha) {
-       int num1,num2;
+       double num1,num2,cmp;
 
-       num1 = (isdigit(*scratch_buffer) || *scratch_buffer == '-') ? atol(scratch_buffer):0;
-       num2 = (isdigit(*scratch_return_string) || *scratch_return_string == '-') ? atol(scratch_return_string):0;
-       return(num2 - num1);
+       num1 = (isdigit(*scratch_buffer) || *scratch_buffer == '-') ? atof(scratch_buffer):0;
+       num2 = (isdigit(*scratch_return_string) || *scratch_return_string == '-') ? atof(scratch_return_string):0;
+       cmp = num2 - num1;
+
+       return( (int) (cmp < 0.0) ? floor(cmp) : ceil(cmp));
     } else return(strcasecmp(scratch_return_string,scratch_buffer));
 }
 
