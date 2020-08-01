@@ -756,78 +756,79 @@ void array_traverse_elements(struct array_sort_data *current)
 /* ---->  Secondary sort key  <---- */
 unsigned char array_secondary_key(const char *ptr,const char **sortptr,int *ofs,int *len,unsigned char alpha,short offset,unsigned char elements,const char *separator)
 {
-	 unsigned short loop = 0;
-         unsigned short pos  = 0;
+        unsigned short loop = 0;
+        unsigned short pos  = 0;
 
-	 if(!Blank(ptr)) {
-	    *sortptr = ptr, ptr = (elements) ? decompress(ptr):ptr;
-	    if(!Blank(separator)) {
-	       unsigned short itemlen;
+        if(!Blank(ptr)) {
+                *sortptr = ptr, ptr = (elements) ? decompress(ptr):ptr;
+                if(!Blank(separator)) {
+                        unsigned short itemlen;
 
-	       loop = 0, *len = strlen(separator);
-	       while(*ptr) {
-		     for(loop++, itemlen = 0; *ptr && strncasecmp(ptr,separator,*len); ptr++, itemlen++);
-    
-		     /* ---->  Item found  <---- */
-		     if(loop == offset) {
-			*ofs = pos;
-			*len = itemlen;
-			return(1);
-		     }
+                        loop = 0, *len = strlen(separator);
+                        while(*ptr) {
+                                for(loop++, itemlen = 0; *ptr && strncasecmp(ptr,separator,*len); ptr++, itemlen++);
 
-		     /* ---->  Skip <SEPARATOR>  <---- */
-		     pos += itemlen;
-		     if(*ptr && !strncasecmp(ptr,separator,*len)) ptr += *len, pos += *len;
-	       }
-	       *ofs = 0, *len = 0;
-	       return(0);
-	    } else if(alpha) {
-	       for(; *ptr && ((pos + 1) < offset); ptr++, pos++);
-	       *ofs = pos, *len = 0;
-	       return(1);
-	    } else {
-               if (atof(ptr) != 0.0) {
-                   *ofs = pos;
-                   *len = 0;
-                   return(1);
-               }
-	       for(; *ptr && !isdigit(*ptr); ptr++, pos++);
-	       for(loop = 1; *ptr && (loop < offset); loop++) {
-		   for(; *ptr && isdigit(*ptr); ptr++, pos++);
-		   for(; *ptr && !isdigit(*ptr); ptr++, pos++);
-	       }
-               
-	       *ofs = pos, *len = 0;
-	       return(1);
-	    }
-	 }
-	 *sortptr = NULL;
-	 *ofs     = 0;
-	 *len     = 0;
-	 return(0);
+                                /* ---->  Item found  <---- */
+                                if(loop == offset) {
+                                        *ofs = pos;
+                                        *len = itemlen;
+                                        return(1);
+                                }
+
+                                /* ---->  Skip <SEPARATOR>  <---- */
+                                pos += itemlen;
+                                if(*ptr && !strncasecmp(ptr,separator,*len)) ptr += *len, pos += *len;
+                        }
+                        *ofs = 0, *len = 0;
+                        return(0);
+                } else if(alpha) {
+                        for(; *ptr && ((pos + 1) < offset); ptr++, pos++);
+                        *ofs = pos, *len = 0;
+                        return(1);
+                } else {
+                        /* ---->  Able to detect negative integers and reals  <---- */
+                        if (atof(ptr) != 0.0) {
+                                *ofs = pos;
+                                *len = 0;
+                                return(1);
+                        }
+                        /* ---->  For other strange cases including numbers  <---- */
+                        for(; *ptr && !isdigit(*ptr); ptr++, pos++);
+                        for(loop = 1; *ptr && (loop < offset); loop++) {
+                                for(; *ptr && isdigit(*ptr); ptr++, pos++);
+                                for(; *ptr && !isdigit(*ptr); ptr++, pos++);
+                        }
+                        *ofs = pos, *len = 0;
+                        return(1);
+                }
+        }
+        *sortptr = NULL;
+        *ofs     = 0;
+        *len     = 0;
+        return(0);
 }
 
 /* ---->  Match on secondary sort key  <---- */
 int array_secondary_match(const char *sortkey1,unsigned short sortofs1,unsigned short sortlen1,const char *sortkey2,unsigned short sortofs2,unsigned short sortlen2,unsigned char alpha,unsigned char elements,const char *separator)
 {
-    if(separator) {
-       strncpy(scratch_buffer,(!sortkey1) ? "":((elements) ? decompress(sortkey1):sortkey1) + sortofs1,sortlen1);
-       strncpy(scratch_return_string,(!sortkey2) ? "":((elements) ? decompress(sortkey2):sortkey2) + sortofs2,sortlen2);
-       scratch_buffer[sortlen1]        = '\0';
-       scratch_return_string[sortlen2] = '\0';
-    } else {
-       strcpy(scratch_buffer,(!sortkey1) ? "":((elements) ? decompress(sortkey1):sortkey1) + sortofs1);
-       strcpy(scratch_return_string,(!sortkey2) ? "":((elements) ? decompress(sortkey2):sortkey2) + sortofs2);
-    }
-    if(!alpha) {
-       double num1,num2,cmp;
+        if(separator) {
+                strncpy(scratch_buffer,(!sortkey1) ? "":((elements) ? decompress(sortkey1):sortkey1) + sortofs1,sortlen1);
+                strncpy(scratch_return_string,(!sortkey2) ? "":((elements) ? decompress(sortkey2):sortkey2) + sortofs2,sortlen2);
+                scratch_buffer[sortlen1]        = '\0';
+                scratch_return_string[sortlen2] = '\0';
+        } else {
+                strcpy(scratch_buffer,(!sortkey1) ? "":((elements) ? decompress(sortkey1):sortkey1) + sortofs1);
+                strcpy(scratch_return_string,(!sortkey2) ? "":((elements) ? decompress(sortkey2):sortkey2) + sortofs2);
+        }
+        if(!alpha) {
+                double num1,num2,cmp;
 
-       num1 = (isdigit(*scratch_buffer) || *scratch_buffer == '-') ? atof(scratch_buffer):0;
-       num2 = (isdigit(*scratch_return_string) || *scratch_return_string == '-') ? atof(scratch_return_string):0;
-       cmp = num2 - num1;
+                num1 = (isdigit(*scratch_buffer) || *scratch_buffer == '-') ? atof(scratch_buffer):0;
+                num2 = (isdigit(*scratch_return_string) || *scratch_return_string == '-') ? atof(scratch_return_string):0;
+                cmp = num2 - num1;
 
-       return( (int) (cmp < 0.0) ? floor(cmp) : ceil(cmp));
-    } else return(strcasecmp(scratch_return_string,scratch_buffer));
+                return( (int) (cmp < 0.0) ? floor(cmp) : ceil(cmp));
+        } else return(strcasecmp(scratch_return_string,scratch_buffer));
 }
 
 /* ---->  Sort dynamic array elements into alphabetical or numerical order  <---- */
@@ -857,7 +858,7 @@ void array_sort(CONTEXT)
                     else {
                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify the sort "ANSI_LYELLOW""ANSI_UNDERLINE"<ORDER>"ANSI_LGREEN" (Either '"ANSI_LWHITE"alpha"ANSI_LGREEN"' or '"ANSI_LWHITE"numerical"ANSI_LGREEN"'.)");
                        return;
-		    }
+                    }
 
               /* ---->  Sort <DIRECTION> (Ascending/descending)?  <---- */
               if((arg.count >= 2) && (string_prefix("ASCENDING",arg.text[1]) || string_prefix("FORWARDS",arg.text[1]))) ascending = 1;
@@ -865,7 +866,7 @@ void array_sort(CONTEXT)
                     else {
                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify the sort "ANSI_LYELLOW""ANSI_UNDERLINE"<DIRECTION>"ANSI_LGREEN" (Either '"ANSI_LWHITE"ascending"ANSI_LGREEN"' or '"ANSI_LWHITE"descending"ANSI_LGREEN"'.)");
                        return;
-		    }
+                    }
 
               /* ---->  Primary sort key (<KEY1>) (Index/elements)  <---- */
               if((arg.count >= 3) && string_prefix("ELEMENTS",arg.text[2])) elements = 1;
@@ -873,13 +874,13 @@ void array_sort(CONTEXT)
                     else {
                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify the primary sort key ("ANSI_LYELLOW""ANSI_UNDERLINE"<KEY1>"ANSI_LGREEN") (Either '"ANSI_LWHITE"index"ANSI_LGREEN"' or '"ANSI_LWHITE"elements"ANSI_LGREEN"'.)");
                        return;
-		    }
+                    }
 
               /* ---->  Optional secondary sort key (<NUMBER>|<ITEM NO> "<SEPARATOR>")  <---- */
               if((arg.count >= 4) && (arg.numb[3] > 0)) {
                  offset = arg.numb[3];
                  if((arg.count >= 5) && !Blank(arg.text[4])) separator = arg.text[4];
-	      }
+              }
 
               /* ---->  Create tertiary tree of sorted elements  <---- */
               if(!(command_type & NO_USAGE_UPDATE) && !RoomZero(Location(array))) gettime(db[array].lastused);
@@ -888,18 +889,18 @@ void array_sort(CONTEXT)
                      ptr     = (elements) ? element->text:element->index;
                      current = start, last = NULL, found = 0;
 
-		     if(!start) {
+                     if(!start) {
 
                         /* ---->  Create root node of tertiary tree  <---- */
                         MALLOC(new,struct array_sort_data);
                         new->element = element;
                         new->centre  = new->right = new->left = NULL;
                         lowest       = highest = start = new;
-                        array_secondary_key(ptr,&(new->sortptr),&(new->offset),&(new->len),alpha,offset,elements,separator);
-		     } else {
+                        array_secondary_key(ptr,&(new->sortptr),&(new->offset),&(new->len),alpha,offset,elements,separator);    
+                     } else {
                         array_secondary_key(ptr,&sortptr,&sortofs,&sortlen,alpha,offset,elements,separator);
 
-		        if(lowest && ((value = array_secondary_match(lowest->sortptr,lowest->offset,lowest->len,sortptr,sortofs,sortlen,alpha,elements,separator)) <= 0)) {
+                        if(lowest && ((value = array_secondary_match(lowest->sortptr,lowest->offset,lowest->len,sortptr,sortofs,sortlen,alpha,elements,separator)) <= 0)) {
                            MALLOC(new,struct array_sort_data);
                            new->sortptr = sortptr;
                            new->element = element;
@@ -911,11 +912,11 @@ void array_sort(CONTEXT)
                               lowest->left = new;
                               new->centre  = NULL;
                               lowest       = new;
-			   } else {
+                           } else {
                               new->centre    = lowest->centre;
                               lowest->centre = new;
-			   }
-			} else if(highest && ((value = array_secondary_match(highest->sortptr,highest->offset,highest->len,sortptr,sortofs,sortlen,alpha,elements,separator)) >= 0)) {
+                           }
+                        } else if(highest && ((value = array_secondary_match(highest->sortptr,highest->offset,highest->len,sortptr,sortofs,sortlen,alpha,elements,separator)) >= 0)) {
                            MALLOC(new,struct array_sort_data);
                            new->sortptr = sortptr;
                            new->element = element;
@@ -927,11 +928,11 @@ void array_sort(CONTEXT)
                               highest->right = new;
                               new->centre    = NULL;
                               highest        = new;
-			   } else {
+                           } else {
                               new->centre     = highest->centre;
                               highest->centre = new;
-			   }
-			} else {
+                           }
+                        } else {
                             while(current && !found) {
                                   if(!(value = array_secondary_match(current->sortptr,current->offset,current->len,sortptr,sortofs,sortlen,alpha,elements,separator))) {
                                      MALLOC(new,struct array_sort_data);
@@ -943,16 +944,16 @@ void array_sort(CONTEXT)
                                      new->len        = sortlen;
                                      current->centre = new;
                                      found           = 1;
-			          } else if(value > 0) {
+                                  } else if(value > 0) {
                                      last    = current;
                                      current = current->right;
                                      right   = 1;
-				  } else {
+                                  } else {
                                      last    = current;
                                      current = current->left;
                                      right   = 0;
-				  }
-			    }
+                                  }
+                            }
 
                             if(!found) {
                                MALLOC(new,struct array_sort_data);
@@ -962,28 +963,28 @@ void array_sort(CONTEXT)
                                new->offset  = sortofs;
                                new->len     = sortlen;
                                
-			       if(last) {
+                               if(last) {
                                   if(right) {
                                      last->right = new;
-				  } else {
-				     last->left = new;
-				  }
-			       }
-			    }
-			}
-		     }
-		 }
+                                  } else {
+                                     last->left = new;
+                                  }
+                               }
+                            }
+                        }
+                     }
+                 }
 
                  /* ---->  Traverse tertiary tree to construct sorted array  <---- */
                  rootnode = NULL, sortdir = ascending;
                  array_traverse_elements(start);
                  db[array].data->array.start = rootnode;
-	      }
+              }
               if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s of dynamic array %s"ANSI_LWHITE"%s"ANSI_LGREEN" sorted into %s %s order.",(elements) ? "Elements":"Index names",Article(array,LOWER,DEFINITE),unparse_object(player,array,0),(ascending) ? "ascending":"descending",(alpha) ? "alphabetical":"numerical");
               setreturn(OK,COMMAND_SUCC);
-	   } else if(Level3(db[player].owner)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only sort the elements of a dynamic array you own or one that's owned by someone of a lower level than yourself.");
+           } else if(Level3(db[player].owner)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only sort the elements of a dynamic array you own or one that's owned by someone of a lower level than yourself.");
               else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only sort the elements of a dynamic array you own.");
-	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that dynamic array is Read-Only  -  You can't sort its elements.");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that dynamic array is Read-Only  -  You can't sort its elements.");
      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only sort the elements of a dynamic array.");
 }
 
