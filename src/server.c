@@ -1011,6 +1011,9 @@ void server_process_commands(void)
 
                      /* ---->  Process user command  <---- */
                      processed = server_command(d,command);
+
+                     /* ---->  Always keep descriptor current, idle penalties have been handled by now  <---- */
+                     d->last_time = now;
                      FREENULL(command);
 
                      if(reset_list) {
