@@ -455,8 +455,8 @@
 
 
 /* ---->  Alias constraints  <---- */
-#define MAX_ALIASES_MORTAL             50        /*  Maximum unique aliases a Mortal may have  */
-#define MAX_ALIASES_ADMIN              100       /*  Maximum unique aliases Apprentice Wizard or above may have (Elder Wizards and above are unrestricted (With exception of MAX_ALIASES))  */
+#define MAX_ALIASES_MORTAL             100       /*  Maximum unique aliases a Mortal may have  */
+#define MAX_ALIASES_ADMIN              200       /*  Maximum unique aliases Apprentice Wizard or above may have (Elder Wizards and above are unrestricted (With exception of MAX_ALIASES))  */
 #define MAX_ALIAS_LENGTH               64        /*  Maximum length of alias name  */
 #define MAX_ALIASES                    65000     /*  Absolute maximum number of individual (Non-unique) aliases  */
 
