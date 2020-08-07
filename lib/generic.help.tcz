@@ -8186,7 +8186,7 @@ Also, see '%g%l%<@pending%>%x', '%g%l%<@desc%>%x', '%g%l%<@csucc%>%x', '%g%l%<@?
 The '%g%l@alias%x' command is used to add or change aliases for %@%m commands.
 '%g%l@unalias%x' is used to remove them.
 
-Mortals may have up to %c%l50%x unique aliases, %y%lApprentice Wizards/%yDruids%x and %c%lWizards/%cDruids%x may have up to %c%l100%x, and %g%lElder Wizards/%gDruids%x and above are unrestricted.
+Mortals may have up to %c%l100%x unique aliases, %y%lApprentice Wizards/%yDruids%x and %c%lWizards/%cDruids%x may have up to %c%l200%x, and %g%lElder Wizards/%gDruids%x and above are unrestricted.
 
 %c%l%8NOTE:  %xIf a compound command has its %y%l%(APPRENTICE%)%x or %y%l%(WIZARD%)%x flag set, or is owned by an %y%lApprentice Wizard/%yDruid%x or above, the aliases of the compound command's owner will be taken into account when the compound command is executed.
 

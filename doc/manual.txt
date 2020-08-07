@@ -7447,8 +7447,8 @@ In most cases, things are given priority.
   The '@alias' command is used to add or change aliases for TCZ-based MUD
   commands.  '@unalias' is used to remove them.
 
-  Mortals may have up to 50 unique aliases, Apprentice Wizards/Druids and
-  Wizards/Druids may have up to 100, and Elder Wizards/Druids and above are
+  Mortals may have up to 100 unique aliases, Apprentice Wizards/Druids and
+  Wizards/Druids may have up to 200, and Elder Wizards/Druids and above are
   unrestricted.
 
   NOTE:  If a compound command has its APPRENTICE or WIZARD flag set, or
