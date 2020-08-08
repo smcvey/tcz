@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  30/06/2020.
+                     Manual release date:  7/08/2020.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
