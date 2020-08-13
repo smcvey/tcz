@@ -162,13 +162,13 @@ char *selection_seek_end(char *str,int *lineno,unsigned char elsepart,unsigned c
                       if(((len = strlen(str + 1)) >= 4) && !strncasecmp(str + 1,"egin",4) && (!*(str + 5) || (*(str + 5) == ' ') || (*(str + 5) == '\n'))) {
                          type = FLOW_BEGIN >> 24;
                          onstack = 1;
-		      }
+                      }
                       break;
                  case 'c':
                  case 'C':
 
                       /* ---->  @case  <---- */
-                      if(!strncasecmp(str + 1,"ase ",4))
+                      if(!strncasecmp(str + 1,"ase ",4)) 
                          type = FLOW_CASE >> 24;
                       break;
                  case 'e':
@@ -358,6 +358,7 @@ void selection_case(CONTEXT)
 		       if(*ptr && ((*ptr == ',') || (*ptr == ':'))) {
                           if(*ptr == ':') command = 1;
                           *ptr++ = '\0';
+                          while (*value == '\n' && (value + 1)) value++;
                           filter_spaces((char *) value,(char *) value,0);
 
                           /* ---->  Single value or range of values?  <---- */
