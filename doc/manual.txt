@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  7/08/2020.
+                     Manual release date:  1/09/2020.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -16208,8 +16208,8 @@ In most cases, things are given priority.
   USAGE:  {@?totallogins [<NAME>]}
 
   Returns the character <NAME>'s total number of logins since they created
-  their character, e.g:  '@echo {@?interval {@?totallogins me}}' will
-  display your total number of logins.
+  their character, e.g:  '@echo {@?totallogins me}' will display your total
+  number of logins.
 
   Fails and returns 'Error' if the character <NAME> can't be found.
 
