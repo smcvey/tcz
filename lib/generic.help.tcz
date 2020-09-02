@@ -17099,12 +17099,12 @@ The functionality of some action compound commands can also be replicated with f
 
 %PAGE
 
-%[%c%l%$Command:%x    %c%l%$@command:%x       %c%l%$Executed:%x
+%[%c%l%$Command:%x    %c%l%$@command:%x      %c%l%$Executed:%x
 %~%c~~~~~~~~    ~~~~~~~~~       ~~~~~~~~~
 %g%l%(lock%)        .lock      %y%lET  %xBefore container/exit is locked.
 %g%l%(lock%)        .locked    %y%lET  %xAfter container/exit is locked.
 %g%l%(look%)        .look      %y%l*   %xBefore object is looked at.
-%g%l%(look%)        .lookdesc  %y%l*   %xAfter object's description.
+%g%l%(look%)        .lookdesc  %y%l*   %xAfter object's description is looked at.
 %g%l%(look%)        .looked    %y%l*   %xAfter object is looked at.
 %g%l%(open%)        .open      %y%lET  %xBefore container/exit is opened.
 %g%l%(open%)        .opened    %y%lET  %xAfter container/exit is opened.
@@ -17119,7 +17119,7 @@ The functionality of some action compound commands can also be replicated with f
 %~%c~~~~~~~~~~~~~
 %xWhen action compound commands execute, they will run under the ID of their owner, unless the %y%l%(WIZARD%)%x flag is set (See '%g%l%<wizard flag%>%x') or the action compound command is owned by Admin.
 
-The action compound command will also disallow writing to the character executing the compound command (For example, you can't change their description)  Again, the %y%l%(WIZARD%)%x flag or Admin. ownership removes this restriction.
+The action compound command will also disallow writing to the character executing the compound command (For example, you can't change their description)  Again, the %y%l%(WIZARD%)%x flag or admin ownership removes this restriction.
 
 These restrictions are for security and to prevent abuse of action compound commands. 
 
@@ -17143,6 +17143,7 @@ These restrictions are for security and to prevent abuse of action compound comm
 %g%l%(leave%)     %(.leave%)     %y%lRT   %xContainer or area is exited.
 %g%l          %(.leavecmd%)  %y%lC    %xCharacter leaves a room.
 %g%l          %(.login%)     %y%lCRT  %xCharacter connects.
+%g%l          %(.reconnect%) %y%lCRT  %xCharacter reconnects.
 %g%l%(QUIT%)      %(.logout%)    %y%lCRT  %xCharacter disconnects.
 %g%l%(page%)      %(.page%)      %y%lC    %x'%g%l%(page%)%x' message is sent to character.
 %g%l%(profile%)   %(.profile%)   %y%lC    %xProfile of character is viewed.
