@@ -7638,11 +7638,11 @@ Also, see '%g%l%<@?totalactive%>%x', '%g%l%<@?totaltime%>%x', '%g%l%<@?averageid
 %TITLE Help on '%w%l{@?totallogins}%x'
 %[%c%lUSAGE:  %g%l{@?totallogins [<NAME>]}%]%x
 
-Returns the character %y%l<NAME>%x's total number of logins since they created their character, e.g:  '%g%l%(@echo%) {%(@?interval%) {@?totallogins me}}%x' will display your total number of logins.
+Returns the character %y%l<NAME>%x's total number of logins since they created their character, e.g:  '%g%l@echo {@?totallogins me}%x' will display your total number of logins.
 
 Fails and returns '%c%lError%x' if the character %y%l<NAME>%x can't be found.
 <-SEPARATOR->
-Also, see '%g%l%<@?averagelogins%>%x', '%g%l%<@?interval%>%x' and '%g%l%<@?created%>%x'.
+Also, see '%g%l%<@?averagelogins%>%x' and '%g%l%<@?created%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 

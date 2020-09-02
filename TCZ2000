@@ -347,7 +347,7 @@ Directory Structure
 ~~~~~~~~~~~~~~~~~~~
 *
 |- bin      Server executable and shell scripts.
-|- changes  Sourec code changes logs.
+|- changes  Source code changes logs.
 |- ideas    Ideas for implementation/improvements.
 |- include  Contains header files for the source code.
 |- lib	    Server database files & configuration.
