@@ -314,6 +314,7 @@ void selection_case(CONTEXT)
      char   matchbuffer[BUFFER_LEN];
      dbref  cached_pid;
      char   endchar;
+     int    value_iter = 0;
 
      setreturn(ERROR,COMMAND_FAIL);
      cached_pid = Owner(player);
@@ -325,6 +326,7 @@ void selection_case(CONTEXT)
         if(strcasecmp(params,"do") && strncasecmp(params,"do ",3)) {
     	   for(casevalue = params; *params && !selection_do_keyword(params); params++);
 	} else casevalue = "";
+        fprintf(stderr,"\n%d: executing case_selection with casevalue = %s\n",__LINE__,casevalue);
 
         if(Blank(params)) {
 	   output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, '"ANSI_LYELLOW""ANSI_UNDERLINE"do"ANSI_LGREEN"' keyword omitted.");
@@ -349,6 +351,8 @@ void selection_case(CONTEXT)
            ptr = (char *) matchbuffer;
 
            while(*ptr && !matched) {
+                 value_iter++;
+                 fprintf(stderr,"%d: Starting iteration #%d\n",__LINE__,value_iter);
 
                  /* ---->  Case match values  <---- */
                  command = 0, wildcard = 0, which = 0, prefix = 0;
@@ -358,8 +362,13 @@ void selection_case(CONTEXT)
 		       if(*ptr && ((*ptr == ',') || (*ptr == ':'))) {
                           if(*ptr == ':') command = 1;
                           *ptr++ = '\0';
-                          while (*value == '\n' && (value + 1)) value++;
+                          while (*value == '\n' && (value + 1)) {
+                                  value++;
+                                  offset++; 
+                          }
                           filter_spaces((char *) value,(char *) value,0);
+
+                          fprintf(stderr,"%d:value found: %s\n",__LINE__,value);
 
                           /* ---->  Single value or range of values?  <---- */
                           if(!Blank(value)) {
@@ -393,6 +402,7 @@ void selection_case(CONTEXT)
 				      /* ---->  Default value  <---- */
 				      defaultvalue    = value;
                                       defaultline     = startline + offset + 1;
+                                      fprintf(stderr,"%d: defaultvalue = %s, defaultline = %d\n",__LINE__,defaultvalue,defaultline);
                                       which           = 0;
 				   } else if((!exactvalue || ((val1 == 2) && ((lrand48() % 100) < 50))) && !strcasecmp(value,casevalue)) {
 
@@ -433,18 +443,26 @@ void selection_case(CONTEXT)
 
                     /* ---->  Get block command (Starting with '@begin')  <---- */
                     for(; *ptr && (*ptr != '\n'); ptr++);
-                    for(; *ptr && (*ptr == '\n'); offset++, ptr++);
+                    for(; *ptr && (*ptr == '\n'); offset++, ptr++) {
+                            fprintf(stderr,"%d: incrementing offset from %d to %d\n",__LINE__,offset, offset+1);
+
+                    } 
                     for(; *ptr && (*ptr == ' ');  ptr++);
-                    cendptr  = selection_seek_end((char *) (commands = ptr),&cendline,0,0);
+                    cendptr  = selection_seek_end((char *) (commands = ptr),&cendline,0,1);
                     ptr = (*cendptr) ? cendptr + 1:cendptr;
          	    *cendptr = '\0';
+                    fprintf(stderr,"%d: incrementing offset from %d to %d, cendline = %d\n",__LINE__,offset,offset+strcnt(commands,'\n'),cendline);
                     offset += strcnt(commands,'\n');
+                    fprintf(stderr,"%d: commands for value= %s...\n%s\n",__LINE__,value,commands);
 
                     /* ---->  Skip past '@end'  <---- */
                     for(; *ptr && (*ptr == ' '); ptr++);
                     if(!strncasecmp(ptr,"@end",4) && (!*ptr || (*(ptr + 4) == ' ') || (*(ptr + 4) == '\n'))) {
                        for(; *ptr && (*ptr != '\n'); ptr++);
-                       for(; *ptr && (*ptr == '\n'); offset++, ptr++);
+                       for(; *ptr && (*ptr == '\n'); offset++, ptr++) {
+                            fprintf(stderr,"%d: incrementing offset from %d to %d, ptr = '%c', ptr+1 = '%c'\n",__LINE__,offset, offset+1,*ptr,*(ptr+1));
+                       }
+                       for(; *ptr && (*ptr == ' '); ptr++);
 		    }
                     block = 1;
 		 } else {
@@ -459,8 +477,16 @@ void selection_case(CONTEXT)
                     for(; *ptr && (*ptr == '\n'); offset++, ptr++);
                     block = 0;
 		 }
+                 if (block) fprintf(stderr,"%d: block detected (%s)..\n",__LINE__,value);
 
                  /* ---->  Set command(s) to execute  <---- */
+                 if(!strcasecmp(value,"default")) {
+                         fprintf(stderr,"%d: We have a default value(%s) at the end of the loop\n",__LINE__,value);
+                         if (!defaultcommands) {
+                                 defaultcommands = commands;
+                                 defaultblock    = block;
+                         }
+                 } else {
                  switch(which) {
                         case 1:
 			     exactcommands = commands;
@@ -474,11 +500,18 @@ void selection_case(CONTEXT)
 			     wildcommands = commands;
                              wildblock    = block;
                              break;
+                             /*
                         default:
-			     defaultcommands = commands;
+                             if(!defaultcommands && strcasecmp("default",value)) {
+                             defaultcommands = commands;
+                             fprintf(stderr,"%d: defaultcommands set to %s\n",__LINE__,commands);
                              defaultblock    = block;
+                             }
                              break;
+                             */
 		 }
+                 }
+                 value = NULL;
 	   }
 
            /* ---->  Execute command of appropriate matched case value  <---- */
@@ -530,6 +563,7 @@ void selection_case(CONTEXT)
 		 exactblock    = defaultblock;
 		 exactvalue    = defaultvalue;
 		 exactcommands = defaultcommands;
+                 fprintf(stderr,"%d: exactvalue = %s, exactline = %d\nexactcommands=%s\n",__LINE__,defaultvalue,defaultline,defaultcommands);
 	      }
 	   } else if(!exactvalue) {
 
@@ -541,6 +575,7 @@ void selection_case(CONTEXT)
                        exactblock    = defaultblock;
                        exactvalue    = defaultvalue;
                        exactcommands = defaultcommands;
+                       fprintf(stderr,"%d: exactvalue = %s, exactline = %d\nexactcommands=%s\n",__LINE__,defaultvalue,defaultline,defaultcommands);
 		    }
 		 } else {
                     exactline     = wildline;
@@ -558,6 +593,7 @@ void selection_case(CONTEXT)
 	   }
 
            /* ---->  Execute command  <---- */
+           fprintf(stderr,"%d: exactblock = %d, exactcommands = %s\n",__LINE__,exactblock,exactcommands);
            if(exactcommands) {
               current_line_number = exactline;
               strcpy(command_item,String(exactvalue));

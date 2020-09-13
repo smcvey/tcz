@@ -118,13 +118,13 @@ ELECTRICFENCE = 0
 # -Wall		All Warnings
 # -DLINUX 	We are using Linux
 #
-# You can mess around with these, they shouldn't stop sucessful compilation
+# You can mess around with these, they shouldn't stop successful compilation
 
 CFLAGS = -ggdb -Wall# -O
 
 # Other Important flags:
 #
-# Flags in ALL_CFLAGS are needed, and WILL affect/prevent sucessful compilation 
+# Flags in ALL_CFLAGS are needed, and WILL affect/prevent successful compilation 
 # and running - be careful with them
 #
 # -DANSI	We are (hopefully!) using ANSI C pass options which have
