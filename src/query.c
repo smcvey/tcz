@@ -2447,7 +2447,7 @@ void query_strlen(CONTEXT)
 
      unparse_parameters(params,1,&arg,0);
      if (arg.count == 0) 
-             sprintf(result,"%d",0);
+             sprintf(result,"0");
      else
              sprintf(result,"%d",arg.len[0]);
      setreturn(result,COMMAND_SUCC);
