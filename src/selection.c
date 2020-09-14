@@ -358,7 +358,10 @@ void selection_case(CONTEXT)
 		       if(*ptr && ((*ptr == ',') || (*ptr == ':'))) {
                           if(*ptr == ':') command = 1;
                           *ptr++ = '\0';
-                          while (*value == '\n' && (value + 1)) value++;
+                          while (*value == '\n' && (value + 1)) {
+                                  value++;
+                                  offset++; 
+                          }
                           filter_spaces((char *) value,(char *) value,0);
 
                           /* ---->  Single value or range of values?  <---- */
@@ -394,7 +397,7 @@ void selection_case(CONTEXT)
 				      defaultvalue    = value;
                                       defaultline     = startline + offset + 1;
                                       which           = 0;
-				   } else if((!exactvalue || ((val1 == 2) && ((lrand48() % 100) < 50))) && !strcasecmp(value,casevalue)) {
+				   } else if((!exactvalue || ((val1 == 2) && ((lrand48() % 100) < 50))) && !strcasecmp(value,casevalue) && strcasecmp(casevalue,"default")) {
 
 				      /* ---->  Exact value  <---- */
 				      exactvalue    = value;
@@ -435,7 +438,7 @@ void selection_case(CONTEXT)
                     for(; *ptr && (*ptr != '\n'); ptr++);
                     for(; *ptr && (*ptr == '\n'); offset++, ptr++);
                     for(; *ptr && (*ptr == ' ');  ptr++);
-                    cendptr  = selection_seek_end((char *) (commands = ptr),&cendline,0,0);
+                    cendptr  = selection_seek_end((char *) (commands = ptr),&cendline,0,1);
                     ptr = (*cendptr) ? cendptr + 1:cendptr;
          	    *cendptr = '\0';
                     offset += strcnt(commands,'\n');
@@ -445,6 +448,7 @@ void selection_case(CONTEXT)
                     if(!strncasecmp(ptr,"@end",4) && (!*ptr || (*(ptr + 4) == ' ') || (*(ptr + 4) == '\n'))) {
                        for(; *ptr && (*ptr != '\n'); ptr++);
                        for(; *ptr && (*ptr == '\n'); offset++, ptr++);
+                       for(; *ptr && (*ptr == ' '); ptr++);
 		    }
                     block = 1;
 		 } else {
@@ -461,24 +465,28 @@ void selection_case(CONTEXT)
 		 }
 
                  /* ---->  Set command(s) to execute  <---- */
-                 switch(which) {
-                        case 1:
-			     exactcommands = commands;
-                             exactblock    = block;
-                             break;
-                        case 2:
-			     rangecommands = commands;
-                             rangeblock    = block;
-                             break;
-                        case 3:
-			     wildcommands = commands;
-                             wildblock    = block;
-                             break;
-                        default:
-			     defaultcommands = commands;
-                             defaultblock    = block;
-                             break;
-		 }
+                 if(!strcasecmp(value,"default")) {
+                         if (!defaultcommands) {
+                                 defaultcommands = commands;
+                                 defaultblock    = block;
+                         }
+                 } else {
+                         switch(which) {
+                                 case 1:
+                                         exactcommands = commands;
+                                         exactblock    = block;
+                                         break;
+                                 case 2:
+                                         rangecommands = commands;
+                                         rangeblock    = block;
+                                         break;
+                                 case 3:
+                                         wildcommands = commands;
+                                         wildblock    = block;
+                                         break;
+                         }
+                 }
+                 value = NULL;
 	   }
 
            /* ---->  Execute command of appropriate matched case value  <---- */

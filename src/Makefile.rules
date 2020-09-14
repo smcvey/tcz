@@ -188,7 +188,7 @@ endif
 
 define ROOT_WARN
 \\n\
-You may need to be root to sucessfully run make $@\\n\
+You may need to be root to successfully run make $@\\n\
 (e.g. if you don't own $(BINDIR) and $(SYSCONFDIR)).\\n\
 Type 'su' then root's password and run it again if necessary,\\n\
 but remember to return to your normal user id after a 'su' by\\n\
