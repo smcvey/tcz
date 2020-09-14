@@ -436,7 +436,7 @@ void selection_case(CONTEXT)
 
                     /* ---->  Get block command (Starting with '@begin')  <---- */
                     for(; *ptr && (*ptr != '\n'); ptr++);
-                    for(; *ptr && (*ptr == '\n'); offset++, ptr++) 
+                    for(; *ptr && (*ptr == '\n'); offset++, ptr++);
                     for(; *ptr && (*ptr == ' ');  ptr++);
                     cendptr  = selection_seek_end((char *) (commands = ptr),&cendline,0,1);
                     ptr = (*cendptr) ? cendptr + 1:cendptr;
@@ -447,7 +447,7 @@ void selection_case(CONTEXT)
                     for(; *ptr && (*ptr == ' '); ptr++);
                     if(!strncasecmp(ptr,"@end",4) && (!*ptr || (*(ptr + 4) == ' ') || (*(ptr + 4) == '\n'))) {
                        for(; *ptr && (*ptr != '\n'); ptr++);
-                       for(; *ptr && (*ptr == '\n'); offset++, ptr++) 
+                       for(; *ptr && (*ptr == '\n'); offset++, ptr++);
                        for(; *ptr && (*ptr == ' '); ptr++);
 		    }
                     block = 1;
