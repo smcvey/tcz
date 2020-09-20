@@ -350,6 +350,12 @@ int strlen_ansi(const char *str)
     return(count);
 }
 
+/* ---->  Return length of string, excluding all substitution codes  <---- */
+int strlen_subs(const char *str)
+{
+    return(strlen(filter_substitutions(str,scratch_return_string)));
+}
+
 /* ---->  Filter out ANSI codes in given string  <---- */
 const char *filter_ansi(const char *str,char *buffer)
 {
@@ -362,6 +368,70 @@ const char *filter_ansi(const char *str,char *buffer)
       }
       *ptr = '\0';
       return(buffer);
+}
+
+/* ---->  Filter substitutions, including ANSI codes in a given string  <---- */
+const char *filter_substitutions(const char *ptr,char *buffer)
+{
+        short  brackets;
+        char  *tmp      = buffer;
+
+        while(*ptr)
+                switch(*ptr) {
+                        case '\x05':
+
+                                /* ---->  Hanging indent control  <---- */
+                                if(*(++ptr)) ptr++;
+                                break;
+                        case '\x06':
+                        case '\x0E':
+
+                                /* ---->  Skip rest of line/Toggle evaluation of HTML <---- */
+                                ptr++;
+                                break;
+                        case '\x1B':
+
+                                /* ---->  'Hard' ANSI code  <---- */
+                                for(; *ptr && (*ptr != 'm'); ptr++);
+                                if(*ptr && (*ptr == 'm')) ptr++;
+                                break;
+                        case '%':
+                                if(*(++ptr)) {
+                                        switch(*ptr) {
+                                                case '{':
+                                                        /* ---->  %{...} substition  <---- */
+                                                        for(brackets = 0, ptr++; *ptr && !(!brackets && (*ptr == '}')); ptr++)
+                                                                if(*ptr == '{') brackets++;
+                                                                else if(*ptr == '}') brackets--;
+                                                        if(*ptr && (*ptr == '}')) ptr++;
+                                                        break;
+                                                case '#':
+                                                        /* ---->  %#NF#  <---- */
+                                                        if((*(ptr + 1) == 'n') || (*(ptr + 1) == 'N')) {
+                                                                if(!strncasecmp(ptr,"#NF#",4)) {
+                                                                        ptr += 4;
+                                                                } else *tmp++ = '%';
+                                                        } else *tmp++ = '%';
+                                                        break;
+                                                case ' ':
+                                                        *tmp++ = '%';
+                                                        break;
+                                                case '%':
+                                                        *tmp++ = *ptr++;
+                                                        break;
+                                                default:
+                                                        ptr++;
+                                        }
+                                } else *tmp++ = '%';
+                                break;
+                        default:
+                                if(isprint(*ptr)) {
+                                        *tmp++ = *ptr++;
+                                } else ptr++;
+                }
+        *tmp = '\0';
+
+        return(buffer);
 }
 
 /* ---->  Initialise given STR_OPS struct  <---- */
