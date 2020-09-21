@@ -608,67 +608,13 @@ void query_filter(CONTEXT)
 {
      struct arg_data arg;
      const  char *ptr;
-     short  brackets;
      char   *tmp;
-
+       
      unparse_parameters(params,1,&arg,0);
      tmp = querybuf, ptr = arg.text[0];
-     while(*ptr)
-           switch(*ptr) {
-                  case '\x05':
 
-                       /* ---->  Hanging indent control  <---- */
-                       if(*(++ptr)) ptr++;
-                       break;
-                  case '\x06': 
-                  case '\x0E':
+     filter_substitutions(ptr,tmp);
 
-                       /* ---->  Skip rest of line/Toggle evaluation of HTML  <---- */
-                       ptr++;
-                       break;
-                  case '\x1B':
-
-                       /* ---->  'Hard' ANSI code  <---- */
-                       for(; *ptr && (*ptr != 'm'); ptr++);
-                       if(*ptr && (*ptr == 'm')) ptr++;
-                       break;
-                  case '%':
-                       if(*(++ptr)) {
-                          switch(*ptr) {
-                                 case '{':
-
-				      /* ---->  %{...} substition  <---- */
-                                      for(brackets = 0, ptr++; *ptr && !(!brackets && (*ptr == '}')); ptr++)
-                                          if(*ptr == '{') brackets++;
-                                             else if(*ptr == '}') brackets--;
-                                      if(*ptr && (*ptr == '}')) ptr++;
-                                      break;
-                                 case '#':
-
-				      /* ---->  %#NF#  <---- */
-				      if((*(ptr + 1) == 'n') || (*(ptr + 1) == 'N')) {
-					 if(!strncasecmp(ptr,"#NF#",4)) {
-					    ptr += 4;
-					 } else *tmp++ = '%';
-				      } else *tmp++ = '%';
-				      break;
-                                 case ' ':
-                                      *tmp++ = '%';
-				      break;
-                                 case '%':
-                                      *tmp++ = *ptr++;
-                                      break;
-                                 default:
-                                      ptr++;
-			  }
-		       } else *tmp++ = '%';
-                       break;
-                  default:
-                       if(isprint(*ptr)) {
-  	                  *tmp++ = *ptr++;
-		       } else ptr++;
-	   }
-     *tmp = '\0';
      setreturn(querybuf,COMMAND_SUCC);
 }
 

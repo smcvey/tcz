@@ -1199,7 +1199,9 @@ extern  void            progress_meter          (unsigned long total,int divisor
 extern  const char      *gettextfield           (int number,char separator,const char *list,int skip,char *buffer);
 extern  const char      *settextfield           (const char *text,int number,char separator,const char *list,char *buffer);
 extern  int             strlen_ansi             (const char *str);
+extern  int             strlen_subs             (const char *str);
 extern  const char      *filter_ansi            (const char *str,char *buffer);
+extern  const char      *filter_substitutions   (const char *ptr,char *buffer);
 extern  void            init_strops             (struct str_ops *str_data,char *src,char *dest);
 extern  unsigned char   strins_limits           (struct str_ops *str_data,const char *str);
 extern  unsigned char   strcat_limits           (struct str_ops *str_data,const char *str);
