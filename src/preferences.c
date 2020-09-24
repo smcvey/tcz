@@ -231,7 +231,7 @@ void prefs_prompt(dbref player,struct descriptor_data *d,const char *params)
            if(strlen_subs(params) <= 80) {
               if(!Blank(params)) {
                  FREENULL(d->user_prompt);
-                 sprintf(scratch_return_string,ANSI_LWHITE"%s%s ",punctuate((char *) params,2,'\0'),ANSI_DWHITE);
+                 sprintf(scratch_return_string,"%s ",punctuate((char *) params,2,'\0'));
                  if(Validchar(d->player) && !Validchar(player)) player = d->player;
                  d->user_prompt = (char *) alloc_string(scratch_return_string);
                  if(!in_command) {
