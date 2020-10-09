@@ -688,127 +688,129 @@ void move_getdrop(CONTEXT)
                              if(!Vehicle(thing)) {
                                 if(thing != container) {
                                    if(db[thing].location != container) {
-                                      if(!contains(container,thing)) {
-                                         if(!((container == player) && contains(player,thing))) {
+                                      if((val1 == 1) || ((val1 == 0) && Typeof(db[thing].location) != TYPE_CHARACTER)) {
+                                         if(!contains(container,thing)) {
+                                            if(!((container == player) && contains(player,thing))) {
 
-                                            /* ---->  Take object/drop it  <---- */
-                                            if(Typeof(thing) == TYPE_THING) {
-                                               if(!((Container(container) || (container == player)) && !will_fit(thing,container))) {
-                                                  if(!(Valid(db[thing].location) && (Typeof(db[thing].location) == TYPE_THING) && (!Container(db[thing].location) || !Open(db[thing].location)))) {
-                        	                     if(Typeof(container) == TYPE_THING) {
-               	                                        if(!(!Container(container) || !Open(container))) {
-                                                           if(event_trigger_fuses(player,thing,NULL,FUSE_ARGS|FUSE_COMMAND)) return;
+                                               /* ---->  Take object/drop it  <---- */
+                                               if(Typeof(thing) == TYPE_THING) {
+                                                  if(!((Container(container) || (container == player)) && !will_fit(thing,container))) {
+                                                     if(!(Valid(db[thing].location) && (Typeof(db[thing].location) == TYPE_THING) && (!Container(db[thing].location) || !Open(db[thing].location)))) {
+                                                        if(Typeof(container) == TYPE_THING) {
+                                                           if(!(!Container(container) || !Open(container))) {
+                                                              if(event_trigger_fuses(player,thing,NULL,FUSE_ARGS|FUSE_COMMAND)) return;
+                                                              command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
+                                                              if(db[thing].location != player) {
+                                                                 if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
+                                                                 if(getfield(thing,SUCC)) notified = 1;
+                                                              }
+                                                              move_to(thing,container);
+                                                           } else {
+                                                              output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" %sinto a container that's open.",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"and drop it ");
+                                                              return;
+                                                           }
+                                                        } else if(!(val1 && Sticky(thing))) {
+                                                           if(val1 && Valid(db[container].destination) && (Typeof(container) == TYPE_ROOM) && !Sticky(container) && (db[container].destination != thing) && (db[container].destination != container)) {
+
+                                                              /* ---->  Location has an immediate drop-to  -  Test to see if it will fit first  <---- */
+                                                              if(event_trigger_fuses(player,thing,NULL,FUSE_ARGS|FUSE_COMMAND)) return;
+                                                              command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
+                                                              if(db[thing].location != player) {
+                                                                 if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
+                                                                 if(getfield(thing,SUCC)) notified = 1;
+                                                              }
+                                                              output(getdsc(player),player,0,1,0,ANSI_LGREEN"As the object touches the ground, it vanishes in a "ANSI_BLINK"flash"ANSI_LGREEN" of "ANSI_LCYAN"blinding blue light"ANSI_LGREEN".");
+                                                              if(will_fit(thing,db[container].destination))
+                                                                 move_to(thing,db[container].destination);
+                                                              else move_home(thing,0);
+                                                           } else {
+                                                              if(event_trigger_fuses(player,thing,NULL,FUSE_ARGS|FUSE_COMMAND)) return;
+                                                              command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
+                                                              if(db[thing].location != player) {
+                                                                 if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
+                                                                 if((container == player) && getfield(thing,SUCC)) notified = 1;
+                                                              }
+                                                              move_to(thing,container);
+                                                           }
+                                                        } else {
                                                            command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
                                                            if(db[thing].location != player) {
                                                               if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
-                                                              if(getfield(thing,SUCC)) notified = 1;
-							   }
-                                                           move_to(thing,container);
-							} else {
-                                                           output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" %sinto a container that's open.",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"and drop it ");
-                                                           return;
-							}
-						     } else if(!(val1 && Sticky(thing))) {
-                                                        if(val1 && Valid(db[container].destination) && (Typeof(container) == TYPE_ROOM) && !Sticky(container) && (db[container].destination != thing) && (db[container].destination != container)) {
+                                                              if((container == player) && getfield(thing,SUCC)) notified++;
+                                                           }
+                                                           move_home(thing,0);
+                                                        }
 
-                                                           /* ---->  Location has an immediate drop-to  -  Test to see if it will fit first  <---- */
-                                                           if(event_trigger_fuses(player,thing,NULL,FUSE_ARGS|FUSE_COMMAND)) return;
-                                                           command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
-                                                           if(db[thing].location != player) {
-                                                              if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
-                                                              if(getfield(thing,SUCC)) notified = 1;
-							   }
-                                                           output(getdsc(player),player,0,1,0,ANSI_LGREEN"As the object touches the ground, it vanishes in a "ANSI_BLINK"flash"ANSI_LGREEN" of "ANSI_LCYAN"blinding blue light"ANSI_LGREEN".");
-                                                           if(will_fit(thing,db[container].destination))
-                                                              move_to(thing,db[container].destination);
-		       				                 else move_home(thing,0);
-							} else {
-                                                           if(event_trigger_fuses(player,thing,NULL,FUSE_ARGS|FUSE_COMMAND)) return;
-                                                           command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
-                                                           if(db[thing].location != player) {
-                                                              if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
-                                                              if((container == player) && getfield(thing,SUCC)) notified = 1;
-							   }
-                                                           move_to(thing,container);
-							}
-						     } else {
-                                                        command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
-                                                        if(db[thing].location != player) {
-                                                           if(!can_satisfy_lock(player,thing,(val1) ? "Sorry, you can't pick up that object to drop it elsewhere.":"Sorry, you can't pick up that object.",0)) return;
-                                                           if((container == player) && getfield(thing,SUCC)) notified++;
-							}
-                                                        move_home(thing,0);
-						     }
+                                                        /* ---->  Appropriate messages for get/drop  <---- */
+                                                        if(container == player) {
 
-                                                     /* ---->  Appropriate messages for get/drop  <---- */
-                                                     if(container == player) {
+                                                           /* ---->  Object is being picked up  <---- */
+                                                           if(!getfield(thing,OSUCC) && !Invisible(db[player].location) && !Invisible(thing))
+                                                              output_except(db[player].location,player,NOTHING,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" picks up %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(player,UPPER,DEFINITE),getcname(NOTHING,player,0,0),Article(thing,LOWER,DEFINITE),getname(thing));
+                                                        } else {
 
-                                                        /* ---->  Object is being picked up  <---- */
-                                                        if(!getfield(thing,OSUCC) && !Invisible(db[player].location) && !Invisible(thing))
-                                                           output_except(db[player].location,player,NOTHING,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" picks up %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(player,UPPER,DEFINITE),getcname(NOTHING,player,0,0),Article(thing,LOWER,DEFINITE),getname(thing));
-						     } else {
+                                                           /* ---->  Object is being dropped  <---- */
+                                                           if(getfield(thing,DROP)) {
+                                                              substitute(player,scratch_buffer,(char *) getfield(thing,DROP),0,ANSI_LCYAN,NULL,0);
+                                                              output(getdsc(player),player,0,1,0,"%s",punctuate(scratch_buffer,2,'.'));
+                                                              notified = 1;
+                                                           }
+                                                           if(!Vehicle(container) && getfield(container,DROP)) {
+                                                              substitute(player,scratch_buffer,(char *) getfield(container,DROP),0,ANSI_LCYAN,NULL,0);
+                                                              output(getdsc(player),player,0,1,0,"%s",punctuate(scratch_buffer,2,'.'));
+                                                           }
 
-                                                        /* ---->  Object is being dropped  <---- */
-                                                        if(getfield(thing,DROP)) {
-                                                           substitute(player,scratch_buffer,(char *) getfield(thing,DROP),0,ANSI_LCYAN,NULL,0);
-                                                           output(getdsc(player),player,0,1,0,"%s",punctuate(scratch_buffer,2,'.'));
-                                                           notified = 1;
-							}
-                                                        if(!Vehicle(container) && getfield(container,DROP)) {
-                                                           substitute(player,scratch_buffer,(char *) getfield(container,DROP),0,ANSI_LCYAN,NULL,0);
-                                                           output(getdsc(player),player,0,1,0,"%s",punctuate(scratch_buffer,2,'.'));
-							}
-
-                                                        /* ---->  Others drop message of thing and/or new location  <---- */
-                                                        if((db[thing].location == db[player].location) && !Invisible(db[player].location) && !Invisible(thing)) {
-                                                           if(getfield(thing,ODROP)) substitute(player,scratch_buffer,(char *) getfield(thing,ODROP),DEFINITE,ANSI_LCYAN,NULL,0);
+                                                           /* ---->  Others drop message of thing and/or new location  <---- */
+                                                           if((db[thing].location == db[player].location) && !Invisible(db[player].location) && !Invisible(thing)) {
+                                                              if(getfield(thing,ODROP)) substitute(player,scratch_buffer,(char *) getfield(thing,ODROP),DEFINITE,ANSI_LCYAN,NULL,0);
                                                               else sprintf(scratch_buffer,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" drops %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(player,UPPER,DEFINITE),getcname(NOTHING,player,0,0),Article(thing,LOWER,INDEFINITE),getname(thing));
-                                                           output_except(db[thing].location,player,NOTHING,0,1,2,"%s",punctuate(scratch_buffer,0,'.'));
-                                                           if(getfield(db[thing].location,ODROP)) {
-                                                              substitute(player,scratch_buffer,(char *) getfield(db[thing].location,ODROP),DEFINITE,ANSI_LCYAN,NULL,0);
                                                               output_except(db[thing].location,player,NOTHING,0,1,2,"%s",punctuate(scratch_buffer,0,'.'));
-							   }
-							}
-						     }
-						  } else {
-                                                     output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" %s  -  %s.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),Container(db[thing].location) ? "is in a closed container":"is in an object that isn't a container",(val1) ? "You can't pick it up and drop it elsewhere":"You can't pick it up");
+                                                              if(getfield(db[thing].location,ODROP)) {
+                                                                 substitute(player,scratch_buffer,(char *) getfield(db[thing].location,ODROP),DEFINITE,ANSI_LCYAN,NULL,0);
+                                                                 output_except(db[thing].location,player,NOTHING,0,1,2,"%s",punctuate(scratch_buffer,0,'.'));
+                                                              }
+                                                           }
+                                                        }
+                                                     } else {
+                                                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" %s  -  %s.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),Container(db[thing].location) ? "is in a closed container":"is in an object that isn't a container",(val1) ? "You can't pick it up and drop it elsewhere":"You can't pick it up");
+                                                        return;
+                                                     }
+                                                  } else {
+                                                     if(container != player) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" %sin there  -  There isn't enough room.",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"and put it ");
+                                                     else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is too heavy for you to pick up  -  If you're carrying a lot of objects, try dropping some of them first.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
                                                      return;
-						  }
-					       } else {
-                                                  if(container != player) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" %sin there  -  There isn't enough room.",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"and put it ");
-					             else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is too heavy for you to pick up  -  If you're carrying a lot of objects, try dropping some of them first.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
-                                                  return;
-					       }
-					    } else {
-                                               command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
-                                               move_to(thing,container);
-					    }
+                                                  }
+                                               } else {
+                                                  command_execute_action(player,thing,(!val1) ? ".take":".drop",NULL,getname(player),getnameid(player,thing,NULL),"",1);
+                                                  move_to(thing,container);
+                                               }
 
-                                            if(!in_command && !notified) {
-                                               sprintf(scratch_buffer,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" %s",Article(thing,UPPER,INDEFINITE),unparse_object(player,thing,0),(container == player) ? "taken.":"dropped in ");
-                                               if(container != player) sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LWHITE"%s"ANSI_LGREEN"%s",Article(db[thing].location,LOWER,DEFINITE),unparse_object(player,db[thing].location,0),(val1) ? (db[thing].location != container) ? Sticky(thing) ? " (Object's home.)":" (Location's drop-to.)":".":".");
-                                               output(getdsc(player),player,0,1,0,"%s",scratch_buffer);
-					    }
-                                            command_execute_action(player,thing,(container == player) ? ".taken":".dropped",NULL,getname(player),getnameid(player,thing,NULL),"",1);
-                                            setreturn(OK,COMMAND_SUCC);
-					 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't pick up the container you're currently inside.");
-				      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" can't be %sdropped into %s within itself.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"picked up and ",object_type(container,1));
-				   } else if(container != player) {
+                                               if(!in_command && !notified) {
+                                                  sprintf(scratch_buffer,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" %s",Article(thing,UPPER,INDEFINITE),unparse_object(player,thing,0),(container == player) ? "taken.":"dropped in ");
+                                                  if(container != player) sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LWHITE"%s"ANSI_LGREEN"%s",Article(db[thing].location,LOWER,DEFINITE),unparse_object(player,db[thing].location,0),(val1) ? (db[thing].location != container) ? Sticky(thing) ? " (Object's home.)":" (Location's drop-to.)":".":".");
+                                                  output(getdsc(player),player,0,1,0,"%s",scratch_buffer);
+                                               }
+                                               command_execute_action(player,thing,(container == player) ? ".taken":".dropped",NULL,getname(player),getnameid(player,thing,NULL),"",1);
+                                               setreturn(OK,COMMAND_SUCC);
+                                            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't pick up the container you're currently inside.");
+                                         } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" can't be %sdropped into %s within itself.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"picked up and ",object_type(container,1));
+                                      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't take an object from a player.");
+                                   } else if(container != player) {
                                       sprintf(scratch_buffer,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is already in ",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
                                       output(getdsc(player),player,0,1,0,"%s%s"ANSI_LWHITE"%s"ANSI_LGREEN".",scratch_buffer,Article(container,LOWER,DEFINITE),unparse_object(player,container,0));
-				   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you're already carrying %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
-				} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" %s itself.",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "into":"and drop it into");
-			     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a vehicle can't be %s.",(val1) ? "dropped":"picked up");
-			  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" can't be %s.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(val1) ? "dropped":"picked up");
-		       } else if(Typeof(container) == TYPE_CHARACTER) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can%s %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" and give it to %s.",Level4(db[player].owner) ? " only":"'t",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),Level4(db[player].owner) ? "someone of a lower level than yourself":"another character");
+                                   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you're already carrying %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
+                                } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" %s itself.",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "into":"and drop it into");
+                             } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a vehicle can't be %s.",(val1) ? "dropped":"picked up");
+                          } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" can't be %s.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(val1) ? "dropped":"picked up");
+                       } else if(Typeof(container) == TYPE_CHARACTER) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can%s %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" and give it to %s.",Level4(db[player].owner) ? " only":"'t",(db[thing].location == player) ? "drop":"pick up",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),Level4(db[player].owner) ? "someone of a lower level than yourself":"another character");
                           else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can%s %s %s"ANSI_LWHITE"%s"ANSI_LGREEN" into %s owned by %s.",Level4(db[player].owner) ? " only":"'t",(db[thing].location != player) ? "drop":"pick up and drop",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),object_type(container,1),Level4(db[player].owner) ? "someone of a lower level than yourself":"another character");
-		    } else if(container == player) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't pick up %s.",object_type(thing,1));
+                    } else if(container == player) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't pick up %s.",object_type(thing,1));
                        else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s can't be dropped into %s.",object_type(thing,1),object_type(container,1));
-		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s an object which is within your current location.",(container == player) ? "drop an object which you're holding or":"pick up");
-	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't reach %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
-	   } else if(Level3(db[player].owner)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s %s which belongs to someone who's of a lower level than yourself.",(val1) ? "drop":"pick up",object_type(thing,1));
+                 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s an object which is within your current location.",(container == player) ? "drop an object which you're holding or":"pick up");
+              } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't reach %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
+           } else if(Level3(db[player].owner)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s %s which belongs to someone who's of a lower level than yourself.",(val1) ? "drop":"pick up",object_type(thing,1));
               else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only %s %s which you own.",(val1) ? "drop":"pick up",object_type(thing,1));
-	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s another character.",(container != player) ? "drop":"pick up");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s another character.",(container != player) ? "drop":"pick up");
      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't %s yourself.",(container != player) ? "drop":"pick up");
 }
 
