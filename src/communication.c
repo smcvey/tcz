@@ -593,22 +593,22 @@ void comms_notify(CONTEXT)
                        if(player != recipient)
                           output(getdsc(player),player,0,1,0,ANSI_LGREEN"You notify %s"ANSI_LWHITE"%s"ANSI_LGREEN" with the message '"ANSI_LWHITE"%s"ANSI_LGREEN"'.",Article(recipient,LOWER,DEFINITE),getcname(NOTHING,recipient,0,0),arg2);
                              else output(getdsc(player),player,0,1,0,ANSI_LGREEN"You notify yourself with the message '"ANSI_LWHITE"%s"ANSI_LGREEN"'.",arg2);
-		    }
+                    }
 
                     if(Level4(db[player].owner) && !Shout(db[player].owner) && !(flow_control & FLOW_WITH_BANISHED)) {
                        writelog(SHOUT_LOG,1,"SHOUT","%s(#%d) using '@with connected':  %s",getname(player),player,String(current_cmdptr));
                        flow_control |= FLOW_WITH_BANISHED;
-		    }
+                    }
                     setreturn(OK,COMMAND_SUCC);
-		 } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that character is set "ANSI_LYELLOW"QUIET"ANSI_LGREEN".");
-	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only notify yourself, one of your puppets or a character who is on your own property.");
-	   } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the character '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg1);
-	} else if(!(flow_control & FLOW_WITH_BANISHED)) {
+                 } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that character is set "ANSI_LYELLOW"QUIET"ANSI_LGREEN".");
+              } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only notify yourself, one of your puppets or a character who is on your own property.");
+           } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the character '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg1);
+        } else if(!(flow_control & FLOW_WITH_BANISHED)) {
 
            /* ---->  '@notify' within '@with friends do...'  <---- */
            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, '"ANSI_LWHITE"@with friends/enemies do..."ANSI_LGREEN"' can't be used to notify all of your friends/enemies  -  Please use '"ANSI_LYELLOW"page friends|enemies [=] <MESSAGE>"ANSI_LGREEN"' or '"ANSI_LYELLOW"tell friends|enemies [=] <MESSAGE>"ANSI_LGREEN"' instead.");
            flow_control |= FLOW_WITH_BANISHED;
-	}
+        }
      } else if(Level4(db[player].owner) && !Shout(db[player].owner) && !(flow_control & FLOW_WITH_BANISHED)) {
 
         /* ---->  '@notify' within '@with connected...'  <---- */
