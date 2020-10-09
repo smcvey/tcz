@@ -688,6 +688,7 @@ void move_getdrop(CONTEXT)
                              if(!Vehicle(thing)) {
                                 if(thing != container) {
                                    if(db[thing].location != container) {
+                                      if((val1 == 1) || ((val1 == 0) && Typeof(db[thing].location) != TYPE_CHARACTER)) {
                                       if(!contains(container,thing)) {
                                          if(!((container == player) && contains(player,thing))) {
 
@@ -793,7 +794,8 @@ void move_getdrop(CONTEXT)
                                             setreturn(OK,COMMAND_SUCC);
 					 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't pick up the container you're currently inside.");
 				      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" can't be %sdropped into %s within itself.",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),(db[thing].location == player) ? "":"picked up and ",object_type(container,1));
-				   } else if(container != player) {
+                                      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can't take an object from a player.");
+                                      } else if(container != player) {
                                       sprintf(scratch_buffer,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is already in ",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
                                       output(getdsc(player),player,0,1,0,"%s%s"ANSI_LWHITE"%s"ANSI_LGREEN".",scratch_buffer,Article(container,LOWER,DEFINITE),unparse_object(player,container,0));
 				   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you're already carrying %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
