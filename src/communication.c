@@ -585,7 +585,7 @@ void comms_notify(CONTEXT)
         if(!((flow_control & FLOW_WITH_FRIENDS) && !(in_command && (Wizard(current_command) || Apprentice(current_command))))) {
            if((recipient = lookup_character(player,arg1,1)) != NOTHING) {
               if(Level3(db[player].owner) || (in_command && (Wizard(current_command) || Apprentice(current_command))) || (db[player].owner == recipient) || (db[player].owner == Controller(recipient)) || can_write_to(player,db[recipient].location,0)) {
-                 if((player == recipient) || (!Quiet(recipient) && !Quiet(db[recipient].location)) || (level(db[player].owner) > level(recipient))) {
+                 if((player == recipient) || (!Quiet(recipient)) || (level(db[player].owner) > level(recipient))) {
                     command_type |=  LEADING_BACKGROUND;
                     output(getdsc(recipient),recipient,0,1,0,"%s",substitute(recipient,scratch_buffer,(char *) arg2,0,ANSI_LCYAN,NULL,player));
                     command_type &= ~LEADING_BACKGROUND;
@@ -600,7 +600,7 @@ void comms_notify(CONTEXT)
                        flow_control |= FLOW_WITH_BANISHED;
 		    }
                     setreturn(OK,COMMAND_SUCC);
-		 } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that character is either set "ANSI_LYELLOW"QUIET"ANSI_LGREEN" or is in a "ANSI_LYELLOW"QUIET"ANSI_LGREEN" location.");
+		 } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that character is set "ANSI_LYELLOW"QUIET"ANSI_LGREEN".");
 	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only notify yourself, one of your puppets or a character who is on your own property.");
 	   } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the character '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg1);
 	} else if(!(flow_control & FLOW_WITH_BANISHED)) {
