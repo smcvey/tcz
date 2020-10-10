@@ -1672,30 +1672,25 @@ On the following pages is a list of all the major changes/improvements/additions
 %4%r%l*  %x'%g%l%(@rank%) active%x', '%g%l%(@rank%) avgactive%x', '%g%l%(@rank%) avgidle%x', '%g%l%(@rank%) avglogins%x', '%g%l%(@rank%) avgtotal%x', '%g%l%(@rank%) created%x', '%g%l%(@rank%) idle%x', '%g%l%(@rank%) lastused%x' and '%g%l%(@rank%) logins%x' implemented (See '%g%l%<@rank%>%x'.)
 %4%y%l*  %x'%g%l%(@case%)' selection command implemented (See '%g%l%<@case%>%x'.)
 %4%r%l*  %xHome rooms implemented ('%g%l%(homeroom%)%x' and '%g%l%(@homeroom%)%x'  -  See '%g%l%<homeroom%>%x' and '%g%l%<@homeroom%>%x'.)
-%PAGE
-
-%c%l%$Version 4.3.0  (Continued...)
-%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %4%y%l*  %xWrite permission rules to self within Mortal-owned compound command have been changed  -  See '%g%l%<@chpid%>%x'.
 %4%r%l*  %xBrief/full '%g%l%(scan%)%x' implemented ('%g%l%(scanbrief%)%x'/'%g%l%(scanfull%)%x'.)
-<-SEPARATOR->
-Also, see '%g%l%<features%>%x', '%g%l%<version%>%x', '%g%l%<version info%>%x', '%g%l%<history%>%x', '%g%l%<acknowledgements%>%x', '%g%l%<modules%>%x' and '%g%l%<authors%>%x'.
 
 %PAGE
 
 %c%l%$Version 4.3.2 (01/05/2020  -  Present)
 %~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %4%y%l*  %xRemoved the Queen Mary and Westfield College research project.
-%4%r%l*  %xYearly events for 'TCZ Research Project', 'TCZ 2000 Project', or 'TCZ Closed Down' have been
-removed ('%g%l%(events%)%x')  -  (See '%g%l%<events%>%x'.)
+%4%r%l*  %xYearly events for 'TCZ Research Project', 'TCZ 2000 Project', or 'TCZ Closed Down' have been removed ('%g%l%(events%)%x')  -  (See '%g%l%<events%>%x'.)
 %4%y%l*  %xHelp topics updated (See '%g%l%<fset 2%>%x', '%g%l%<marry%>%x', '%g%l%<bank%>%x', and '%g%l%<@alarm%>%x'.)
 %4%r%l*  %xSource code modernizations for current C compilers.
 %4%y%l*  %xFeelings list updated (See '%g%l@feeling list <PAGE>%x'.)
-%4%r%l*  %xCensored word list has been updated (See '%g%l%<CENSORED%>%x'.)
+%4%r%l*  %xCensored word list has been updated (See '%g%l%<censored%>%x'.)
 %4%y%l*  %x'%g%l%(.reconnect%)%x' commands are now supported (See '%g%l%<.reconnect%>%x'.)
 %4%r%l*  %x'%g%l%(@sort%)%x' now supports floating point numbers (See '%g%l%<@sort%>%x'.)
 %4%y%l*  %xMaximum '%g%l%(@quotalimit%)%x' values have been increased (See '%g%l%<@quotalimit%>%x'.)
 %4%r%l*  %xMaximum aliases have increased for Mortals to 100 and 200 for capped admin (See '%g%l%<@alias%>%x'.)
+<-SEPARATOR->
+Also, see '%g%l%<features%>%x', '%g%l%<version%>%x', '%g%l%<version info%>%x', '%g%l%<history%>%x', '%g%l%<acknowledgements%>%x', '%g%l%<modules%>%x' and '%g%l%<authors%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
