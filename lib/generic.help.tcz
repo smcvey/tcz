@@ -1144,9 +1144,29 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M v%{@?version version}%x source code bug fixes
+%9%9%c%l09/10/2020 %y %lNA  %x '%g%l%(@notify%)%x' will no longer be prevented from working due to a %y%lQUIET %xflag being set on the recipient's room. Only a player's %y%lQUIET %xflag will be checked now.
+%9%9%c%l08/10/2020 %y %lNA  %x Users can no-longer take objects from another player's inventory.
+%9%9%c%l20/09/2020 %y %lNA  %x Users can now use color codes in their prompts (%g%l%<set prompt%>%x) and titles (%g%l%<@title%>%x) without counting towards the length check.
+%9%9%c%l13/09/2020 %y %lNA  %x Fixed multiple bugs in how multi-line '%g%l%(@case%)%x' structures were processed.
+%9%9%c%l12/09/2020 %y %lNA  %x '%g%l%(@?strlen%)%x' and '%g%l%(@?length%)%x' now return a reasonable value when given no argument.
+%9%9%c%l01/08/2020 %y %lNA  %x Users can now remain at the login screen for more than 5 minutes so long as they are active.
+%9%9%c%l31/07/2020 %y %lNA  %x '%g%l%(@sort%)%x' now works with both negative and positive integers.
+%9%9%c%l10/07/2020 %y %lSM  %x Fixed bug that wasn't limiting the length of titles and was giving an error message when attempting to set a blank title.
+%9%9%c%l30/06/2020 %y %lNA  %x The bank now follows the same idle time rules when paying a character their wage (%g%l%<bank 2%>%x).
+
+%PAGE
+%9%9%c%l07/06/2020 %y %lSM  %x Fixed bugs in mass and volume lookup.
+%9%9%c%l18/06/2020 %y %lSM  %x '%g%l%(@undest%)%x' can no-longer crash the game.
+%9%9%c%l09/06/2020 %y %lNA  %x Fixed bugs in the tracking of character idle time.
+%9%9%c%l07/06/2020 %y %lSM  %x Fixed bugs in mass and volume lookup.
+%9%9%c%l01/06/2020 %y %lSM  %x Fixed some bugs related to the removal of the Research log.
+%9%9%c%l04/05/2020 %y %lSM  %x Fixed a bug in comparing HTML title strings.
+%9%9%c%l03/05/2020 %y %lSM  %x Fixed a bug that could cause a crash in handling log files.
 %9%9%c%l13/03/2005 %y %lSM  %x Viewing output from '%g%l%(@request%)%x' no-longer crashes the game.
 %9%9%c%l02/03/2005 %y %lSM  %x Outputting columns to a non-connected character (I.e: displayed via '%g%l%(@force%)%x') no-longer crashes the game.
 %9%9%c%l01/03/2005 %y %lSM  %x The '%g%l%(@?isupper%)%x' and '%g%l%(@?islower%)%x' query commands now ignore non-alphanumeric characters.
+
+%PAGE
 %9%9%c%l17/02/2005 %y %lSM  %x The '%g%l%(@email%)%x' command no-longer gives duplicate warnings when setting the address of a puppet.
 %9%9%c%l17/02/2005 %y %lJV  %x Incorrect passwords now give extra information about logging on as a Guest on both Telnet and HTML connections.
 %9%9%c%l16/02/2005 %y %lSM  %x Entire text no-longer ignored if a Telnet user receives %g%l%%|%x as the first two characters in substitute().
@@ -1155,9 +1175,9 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %9%9%c%l04/02/2005 %y %lSM  %x HTML users receiving output from %g%l%(@oecho%)%x' now get correctly formatted output if the %g%l%%[%%]%x substitutions are used.
 %9%9%c%l26/01/2005 %y %lSM  %x Setting the expiry on a BBS post then immediately reading it no longer crashes the game.
 %9%9%c%l24/01/2005 %y %lSM  %x HTML users receiving output from '%g%l%(@notify%)%x' now get correctly formatted output if the %g%l%%[%%]%x substitutions are used.
+%9%9%c%l24/01/2005 %y %lSM  %x The '%g%l%(@delay%)%x' command has been fixed so it adds only the amount specified and doesn't double the current delay.
 
 %PAGE
-%9%9%c%l24/01/2005 %y %lSM  %x The '%g%l%(@delay%)%x' command has been fixed so it adds only the amount specified and doesn't double the current delay.
 %9%9%c%l24/01/2005 %y %lSM  %x The '%g%l%(@destall%)%x' command can no longer destroy ashcanned Assistants.  Also, it produces the correct message when trying to destroy Retired Admin.
 %9%9%c%l29/12/2004 %y %lJV  %x New feelings added to the '%g%l%(@feeling%)%x' command and redundant ones removed.
 %9%9%c%l20/12/2004 %y %lSM  %x The query '%g%l%u{@?set *<NAME> = <FRIEND FLAG> = flist/fothers%x' now works correctly.
@@ -1180,9 +1200,9 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %9%9%c%l26/07/2001 %y %lJPB %x '%g%l%(lastcommand%)%x' no-longer logs unnecesary hack warning in '%y%lHack%x' log file.
 %9%9%c%l26/07/2001 %y %lJPB %x '%y%lCommand%x' log restricted to %m%lDeity%x only.
 %9%9%c%l26/07/2001 %y %lJPB %x Guardian alarm implemented (Shuts %@%m down if it gets stuck in an infinite loop.)
-%9%9%c%l25/07/2001 %y %lJPB %x Problem with alias binary tree fixed (Add/change alias.)  %r%lPlease check your aliases list for duplicate/corrupt aliases.
 
 %PAGE
+%9%9%c%l25/07/2001 %y %lJPB %x Problem with alias binary tree fixed (Add/change alias.)  %r%lPlease check your aliases list for duplicate/corrupt aliases.
 %9%9%c%l25/07/2001 %y %lJPB %x '%g%l%(emergency%)%x' can no-longer be used on an administrator.
 %9%9%c%l25/07/2001 %y %lJPB %x Write permission rules to self within Mortal-owned compound command have been changed  -  See '%g%l%<@chpid%>%x', 2nd page.
 %9%9%c%l25/07/2001 %y %lJPB %x Permission check on '%g%l{%(@?lastsite%)}%x' fixed.
@@ -1597,7 +1617,7 @@ On the following pages is a list of all the major changes/improvements/additions
 
 %PAGE
 
-%c%l%$Version 4.3.0  (16/06/1998  -  Present)
+%c%l%$Version 4.3.0  (16/06/1998  -  2004)
 %~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %4%r%l*  %xYearly events implemented ('%g%l%(events%)%x'.)  -  See '%g%l%<events%>%x'.
 %4%y%l*  %xAuto-updating Admin mailing list implemented (%y%l%{@?link "{%@%e}" "mailto:{%@%e}" "Click to send mail to {%@%m} Admin..."}%x)
@@ -1660,6 +1680,22 @@ On the following pages is a list of all the major changes/improvements/additions
 %4%r%l*  %xBrief/full '%g%l%(scan%)%x' implemented ('%g%l%(scanbrief%)%x'/'%g%l%(scanfull%)%x'.)
 <-SEPARATOR->
 Also, see '%g%l%<features%>%x', '%g%l%<version%>%x', '%g%l%<version info%>%x', '%g%l%<history%>%x', '%g%l%<acknowledgements%>%x', '%g%l%<modules%>%x' and '%g%l%<authors%>%x'.
+
+%PAGE
+
+%c%l%$Version 4.3.2 (01/05/2020  -  Present)
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%4%y%l*  %xRemoved the Queen Mary and Westfield College research project.
+%4%r%l*  %xYearly events for 'TCZ Research Project', 'TCZ 2000 Project', or 'TCZ Closed Down' have been
+removed ('%g%l%(events%)%x')  -  (See '%g%l%<events%>%x'.)
+%4%y%l*  %xHelp topics updated (See '%g%l%<fset 2%>%x', '%g%l%<marry%>%x', '%g%l%<bank%>%x', and '%g%l%<@alarm%>%x'.)
+%4%r%l*  %xSource code modernizations for current C compilers.
+%4%y%l*  %xFeelings list updated (See '%g%l@feeling list <PAGE>%x'.)
+%4%r%l*  %xCensored word list has been updated (See '%g%l%<CENSORED%>%x'.)
+%4%y%l*  %x'%g%l%(.reconnect%)%x' commands are now supported (See '%g%l%<.reconnect%>%x'.)
+%4%r%l*  %x'%g%l%(@sort%)%x' now supports floating point numbers (See '%g%l%<@sort%>%x'.)
+%4%y%l*  %xMaximum '%g%l%(@quotalimit%)%x' values have been increased (See '%g%l%<@quotalimit%>%x'.)
+%4%r%l*  %xMaximum aliases have increased for Mortals to 100 and 200 for capped admin (See '%g%l%<@alias%>%x'.)
 
 %COMMENT --------------------------------------------------------------------->
 
