@@ -1688,7 +1688,7 @@ Also, see '%g%l%<features%>%x', '%g%l%<version%>%x', '%g%l%<version info%>%x', '
 %4%y%l*  %xRemoved the Queen Mary and Westfield College research project.
 %4%r%l*  %xYearly events for 'TCZ Research Project', 'TCZ 2000 Project', or 'TCZ Closed Down' have been
 removed ('%g%l%(events%)%x')  -  (See '%g%l%<events%>%x'.)
-%4%y%l*  %xHelp topics updated (See '%g%l%<example%>%x'.)
+%4%y%l*  %xHelp topics updated (See '%g%l%<fset 2%>%x', '%g%l%<marry%>%x', '%g%l%<bank%>%x', and '%g%l%<@alarm%>%x'.)
 %4%r%l*  %xSource code modernizations for current C compilers.
 %4%y%l*  %xFeelings list updated (See '%g%l@feeling list <PAGE>%x'.)
 %4%r%l*  %xCensored word list has been updated (See '%g%l%<CENSORED%>%x'.)
