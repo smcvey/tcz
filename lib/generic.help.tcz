@@ -1155,7 +1155,6 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %9%9%c%l30/06/2020 %y %lNA  %x The bank now follows the same idle time rules when paying a character their wage (%g%l%<bank 2%>%x).
 
 %PAGE
-%9%9%c%l07/06/2020 %y %lSM  %x Fixed bugs in mass and volume lookup.
 %9%9%c%l18/06/2020 %y %lSM  %x '%g%l%(@undest%)%x' can no-longer crash the game.
 %9%9%c%l09/06/2020 %y %lNA  %x Fixed bugs in the tracking of character idle time.
 %9%9%c%l07/06/2020 %y %lSM  %x Fixed bugs in mass and volume lookup.
