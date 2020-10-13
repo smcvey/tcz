@@ -12481,6 +12481,8 @@ Also, see '%g%l%<@command%>%x', '%g%l%<@?execution%>%x' and '%g%l%<@?executed%>%
 
 '%g%l@remote%x' acts as if you were in %y%l<LOCATION>%x, and executed the command %y%l<COMMAND>%x.
 
+%y%l<LOCATION>%x must be owned by yourself or your puppet (Unless you are a %c%lWizard%x/%cDruid%x or above, who can %g%l@remote%x to any location unless it is set %y%lPRIVATE%x and owned by a character of an equal or higher rank.)
+
 Of course, you don't move at all  -  You just see the result(s) of the command.
 <-SEPARATOR->
 Also, see '%g%l%<@force%>%x'.
