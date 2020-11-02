@@ -1575,12 +1575,12 @@ void stats_rank(CONTEXT)
 					      ANSI_LWHITE"expenditure"ANSI_DGREEN", "\
 					      ANSI_LWHITE"idle"ANSI_DGREEN", "\
 					      ANSI_LWHITE"income"ANSI_DGREEN", "\
-					      ANSI_LWHITE"lasttime"ANSI_DGREEN"' "\
+					      ANSI_LWHITE"lasttime"ANSI_DGREEN", "\
 					      ANSI_LWHITE"lastused"ANSI_DGREEN", "\
 					      ANSI_LWHITE"logins"ANSI_DGREEN", "\
 					      ANSI_LWHITE"longest"ANSI_DGREEN", "\
 					      ANSI_LWHITE"lost"ANSI_DGREEN", "\
-					      ANSI_LWHITE"performance"ANSI_DGREEN"' "\
+					      ANSI_LWHITE"performance"ANSI_DGREEN", "\
 					      ANSI_LWHITE"profit"ANSI_DGREEN", "\
 					      ANSI_LWHITE"quota"ANSI_DGREEN", "\
 					      ANSI_LWHITE"quotaexcess"ANSI_DGREEN", "\
