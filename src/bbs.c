@@ -2555,7 +2555,7 @@ void bbs_append(CONTEXT)
 				      } else if(val1) bbs_output_except(player,MIN(topic->accesslevel,((subtopic) ? subtopic->accesslevel:255)),0,1,2,ANSI_LGREEN"An anonymous user appends to the message '%s"ANSI_LYELLOW"%s"ANSI_LGREEN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' (Message number "ANSI_LYELLOW"%d"ANSI_LGREEN".)",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,topic->name,msgno);
                                          else bbs_output_except(player,MIN(topic->accesslevel,((subtopic) ? subtopic->accesslevel:255)),0,1,2,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" appends to the message '%s"ANSI_LYELLOW"%s"ANSI_LGREEN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' (Message number "ANSI_LYELLOW"%d"ANSI_LGREEN".)",Article(player,UPPER,DEFINITE),getcname(NOTHING,player,0,0),(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,topic->name,msgno);
 				   }
-                                   if(Owner(player) != message->owner)
+                                   if((Owner(player) != message->owner) && (topic->accesslevel > 2))
                                       writelog(BBS_LOG,1,"APPEND","%s%s(#%d) appended to this message.",bbs_logmsg(message,topic,subtopic,msgno,0),getname(player),player); 
                                    setreturn(OK,COMMAND_SUCC);
 				} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that message can't be appended to.");
