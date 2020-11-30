@@ -1144,6 +1144,7 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M v%{@?version version}%x source code bug fixes
+%9%9%c%l10/07/2020 %y %lSM  %x Fixed bug that crashed TCZ when running 'authors' with a wrap of 50 or less.
 %9%9%c%l09/10/2020 %y %lNA  %x '%g%l%(@notify%)%x' will no longer be prevented from working due to a %y%lQUIET %xflag being set on the recipient's room. Only a player's %y%lQUIET %xflag will be checked now.
 %9%9%c%l08/10/2020 %y %lNA  %x Users can no-longer take objects from another player's inventory.
 %9%9%c%l20/09/2020 %y %lNA  %x Users can now use color codes in their prompts (%g%l%<set prompt%>%x) and titles (%g%l%<@title%>%x) without counting towards the length check.
@@ -1151,10 +1152,10 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %9%9%c%l12/09/2020 %y %lNA  %x '%g%l%(@?strlen%)%x' and '%g%l%(@?length%)%x' now return a reasonable value when given no argument.
 %9%9%c%l01/08/2020 %y %lNA  %x Users can now remain at the login screen for more than 5 minutes so long as they are active.
 %9%9%c%l31/07/2020 %y %lNA  %x '%g%l%(@sort%)%x' now works with both negative and positive integers.
-%9%9%c%l10/07/2020 %y %lSM  %x Fixed bug that wasn't limiting the length of titles and was giving an error message when attempting to set a blank title.
-%9%9%c%l30/06/2020 %y %lNA  %x The bank now follows the same idle time rules when paying a character their wage (%g%l%<bank 2%>%x).
 
 %PAGE
+%9%9%c%l10/07/2020 %y %lSM  %x Fixed bug that wasn't limiting the length of titles and was giving an error message when attempting to set a blank title.
+%9%9%c%l30/06/2020 %y %lNA  %x The bank now follows the same idle time rules when paying a character their wage (%g%l%<bank 2%>%x).
 %9%9%c%l18/06/2020 %y %lSM  %x '%g%l%(@undest%)%x' can no-longer crash the game.
 %9%9%c%l09/06/2020 %y %lNA  %x Fixed bugs in the tracking of character idle time.
 %9%9%c%l07/06/2020 %y %lSM  %x Fixed bugs in mass and volume lookup.
@@ -1163,9 +1164,9 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %9%9%c%l03/05/2020 %y %lSM  %x Fixed a bug that could cause a crash in handling log files.
 %9%9%c%l13/03/2005 %y %lSM  %x Viewing output from '%g%l%(@request%)%x' no-longer crashes the game.
 %9%9%c%l02/03/2005 %y %lSM  %x Outputting columns to a non-connected character (I.e: displayed via '%g%l%(@force%)%x') no-longer crashes the game.
-%9%9%c%l01/03/2005 %y %lSM  %x The '%g%l%(@?isupper%)%x' and '%g%l%(@?islower%)%x' query commands now ignore non-alphanumeric characters.
 
 %PAGE
+%9%9%c%l01/03/2005 %y %lSM  %x The '%g%l%(@?isupper%)%x' and '%g%l%(@?islower%)%x' query commands now ignore non-alphanumeric characters.
 %9%9%c%l17/02/2005 %y %lSM  %x The '%g%l%(@email%)%x' command no-longer gives duplicate warnings when setting the address of a puppet.
 %9%9%c%l17/02/2005 %y %lJV  %x Incorrect passwords now give extra information about logging on as a Guest on both Telnet and HTML connections.
 %9%9%c%l16/02/2005 %y %lSM  %x Entire text no-longer ignored if a Telnet user receives %g%l%%|%x as the first two characters in substitute().

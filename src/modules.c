@@ -594,6 +594,7 @@ void modules_authors_list(dbref player)
      int    cached_scrheight,adjust;
      char   buffer[BUFFER_LEN];
 
+     twidth = twidth <= 50 ? 51 : twidth;
      setreturn(ERROR,COMMAND_FAIL);
      if(player == NOBODY) {
         for(d = descriptor_list; d && (d->player != NOBODY); d = d->next);
