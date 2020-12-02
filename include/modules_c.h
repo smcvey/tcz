@@ -54,7 +54,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -65,27 +65,27 @@
 #define module_alias_c_date "21/02/1995"
 #define module_alias_c_desc "Custom command aliases"
 #define module_alias_c_authors \
-        "JPB | Y | 21/02/1995 | NULL >>>"
+        "JPB | Y | 21/02/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From array.c  <---- */
 #define module_array_c_date "16/05/1995"
 #define module_array_c_desc "Dynamic arrays"
 #define module_array_c_authors \
-        "JPB | Y | 16/05/1995 | NULL >>>"
+        "JPB | Y | 16/05/1995 | 02/12/2004 >>>"
 
 /* ---->  From banish.c  <---- */
 #define module_banish_c_date "12/04/1997"
 #define module_banish_c_desc "Banished character names"
 #define module_banish_c_authors \
-        "JPB | Y | 12/04/1997 | NULL >>>"
+        "JPB | Y | 12/04/1997 | 02/12/2004 >>>"
 
 
 /* ---->  From bbs.c  <---- */
 #define module_bbs_c_date "16/07/1995"
 #define module_bbs_c_desc "Topic-based Bulletin Board System"
 #define module_bbs_c_authors \
-        "JPB | Y | 16/07/1995 | NULL >>>"
+        "JPB | Y | 16/07/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From boolexp.c  <---- */
@@ -97,7 +97,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -108,14 +108,14 @@
 #define module_calculate_c_date "18/10/1994"
 #define module_calculate_c_desc "Integer, floating point and string-based calculations ('@eval'/'@calc')"
 #define module_calculate_c_authors \
-        "JPB | Y | 18/10/1994 | NULL >>>"
+        "JPB | Y | 18/10/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From channels.c  <---- */
 #define module_channels_c_date "18/04/1997"
 #define module_channels_c_desc "Channel communication"
 #define module_channels_c_authors \
-        "JPB | Y | 18/04/1997 | NULL >>>"
+        "JPB | Y | 18/04/1997 | 02/12/2004 >>>"
 
 
 /* ---->  From character.c  <---- */
@@ -127,7 +127,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -138,7 +138,7 @@
 #define module_combat_c_date "01/06/1995"
 #define module_combat_c_desc "Combat commands"
 #define module_combat_c_authors \
-        "JPB | Y | 01/06/1995 | NULL >>>"
+        "JPB | Y | 01/06/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From command.c  <---- */
@@ -147,7 +147,7 @@
 #define module_command_c_authors \
         "DP  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | Y | 01/01/1990 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | Y | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | Y | 01/01/1990 | 21/12/1993 >>>" \
@@ -163,7 +163,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -174,7 +174,7 @@
 #define module_compression_c_date "19/02/1996"
 #define module_compression_c_desc "Compression of text fields"
 #define module_compression_c_authors \
-        "JPB | Y | 19/02/1996 | NULL >>>"
+        "JPB | Y | 19/02/1996 | 02/12/2004 >>>"
 
 
 /* ---->  From container.c  <---- */
@@ -183,7 +183,7 @@
 #define module_container_c_authors \
         "DP  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | Y | 01/01/1990 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | Y | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | Y | 01/01/1990 | 21/12/1993 >>>" \
@@ -199,7 +199,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -215,7 +215,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -226,14 +226,14 @@
 #define module_destroy_c_date "24/03/1995"
 #define module_destroy_c_desc "Object destruction/recovery"
 #define module_destroy_c_authors \
-        "JPB | Y | 24/03/1995 | NULL >>>"
+        "JPB | Y | 24/03/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From edit.c  <---- */
 #define module_edit_c_date "09/10/1994"
 #define module_edit_c_desc "Line-based text editor"
 #define module_edit_c_authors \
-        "JPB | Y | 09/10/1994 | NULL >>>"
+        "JPB | Y | 09/10/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From event.c  <---- */
@@ -242,7 +242,7 @@
 #define module_event_c_authors \
         "DP  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | Y | 01/01/1990 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | Y | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | Y | 01/01/1990 | 21/12/1993 >>>" \
@@ -253,49 +253,49 @@
 #define module_feelings_c_date "07/07/2000"
 #define module_feelings_c_desc "Feeling commands"
 #define module_feelings_c_authors \
-        "JPB | Y | 07/07/2000 | NULL >>>"
+        "JPB | Y | 07/07/2000 | 02/12/2004 >>>"
 
 
 /* ---->  From finance.c  <---- */
 #define module_finance_c_date "03/01/1997"
 #define module_finance_c_desc "Monetry system (Credits)"
 #define module_finance_c_authors \
-        "JPB | Y | 03/01/1997 | NULL >>>"
+        "JPB | Y | 03/01/1997 | 02/12/2004 >>>"
 
 
 /* ---->  From friends.c  <---- */
 #define module_friends_c_date "20/03/1994"
 #define module_friends_c_desc "Friends lists & chatting channel"
 #define module_friends_c_authors \
-        "JPB | Y | 20/03/1994 | NULL >>>"
+        "JPB | Y | 20/03/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From global.c  <---- */
 #define module_global_c_date "14/05/1996"
 #define module_global_c_desc "Global compound command lookup"
 #define module_global_c_authors \
-        "JPB | Y | 14/05/1996 | NULL >>>"
+        "JPB | Y | 14/05/1996 | 02/12/2004 >>>"
 
 
 /* ---->  From group.c  <---- */
 #define module_group_c_date "17/11/1994"
 #define module_group_c_desc "Grouping/range operators"
 #define module_group_c_authors \
-        "JPB | Y | 17/11/1994 | NULL >>>"
+        "JPB | Y | 17/11/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From help.c  <---- */
 #define module_help_c_date "06/07/1994"
 #define module_help_c_desc "On-line help & tutorials"
 #define module_help_c_authors \
-        "JPB | Y | 06/07/1994 | NULL >>>"
+        "JPB | Y | 06/07/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From html.c  <---- */
 #define module_html_c_date "21/06/1996"
 #define module_html_c_desc "World Wide Web Interface & HTML support"
 #define module_html_c_authors \
-        "JPB | Y | 21/06/1996 | NULL >>>"
+        "JPB | Y | 21/06/1996 | 02/12/2004 >>>"
 
 
 /* ---->  From interface.c  <---- */
@@ -307,7 +307,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -318,14 +318,14 @@
 #define module_lists_c_date "31/08/1998"
 #define module_lists_c_desc "Character name list processing"
 #define module_lists_c_authors \
-        "JPB | Y | 31/08/1998 | NULL >>>"
+        "JPB | Y | 31/08/1998 | 02/12/2004 >>>"
 
 
 /* ---->  From logfiles.c  <---- */
 #define module_logfiles_c_date "11/03/2000"
 #define module_logfiles_c_desc "System and user log files"
 #define module_logfiles_c_authors \
-        "JPB | Y | 11/03/2000 | NULL >>>"
+        "JPB | Y | 11/03/2000 | 02/12/2004 >>>"
 
 
 /* ---->  From look.c  <---- */
@@ -337,7 +337,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -348,28 +348,28 @@
 #define module_mail_c_date "01/11/1995"
 #define module_mail_c_desc "Internal mail system"
 #define module_mail_c_authors \
-        "JPB | Y | 01/11/1995 | NULL >>>"
+        "JPB | Y | 01/11/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From map.c  <---- */
 #define module_map_c_date "27/01/2000"
 #define module_map_c_desc "Map of TCZ"
 #define module_map_c_authors \
-        "JPB | Y | 27/01/2000 | NULL >>>"
+        "JPB | Y | 27/01/2000 | 02/12/2004 >>>"
 
 
 /* ---->  From match.c  <---- */
 #define module_match_c_date "12/12/1997"
 #define module_match_c_desc "Hierarchical object matching"
 #define module_match_c_authors \
-        "JPB | Y | 12/12/1997 | NULL >>>"
+        "JPB | Y | 12/12/1997 | 02/12/2004 >>>"
 
 
 /* ---->  From modules.c  <---- */
 #define module_modules_c_date "20/05/2000"
 #define module_modules_c_desc "Description and author information for all TCZ source code modules"
 #define module_modules_c_authors \
-        "JPB | Y | 20/05/2000 | NULL >>>"
+        "JPB | Y | 20/05/2000 | 02/12/2004 >>>"
 
 /* ---->  From move.c  <---- */
 #define module_move_c_date "21/12/1993"
@@ -380,7 +380,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -391,28 +391,28 @@
 #define module_options_c_date "24/12/1999"
 #define module_options_c_desc "Command-line arguments"
 #define module_options_c_authors \
-        "JPB | Y | 24/12/1999 | NULL >>>"
+        "JPB | Y | 24/12/1999 | 02/12/2004 >>>"
 
 
 /* ---->  From output.c  <---- */
 #define module_output_c_date "28/12/1994"
 #define module_output_c_desc "Output to users/descriptors"
 #define module_output_c_authors \
-        "JPB | Y | 28/12/1994 | NULL >>>"
+        "JPB | Y | 28/12/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From pager.c  <---- */
 #define module_pager_c_date "02/05/1996"
 #define module_pager_c_desc "'more' pager for output"
 #define module_pager_c_authors \
-        "JPB | Y | 02/05/1996 | NULL >>>"
+        "JPB | Y | 02/05/1996 | 02/12/2004 >>>"
 
 
 /* ---->  From pagetell.c  <---- */
 #define module_pagetell_c_date "17/04/1995"
 #define module_pagetell_c_desc "'page'/'tell' commands"
 #define module_pagetell_c_authors \
-        "JPB | Y | 17/04/1995 | NULL >>>"
+        "JPB | Y | 17/04/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From predicates.c  <---- */
@@ -424,7 +424,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -435,14 +435,14 @@
 #define module_preferences_c_date "24/09/2000"
 #define module_preferences_c_desc "'set' preferences command"
 #define module_preferences_c_authors \
-        "JPB | Y | 24/09/2000 | NULL >>>"
+        "JPB | Y | 24/09/2000 | 02/12/2004 >>>"
 
 
 /* ---->  From prompt.c  <---- */
 #define module_prompt_c_date "02/10/2000"
 #define module_prompt_c_desc "Interactive user prompts"
 #define module_prompt_c_authors \
-        "JPB | Y | 02/10/2000 | NULL >>>"
+        "JPB | Y | 02/10/2000 | 02/12/2004 >>>"
 
 
 /* ---->  From query.c  <---- */
@@ -451,7 +451,7 @@
 #define module_query_c_authors \
         "DP  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | Y | 01/01/1990 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | Y | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | Y | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | Y | 01/01/1990 | 21/12/1993 >>>" \
@@ -462,28 +462,28 @@
 #define module_request_c_date "18/11/1996"
 #define module_request_c_desc "Request queue for new characters"
 #define module_request_c_authors \
-        "JPB | Y | 18/11/1996 | NULL >>>"
+        "JPB | Y | 18/11/1996 | 02/12/2004 >>>"
 
 
 /* ---->  From sanity.c  <---- */
 #define module_sanity_c_date "23/03/1995"
 #define module_sanity_c_desc "Database integrity checks"
 #define module_sanity_c_authors \
-        "JPB | Y | 23/03/1995 | NULL >>>"
+        "JPB | Y | 23/03/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From search.c  <---- */
 #define module_search_c_date "29/12/1994"
 #define module_search_c_desc "Object searching and listing"
 #define module_search_c_authors \
-        "JPB | Y | 29/12/1994 | NULL >>>"
+        "JPB | Y | 29/12/1994 | 02/12/2004L >>>"
 
 
 /* ---->  From selection.c  <---- */
 #define module_selection_c_date "15/06/1994"
 #define module_selection_c_desc "Selection & iteration commands"
 #define module_selection_c_authors \
-        "JPB | Y | 15/06/1994 | NULL >>>"
+        "JPB | Y | 15/06/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From server.c  <---- */
@@ -495,7 +495,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -518,7 +518,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -529,14 +529,14 @@
 #define module_sites_c_date "28/12/1994"
 #define module_sites_c_desc "Database of registered Internet sites"
 #define module_sites_c_authors \
-        "JPB | Y | 28/12/1994 | NULL >>>"
+        "JPB | Y | 28/12/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From statistics.c  <---- */
 #define module_statistics_c_date "29/12/1994"
 #define module_statistics_c_desc "Database statistics"
 #define module_statistics_c_authors \
-        "JPB | Y | 29/12/1994 | NULL >>>"
+        "JPB | Y | 29/12/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From stringutils.c  <---- */
@@ -548,7 +548,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -559,7 +559,7 @@
 #define module_substitute_c_date "13/10/1994"
 #define module_substitute_c_desc "Command/variable/query/%-type substitutions"
 #define module_substitute_c_authors \
-        "JPB | Y | 13/10/1994 | NULL >>>"
+        "JPB | Y | 13/10/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From tcz.c  <---- */
@@ -571,7 +571,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -582,14 +582,14 @@
 #define module_temp_c_date "18/10/1994"
 #define module_temp_c_desc "Temporary variables"
 #define module_temp_c_authors \
-        "JPB | Y | 18/10/1994 | NULL >>>"
+        "JPB | Y | 18/10/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From termcap.c  <---- */
 #define module_termcap_c_date "26/11/1995"
 #define module_termcap_c_desc "Database of terminal definitions"
 #define module_termcap_c_authors \
-        "JPB | Y | 26/11/1995 | NULL >>>"
+        "JPB | Y | 26/11/1995 | 02/12/2004 >>>"
 
 
 /* ---->  From unparse.c  <---- */
@@ -601,7 +601,7 @@
         "DP  | N | 01/01/1990 | 21/12/1993 >>>" \
         "GDW | N | 01/01/1990 | 21/12/1993 >>>" \
         "JA  | Y | 01/01/1989 | 21/12/1993 >>>" \
-        "JPB | N | 21/12/1993 | NULL >>>" \
+        "JPB | N | 21/12/1993 | 02/12/2004 >>>" \
         "MJH | N | 01/01/1990 | 21/12/1993 >>>" \
         "NH  | N | 01/01/1990 | 21/12/1993 >>>" \
         "PC  | N | 01/01/1990 | 21/12/1993 >>>" \
@@ -612,11 +612,11 @@
 #define module_userlist_c_date "10/03/1994"
 #define module_userlist_c_desc "User lists in various formats"
 #define module_userlist_c_authors \
-        "JPB | Y | 10/03/1994 | NULL >>>"
+        "JPB | Y | 10/03/1994 | 02/12/2004 >>>"
 
 
 /* ---->  From yearlyevents.c  <---- */
 #define module_yearlyevents_c_date "24/11/1997"
 #define module_yearlyevents_c_desc "Yearly event notification"
 #define module_yearlyevents_c_authors \
-        "JPB | Y | 24/11/1997 | NULL >>>"
+        "JPB | Y | 24/11/1997 | 02/12/2004 >>>"
