@@ -301,10 +301,6 @@ struct module_details modules[] = {
 	  module_userlist_c_date,
 	  module_userlist_c_desc,
 	  module_userlist_c_authors},
-       {NULL, NULL, NULL, 0, 0, "yearlyevents.c",
-	  module_yearlyevents_c_date,
-	  module_yearlyevents_c_desc,
-	  module_yearlyevents_c_authors},
 
 
        /* ---->  '*.h' header files  <---- */
@@ -476,10 +472,6 @@ struct module_details modules[] = {
 	  module_teleport_h_date,
 	  module_teleport_h_desc,
 	  module_teleport_h_authors},
-       {NULL, NULL, NULL, 0, 0, "yearlyevents.h",
-	  module_yearlyevents_h_date,
-	  module_yearlyevents_h_desc,
-	  module_yearlyevents_h_authors},
        {NULL, NULL, NULL, 0, 0, NULL,
 	  NULL,
 	  NULL,

@@ -1398,8 +1398,6 @@ void look_motd(CONTEXT)
      output(p,player,0,1,0,ANSI_LMAGENTA"Admin E-mail:  "ANSI_LYELLOW"\016<A HREF=\"mailto:%s\">\016%s\016</A>\016",tcz_admin_email,tcz_admin_email);
      output(p,player,0,1,0,ANSI_LMAGENTA"    Web Site:  "ANSI_LYELLOW"\016<A HREF=\"%s\" TARGET=_blank>\016%s\016</A>\016\n",html_home_url,html_home_url);
 
-     /* ---->  Show yearly events  <---- */
-     yearly_event_show(player,0);
      if(val1 == 1) return;
 
      /* ---->  Display MOTD (Message Of The Day)  <---- */

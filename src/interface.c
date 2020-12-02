@@ -250,10 +250,6 @@ int init_tcz(unsigned char load_db,unsigned char compressed)
        finance_quarter();
     }
 
-    /* ---->  Initialise yearly events  <---- */
-    count = yearly_event_sort(NOTHING);
-    writelog(SERVER_LOG,0,"RESTART","Yearly events initialised (%d event%s.)",count,Plural(count));
-
     /* ---->  Disable user logins option (-n)  <---- */
     if(!option_logins(OPTSTATUS)) {
        connections = 0;
@@ -1143,7 +1139,7 @@ void tcz_time_sync(unsigned char init)
 {
      static time_t bbs_check = 1,character_check = 1,object_check = 1;
      static time_t request_check = 1, warn_failed = 1;
-     static time_t event_check = 1,vote_expiry = 1,clock = 1;
+     static time_t vote_expiry = 1,clock = 1;
      static dbref player,object,command,data;
      int    execution_counter = 0;
      static char token[2];
@@ -1197,10 +1193,6 @@ void tcz_time_sync(unsigned char init)
                        request_check = ((now / DAY) * DAY) + (REQUEST_EXPIRY_HOUR * HOUR);
                        while(request_check < now) request_check += DAY;
 		    }
-
-                    /* ---->  Yearly events  <---- */
-                    event_check = (now / MINUTE) * MINUTE;
-                    while(event_check < now) event_check += MINUTE;
 
                     /* ---->  Reset WARN_LOGIN_FAILED on descriptors  <---- */
                     warn_failed = (now + (WARN_LOGIN_INTERVAL * 60));
@@ -1349,12 +1341,6 @@ void tcz_time_sync(unsigned char init)
      if(now >= vote_expiry) {
         bbs_update_vote_expiry();
         while(vote_expiry < now) vote_expiry += DAY;
-     }
-
-     /* ---->  Yearly events  <---- */
-     if(now >= event_check) {
-        yearly_event_show(NOTHING,1);
-        event_check += MINUTE;
      }
 
      /* ---->  Pending events  <---- */

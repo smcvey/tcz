@@ -615,8 +615,3 @@
         "JPB | Y | 10/03/1994 | 02/12/2004 >>>"
 
 
-/* ---->  From yearlyevents.c  <---- */
-#define module_yearlyevents_c_date "24/11/1997"
-#define module_yearlyevents_c_desc "Yearly event notification"
-#define module_yearlyevents_c_authors \
-        "JPB | Y | 24/11/1997 | 02/12/2004 >>>"

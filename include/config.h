@@ -324,7 +324,7 @@
 #define TCZ_SHORT_NAME        "TCZ"                     /*  Default TCZ server name (Short version)  */
 #define TCZ_FULL_NAME         "New TCZ-based MUD"       /*  Default TCZ server name  */
 #define TCZ_LOCATION          "Not Specified"           /*  Default location of TCZ server  */
-#define TCZ_REVISION          2                         /*  Current minor revision number of TCZ server  */
+#define TCZ_REVISION          3                         /*  Current minor revision number of TCZ server  */
 #define TCZ_VERSION           "4.3"                     /*  TCZ server version number  */
 
 

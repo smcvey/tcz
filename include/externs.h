@@ -1323,11 +1323,4 @@ extern  void            userlist_set_title      (CONTEXT);
 extern  void            userlist_title          (CONTEXT);
 
 
-/* ---->  From yearlyevents.c  <---- */
-extern  struct          yearly_event_data       *yearly_event_start;
-
-extern  int		yearly_event_sort	(dbref player);
-extern  void            yearly_event_show       (dbref player,unsigned char timed);
-extern  void            yearly_event_list 	(CONTEXT);
-
 #endif /* __EXTERNS_H */

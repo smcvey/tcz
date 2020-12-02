@@ -122,21 +122,20 @@ Also, see '%g%l%<index%>%x' and '%g%l%<menu%>%x'.
 %[%g%l%(!!%)           %(adminlist%)    %(aliases%)      %(afk%)           %(ask%)          %(authors%)
 %(bank%)         %(bbs%)          %(bug%)          %(chat%)          %(close%)        %(cls%)
 %(comment%)      %(commands%)     %(complain%)     %(converse%)      %(date%)         %(disclaimer%)
-%(drive%)        %(drop%)         %(edit%)         %(emergency%)     %(enter%)        %(events%)
-%(examine%)      %(fadd%)         %(fchat%)        %(feelings%)      %(finger%)       %(flist%)
-%(fothers%)      %(fremove%)      %(friends%)      %(fset%)          %(fwhere%)       %(fwho%)
-%(get%)          %(give%)         %(go%)           %(goto%)          %(help%)         %(home%)
-%(homeroom%)     %(idle%)         %(inventory%)    %(junk%)          %(kick%)         %(lastseen%)
-%(latest%)       %(leave%)        %(lock%)         %(longspod%)      %(look%)         %(lwho%)
-%(mail%)         %(map%)          %(modules%)      %(more%)          %(motd%)         %(move%)
-%(news%)         %(open%)         %(page%)         %(privileges%)    %(profile%)      %(QUIT%)
-%(read%)         %(recall%)       %(repeat%)       %(reply%)         %(ride%)         %(rules%)
-%(say%)          %(scan%)         %(score%)        %(screenconfig%)  %(session%)      %(set%)
-%(settings%)     %(spod%)         %(suggest%)      %(summary%)       %(summon%)       %(swho%)
-%(take%)         %(tell%)         %(think%)        %(time%)          %(title%)        %(titles%)
-%(to%)           %(tutorial%)     %(unlock%)       %(uptime%)        %(version%)      %(wake%)
-%(warp%)         %(where%)        %(whisper%)      %(who%)           %(use%)          %(visit%)
-%(yell%)%]
+%(drive%)        %(drop%)         %(edit%)         %(emergency%)     %(enter%)        %(examine%)
+%(fadd%)         %(fchat%)        %(feelings%)      %(finger%)       %(flist%)        %(fothers%)
+%(fremove%)      %(friends%)      %(fset%)          %(fwhere%)       %(fwho%)         %(get%)
+%(give%)         %(go%)           %(goto%)          %(help%)         %(home%)         %(homeroom%)
+%(idle%)         %(inventory%)    %(junk%)          %(kick%)         %(lastseen%)     %(latest%)
+%(leave%)        %(lock%)         %(longspod%)      %(look%)         %(lwho%)         %(mail%)
+%(map%)          %(modules%)      %(more%)          %(motd%)         %(move%)         %(news%)
+%(open%)         %(page%)         %(privileges%)    %(profile%)      %(QUIT%)         %(read%)
+%(recall%)       %(repeat%)       %(reply%)         %(ride%)         %(rules%)        %(say%)
+%(scan%)         %(score%)        %(screenconfig%)  %(session%)      %(set%)          %(settings%)
+%(spod%)         %(suggest%)      %(summary%)       %(summon%)       %(swho%)         %(take%)
+%(tell%)         %(think%)        %(time%)          %(title%)        %(titles%)       %(to%)
+%(tutorial%)     %(unlock%)       %(uptime%)        %(version%)      %(wake%)         %(warp%)
+%(where%)        %(whisper%)      %(who%)           %(use%)          %(visit%)        %(yell%)%]
 <-SEPARATOR->
 For further help on any of the above commands, please type '%g%lhelp <COMMAND>%x', where %y%l<COMMAND>%x is the command you'd like help on.  %c%lAlso, see '%g%l%<menu%>%c%l'.
 
@@ -1144,6 +1143,7 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M v%{@?version version}%x source code bug fixes
+%9%9%c%l02/12/2020 %y %lSM  %x Removed yearlyevents '%g%l(events)%x' code.
 %9%9%c%l02/12/2020 %y %lSM  %x Changed colour of the username in the final shutdown message.
 %9%9%c%l31/11/2020 %y %lSM  %x Fixed bug that crashed TCZ when running 'authors' with a wrap of 50 or less.
 %9%9%c%l09/10/2020 %y %lNA  %x '%g%l%(@notify%)%x' will no longer be prevented from working due to a %y%lQUIET %xflag being set on the recipient's room. Only a player's %y%lQUIET %xflag will be checked now.
@@ -15351,23 +15351,6 @@ This command can only be used by %y%lApprentice Wizards/%yDruids%x and above.
 %9%6%c%lPLEASE NOTE:  %xIf you discover a user created jail, the fuse(s) should be destroyed as soon as possible, and the user should be warned and told to destroy the jail, with the threat of losing their Builder flag if they recreate the jail or fuses of a similar nature in the future.
 <-SEPARATOR->
 Also, see '%g%l%<@link%>%x' and '%g%l%<@fuse%>%x'.
-
-%COMMENT --------------------------------------------------------------------->
-
-%TOPIC events
-%TOPIC yearlyevents
-%TITLE Help on '%w%levents%x'
-%[%c%lUSAGE:  %g%levents [<PAGE NO>|<NAME>]%]%x
-
-Lists or displays information about yearly events, e.g:  %m%lChristmas%x,  %m%lNew Year%x, %m%l%@%m's birthday%x, etc.
-
-With no parameters, '%g%levents%x' will list the first page of yearly events, in date order.  You can list further pages of yearly events by giving a page number (%y%l<PAGE NO>%x), e.g:  '%g%levents 2%x' lists the %c%l2nd%x page of events, '%g%levents 3%x' lists the %c%l3rd%x, etc.
-
-You can display further information about a particular yearly event by typing '%g%levents%x' followed by the name (Or part of the name) of the event, e.g:  '%g%levents christmas%x'.
-
-On the date (And time, if the event occurs at a particular time of the day) of a yearly event, an appropriate message will be sent to all connected users who do not have their %y%l%(QUIET%)%x flag set.  For the remainder of the day of the event, users connecting will also see the event when they connect to %@%m.
-<-SEPARATOR->
-Also, see '%g%l%<general%>%x' and '%g%l%<quiet flag%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 

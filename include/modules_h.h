@@ -350,9 +350,3 @@
 #define module_teleport_h_authors \
         "JPB | Y | 03/06/1999 | 02/12/2004 >>>"
 
-
-/* ---->  From yearlyevents.h  <---- */
-#define module_yearlyevents_h_date "03/06/2000"
-#define module_yearlyevents_h_desc "Table of yearly events"
-#define module_yearlyevents_h_authors \
-        "JPB | Y | 03/06/2000 | 02/12/2004 >>>"

@@ -101,7 +101,6 @@ struct cmd_table general_cmds[] = {
        {OTHER_COMMAND, "escape",                 (void *) admin_escape,              0, 0, 0},
        {OTHER_COMMAND, "escapejail",             (void *) admin_escape,              0, 0, 0},
        {OTHER_COMMAND, "escapeprison",           (void *) admin_escape,              0, 0, 0},
-       {OTHER_COMMAND, "events",                 (void *) yearly_event_list,         0, 0, 0},
        {OTHER_COMMAND, "ex",                     (void *) look_examine,              0, 0, 0},
        {OTHER_COMMAND, "examine",                (void *) look_examine,              0, 0, 0},
        {OTHER_COMMAND, "exit",                   (void *) container_leave,           0, 0, 0},
@@ -344,7 +343,6 @@ struct cmd_table general_cmds[] = {
        {OTHER_COMMAND, "xfull",                  (void *) look_scan,                 1, 0, 0},
        {OTHER_COMMAND, "y",                      (void *) comms_yell,                0, 0, 0},
        {OTHER_COMMAND, "ye",                     (void *) comms_yell,                0, 0, 0},
-       {OTHER_COMMAND, "yearlyevents",           (void *) yearly_event_list,         0, 0, 0},
        {OTHER_COMMAND, "yell",                   (void *) comms_yell,                0, 0, 0},
        {OTHER_COMMAND, NULL,                     NULL,                               0, 0, 0},
 };

@@ -261,8 +261,7 @@ SRC = \
 	temp.c \
         termcap.c \
 	unparse.c \
-        userlist.c \
-        yearlyevents.c
+        userlist.c
 
 # Generate the object list from the source list
 OBJS = $(SRC:.c=.o)

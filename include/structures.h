@@ -905,21 +905,6 @@ struct userlist_data {
 };
 
 
-/* ---->  Yearly events data structure  <---- */
-struct yearly_event_data {
-       struct   yearly_event_data *next;      /*  Next yearly event (Date/time order)  */
-       const    char              *name;      /*  Name of event  */
-       unsigned char              day;	      /*  Day of month (1 - 31)  */
-       unsigned char              month;      /*  Month (1 - 12)  */
-       unsigned char              hour;       /*  Hour (0 - 23)  */
-       unsigned char              minute;     /*  Minute (0 - 59)  */
-       const    char              *datetime;  /*  Date/time format  */
-       unsigned char              notify;     /*  Notify users connected when event occures  */
-       unsigned char              timediff;   /*  Take user time difference into account?  */
-       const    char              *banner;    /*  Banner to show at login/to users when event occures  */
-};
-
-
 /* ---->  Descriptor list data structure  <---- */
 struct descriptor_data {
        struct   descriptor_data *next;            /*  Next descriptor in descriptor list  */
@@ -1016,7 +1001,6 @@ struct edit_cmd_table {
 
 /* ---->  Group data structure (Used by union grouprange grouping/range ops)  <---- */
 union group_data {
-      struct yearly_event_data yearly_event;  /*  Yearly events           */
       struct descriptor_data   descriptor;    /*  Descriptor list         */
       struct bbs_list_data     bbslist;       /*  BBS summary             */
       struct channel_data      channel;       /*  Channels                */
