@@ -1144,7 +1144,8 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M v%{@?version version}%x source code bug fixes
-%9%9%c%l10/07/2020 %y %lSM  %x Fixed bug that crashed TCZ when running 'authors' with a wrap of 50 or less.
+%9%9%c%l02/12/2020 %y %lSM  %x Changed colour of the username in the final shutdown message.
+%9%9%c%l31/11/2020 %y %lSM  %x Fixed bug that crashed TCZ when running 'authors' with a wrap of 50 or less.
 %9%9%c%l09/10/2020 %y %lNA  %x '%g%l%(@notify%)%x' will no longer be prevented from working due to a %y%lQUIET %xflag being set on the recipient's room. Only a player's %y%lQUIET %xflag will be checked now.
 %9%9%c%l08/10/2020 %y %lNA  %x Users can no-longer take objects from another player's inventory.
 %9%9%c%l20/09/2020 %y %lNA  %x Users can now use color codes in their prompts (%g%l%<set prompt%>%x) and titles (%g%l%<@title%>%x) without counting towards the length check.
