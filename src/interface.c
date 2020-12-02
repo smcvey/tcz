@@ -1239,7 +1239,7 @@ void tcz_time_sync(unsigned char init)
               shutdown_counter--;
               if(shutdown_counter == 0) {
                  writelog(SERVER_LOG,1,"SHUTDOWN","Shutdown by %s(#%d)  -  Shutting down %s server...",getname(shutdown_who),shutdown_who,tcz_short_name);
-                 sprintf(bootmessage,SYSTEM_SHUTDOWN""ANSI_LWHITE"%s"ANSI_LCYAN"%s"ANSI_LWHITE" has shutdown %s %s\n\n\n",tcz_full_name,Article(shutdown_who,UPPER,INDEFINITE),getcname(NOTHING,shutdown_who,0,0),tcz_full_name,String(shutdown_reason));
+                 sprintf(bootmessage,SYSTEM_SHUTDOWN""ANSI_LWHITE"%s"ANSI_LMAGENTA"%s"ANSI_LWHITE" has shutdown %s %s\n\n\n",tcz_full_name,Article(shutdown_who,UPPER,INDEFINITE),getcname(NOTHING,shutdown_who,0,0),tcz_full_name,String(shutdown_reason));
                  FREENULL(shutdown_reason);
                  return;
 	      } else if(!shutdown_timing || (shutdown_counter <= 10))
