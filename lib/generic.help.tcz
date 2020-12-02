@@ -1142,7 +1142,7 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 
 %TOPIC bugfixes
 %TOPIC codefixes
-%TITLE Brief summary of latest %w%l%@%M v%{@?version version}%x source code bug fixes
+%TITLE Brief summary of latest %w%l%@%M%x source code bug fixes
 %9%9%c%l02/12/2020 %y %lSM  %x Removed yearlyevents '%g%l(events)%x' code.
 %9%9%c%l02/12/2020 %y %lSM  %x Changed colour of the username in the final shutdown message.
 %9%9%c%l31/11/2020 %y %lSM  %x Fixed bug that crashed TCZ when running 'authors' with a wrap of 50 or less.
