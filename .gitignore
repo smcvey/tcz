@@ -9,3 +9,15 @@ core.*
 
 # VIM temporary files
 *.swp
+bin/tcz.8342.8080
+bin/tcz
+bin/log/welcome.log
+bin/lib/main.db.new.gz
+bin/lib/sites.tcz.gz
+*.log
+bin/lib/main.backup.gz
+bin/lib/main.db.gz
+*.pid
+*.core
+*.old
+bin/lib/main.new.gz
