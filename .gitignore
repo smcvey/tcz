@@ -9,6 +9,8 @@ core.*
 
 # VIM temporary files
 *.swp
+
+# Log files, database files, etc. within bin
 bin/tcz.8342.8080
 bin/tcz
 bin/lib/*
