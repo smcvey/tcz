@@ -159,7 +159,7 @@ void move_home(dbref object,int homeroom)
 #endif
 
                        /* ---->  Arrival message and .entercmd  <---- */
-                       output_except(Location(object),object,NOTHING,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" "%s" arrived.",Article(object,UPPER,INDEFINITE),getcname(NOTHING,object,0,0),(Articleof(player) == ARTICLE_PLURAL) ? "has":"have");
+                       output_except(Location(object),object,NOTHING,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" "%s" arrived.",Article(object,UPPER,INDEFINITE),getcname(NOTHING,object,0,0),(Articleof(object) == ARTICLE_PLURAL) ? "has":"have");
                        event_set_fuse_args((in_command && command_lineptr) ? command_lineptr:command_line,&cmd_arg0,&cmd_arg1,&cmd_arg2,&cmd_arg3,buffer,token,0);
                        command_execute_action(object,NOTHING,".entercmd",NULL,cmd_arg1,cmd_arg2,cmd_arg3,0);
 		    }
@@ -1069,7 +1069,7 @@ void move_teleport(CONTEXT)
                                    char *cmd_arg0,*cmd_arg1,*cmd_arg2,*cmd_arg3;
                                    char buffer[TEXT_SIZE],token[2];
 
-                                   output_except(Location(object),object,NOTHING,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" "%s" arrived.",Article(object,UPPER,INDEFINITE),getcname(NOTHING,object,0,0),(Articleof(player) == ARTICLE_PLURAL) ? "has":"have");
+                                   output_except(Location(object),object,NOTHING,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" "%s" arrived.",Article(object,UPPER,INDEFINITE),getcname(NOTHING,object,0,0),(Articleof(object) == ARTICLE_PLURAL) ? "has":"have");
                                    event_set_fuse_args((in_command && command_lineptr) ? command_lineptr:command_line,&cmd_arg0,&cmd_arg1,&cmd_arg2,&cmd_arg3,buffer,token,0);
                                    command_execute_action(object,NOTHING,".entercmd",NULL,cmd_arg1,cmd_arg2,cmd_arg3,0);
 				}
