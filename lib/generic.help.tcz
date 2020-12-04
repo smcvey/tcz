@@ -1213,6 +1213,8 @@ Also, see '%g%l%<promotions%>%x', '%g%l%<admin rules%>%x', '%g%l%<safety guideli
 %9%9%c%l24/07/2001 %y %lJPB %x BBS '%g%l%(^bbs append%)%x' '%g%l{@?date_to_string}%x' corrected to '%g%l{%(@?realtime%)}%x'.
 %9%9%c%l24/07/2001 %y %lJPB %x '%g%lhere%x' returns location of user executing command.
 %9%9%c%l24/07/2001 %y %lJPB %x Crash when removing aliases fixed.
+
+%PAGE
 %9%9%c%l24/07/2001 %y %lJPB %x Infinite loop problem fixed in '%g%l{%(@?filter%)}%x'.
 <-SEPARATOR->
 Also, see '%g%l%<features%>%x', '%g%l%<version%>%x', '%g%l%<version info%>%x', '%g%l%<history%>%x', '%g%l%<acknowledgements%>%x', '%g%l%<modules%>%x' and '%g%l%<authors%>%x'.
