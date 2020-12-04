@@ -47,7 +47,7 @@ struct author_details authors[] = {
 /*   ~~~~~~~~~   ~~~~~~~~~~            ~~~~~~~~~    ~~~~~~~ */
 	
        {NULL, NULL, NULL, 0, 0,
-          "BY",  "Bennet Yee",         NULL,        NULL},
+          "BY",  "Bennet Yee",     NULL,        NULL},
        {NULL, NULL, NULL, 0, 0,
 	  "DA",  "David Applegate",    NULL,	    NULL},
        {NULL, NULL, NULL, 0, 0,
@@ -74,6 +74,8 @@ struct author_details authors[] = {
 	  "SM",  "Shaun McVey",        "Monster",   "shaun.mcvey@gmail.com"},
        {NULL, NULL, NULL, 0, 0,
 	  "SAB", "Simon Boggis",       "Badpenny",  NULL},
+       {NULL, NULL, NULL, 0, 0,
+      "SV", "Steve Voght",         "Lorax",     "stevevoght@gmail.com"},
        {NULL, NULL, NULL, 0, 0,
 	  NULL,  NULL,                 NULL,        NULL}
 };
