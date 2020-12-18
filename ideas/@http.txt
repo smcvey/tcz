@@ -1,0 +1,49 @@
+USAGE: @http <url>
+
+Due to the resources and time necessary to access the network as the TCZ
+server, some constraints are needed.  Restrict to usage inside a compound
+command with a WIZARD (or ELDER?) flag set on it.  Further constraints 
+should be applied in the chosen implementation including:
+ 1) Connection timeout
+ 2) Max-connect time
+ 3) Maximum data transfer (~4Kb?)
+
+This command can facilitate sending data outside of TCZ and receiving 
+responses from web services.  After reviewing some options, one highly 
+portable solution stands out (libcurl) which is the library used behind
+the Linux comand 'curl'.  It works on all the major platforms and was 
+originally created to support fetching currency exchange rates for IRC
+bots.
+
+Example: @temp query = {@http <url>}
+
+A user can then use various string and list processing queries to dissect
+the values that are returned.  Many web services return verbose sets of data
+and a more sophisticated method of processing the values may be warranted 
+in the future.  One possible way to do this is by constructing temporary
+json objects where the values can be parsed once and then accessed and 
+traversed as needed.  A potential back end object for this could be based on
+(with minor changes) this json.h and json.c:
+
+https://github.com/EsotericSoftware/spine-runtimes/blob/3.8/spine-c/spine-c/src/spine/Json.h
+https://github.com/EsotericSoftware/spine-runtimes/blob/3.8/spine-c/spine-c/src/spine/Json.c
+
+The act of constructing a temporary json object could follow a lifecycle 
+similar to temporary variables (@temp).  Getting values could be achieved 
+with a tree access shorthand of some kind (perhaps use the suggestions made
+for @field object.childobject.string.  Access to data can be facilitated
+by a series of new @?queries. To get even more TCZ-friendly, enhancements 
+to @with could be made to provide flow control to an json object's children
+or values.
+
+One fun stock market query option might look like this:
+
+@temp ticker = $1
+@temp result = {@http https://query1.finance.yahoo.com/v8/finance/chart/$(ticker)}
+@echo $(result)
+
+May yield output that looks like this:
+
+{"chart":{"result":[{"meta":{"currency":"USD","symbol":"UNP","exchangeName":"NYQ","instrumentType":"EQUITY","firstTradeDate":315671400,"regularMarketTime":1608303108,"gmtoffset":-18000,"timezone":"EST","exchangeTimezoneName":"America/New_York","regularMarketPrice":201.1,"chartPreviousClose":202.2,"previousClose":202.2,"scale":3,"priceHint":2,"currentTradingPeriod":{"pre":{"timezone":"EST","start":1608282000,"end":1608301800,"gmtoffset":-18000},"regular":{"timezone":"EST","start":1608301800,"end":1608325200,"gmtoffset":-18000},"post":{"timezone":"EST","start":1608325200,"end":1608339600,"gmtoffset":-18000}},"tradingPeriods":[[{"timezone":"EST","start":1608301800,"end":1608325200,"gmtoffset":-18000}]],"dataGranularity":"1m","range":"1d","validRanges":["1d","5d","1mo","3mo","6mo","1y","2y","5y","10y","ytd","max"]},"timestamp":[1608301800,1608301860,1608301920,1608301980,1608302040,1608302100,1608302160,1608302220,1608302280,1608302340,1608302400,1608302460,1608302520,1608302580,1608302640,1608302700,1608302760,1608302820,1608302880,1608302940,1608303000,1608303060,1608303108],"indicators":{"quote":[{"open":[202.08999633789062,203.41000366210938,203.52999877929688,202.25,201.74000549316406,201.9600067138672,202.16000366210938,201.61000061035156,201.74000549316406,201.86500549316406,201.55999755859375,201.08999633789062,200.8300018310547,201.19000244140625,201.7100067138672,201.58999633789062,201.2949981689453,201.35000610351562,201.42999267578125,201.33999633789062,201.24000549316406,null,201.10000610351562],"low":[201.89999389648438,203.08999633789062,202.25,201.58999633789062,201.55999755859375,201.32000732421875,201.72000122070312,201.5800018310547,201.74000549316406,201.3800048828125,201.44000244140625,200.75,200.8300018310547,201.14999389648438,201.4499969482422,201.42999267578125,201.2949981689453,201.33999633789062,201.1999969482422,201.1999969482422,201.0,null,201.10000610351562],"close":[203.44000244140625,203.55099487304688,202.25,201.60000610351562,201.9250030517578,202.0500030517578,201.72000122070312,201.97999572753906,201.9199981689453,201.61000061035156,201.44000244140625,200.75,201.22999572753906,201.5500030517578,201.61500549316406,201.42999267578125,201.2949981689453,201.49000549316406,201.33999633789062,201.3249969482422,201.0,null,201.10000610351562],"volume":[543153,7642,7960,12683,8458,11359,0,4525,1297,7712,1378,4570,5197,4265,12816,3934,1423,2688,1856,2107,2514,null,0],"high":[203.44000244140625,203.6199951171875,203.52999877929688,202.25999450683594,201.9250030517578,202.10000610351562,202.16000366210938,201.97999572753906,201.9199981689453,201.9499969482422,201.55999755859375,201.13999938964844,201.24000549316406,201.5800018310547,201.82000732421875,201.59500122070312,201.2949981689453,201.49000549316406,201.46499633789062,201.33999633789062,201.24000549316406,null,201.10000610351562]}]}}],"error":null}}
+
+
