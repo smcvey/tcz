@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  1/09/2020.
+                     Manual release date:  18/12/2020.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -8033,7 +8033,7 @@ In most cases, things are given priority.
   (With the exception of executing a command, using '.execute' or '.x',
   unless it's normally censored on the command-line.)
 
-  '@censor' may be used from within a Mortal owned compound command, providing
+  '@censor' may be used from within a Builder owned compound command, providing
   it either has its APPRENTICE or WIZARD flag set.
 
 -------------------------------------------------------------------------------
@@ -11650,8 +11650,8 @@ In most cases, things are given priority.
 
   The APPRENTICE flag...
   ~~~~~~~~~~~~~~~~~~~~~~
-  USAGE:  @set <OBJECT>|*<NAME> = APPRENTICE
-          @set <OBJECT>|*<NAME> = !APPRENTICE
+  USAGE:  @set <COMMAND>|*<NAME> = APPRENTICE  = <REASON>
+          @set <COMMAND>|*<NAME> = !APPRENTICE = <REASON>
 
   This flag can only be set/reset by Wizards/Druids and above.
 
@@ -11663,9 +11663,11 @@ In most cases, things are given priority.
   *  Allows the use of '@write', '@oecho' and '@notify' within the compound
      command in ANY room/area.
 
-  *  Allows use of '@with connected...' within a Mortal owned compound command.
+  *  Allows use of '@with connected...' within a Builder owned compound command.
 
-  *  Allows use of '@censor' within a Mortal owned compound command.
+  *  Allows use of '@censor' within a Builder owned compound command.
+  
+  *  Allows use of unrestricted credit payments in the '@pay' command.
 
 
   The ASHCAN flag...
@@ -11848,8 +11850,8 @@ In most cases, things are given priority.
 
   The DEITY flag...
   ~~~~~~~~~~~~~~~~~
-  USAGE:  @set *<NAME> = DEITY
-          @set *<NAME> = !DEITY
+  USAGE:  @set *<NAME> = DEITY  = <REASON>
+          @set *<NAME> = !DEITY = <REASON>
 
   This flag can only be set/reset by the Supreme Being.
 
@@ -11859,8 +11861,8 @@ In most cases, things are given priority.
 
   The DRUID flag...
   ~~~~~~~~~~~~~~~~~
-  USAGE:  @set *<NAME> = DRUID
-          @set *<NAME> = !DRUID
+  USAGE:  @set *<NAME> = DRUID  = <REASON>
+          @set *<NAME> = !DRUID = <REASON>
 
   This flag can only be on lower level characters by Wizards/Druids and above.
 
@@ -11875,8 +11877,8 @@ In most cases, things are given priority.
 
   The ELDER flag...
   ~~~~~~~~~~~~~~~~~
-  USAGE:  @set *<NAME> = ELDER
-          @set *<NAME> = !ELDER
+  USAGE:  @set *<NAME> = ELDER  = <REASON>
+          @set *<NAME> = !ELDER = <REASON>
 
   This flag can only be set/reset by Deities and the Supreme Being.
 
@@ -11889,13 +11891,13 @@ In most cases, things are given priority.
 
   *  Allows '@admin options' to be set.
 
-  IMPORTANT NOTICE:  The ELDER flag should never be set on Mortal owned
+  IMPORTANT NOTICE:  The ELDER flag should never be set on Builder owned
                      compound commands without also setting the READONLY
                      flag (To prevent the Mortal user from maliciously
                      editing it to pick up a number of Admin-only privileges.)
 
                      Ideally (Where possible), the APPRENTICE flag (See 'help
-                     apprentice flag') should be set on Mortal owned compound
+                     apprentice flag') should be set on Builder owned compound
                      commands instead (This only gives limited effects of the
                      ELDER flag (See section on ELDER flag.)
 
@@ -12520,7 +12522,7 @@ In most cases, things are given priority.
 
   This flag can only be set/reset by Apprentice Wizards/Druids and above.
 
-  If a Mortal owned compound command is made global, it must also have its
+  If a Builder owned compound command is made global, it must also have its
   VALIDATED flag set, otherwise it will be ignored by the global search
   phase.  This flag prevents Mortals who already own global compound commands
   (Which have been authorised by Admin) from teleporting unauthorised compound
@@ -12579,8 +12581,8 @@ In most cases, things are given priority.
 
   The WIZARD flag...
   ~~~~~~~~~~~~~~~~~~
-  USAGE:  @set <OBJECT>|*<NAME> = WIZARD
-          @set <OBJECT>|*<NAME> = !WIZARD
+  USAGE:  @set <COMMAND>|*<NAME> = WIZARD  = <REASON>
+          @set <COMMAND>|*<NAME> = !WIZARD = <REASON>
 
   This flag can only be set/reset by Elder Wizards/Druids and above.
 
@@ -12589,14 +12591,12 @@ In most cases, things are given priority.
   also be set on compound commands, which has the following effects (In
   addition to those given by the APPRENTICE flag)...
 
-  *  Allows the use of '@write', '@oecho' and '@notify' within the compound
-     command in ANY room/area.
-
   *  Characters '@force'd to do things within the compound command (If owned by
      Admin) will not be logged as a hack to the 'Hack' log when the compound
-     command is used by a Mortal.
+     command is used by a Mortal.  It will also prevent logging to the 'Force'
+     log.
 
-  *  Allows use of '@with connected...' in a Mortal owned compound command.
+  *  Allows use of '@with connected...' in a Builder owned compound command.
 
   *  'page', 'tell' and '@notify' can be used with '@with connected...' in the
       compound command (If the compound command is owned by a member of Admin
@@ -12607,14 +12607,19 @@ In most cases, things are given priority.
   *  'shout' and '@boot' can be used within the compound command (If owned by
      Admin.)
 
-  IMPORTANT NOTICE:  The WIZARD flag should never be set on Mortal owned
+  *  'Use of '@pay' and '@transfer' will not be logged to the 'Transaction' log.
+  
+  *  Allows compound commands to supercede hardcoded commands.  Otherwise,
+     the command search algorithm will find the correct hardcoded command.  
+
+  IMPORTANT NOTICE:  The WIZARD flag should never be set on Builder owned
                      compound commands without also setting the READONLY
                      flag (To prevent the Mortal user from maliciously
                      editing it to pick up a number of Admin-only privileges.)
 
                      Ideally (Where possible), the APPRENTICE flag should be
-                     set on Mortal owned compound commands instead (This only
-                     gives limited effects of the WIZARD flag.)
+                     set on Builder owned compound commands instead, so that
+                     only the necessary level of privileges is granted.
 
 
   The YELL and SHOUT flags...

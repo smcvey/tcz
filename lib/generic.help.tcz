@@ -14358,8 +14358,8 @@ Also, see '%g%l%<admin rules%>%x', '%g%l%<admin duties%>%x', '%g%l%<promotion%>%
 %TOPIC deitydruid
 %TOPIC deitydruids
 %TITLE Help on %w%lDeities%x
-%[%c%lUSAGE:  %g%l%(@set%) *<NAME> = DEITY    %m%l(Promotion)
-        %g%l%(@set%) *<NAME> = !DEITY   %m%l(Demotion)%]%x
+%[%c%lUSAGE:  %g%l%(@set%) *<NAME> = DEITY = <REASON>   %m%l(Promotion)
+        %g%l%(@set%) *<NAME> = !DEITY = <REASON>  %m%l(Demotion)%]%x
 
 The %m%lDeity%x rank is the highest rank that can be achieved by Administrators of %@%m.  It is awarded to administrators with extensive knowledge of %@%m, building/coding and administration.  It is also commonly used for ownership of building/coding projects with Compound Commands which require the low restrictions of the %m%lDeity%x rank.
 
