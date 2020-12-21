@@ -2719,6 +2719,18 @@ void query_version(CONTEXT)
      }
 }
 
+/* ---->  Return the active time (In seconds) until next bank payment  <---- */
+void query_wagetime(CONTEXT)
+{
+        dbref object;
+
+        object = query_find_character(player,params,0);
+        if(!Validchar(object)) return;
+
+        sprintf(querybuf,"%d",(HOUR - db[object].data->player.payment));
+        setreturn(querybuf,COMMAND_SUCC);
+}
+
 /* ---->  Return weight (In Kilograms) of object  <---- */
 void query_weight(CONTEXT)
 {

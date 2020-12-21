@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  18/12/2020.
+                     Manual release date:  20/12/2020.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -2256,8 +2256,8 @@ In most cases, things are given priority.
   {@?scrwidth}       {@?scrheight}      {@?set}            {@?status}
   {@?subjective}     {@?suffix}         {@?termtype}       {@?timediff}
   {@?title}          {@?totalactive}    {@?totalidle}      {@?totallogins}
-  {@?totaltime}      {@?uid}            {@?volume}         {@?who}
-  {@?www}
+  {@?totaltime}      {@?uid}            {@?volume}         {@?wagetime}
+  {@?who}            {@?www}
 
 
   Combat Related Commands/Query Commands...
@@ -2501,10 +2501,6 @@ In most cases, things are given priority.
   sends you AFK automatically when you idle for 10 or more minutes.  This
   time can be changed by typing 'afk <TIME>', where <TIME> is the time in
   minutes.  The auto-AFK facility can also be turned off, by typing 'afk off'.
-
-  Your new auto-AFK setting is not permanent.  However, you can place 'afk'
-  in your '.login' compound command, so that your AFK preference is set
-  automatically when you connect to the TCZ-based MUD.
 
 -------------------------------------------------------------------------------
 
@@ -16381,6 +16377,18 @@ In most cases, things are given priority.
   metre.)
 
   Fails and returns 'Error' if <OBJECT> can't be found.
+
+-------------------------------------------------------------------------------
+
+  {@?wagetime}
+  ~~~~~~~~~~~~
+  USAGE:  {@?wagetime [<NAME>]}
+
+  Returns the active time (in seconds) that the character <NAME> needs before
+  TCZ-based MUD pays their hourly wage, e.g: '@echo {@?interval {@?wagetime 
+  me}} will display your remaining active time in minutes, seconds, etc.
+
+  Fails and returns 'Error' if the character <NAME> can't be found.
 
 -------------------------------------------------------------------------------
 
