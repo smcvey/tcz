@@ -172,7 +172,7 @@ For further help on any of the above commands, please type '%g%lhelp <COMMAND>%x
 %(@?realname%)     %(@?reflexive%)    %(@?restriction%)    %(@?score%)          %(@?scrheight%)
 %(@?scrwidth%)     %(@?set%)          %(@?status%)         %(@?subjective%)     %(@?suffix%)
 %(@?termtype%)     %(@?timediff%)     %(@?title%)          %(@?totalidle%)      %(@?totalactive%)
-%(@?totallogins%)  %(@?totaltime%)    %(@?uid%)            %(@?volume%)
+%(@?totallogins%)  %(@?totaltime%)    %(@?uid%)            %(@?volume%)         %(@?wagetime%)
 %(@?who%)          %(@?www%)%]
 <-SEPARATOR->
 Also, see '%g%l%<menu%>%x', '%g%l%<friends%>%x', '%g%l%<.entercmd%>%x' and '%g%l%<.leavecmd%>%x'.
@@ -7861,6 +7861,19 @@ If the character %y%l<NAME>%x isn't specified, your title ('%g%l%(who%)%x' list 
 Fails and returns '%c%lError%x' if the character %y%l<NAME>%x can't be found.
 <-SEPARATOR->
 Also, see '%g%l%<title%>%x' and '%g%l%<who%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC wages
+%TOPIC @?wagetime
+%TITLE Help on '%w%l{@?wagetime}%x'
+%[%c%lUSAGE:  %g%l{@?wagetime [<NAME>]}%]%x
+
+Returns the active time (in seconds) that the character %y%l<NAME>%x needs before %@%n pays their hourly wage, e.g: '%g%l%(@echo%) {%(@?interval%) {@?wagetime me}}%x' will display your remaining active time minutes, seconds, etc.
+
+Fails and returns '%c%lError%x' if the character %y%l<NAME>%x can't be found.
+<-SEPARATOR->
+Also, see '%g%l%<bank%>%x', '%g%l%<@?interval%>%x', '%g%l%<@?totalactive%>%x', '%g%l%<@?totalidle%>%x', '%g%l%<@?totaltime%>%x', '%g%l%<@?averageactive%>%x', '%g%l%<@?averageidle%>%x' and '%g%l%<@?longesttime%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
