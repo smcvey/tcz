@@ -6875,7 +6875,7 @@ Also, see '%g%l%<{@?separator}%>%x', '%g%l%<@?filter%>%x', '%g%l%<substitutions%
 %COMMENT --------------------------------------------------------------------->
 
 %TOPIC @?pending
-%TOPIC Help on '%w%l{@?pending}%x'
+%TITLE Help on '%w%l{@?pending}%x'
 %[%c%lUSAGE:  %g%l{@?pending <ALARM> [= epoch|longdate]}%]%x
 
 Returns the time and date when the alarm %y%l<ALARM>%x is next due to execute in either the %c%lEPOCH%x (See '%g%l%<epoch%>%x') or %c%lLONGDATE%x (See '%g%l%<longdate%>%x') date/time format (If the date/time format is not specified, %c%lEPOCH%x will be assumed.)
