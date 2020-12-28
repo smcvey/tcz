@@ -1515,7 +1515,7 @@ void query_pending(CONTEXT)
      dbref thing = query_find_object(player,arg1,SEARCH_ALARM,1,1);
      if(!Valid(thing) || (Typeof(thing) != TYPE_ALARM)) return;
 
-     for(ptr = event_queue; ptr->object != thing; ptr = ptr->next);
+     for(ptr = event_queue; ptr && ptr->object != thing; ptr = ptr->next);
      if(ptr) {
         sprintf(querybuf,"%ld",(!Blank(arg2) && string_prefix("longdates",arg2)) ? epoch_to_longdate(ptr->time):ptr->time);
         setreturn(querybuf,COMMAND_SUCC);
