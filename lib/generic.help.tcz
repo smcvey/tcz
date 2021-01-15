@@ -7869,7 +7869,7 @@ Also, see '%g%l%<title%>%x' and '%g%l%<who%>%x'.
 %TITLE Help on '%w%l{@?wagetime}%x'
 %[%c%lUSAGE:  %g%l{@?wagetime [<NAME>]}%]%x
 
-Returns the active time (in seconds) that the character %y%l<NAME>%x needs before %@%n pays their hourly wage, e.g: '%g%l%(@echo%) {%(@?interval%) {@?wagetime me}}%x' will display your remaining active time minutes, seconds, etc.
+Returns the active time (in seconds) that the character %y%l<NAME>%x needs before %@%n pays their hourly wage, e.g: '%g%l%(@echo%) {%(@?interval%) {@?wagetime me}}%x' will display your remaining active time in minutes and seconds.
 
 Fails and returns '%c%lError%x' if the character %y%l<NAME>%x can't be found.
 <-SEPARATOR->
