@@ -990,6 +990,7 @@ extern  void            query_true_or_false     (CONTEXT);
 extern  void            query_typeof            (CONTEXT);
 extern  void            query_uptime            (CONTEXT);
 extern  void            query_version           (CONTEXT);
+extern  void            query_wagetime          (CONTEXT);
 extern  void            query_weight            (CONTEXT);
 extern  void            query_wildcard          (CONTEXT);
 extern  void            query_word              (CONTEXT);

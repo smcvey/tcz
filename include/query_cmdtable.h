@@ -410,6 +410,7 @@ struct cmd_table query_cmds[] = {
        {QUERY_COMMAND, "@?version",              (void *) query_version,             1, 0, 0},
        {QUERY_COMMAND, "@?vol",                  (void *) query_mass_or_volume,      1, 0, 0},
        {QUERY_COMMAND, "@?volume",               (void *) query_mass_or_volume,      1, 0, 0},
+       {QUERY_COMMAND, "@?wagetime",             (void *) query_wagetime,            0, 0, 0},
        {QUERY_COMMAND, "@?weight",               (void *) query_weight,              0, 0, 0},
        {QUERY_COMMAND, "@?wild",                 (void *) query_wildcard,            0, 0, 0},
        {QUERY_COMMAND, "@?wildcard",             (void *) query_wildcard,            0, 0, 0},

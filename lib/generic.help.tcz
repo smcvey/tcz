@@ -172,7 +172,7 @@ For further help on any of the above commands, please type '%g%lhelp <COMMAND>%x
 %(@?realname%)     %(@?reflexive%)    %(@?restriction%)    %(@?score%)          %(@?scrheight%)
 %(@?scrwidth%)     %(@?set%)          %(@?status%)         %(@?subjective%)     %(@?suffix%)
 %(@?termtype%)     %(@?timediff%)     %(@?title%)          %(@?totalidle%)      %(@?totalactive%)
-%(@?totallogins%)  %(@?totaltime%)    %(@?uid%)            %(@?volume%)
+%(@?totallogins%)  %(@?totaltime%)    %(@?uid%)            %(@?volume%)         %(@?wagetime%)
 %(@?who%)          %(@?www%)%]
 <-SEPARATOR->
 Also, see '%g%l%<menu%>%x', '%g%l%<friends%>%x', '%g%l%<.entercmd%>%x' and '%g%l%<.leavecmd%>%x'.
@@ -1037,7 +1037,7 @@ These rules are designed as basic guidelines to what you should and shouldn't do
 
 %4%y%l*  %m%l<<<%y%l3%m%l>>>  %xDo not set an execution time limit greater than %c%l3 seconds%x, unless it's absolutely necessary for the compound command to function.  In most cases (If not all), it will usually be possible to re-write the compound command more efficiently, so that it doesn't need an execution time limit greater than %c%l3 seconds%x.  An execution time limit greater than %c%l5 seconds%x should never be used, as this will cause noticable lag.
 
-%4%r%l*  %m%l<<<%y%l1%m%l>>>  %xDo not teleport a Mortal owned command to a module in %y%l#4%x (Or to %y%l#4%x itself), if it's not set %y%l%(READONLY%)%x (See '%g%l%<readonly flag%>%x'.)  If the %y%l%(READONLY%)%x flag stops the compound command working correctly, then it either needs to be re-written or Admin owned instead (A Mortal's compound command should never be changed to Admin ownership without first extensive checking for hacks, 'backdoors' or flaws which could be taken advantage of by Mortals.)
+%4%r%l*  %m%l<<<%y%l1%m%l>>>  %xDo not teleport a Builder owned command to a module in %y%l#4%x (Or to %y%l#4%x itself), if it's not set %y%l%(READONLY%)%x (See '%g%l%<readonly flag%>%x'.)  If the %y%l%(READONLY%)%x flag stops the compound command working correctly, then it either needs to be re-written or Admin owned instead (A Mortal's compound command should never be changed to Admin ownership without first extensive checking for hacks, 'backdoors' or flaws which could be taken advantage of by Mortals.)
 
 %PAGE
 %4   An easy way to teleport commands into %y%l#4%x is to use the '%g%ltelglobal%x' command, which takes those rules into account.  Type '%g%ltelglobal <COMMAND>%x' to use it.  The '%g%lcheckmodule%x' command can be used to examine the modules in %y%l#4%x for any commands which breach the rules.  Any global commands also need to be coded efficiently, and use good grammar, spelling, and presentation.
@@ -6875,7 +6875,7 @@ Also, see '%g%l%<{@?separator}%>%x', '%g%l%<@?filter%>%x', '%g%l%<substitutions%
 %COMMENT --------------------------------------------------------------------->
 
 %TOPIC @?pending
-%TOPIC Help on '%w%l{@?pending}%x'
+%TITLE Help on '%w%l{@?pending}%x'
 %[%c%lUSAGE:  %g%l{@?pending <ALARM> [= epoch|longdate]}%]%x
 
 Returns the time and date when the alarm %y%l<ALARM>%x is next due to execute in either the %c%lEPOCH%x (See '%g%l%<epoch%>%x') or %c%lLONGDATE%x (See '%g%l%<longdate%>%x') date/time format (If the date/time format is not specified, %c%lEPOCH%x will be assumed.)
@@ -7864,6 +7864,19 @@ Also, see '%g%l%<title%>%x' and '%g%l%<who%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
+%TOPIC wages
+%TOPIC @?wagetime
+%TITLE Help on '%w%l{@?wagetime}%x'
+%[%c%lUSAGE:  %g%l{@?wagetime [<NAME>]}%]%x
+
+Returns the active time (in seconds) that the character %y%l<NAME>%x needs before %@%n pays their hourly wage, e.g: '%g%l%(@echo%) {%(@?interval%) {@?wagetime me}}%x' will display your remaining active time in minutes and seconds.
+
+Fails and returns '%c%lError%x' if the character %y%l<NAME>%x can't be found.
+<-SEPARATOR->
+Also, see '%g%l%<bank%>%x', '%g%l%<@?interval%>%x', '%g%l%<@?totalactive%>%x', '%g%l%<@?totalidle%>%x', '%g%l%<@?totaltime%>%x', '%g%l%<@?averageactive%>%x', '%g%l%<@?averageidle%>%x' and '%g%l%<@?longesttime%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
 %TOPIC @?weight
 %TOPIC objectweights
 %TITLE Help on '%w%l{@?weight}%x'
@@ -8726,7 +8739,7 @@ If '%g%l@censor%x' is placed at the beginning of a compound command (Or linked s
 
 If the editor (See '%g%leditor%x') is started from a compound command, and '%g%l@censor%x' is executed before the compound command finishes, the edit session will be censored (With the exception of executing a command, using '%g%l%(.execute%)%x' or '%g%l%(.x%)%x', unless it's normally censored on the command-line.)
 
-'%g%l@censor%x' may be used from within a Mortal owned compound command, providing it either has its %y%l%(APPRENTICE%)%x or %y%l%(WIZARD%)%x flag set.
+'%g%l@censor%x' may be used from within a Builder owned compound command, providing it either has its %y%l%(APPRENTICE%)%x or %y%l%(WIZARD%)%x flag set.
 <-SEPARATOR->
 Also, see '%g%l%<!!%>%x', '%g%l%<last%>%x', '%g%l%<edit%>%x', '%g%l%<@?lastcommand%>%x', '%g%l%<apprentice flag%>%x' and '%g%l%<wizard flag%>%x'.
 
@@ -13378,7 +13391,7 @@ Also, see '%g%l%<transport%>%x', '%g%l%<drive%>%x', '%g%l%<ride%>%x' and '%g%l%<
 
 This flag can only be set/reset by %y%lApprentice Wizards/%yDruids%x and above.
 
-If a Mortal owned compound command is made global, it must also have its %y%lVALIDATED%x flag set, otherwise it will be ignored by the global search phase.  This flag prevents Mortals who already own global compound commands (Which have been authorised by Admin) from teleporting unauthorised compound commands into them, which would allow the Mortal to make unauthorised compound commands global.
+If a Builder owned compound command is made global, it must also have its %y%lVALIDATED%x flag set, otherwise it will be ignored by the global search phase.  This flag prevents Mortals who already own global compound commands (Which have been authorised by Admin) from teleporting unauthorised compound commands into them, which would allow the Mortal to make unauthorised compound commands global.
 <-SEPARATOR->
 Also, see '%g%l%<@set%>%x'.
 
@@ -14358,8 +14371,8 @@ Also, see '%g%l%<admin rules%>%x', '%g%l%<admin duties%>%x', '%g%l%<promotion%>%
 %TOPIC deitydruid
 %TOPIC deitydruids
 %TITLE Help on %w%lDeities%x
-%[%c%lUSAGE:  %g%l%(@set%) *<NAME> = DEITY    %m%l(Promotion)
-        %g%l%(@set%) *<NAME> = !DEITY   %m%l(Demotion)%]%x
+%[%c%lUSAGE:  %g%l%(@set%) *<NAME> = DEITY = <REASON>   %m%l(Promotion)
+        %g%l%(@set%) *<NAME> = !DEITY = <REASON>  %m%l(Demotion)%]%x
 
 The %m%lDeity%x rank is the highest rank that can be achieved by Administrators of %@%m.  It is awarded to administrators with extensive knowledge of %@%m, building/coding and administration.  It is also commonly used for ownership of building/coding projects with Compound Commands which require the low restrictions of the %m%lDeity%x rank.
 
@@ -14390,8 +14403,8 @@ Also, see '%g%l%<admin rules%>%x', '%g%l%<admin duties%>%x', '%g%l%<promotion%>%
 %TOPIC apprenticewizardflag
 %TOPIC flagapprenticewizard
 %TITLE Help on the %w%lAPPRENTICE%x flag...
-%[%c%lUSAGE:  %g%l@set <OBJECT>|*<NAME> = APPRENTICE
-        @set <OBJECT>|*<NAME> = !APPRENTICE%]%x
+%[%c%lUSAGE:  %g%l@set <COMMAND>|*<NAME> = APPRENTICE = <REASON>
+        @set <COMMAND>|*<NAME> = !APPRENTICE = <REASON>%]%x
 
 This flag can only be set/reset by %c%lWizards/%cDruids%x and above.
 
@@ -14399,11 +14412,11 @@ As well as giving characters %y%lApprentice Wizard/%yDruid%x status (See '%g%l%<
 
 %4%y%l*  %xAllows the use of '%g%l%(@write%)%x', '%g%l%(@oecho%)%x' and '%g%l%(@notify%)%x' (See '%g%l%<@write%>%x', '%g%l%<@oecho%>%x' and '%g%l%<@notify%>%x') within the compound command in %c%lANY%x room/area.
 
-%4%r%l*  %xAllows use of '%g%l%(@with%) connected...%x' (See '%g%l%<@with%>%x') within a Mortal owned compound command.
+%4%r%l*  %xAllows use of '%g%l%(@with%) connected...%x' (See '%g%l%<@with%>%x') within a Builder owned compound command.
 
-%4%y%l*  %xAllows use of '%g%l%(@censor%)%x' (See '%g%l%<@censor%>%x') within a Mortal owned compound command.
+%4%y%l*  %xAllows use of '%g%l%(@censor%)%x' (See '%g%l%<@censor%>%x') within a Builder owned compound command.
 
-%4%y%l*  %xAllows use of unrestricted credit payments in the '%g%l%(@pay%)%x' command.
+%4%r%l*  %xAllows use of unrestricted credit payments in the '%g%l%(@pay%)%x' command.
 <-SEPARATOR->
 Also, see '%g%l%<apprentice%>%x', '%g%l%<wizard flag%>%x', '%g%l%<elder flag%>%x' and '%g%l%<ranks%>%x'.
 
@@ -14412,26 +14425,27 @@ Also, see '%g%l%<apprentice%>%x', '%g%l%<wizard flag%>%x', '%g%l%<elder flag%>%x
 %TOPIC flagwizard
 %TOPIC wizardflag
 %TITLE Help on the %w%lWIZARD%x flag...
-%[%c%lUSAGE:  %g%l@set <OBJECT>|*<NAME> = WIZARD
-        @set <OBJECT>|*<NAME> = !WIZARD%]%x
+%[%c%lUSAGE:  %g%l@set <COMMAND>|*<NAME> = WIZARD = <REASON>
+        @set <COMMAND>|*<NAME> = !WIZARD = <REASON>%]%x
 
 This flag can only be set/reset by %g%lElder Wizards/%gDruids%x and above.
 
 As well as giving characters %c%lWizard/%cDruid%x status (See '%g%l%<wizard%>%x' and '%g%l%<druid%>%x'), the %y%lWIZARD%x flag can also be set on compound commands, which has the following effects (In addition to those given by the %y%l%(^flag APPRENTICE%)%x flag)...
 
-%4%y%l*  %xCharacters '%g%l%(@force%)%x'd (See '%g%l%<@force%>%x') to do things within the compound command (If owned by Admin) will not be logged as a hack to the '%c%lHack%x' log when the compound command is used by a Mortal.
+%4%y%l*  %xCharacters '%g%l%(@force%)%x'd (See '%g%l%<@force%>%x') to do things within the compound command (If owned by Admin) will not be logged as a hack to the '%c%lHack%x' log when the compound command is used by a Mortal.  It will also prevent logging to the '%c%lForce%x' log.
 
-%4%r%l*  %xAllows use of '%g%l%(@with%) connected...%x' (See '%g%l%<@with%>%x') in a Mortal owned compound command.
-
-%PAGE
-%4%y%l*  %x'%g%l%(page%)%x', '%g%l%(tell%)%x' and '%g%l%(@notify%)%x' (See '%g%l%<page%>%x' and '%g%l%<tell%>%x') can be used with '%g%l%(@with%) connected...%x' in the compound command (If the compound command is owned by a member of Admin who no-longer has their %y%l%(SHOUT%)%x flag (See '%g%l%<shout flag%>%x'.))  The %c%lWIZARD%x flag also stops these commands from being logged to the '%c%lShout%x' log file (See '%g%l%<@log%>%x') when used with '%g%l%(@with%) connected...%x'
-
-%4%r%l*  %x'%g%l%(shout%)%x' and '%g%l%(@boot%)%x' (See '%g%l%<shout%>%x' and '%g%l%<@boot%>%x') can be used within the compound command (If owned by Admin.)
+%4%r%l*  %x'%g%l%(page%)%x', '%g%l%(tell%)%x' and '%g%l%(@notify%)%x' (See '%g%l%<page%>%x' and '%g%l%<tell%>%x') can be used with '%g%l%(@with%) connected...%x' in the compound command (If the compound command is owned by a member of Admin who no-longer has their %y%l%(SHOUT%)%x flag (See '%g%l%<shout flag%>%x'.))  The %c%lWIZARD%x flag also stops these commands from being logged to the '%c%lShout%x' log file (See '%g%l%<@log%>%x') when used with '%g%l%(@with%) connected...%x'
 
 %PAGE
-%9%9%2%c%l%uIMPORTANT NOTICE:%x  The %y%lWIZARD%x flag should %r%lnever%x be set on Mortal owned compound commands without also setting the %y%l%(READONLY%)%x flag (To prevent the Mortal user from maliciously editing it to pick up a number of Admin-only privileges  -  See '%g%l%<readonly flag%>%x'.)
+%4%y%l*  %x'%g%l%(shout%)%x' and '%g%l%(@boot%)%x' (See '%g%l%<shout%>%x' and '%g%l%<@boot%>%x') can be used within the compound command (If owned by Admin.)
 
-                   Ideally (Where possible), the %y%l%(APPRENTICE%)%x flag (See '%g%l%<apprentice flag%>%x') should be set on Mortal owned compound commands instead (This only gives limited effects of the %y%lWIZARD%x flag.)
+%4%r%l*  %xUse of '%g%l%(@pay%)%x' and '%g%l%(@transfer%)%x' will not be logged to the '%c%lTransaction%x' log.
+
+%4%y%l*  %xAllows compound commands to supercede hardcoded commands.  Otherwise, the command search algorithm will find the correct hardcoded command.
+
+%9%9%2%c%l%uIMPORTANT NOTICE:%x  The %y%lWIZARD%x flag should %r%lnever%x be set on Builder owned compound commands without also setting the %y%l%(READONLY%)%x flag (To prevent the Builder user from maliciously editing it to pick up a number of Admin-only privileges  -  See '%g%l%<readonly flag%>%x'.)
+
+                   Ideally (Where possible), the %y%l%(APPRENTICE%)%x flag (See '%g%l%<apprentice flag%>%x') should be set on Builder owned compound commands instead, so that only the necessary level of privileges is granted.
 <-SEPARATOR->
 Also, see '%g%l%<wizard%>%x', '%g%l%<apprentice flag%>%x', '%g%l%<elder flag%>%x' and '%g%l%<ranks%>%x'.
 
@@ -14440,8 +14454,8 @@ Also, see '%g%l%<wizard%>%x', '%g%l%<apprentice flag%>%x', '%g%l%<elder flag%>%x
 %TOPIC elderflag
 %TOPIC elderwizardflag
 %TITLE Help on the %w%lELDER%x flag...
-%[%c%lUSAGE:  %g%l@set <OBJECT>|*<NAME> = ELDER
-        @set <OBJECT>|*<NAME> = !ELDER%]%x
+%[%c%lUSAGE:  %g%l@set <COMMAND>|*<NAME> = ELDER = <REASON>
+        @set <COMMAND>|*<NAME> = !ELDER = <REASON>%]%x
 
 This flag can only be set/reset by %m%lDeities%x and the %m%lSupreme Being%x.
 
@@ -14452,9 +14466,9 @@ As well as giving characters %g%lElder Wizard/%gDruid%x status (See '%g%l%<elder
 %4%r%l* %x Allows '%g%l%(@admin%) options%x' to be set (See '%g%l%<@admin%>%x'.)
 
 %PAGE
-%9%9%2%c%l%uIMPORTANT NOTICE:%x  The %y%lELDER%x flag should %r%lnever%x be set on Mortal owned compound commands without also setting the %y%l%(READONLY%)%x flag (To prevent the Mortal user from maliciously editing it to pick up a number of Admin-only privileges  -  See '%g%l%<readonly flag%>%x'.)
+%9%9%2%c%l%uIMPORTANT NOTICE:%x  The %y%lELDER%x flag should %r%lnever%x be set on Builder owned compound commands without also setting the %y%l%(READONLY%)%x flag (To prevent the Builder user from maliciously editing it to pick up a number of Admin-only privileges  -  See '%g%l%<readonly flag%>%x'.)
 
-                   Ideally (Where possible), the %y%l%(APPRENTICE%)%x flag (See '%g%l%<apprentice flag%>%x') should be set on Mortal owned compound commands instead (This only gives limited effects of the %y%lELDER%x flag (See '%g%l%<elder flag%>%x'.))
+                   Ideally (Where possible), the %y%l%(APPRENTICE%)%x flag (See '%g%l%<apprentice flag%>%x') should be set on Builder owned compound commands instead (This only gives limited effects of the %y%lELDER%x flag (See '%g%l%<elder flag%>%x'.))
 <-SEPARATOR->
 Also, see '%g%l%<elder%>%x', '%g%l%<apprentice flag%>%x', '%g%l%<wizard flag%>%x' and '%g%l%<ranks%>%x'.
 
