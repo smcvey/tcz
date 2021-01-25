@@ -7678,6 +7678,7 @@ Also, see '%g%l%<@?totalactive%>%x', '%g%l%<@?totaltime%>%x', '%g%l%<@?averageid
 %COMMENT --------------------------------------------------------------------->
 
 %TOPIC @?totallogins
+%TOPIC @?logins
 %TITLE Help on '%w%l{@?totallogins}%x'
 %[%c%lUSAGE:  %g%l{@?totallogins [<NAME>]}%]%x
 
