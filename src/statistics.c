@@ -2628,13 +2628,13 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                         case RANK_QUOTA:
 
                              /* ---->  Building quota excess/limit/currently in use  <---- */
-							if Level4(grp->cunion->list.player) {
-                        		if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,"UNLIMITED",colour,"n/a");
-									else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12s%s",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,"UNLIMITED","n/a");
-							} else {
-		                        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,db[grp->cunion->list.player].data->player.quotalimit,colour,db[grp->cunion->list.player].data->player.quota - db[grp->cunion->list.player].data->player.quotalimit);
-		                                else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12d%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,db[grp->cunion->list.player].data->player.quotalimit,db[grp->cunion->list.player].data->player.quota - db[grp->cunion->list.player].data->player.quotalimit);
-							}
+                            if Level4(grp->cunion->list.player) {
+                                if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,"UNLIMITED",colour,"n/a");
+                                    else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12s%s",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,"UNLIMITED","n/a");
+                            } else {
+                                if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,db[grp->cunion->list.player].data->player.quotalimit,colour,db[grp->cunion->list.player].data->player.quota - db[grp->cunion->list.player].data->player.quotalimit);
+                                    else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12d%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,db[grp->cunion->list.player].data->player.quotalimit,db[grp->cunion->list.player].data->player.quota - db[grp->cunion->list.player].data->player.quotalimit);
+                            }
                              break;
                         case RANK_SCORE:
 
