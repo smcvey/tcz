@@ -295,7 +295,7 @@
 #define TCZ_FULL_NAME         "New TCZ-based MUD"              /*  Default TCZ server name  */
 #define TCZ_LOCATION          "Not Specified"                  /*  Default location of TCZ server  */
 #define TCZ_REVISION          0                                /*  Current minor revision number of TCZ server  */
-#define TCZ_VERSION           "4.4-alpha"                      /*  TCZ server version number  */
+#define TCZ_VERSION           "4.4-0"                          /*  TCZ server version number  */
 #define HTML_HOME_URL         "https://github.com/smcvey/tcz"  /*  URL of TCZ home pages  */
 
 
