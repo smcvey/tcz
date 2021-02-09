@@ -6778,7 +6778,6 @@ Also, see '%g%l%uhelp @?totalactive%x', '%g%l%uhelp @?totaltime%x', '%g%l%uhelp 
 
 %TOPIC @?logins
 %TOPIC @?totallogins
-%TOPIC @?logins
 %TITLE Help on '%w%l{@?totallogins}%x'
 %c%lUSAGE:  %g%l{@?totallogins [<NAME>]}%x
 
