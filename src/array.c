@@ -696,11 +696,6 @@ int array_display_elements(dbref player,int from,int to,dbref array,int cr)
     }
 
     /* ---->  Display summary of array's elements  <---- */
-    if(IsHtml(p)) {
-       html_anti_reverse(p,1);
-       output(p,player,1,2,0,"<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-    }
-
     if((from == ALL) || (to == END) || (to == NOTHING) || (from == NOTHING)) to = LAST;
     while(((to == LAST) && current) || ((to == INDEXED) && current && !finished) || (((to != LAST) && (to != INDEXED)) && current && (element <= to))) {
 
@@ -710,18 +705,14 @@ int array_display_elements(dbref player,int from,int to,dbref array,int cr)
           strcpy(buffer,Blank(temp = decompress(ptr->text)) ? "":temp);
           for(distance = 0; (((to == LAST) && current) || ((to == INDEXED) && current && !finished) || (((to != LAST) && (to != INDEXED)) && current && (element <= to))) && !strcasecmp(buffer,Blank(temp = decompress(current->text)) ? "":temp) && ((!ptr->index && !current->index) || (ptr->index && current->index && !strcasecmp(ptr->index,current->index))); current = current->next, element++, elements++, distance++)
               if((to == INDEXED) && (BlankContent(indexto) || (current->index && !strcasecmp(current->index,indexto)))) finished = 1;
-          if(cr == 1) output(p,player,2,1,0,IsHtml(p) ? "\016<BR>\016":"\n"), cr = 0;
+          if(cr == 1) output(p,player,2,1,0,"\n"), cr = 0;
 
-          if(distance > 1) output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%d"ANSI_DCYAN".."ANSI_LCYAN"%d"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TT>\016":"",ptrelement,element - 1,IsHtml(p) ? "\016</TT></TH><TD>\016":"  ",(IsHtml(p) && BlankContent(buffer)) ? "\016&nbsp;\016":buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-	     else if(ptr && !Blank(ptr->index)) output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%s"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN">\016":"",ptr->index,IsHtml(p) ? "\016</TH><TD>\016":"  ",!Blank(decompress(ptr->text)) ? decompress(ptr->text):IsHtml(p) ? "\016&nbsp;\016":"",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-                else output(p,player,2,1,2,"%s"ANSI_DCYAN"["ANSI_LCYAN"%d"ANSI_DCYAN"]%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TH WIDTH=20% ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TT>\016":"",ptrelement,IsHtml(p) ? "\016</TT></TH><TD>\016":"  ",(IsHtml(p) && BlankContent(buffer)) ? "\016&nbsp;\016":buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+          if(distance > 1) output(p, player, 2, 1, 2, ANSI_DCYAN "[" ANSI_LCYAN "%d" ANSI_DCYAN ".." ANSI_LCYAN "%d" ANSI_DCYAN "]  " ANSI_LWHITE "%s\n", ptrelement, element - 1, buffer);
+	     else if(ptr && !Blank(ptr->index)) output(p, player, 2, 1, 2, ANSI_DCYAN "[" ANSI_LCYAN "%s" ANSI_DCYAN "]  " ANSI_LWHITE "%s\n", ptr->index, !Blank(decompress(ptr->text)) ? decompress(ptr->text) : "");
+                else output(p, player, 2, 1, 2, ANSI_DCYAN "[" ANSI_LCYAN "%d" ANSI_DCYAN "]  " ANSI_LWHITE "%s\n", ptrelement, buffer);
     }
 
-    if(IsHtml(p)) {
-       output(p,player,1,2,0,"</TABLE>");
-       html_anti_reverse(p,0);
-    }
-    if((elements > 0) && (cr != 2)) output(p,player,2,1,0,IsHtml(p) ? "\016<BR>\016":"\n");
+    if((elements > 0) && (cr != 2)) output(p,player,2,1,0,"\n");
     return(elements);
 }
 

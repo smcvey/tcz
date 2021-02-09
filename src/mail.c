@@ -437,7 +437,7 @@ void mail_view(dbref player,char *arg1,char *arg2)
         if(!in_command) {
            if(db[who].data->player.maillimit && (mailcount >= db[who].data->player.maillimit)) {
               output(p,player,0,1,0,separator(twidth,0,'-','-'));
-              output(p,player,0,1,11,ANSI_WYELLOW" WARNING: \016&nbsp;\016 "ANSI_LRED"Your mailbox is full  -  Please delete any mail you no-longer need (Using the '"ANSI_LWHITE"mail delete"ANSI_LRED"' command), so people can send new mail to you.");
+              output(p,player,0,1,11,ANSI_WYELLOW" WARNING:  "ANSI_LRED"Your mailbox is full  -  Please delete any mail you no-longer need (Using the '"ANSI_LWHITE"mail delete"ANSI_LRED"' command), so people can send new mail to you.");
 	   }
            output(p,player,0,1,0,separator(twidth,0,'-','='));
            if(grp->rangeitems != 0) output(p,player,0,1,0,ANSI_LWHITE" Mail listed:  "ANSI_DWHITE"%s\n",listed_items(scratch_return_string,1));

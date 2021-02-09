@@ -53,7 +53,6 @@ struct flag_data flag_list2[] =
        {"Abort",               ABORTFUSE,      ABORTFUSE,      'a',  4|FLAG_NOT_CHARACTER, 0},
        {"BBS",                 BBS,            BBS,            'b',  4|FLAG_LOG_CHARACTER|FLAG_REASON|FLAG_NOT_INCOMMAND|FLAG_NOT_OWN|FLAG_APPRENTICE|FLAG_PERMISSION, BOOLFLAG_BBS},
        {"Read-Only-Desc",      READONLYDESC,   READONLYDESC,   'd',  8|FLAG_PERMISSION, BOOLFLAG_READONLYDESC},
-       {"HTML",                HTML,           HTML,           'h',  8|FLAG_INTERNAL, BOOLFLAG_HTML},
        {"Inheritable",         INHERITABLE,    INHERITABLE,    'i',  8|FLAG_NOT_CHCOMMAND|FLAG_NOT_OWN|FLAG_PERMISSION, BOOLFLAG_INHERITABLE},
        {"SkipObjects",         SKIPOBJECTS,    SKIPOBJECTS,    'o',  8|FLAG_PERMISSION|FLAG_NOT_CHARACTER|FLAG_NOT_INCOMMAND, 0},
        {"Secret",              SECRET,         SECRET,         's',  8, BOOLFLAG_SECRET},

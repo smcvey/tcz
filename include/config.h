@@ -170,29 +170,6 @@
                                  given their own home room when they create
                                  their character.  */
 
-#define HTML_INTERFACE       /*  When defined, the HTML interface will be
-                                 enabled, allowing TCZ to be accessed via
-                                 the World Wide Web and a suitable browser.
-
-                                 The HTML interface allows the use of the
-                                 HTML language for text formatting, graphics,
-                                 links to home pages, etc.  */
-
-#define HTML_FTP_LINK        /*  When defined, 'ftp://ftp.domain' style links
-                                 will be automatically turned into proper
-                                 hyperlinks (If user has set automatic link
-                                 formatting option.)  */
-
-#define HTML_MAIL_LINK       /*  When defined, 'mailto:user@domain' style
-                                 links will be automatically turned into
-                                 proper hyperlinks (If user has set
-                                 automatic link formatting option.)  */
-
-#undef  HTML_TELNET_LINK     /*  When defined, 'telnet://domain' style links
-                                 will be automatically turned into proper
-                                 hyperlinks (If user has set automatic link
-                                 formatting option.)  */
-
 #define KEEP_POSSESSIONS     /*  When defined, possessions (Objects which
                                  are being carrying) will not be sent to
                                  their respective homes when the user carrying
@@ -216,8 +193,8 @@
                                  <NAME>.'  */
 
 #undef  REFRESH_SOCKETS      /*  When defined, sockets for incoming Telnet
-                                 and HTML connections will be closed and
-                                 re-opened if no new connections are received
+                                 connections will be closed and re-opened
+                                 if no new connections are received
                                  for REFRESH_SOCKET_INTERVAL minutes.
 
                                  NOTE:  This appears to conflict with the pipes
@@ -257,22 +234,15 @@
 
 #define SOCKETS              /*  When defined, code for IP sockets will be
 				 incorporated, allowing multiple connections
-				 via Telnet and the World Wide Web (If
-                                 HTML_INTERFACE is defined.)  */
-
-#define SSL_SOCKETS          /*  When defined, code for SSL (Secure Socket
-                                 Layer) connections will be included, allowing
-                                 secure encrypted connections to the HTML
-                                 Interface (NOTE:  Encryption may be illegal
-                                 in some countries.)  */
+				 via Telnet.  */
 
 #define TCZ_EXEC_BACKUP	     /*  When defined, the TCZ executable will be
-				 copied to 'bin/tcz.<TELNET PORT>.<HTML PORT>',
+				 copied to 'bin/tcz.<TELNET PORT>',
                                  allowing debug of core dump if the
                                  executable changes due to code
 				 recompile, etc.  If this file exists
                                  prior to making copy, it will be renamed
-                                 to 'bin/tcz.<TELNET PORT>.<HTML PORT>.core'
+                                 to 'bin/tcz.<TELNET PORT>.core'
                                  (This executable should be used when
 				 debugging the core dump, if TCZ is setup
 			         to automatically restart.)  */
@@ -320,36 +290,21 @@
 
 
 /* ---->  Version, compilation date and server/site details  <---- */
-#define TCZ_ADMIN_EMAIL       "admin@tcz.mud.host"      /*  Default admin. E-mail address (Can be overriden in config file.)  */
-#define TCZ_SHORT_NAME        "TCZ"                     /*  Default TCZ server name (Short version)  */
-#define TCZ_FULL_NAME         "New TCZ-based MUD"       /*  Default TCZ server name  */
-#define TCZ_LOCATION          "Not Specified"           /*  Default location of TCZ server  */
-#define TCZ_REVISION          3                         /*  Current minor revision number of TCZ server  */
-#define TCZ_VERSION           "4.3"                     /*  TCZ server version number  */
+#define TCZ_ADMIN_EMAIL       "admin@tcz.mud.host"             /*  Default admin. E-mail address (Can be overriden in config file.)  */
+#define TCZ_SHORT_NAME        "TCZ"                            /*  Default TCZ server name (Short version)  */
+#define TCZ_FULL_NAME         "New TCZ-based MUD"              /*  Default TCZ server name  */
+#define TCZ_LOCATION          "Not Specified"                  /*  Default location of TCZ server  */
+#define TCZ_REVISION          0                                /*  Current minor revision number of TCZ server  */
+#define TCZ_VERSION           "4.4-alpha"                      /*  TCZ server version number  */
+#define HTML_HOME_URL         "https://github.com/smcvey/tcz"  /*  URL of TCZ home pages  */
 
 
 /* ---->  Networking  <---- */
 #define IPADDR(ip1,ip2,ip3,ip4)      ((ip1 << 24) | (ip2 << 16) | (ip3 << 8) | ip4)
-#define MAX_PENDING_NEW_CONNECTIONS  64                 /*  Maximum number of pending new connections allowed on each socket (Telnet/HTML)  */
+#define MAX_PENDING_NEW_CONNECTIONS  64                 /*  Maximum number of pending new connections allowed on each socket  */
 #define REFRESH_SOCKET_INTERVAL      10                 /*  Refresh (In minutes) of sockets for incoming new connections (If no new connections after this time, socket will be closed and re-opened)  */
 #define GUEST_LOGIN_ADDRESS          IPADDR(127,0,0,1)  /*  Guest Telnet login service address (127.0.0.1, local loop-back of server machine)  */
 #define TELNETPORT                   8342               /*  Default server port number for direct Telnet connections (8342)  */
-
-
-/* ---->  HTML Interface  <---- */
-#define HTML_USERLIST_REFRESH 30                        /*  Time (In seconds) between automatic refreshes (Reloads) of HTML 'who' list  */
-#define HTML_MAX_IMAGE_SIZE   (MB / 2)                  /*  Maximum size (In bytes) of HTML Interface image  */
-#define HTML_IMAGE_PATH       "tczhtml/"                /*  Path to HTML Interface images (From current working directory)  */
-#define HTML_DATA_URL         "http://"TCZ_SERVER_NAME"/tczhtml/"  /*  URL prefix of HTML interface data (Inc. images used by interface)  */
-#define HTML_HOME_URL         "https://github.com/smcvey/tcz"  /*  URL of TCZ home pages  */
-#define HTML_MATCHES          10                        /*  Number of matches to display per page in HTML help search  */
-#define TCZMAP_PATH           "map/tczmapm.html"        /*  Web site URL path to go to when map is clicked (Appended to HTML_HOME_URL)  */
-#define TCZMAP_IMG	      "tczmap.jpg"              /*  Name of TCZ map image (Used by 'map' command)  */
-#define HTML_ALINK            "#FFFF20"                 /*  Colour of link on selection  */
-#define HTML_TITLE            "%s (TCZ v"TCZ_VERSION")  -  (C)Copyright J.P.Boggis 1993 - %d"  /*  NOTE:  This is also used as title for Xterm window telnet connections (NOTE:  %d = tcz_year)  */
-#define HTML_VLINK            "#209DAD"                 /*  Colour of 'visited' links  */
-#define HTML_LINK             "#20E0FF"                 /*  Colour of 'non-visited' links  */
-#define HTMLPORT              8080                      /*  Default server port number for direct HTML connections (8080  -  Most firewalls should allow this port number.)  */
 
 
 /* ---->  Internet address and port number of machine on which TCZ server is running  <---- */
@@ -360,18 +315,16 @@
 
 
 /* ---->  Default welcome (If no 'motd.tcz' file) and leave messages, etc.  <---- */
-#define OUTPUT_FLUSHED_HTML   "<HR><CENTER><FONT SIZE=5 COLOR="HTML_LRED"><B>&lt;OUTPUT FLUSHED&gt;</B></FONT></CENTER><HR>"
-
-#define EMERGENCY_SHUTDOWN    "\n\n"ANSI_LGREEN"%s fades...\n\n\x0E<PRE>\x0E"ANSI_LRED \
+#define EMERGENCY_SHUTDOWN    "\n\n"ANSI_LGREEN"%s fades...\n\n"ANSI_LRED \
                               ".----------------------------------------------------------------------------.\n" \
                               "|                             `                                              |\n" \
                               "|                        ----====================----                        |\n" \
                               "|    [OH NO!]    ***=--->   "ANSI_WYELLOW"EMERGENCY  SHUTDOWN!!!"ANSI_LRED"   <---=***    [OH NO!]    |\n" \
                               "|                        ----====================----                        |\n" \
                               "|                                                                            |\n" \
-                              "`----------------------------------------------------------------------------'\x0E</PRE>\x0E\n\n"ANSI_LWHITE
+                              "`----------------------------------------------------------------------------'\n\n"ANSI_LWHITE
 
-#define BIRTHDAY_MESSAGE      "\x0E<PRE>\x0E"ANSI_DCYAN"\n" \
+#define BIRTHDAY_MESSAGE      ANSI_DCYAN"\n" \
                               "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n" \
                               ANSI_LWHITE"              .--.  .--..--------..--------..--------..--.  .--.\n" \
                               ANSI_DWHITE"              |  |  |  ||  .--.  ||  .--.  ||  .--.  ||  |  |  |\n" \
@@ -385,16 +338,16 @@
                                ANSI_DCYAN"  |  .--.  ||  ||  .--.  |   |  |   |  .--.  | |  | |  ||  .--.  |`--.  .--'\n" \
                                ANSI_LBLUE"  |  `--'  ||  ||  |  |  |   |  |   |  |  |  |.'  `-'  ||  |  |  |   |  |\n" \
                                ANSI_DBLUE"  `--------'`--'`--'  `--'   `--'   `--'  `--'`--------'`--'  `--'   `--'\n" \
-                              ANSI_DCYAN"\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n\x0E</PRE>\x0E"
+                              ANSI_DCYAN"\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n"
 
-#define SYSTEM_SHUTDOWN       "\n\n"ANSI_LGREEN"%s fades...\n\n\x0E<PRE>\x0E"ANSI_LRED \
+#define SYSTEM_SHUTDOWN       "\n\n"ANSI_LGREEN"%s fades...\n\n"ANSI_LRED \
                               ".----------------------------------------------------------------------------.\n" \
                               "|                                                                            |\n" \
                               "|                        ----====================----                        |\n" \
                               "|                  ***=--->   "ANSI_WYELLOW"SYSTEM SHUTDOWN!!!"ANSI_LRED"   <---=***                  |\n" \
                               "|                        ----====================----                        |\n" \
                               "|                                                                            |\n" \
-                              "`----------------------------------------------------------------------------'\x0E</PRE>\x0E\n\n"ANSI_LWHITE
+                              "`----------------------------------------------------------------------------'\n\n"ANSI_LWHITE
 
 #define WELCOME_MESSAGE       "\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n %s (TCZ v"TCZ_VERSION")  -  (C)Copyright J.P.Boggis 1993 - %d.\n-------------------------------------------------------------------------------\n" \
                               " TCZ is free software, which is distributed under version 2 of the GNU General\n" \
@@ -673,7 +626,6 @@
 #define INPUT_MAX_EDITOR               256       /*  Maximum number of queued user commands (Per user) while using the editor (Higher to allow cut 'n' paste of text)  */
 #define IDLE_STATE_DELAY               5         /*  Idle state delay (In seconds)  */
 #define OUTPUT_MAX                     17408     /*  Maximum amount of queued user output in bytes (Per user)  */
-#define OUTPUT_HTML	               4         /*  OUTPUT_MAX multiplier for HTML connections (HTML tags increase generated output, so larger maximum output setting is required.)  */
 #define INPUT_MAX                      64        /*  Maximum number of queued user commands (Per user)  */
 #define KEEPALIVE                      5         /*  Time (In minutes) to keep connection open, if closed improperly  */
 #define PRIORITY                       0         /*  Default scheduling priority (-20 = Highest, 20 = Lowest)  -  Needs to be ran as root for priority < 0  */
@@ -689,7 +641,7 @@
 #define DESTROY_QUEUE_SIZE             100       /*  Size of '@undestroy' object queue  */
 #define PROGRESS_UNITS                 4         /*  Number of units ('.') per megabyte on progress meter  */
 #define MAX_LIST_LIMIT                 100       /*  Maximum number of users who can be specified in a ','/';' separated list (Used by 'page', 'tell', friends/enemies code, etc.)  */
-#define RETURN_BUFFERS                 16        /*  Number of return buffers for function that can be called multiple times in same instance (I.e:  html_server_url() used within sprintf())  */
+#define RETURN_BUFFERS                 16        /*  Number of return buffers for function that can be called multiple times in same instance  */
 #define DST_THRESHOLD                  10        /*  Daylight Saving Time detection threshold (In seconds)  -  1 hour +/- threshold  */
 #define ARRAY_LIMIT                    1000      /*  Max. number of dynamic array elements that can be created in one go  */
 #define PARAMETERS                     8         /*  Maximum number of parameters for unparse_parameters()  */
@@ -815,7 +767,6 @@
    #undef  REFRESH_SOCKETS
    #undef  RESTRICT_MEMORY
    #undef  DB_COMPRESSION
-   #undef  SSL_SOCKETS
    #undef  UPS_SUPPORT
    #undef  SERVERINFO
    #undef  USE_PROC2

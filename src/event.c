@@ -304,12 +304,10 @@ void event_pending(CONTEXT)
      arg1 = (char *) parse_grouprange(player,arg1,FIRST,1);
      set_conditions(player,0,0,event,NOTHING,arg1,509), cr = 0;
 
-     html_anti_reverse(p,1);
-     if(p && !p->pager && !IsHtml(p) && Validchar(p->player) && More(p->player)) pager_init(p);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(!in_command) ? "<BR>":"");
+     if(p && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
      if(!in_command) {
-        output(p,player,2,1,1,"%sPending events...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 1, "\n Pending events...\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      cached_scrheight                  = db[player].data->player.scrheight;
@@ -323,22 +321,20 @@ void event_pending(CONTEXT)
            ttime = ftime, ftime -= now;
            if(ftime < 0) ftime = 0;
            rtime = localtime((time_t *) &ttime);
-           if(cr && !IsHtml(p)) output(p,player,0,1,0,"");
-           sprintf(scratch_return_string,"%s"ANSI_DCYAN"["ANSI_LGREEN"(%s) "ANSI_LWHITE"%d:%02d.%02d"ANSI_DCYAN"] \016&nbsp;\016 ",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT>\016":" ",dayabbr[rtime->tm_wday & 7],rtime->tm_hour,rtime->tm_min,rtime->tm_sec);
-           if(Typeof(grp->cunion->event.object) == TYPE_ALARM) sprintf(scratch_return_string + strlen(scratch_return_string),ANSI_LYELLOW"(Executes in "ANSI_LWHITE"%s"ANSI_LYELLOW") \016&nbsp;\016 ",interval(ftime,ftime,ENTITIES,0));
+           if(cr) output(p,player,0,1,0,"");
+           sprintf(scratch_return_string, ANSI_DCYAN " [" ANSI_LGREEN "(%s) " ANSI_LWHITE "%d:%02d.%02d"ANSI_DCYAN"]  ", dayabbr[rtime->tm_wday & 7], rtime->tm_hour, rtime->tm_min, rtime->tm_sec);
+           if(Typeof(grp->cunion->event.object) == TYPE_ALARM) sprintf(scratch_return_string + strlen(scratch_return_string),ANSI_LYELLOW"(Executes in "ANSI_LWHITE"%s"ANSI_LYELLOW")  ",interval(ftime,ftime,ENTITIES,0));
            sprintf(scratch_return_string + strlen(scratch_return_string),ANSI_LWHITE"%s"ANSI_LGREEN" executing ",unparse_object(player,grp->cunion->event.object,0));
-           output(p,player,2,1,3,"%s"ANSI_LWHITE"%s"ANSI_LGREEN".%s",scratch_return_string,unparse_object(player,command,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+           output(p, player, 2, 1, 3, "%s" ANSI_LWHITE "%s" ANSI_LGREEN ".\n", scratch_return_string, unparse_object(player, command, 0));
            count++, cr = 1;
      }
      db[player].data->player.scrheight = cached_scrheight;
  
-     if(grp->rangeitems == 0) output(p,player,2,1,1,"%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD>"ANSI_LCYAN"<I>*** &nbsp; NO PENDING EVENTS &nbsp; ***</I></TD></TR>\016":" ***  NO PENDING EVENTS  ***\n");
+     if(grp->rangeitems == 0) output(p,player,2,1,1," ***  NO PENDING EVENTS  ***\n");
      if(!in_command) {
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-         output(p,player,2,1,0,"%sTotal pending events: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 0, ANSI_LWHITE " Total pending events:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
      }
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(p,0);
      setreturn(OK,COMMAND_SUCC);
 }
 

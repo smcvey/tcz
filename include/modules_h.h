@@ -190,27 +190,6 @@
         "JPB | Y | 03/06/1999 | 02/12/2004 >>>"
 
 
-/* ---->  From html.h  <---- */
-#define module_html_h_date "09/12/2003"
-#define module_html_h_desc "HTML Interface definitions and data structures"
-#define module_html_h_authors \
-        "JPB | Y | 09/12/2003 | 02/12/2004 >>>"
-
-
-/* ---->  From html_entities.h  <---- */
-#define module_html_entities_h_date "21/06/1996"
-#define module_html_entities_h_desc "Table of HTML entities recognised by the HTML Interface"
-#define module_html_entities_h_authors \
-        "JPB | Y | 21/06/1996 | 02/12/2004 >>>"
-
-
-/* ---->  From html_tags.h  <---- */
-#define module_html_tags_h_date "21/06/1996"
-#define module_html_tags_h_desc "Table of HTML tags recognised by the HTML Interface"
-#define module_html_tags_h_authors \
-        "JPB | Y | 21/06/1996 | 02/12/2004 >>>"
-
-
 /* ---->  From logfile_table.h  <---- */
 #define module_logfile_table_h_date "11/03/2000"
 #define module_logfile_table_h_desc "Table of system log files"
@@ -328,13 +307,6 @@
 #define module_signallist_h_desc "List of signal names/descriptions"
 #define module_signallist_h_authors \
         "JPB | Y | 26/08/2000 | 02/12/2004 >>>"
-
-
-/* ---->  From smileys.h  <---- */
-#define module_smileys_h_date "03/03/2000"
-#define module_smileys_h_desc "Table of graphical smileys for use in HTML Interface"
-#define module_smileys_h_authors \
-        "JPB | Y | 03/03/2000 | 02/12/2004 >>>"
 
 
 /* ---->  From structures.h  <---- */

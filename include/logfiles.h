@@ -43,7 +43,7 @@
 /*                  starting from 0, and must match entries in table       */
 /*                  defined in include/logfile_table.h)                    */
 
-#define LOG_COUNT       43  /*  Last log file index number + 1  */
+#define LOG_COUNT       42  /*  Last log file index number + 1  */
 
 #define ADMIN_LOG       0
 #define ASSIST_LOG      1
@@ -66,25 +66,24 @@
 #define FLAGS_LOG       18
 #define FORCE_LOG       19
 #define HACK_LOG        20
-#define HTML_LOG        21
-#define LOGENTRY_LOG    22
-#define MAINTENANCE_LOG 23
-#define MISC_LOG        24
-#define MONITOR_LOG     25
-#define NAME_LOG        26
-#define OPTIONS_LOG     27
-#define OWNER_LOG       28
-#define PASSWORD_LOG    29
-#define REQUEST_LOG     30
-#define RESTART_LOG     31
-#define SANITY_LOG      32
-#define SERVER_LOG      33
-#define SHOUT_LOG       34
-#define SITE_LOG        35
-#define STATS_LOG       36
-#define SUGGESTION_LOG  37
-#define SUMMON_LOG      38
-#define TERMCAP_LOG     39
-#define TRANSACTION_LOG 40
-#define WARN_LOG        41
-#define WELCOME_LOG     42
+#define LOGENTRY_LOG    21
+#define MAINTENANCE_LOG 22
+#define MISC_LOG        23
+#define MONITOR_LOG     24
+#define NAME_LOG        25
+#define OPTIONS_LOG     26
+#define OWNER_LOG       27
+#define PASSWORD_LOG    28
+#define REQUEST_LOG     29
+#define RESTART_LOG     30
+#define SANITY_LOG      31
+#define SERVER_LOG      32
+#define SHOUT_LOG       33
+#define SITE_LOG        34
+#define STATS_LOG       35
+#define SUGGESTION_LOG  36
+#define SUMMON_LOG      37
+#define TERMCAP_LOG     38
+#define TRANSACTION_LOG 39
+#define WARN_LOG        40
+#define WELCOME_LOG     41

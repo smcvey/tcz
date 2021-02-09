@@ -200,7 +200,7 @@ dbref create_command(CONTEXT)
 			   /* ---->  Warn of possible hacking  <---- */
 			   if(in_command && (Owner(player) != Owner(current_command)) && (Owner(command) != Owner(current_command)) && (level_app(Owner(player)) >= level_app(Owner(current_command)))) {
 			      if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","Compound command %s(#%d) created with %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)",getname(command),command,getname(Owner(player)),Owner(player),getname(current_command),current_command,getname(Owner(current_command)),Owner(current_command));
-			      sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Compound command "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",unparse_object(player,command,0));
+			      sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Compound command "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",unparse_object(player,command,0));
 			      sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(Owner(current_command),current_command,0));
 			      output(getdsc(player),player,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)",scratch_buffer,Article(Owner(current_command),LOWER,INDEFINITE),getcname(player,Owner(current_command),1,0));
 			   }
@@ -528,7 +528,7 @@ dbref create_duplicate(CONTEXT)
 			if((Typeof(object) == TYPE_COMMAND) || (Typeof(object) == TYPE_FUSE))
 			   if(in_command && (Owner(player) != Owner(current_command)) && ((Typeof(object) != TYPE_COMMAND) || (Owner(object) != Owner(current_command))) && (level_app(Owner(player)) >= level_app(Owner(current_command)))) {
 			      if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","%s %s(#%d) duplicated with %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)  -  The duplicate object is %s(%d).",(Typeof(object) == TYPE_COMMAND) ? "Compound command":"Fuse",getname(object),object,getname(Owner(player)),Owner(player),getname(current_command),current_command,getname(Owner(current_command)),Owner(current_command),getname(new),new);
-			      sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",(Typeof(object) == TYPE_COMMAND) ? "Compound command":"Fuse",unparse_object(player,object,0));
+			      sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",(Typeof(object) == TYPE_COMMAND) ? "Compound command":"Fuse",unparse_object(player,object,0));
 			      sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(Owner(current_command),current_command,0));
 			      sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)  -  The duplicate object is ",Article(Owner(current_command),LOWER,INDEFINITE),getcname(player,Owner(current_command),1,0));
 			      output(getdsc(player),player,0,1,11,ANSI_LYELLOW"%s%s"ANSI_LWHITE".)",scratch_buffer,unparse_object(player,new,0));
@@ -646,7 +646,7 @@ dbref create_fuse(CONTEXT)
 			/* ---->  Warn of possible hacking  <---- */
 			if(in_command && (Owner(player) != Owner(current_command)) && (level_app(Owner(player)) >= level_app(Owner(current_command)))) {
 			   if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","Fuse %s(#%d) created with %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)",getname(fuse),fuse,getname(Owner(player)),Owner(player),getname(current_command),current_command,getname(Owner(current_command)),Owner(current_command));
-			   sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Fuse "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",unparse_object(player,fuse,0));
+			   sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Fuse "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",unparse_object(player,fuse,0));
 			   sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(Owner(current_command),current_command,0));
 			   output(getdsc(player),player,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)",scratch_buffer,Article(Owner(current_command),LOWER,INDEFINITE),getcname(player,Owner(current_command),1,0));
 			}
@@ -696,7 +696,7 @@ dbref create_homeroom(dbref player,unsigned char warn,unsigned char sethome,unsi
 
 		     /* ---->  Create home room  <---- */
 		     sprintf(name,"%s's Home",getname(player));
-		     sprintf(description,"%%c%%lWelcome to your new home room, %%y%%l%%{@?name}%%c%%l.\n\n%%y%%lBefore you do anything else, please set an appropriate description for your home room by typing:\n\n   %%3%%w%%l%s> %%w@desc here = %%g%%lType the description of your room after the '%%y%%l=%%g%%l' sign.\n\n%%y%%lAlternatively, you can use the editor to set the description (See '%%g%%l%%<editor%%>%%y%%l') by typing:\n\n   %%3%%w%%l%s> %%wedit here",tcz_short_name,tcz_short_name);
+		     sprintf(description,"%%c%%lWelcome to your new home room, %%y%%l%%{@?name}%%c%%l.\n\n%%y%%lBefore you do anything else, please set an appropriate description for your home room by typing:\n\n   %%3%%w%%l%s> %%w@desc here = %%g%%lType the description of your room after the '%%y%%l=%%g%%l' sign.\n\n%%y%%lAlternatively, you can use the editor to set the description (See '%%g%%l%%ueditor%%y%%l') by typing:\n\n   %%3%%w%%l%s> %%wedit here",tcz_short_name,tcz_short_name);
 		     if(r) r->flags2 |= OUTPUT_SUPPRESS;
 		     room = create_room(ROOT,NULL,NULL,name,description,0,0);
 		     if(r) r->flags2 &= ~OUTPUT_SUPPRESS;

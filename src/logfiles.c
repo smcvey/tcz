@@ -284,25 +284,21 @@ void logfile_log(CONTEXT)
 
 	      /* ---->  Check for valid log file name  <---- */
 	      if(logfile == NOTHING) {
-		 html_anti_reverse(p,1);
 		 if(Blank(arg1)) {
                     output(p,player,0,1,0,ANSI_LGREEN"\nPlease specify which log file to view.");
 		 } else if(!string_prefix("list",arg1)) {
                     output(p,player,0,1,0,ANSI_LGREEN"\nSorry, the log file '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg1);
 		 }
 
-		 if(IsHtml(p)) output(p,player,1,2,0,"<BR><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">");
-		 output(p,player,2,1,1,"%sThe following log files are available...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-		 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+		 output(p, player, 2, 1, 1, "\n The following log files are available...\n");
+		 output(p,player,0,1,0,separator(twidth,0,'-','='));
 
 		 output_columns(p,player,NULL,NULL,twidth,1,13,2,0,1,FIRST,0,"***  NO LOG FILES ARE AVAILABLE  ***",buffer2);
 		 for(loop = 0; loop < LOG_COUNT; loop++)
 		     output_columns(p,player,logfs[loop].name,ANSI_LYELLOW,0,1,13,2,0,1,DEFAULT,0,NULL,buffer2);
 		 output_columns(p,player,NULL,NULL,0,1,13,2,0,1,LAST,0,NULL,buffer2);
 
-		 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,1,'-','='));
-		    else output(p,player,1,2,0,"</TABLE><BR>");
-		 html_anti_reverse(p,0);
+		 output(p,player,0,1,0,separator(twidth,1,'-','='));
                  logfile_current = NOTHING;
 		 return;
 	      }
@@ -394,8 +390,6 @@ void logfile_log(CONTEXT)
 		    char *title,*text,custom;
 
 		    /* ---->  List entries from log file (Back-tracked by <N> page(s))  <---- */
-		    html_anti_reverse(p,1);
-		    command_type |= NO_AUTO_FORMAT;
 		    if(!userlog && !Level4(player) && in_command) {
 		       writelog(ADMIN_LOG,1,"HACK","Mortal %s(#%d) browsed the log file '%s' from within compound command %s(#%d) owned by %s(#%d).",getname(player),player,logfs[logfile].file,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
 		       writelog(HACK_LOG,1,"HACK","Mortal %s(#%d) browsed the log file '%s' from within compound command %s(#%d) owned by %s(#%d).",getname(player),player,logfs[logfile].file,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
@@ -427,24 +421,21 @@ void logfile_log(CONTEXT)
 			   for(c = ' '; (curpos > 0) && (c != '\n') && (c != EOF); c = fgetc((lf) ? lf:logfs[logfile].file))
 			       if(curpos > 0) fseek((lf) ? lf:logfs[logfile].file,--curpos,SEEK_SET);
 
-		       if(IsHtml(p))
-                          output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-
 		       if(!in_command) {
 			  if(!page) {
-			     if(userlog > 0) output(p,player,2,1,1,"%sLast page of entries in %s"ANSI_LWHITE"%s"ANSI_LCYAN"'s log file...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(userlog,LOWER,DEFINITE),getcname(NOTHING,userlog,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-				else output(p,player,2,1,1,"%sLast page of entries in log file '"ANSI_LWHITE"%s"ANSI_LCYAN"'...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",logfs[logfile].name,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
+			     if(userlog > 0) output(p, player, 2, 1, 1, "\n Last page of entries in %s" ANSI_LWHITE "%s" ANSI_LCYAN "'s log file...\n", Article(userlog, LOWER, DEFINITE), getcname(NOTHING, userlog, 0, 0));
+				else output(p, player, 2, 1, 1, "\n Last page of entries in log file '" ANSI_LWHITE "%s" ANSI_LCYAN "'...\n", logfs[logfile].name);
 			  } else {
-			     if(userlog > 0) output(p,player,2,1,1,"%sEntries in %s"ANSI_LWHITE"%s"ANSI_LCYAN"'s log file (Back-tracked by "ANSI_LWHITE"%d"ANSI_LCYAN" page%s)...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(userlog,LOWER,DEFINITE),getcname(NOTHING,userlog,0,0),page,Plural(page),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-				else output(p,player,2,1,1,"%sEntries in log file '"ANSI_LWHITE"%s"ANSI_LCYAN"' (Back-tracked by "ANSI_LWHITE"%d"ANSI_LCYAN" page%s)...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",logfs[logfile].name,page,Plural(page),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
+			     if(userlog > 0) output(p, player, 2, 1, 1, "\n Entries in %s" ANSI_LWHITE "%s" ANSI_LCYAN "'s log file (Back-tracked by " ANSI_LWHITE "%d" ANSI_LCYAN " page%s)...\n", Article(userlog, LOWER, DEFINITE), getcname(NOTHING, userlog, 0, 0), page, Plural(page));
+				else output(p, player, 2, 1, 1, "\n Entries in log file '" ANSI_LWHITE "%s" ANSI_LCYAN "' (Back-tracked by " ANSI_LWHITE "%d" ANSI_LCYAN " page%s)...\n", logfs[logfile].name,page, Plural(page));
 			  }
-			  if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+			  output(p,player,0,1,0,separator(twidth,0,'-','='));
 		       }
 
 		       count = 0, loop = gsize;
 		       if(curpos <= 0) {
 			  fseek((lf) ? lf:logfs[logfile].file,0,SEEK_SET);
-			  output(p,player,2,1,3,"%s[***** \016&nbsp;\016 START OF LOG FILE \016&nbsp;\016 *****]%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_BLACK"><I>\016"ANSI_LCYAN:ANSI_LCYAN" ",IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+			  output(p, player, 2, 1, 3, ANSI_LCYAN " [*****  START OF LOG FILE  *****]\n");
 		       }
 	      
 		       while((loop > 0) && fgets(buffer2,BUFFER_LEN - 128,(lf) ? lf:logfs[logfile].file)) {
@@ -457,24 +448,22 @@ void logfile_log(CONTEXT)
 				if(!Blank(ptr)) {
 				   for(text = (*ptr) ? ptr + 1:ptr; *text && (*text == ' '); text++);
 				   *ptr = '\0';
-				   output(p,player,2,1,strlen(title) + 4,"%s%s%s:%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_GREY"><I>\016":" ",(custom) ? ANSI_LYELLOW:ANSI_LWHITE,title,IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",text,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-				} else output(p,player,2,1,3,"%s%s%s",IsHtml(p) ? "\016<TR><TH BGCOLOR="HTML_TABLE_BLACK">&nbsp;</TH><TD ALIGN=LEFT>\016"ANSI_DCYAN:ANSI_DCYAN" ",title,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-			     } else output(p,player,2,1,3,"%s%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_BLACK"><I>\016"ANSI_LGREEN:ANSI_LGREEN" ",ptr,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+				   output(p, player, 2, 1, strlen(title) + 4," %s%s:  " ANSI_DWHITE "%s\n", custom ? ANSI_LYELLOW : ANSI_LWHITE, title, text);
+				} else output(p, player, 2, 1, 3, ANSI_DCYAN " %s\n", title);
+			     } else output(p, player, 2, 1, 3, ANSI_LGREEN " %s\n", ptr);
 			     count++, loop--;
 		       }
 
 		       if(!in_command) {
-			  if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-			  output(p,player,2,1,1,"%sLog file entries listed: \016&nbsp;\016 "ANSI_DWHITE"%d. \016&nbsp; &nbsp;\016 "ANSI_LWHITE"Log file size: \016&nbsp;\016 "ANSI_DWHITE"%.1f Kb.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2 BGCOLOR="HTML_TABLE_BLUE">"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",count,(double) oldpos / KB,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+			  output(p,player,0,1,0,separator(twidth,0,'-','='));
+			  output(p, player, 2, 1, 1, ANSI_LWHITE " Log file entries listed:  " ANSI_DWHITE "%d.   " ANSI_LWHITE "Log file size:  " ANSI_DWHITE "%.1f Kb.\n\n", count, (double) oldpos / KB);
 		       }
-		       if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
 		       fseek((lf) ? lf:logfs[logfile].file,oldpos,SEEK_SET);
 		       if(lf || (!logfs[logfile].open && logfs[logfile].file)) {
 			  fclose((lf) ? lf:logfs[logfile].file);
 			  if(!userlog) logfs[logfile].file = NULL;
 		       }
 
-		       html_anti_reverse(p,0);
 		       command_type = cached_command_type;
 		       setreturn(OK,COMMAND_SUCC);
 		    } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, only Deities and the Supreme Being can back-track a log file that far (Back-tracking log files by a large number of pages may cause excessive lag.)");

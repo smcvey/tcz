@@ -1943,7 +1943,7 @@ char query_replace(CONTEXT)
      }
 
      if((arg.count < 4) || Blank(arg.text[0]) || ((arg.numb[2] <= 0) && (arg.numb[2] != LAST) && (arg.numb[2] != ALL) && !(!Blank(arg.text[2]) && (*(arg.text[2]) == '+')))) {
-        output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Invalid parameter(s).");
+        output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE]  "ANSI_LWHITE"Error  -  Invalid parameter(s).");
         setreturn(arg.text[3],COMMAND_FAIL);
         return(0);
      } else {
@@ -1959,7 +1959,7 @@ char query_replace(CONTEXT)
               else if(!strcasecmp("FIRST",arg.text[2])) arg.numb[2] = 1;
                  else if(!strcasecmp("LAST",arg.text[2])) arg.numb[2] = LAST;
                     else if(((arg.numb[2] = atol(arg.text[2])) <= 0) || !strcasecmp("END",arg.text[2])) {
-                       output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Invalid parameter(s).");
+                       output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE]  "ANSI_LWHITE"Error  -  Invalid parameter(s).");
                        setreturn(arg.text[3],COMMAND_FAIL);
                        return(0);
 		    }
@@ -1995,10 +1995,10 @@ char query_replace(CONTEXT)
             *str_data.dest = '\0';
 
             if(!in_command) {
-               if(replaced < 1) output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE] \016&nbsp;\016 "ANSI_LWHITE"No occurences of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' found  -  Nothing replaced.",arg.text[0]);
-	          else if(all) output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE] \016&nbsp;\016 "ANSI_LWHITE"All ("ANSI_LYELLOW"%d"ANSI_LWHITE") occurences of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' replaced with '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",replaced,arg.text[0],arg.text[1]);
-	             else if(last) output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE] \016&nbsp;\016 "ANSI_LWHITE"Last occurence of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' replaced with '"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s.",arg.text[0],arg.text[1],(line) ? " on each line in the specified range":"");
-	                else output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE] \016&nbsp;\016 "ANSI_LWHITE"%s occurence of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' replaced with '"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s.",rank(arg.numb[2]),arg.text[0],arg.text[1],(line) ? " on each line in the specified range":"");
+               if(replaced < 1) output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE]  "ANSI_LWHITE"No occurences of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' found  -  Nothing replaced.",arg.text[0]);
+	          else if(all) output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE]  "ANSI_LWHITE"All ("ANSI_LYELLOW"%d"ANSI_LWHITE") occurences of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' replaced with '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",replaced,arg.text[0],arg.text[1]);
+	             else if(last) output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE]  "ANSI_LWHITE"Last occurence of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' replaced with '"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s.",arg.text[0],arg.text[1],(line) ? " on each line in the specified range":"");
+	                else output(getdsc(player),player,0,1,11,ANSI_LGREEN"[REPLACE]  "ANSI_LWHITE"%s occurence of '"ANSI_LYELLOW"%s"ANSI_LWHITE"' replaced with '"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s.",rank(arg.numb[2]),arg.text[0],arg.text[1],(line) ? " on each line in the specified range":"");
 	    }
             setreturn(temp,COMMAND_SUCC);
             return(1);
@@ -2083,27 +2083,24 @@ void query_size(CONTEXT)
 void query_separator(CONTEXT)
 {
      unsigned char            twidth = output_terminal_width(player);
-     struct   descriptor_data *p = getdsc(player);
      const    char            *ptr;
 
-     if(!IsHtml(p)) {
-        if(!Blank(params)) {
-           if(string_prefix("single",params)) {
-              strcpy(querybuf,separator(twidth,0,'-','-'));
-              for(ptr = querybuf; *ptr && (*ptr != '-'); ptr++);
-              setreturn(ptr,COMMAND_SUCC);
-              return;
-	   } else if(string_prefix("double",params)) {
-              strcpy(querybuf,separator(twidth,0,'=','='));
-              for(ptr = querybuf; *ptr && (*ptr != '='); ptr++);
-              setreturn(ptr,COMMAND_SUCC);
-              return;
-	   }
-	}
-        strcpy(querybuf,separator(twidth,0,'-','='));
-        for(ptr = querybuf; *ptr && (*ptr != '-'); ptr++);
-        setreturn(ptr,COMMAND_SUCC);
-     } else setreturn((command_type & QUERY_SUBSTITUTION) ? "\016<HR>\016":"%h<HR>%h",COMMAND_SUCC);
+     if(!Blank(params)) {
+        if(string_prefix("single",params)) {
+           strcpy(querybuf,separator(twidth,0,'-','-'));
+           for(ptr = querybuf; *ptr && (*ptr != '-'); ptr++);
+           setreturn(ptr,COMMAND_SUCC);
+           return;
+        } else if(string_prefix("double",params)) {
+           strcpy(querybuf,separator(twidth,0,'=','='));
+           for(ptr = querybuf; *ptr && (*ptr != '='); ptr++);
+           setreturn(ptr,COMMAND_SUCC);
+           return;
+        }
+     }
+     strcpy(querybuf,separator(twidth,0,'-','='));
+     for(ptr = querybuf; *ptr && (*ptr != '-'); ptr++);
+     setreturn(ptr,COMMAND_SUCC);
 }
 
 /* ---->  Specified flag(s)/friend flag(s) set on specified object/character?  <---- */

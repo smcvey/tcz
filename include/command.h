@@ -105,7 +105,7 @@ extern  int          loopno;
 #define MAIL_COMMAND         0x00000020  /*  Allows mail commands to be used  */
 #define BANK_COMMAND         0x00000040  /*  Allows bank commands to be used  */
 #define STARTUP_SHUTDOWN     0x00000800  /*  '.startup' or '.shutdown' compound command currently executing  */
-#define NO_AUTO_FORMAT       0x00001000  /*  Disable auto-formatting of URL's, graphical smileys, etc. on HTML Interface  */
+/* #define NO_AUTO_FORMAT       0x00001000  Unused  */
 #define MATCH_ABSOLUTE       0x00002000  /*  Absolute match to object (Cannot be continued.)  */
 #define QUERY_SUBSTITUTION   0x00004000  /*  Current query command is within query substitution (I.e:  '%{@?name}'.)  */
 #define OUTPUT_CHANGE        0x00008000  /*  Output status changed using '@output on|off'  */
@@ -113,8 +113,8 @@ extern  int          loopno;
 #define FUSE_CMD             0x00020000  /*  Fuse or alarm compound command currently executing  */
 #define AREA_CMD             0x00040000  /*  Area compound command (Such as '.enter', '.leave', etc.) currently executing  */
 #define WARNED               0x00080000  /*  Warning of exceeded execution time limit, nesting limit, recursion limit, etc. already given  */
-#define NO_FLUSH_OUTPUT      0x00100000  /*  Do not flush output queue, if it exceeds normal maximum size (Used for HTML version of On-line Help System)  */
-#define HTML_ACCESS          0x00200000  /*  Resources currently being accessed externally by HTML Interface (Help/Tutorials/Modules/Authors)  */
+/* #define NO_FLUSH_OUTPUT      0x00100000  Unused  */
+/* #define HTML_ACCESS          0x00200000  Unused  */
 #define FUSE_ABORT           0x00400000  /*  Abort execution of command following fuse execution (Abort fuses)  */
 #define NESTED_SUBSTITUTION  0x00800000  /*  Nested substitution (I.e:  '{%r%l}')  */
 #define LARGE_SUBSTITUTION   0x01000000  /*  Large substitution in progress  */

@@ -214,13 +214,13 @@ struct calc_ops calculate_numeric_op(dbref player,struct calc_ops result,struct 
 	  }
 
        if(!((result.calctype == CALC_INT) || (result.calctype == CALC_FLOAT))) {
-          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Can't do numeric operation on a string.");
+          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Can't do numeric operation on a string.");
           result.calctype = CALC_ERROR;
           return(result);
        }
 
        if((result.calctype == CALC_FLOAT) && ((calc_op == CALC_BITSHL) || (calc_op == CALC_BITSHR))) {
-          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  A floating point number can't be shifted left/right.");
+          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  A floating point number can't be shifted left/right.");
           result.calctype = CALC_ERROR;
           return(result);
        }
@@ -239,7 +239,7 @@ struct calc_ops calculate_numeric_op(dbref player,struct calc_ops result,struct 
               case CALC_DIV:
                    if(((result.calctype == CALC_INT)   && (value.calcint   == 0)) ||
                       ((result.calctype == CALC_FLOAT) && (value.calcfloat == 0))) {
-                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Division by zero.");
+                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Division by zero.");
                         result.calctype = CALC_ERROR;
                         return(result);
 		   }
@@ -253,12 +253,12 @@ struct calc_ops calculate_numeric_op(dbref player,struct calc_ops result,struct 
               case CALC_MOD:
                    if(result.calctype == CALC_INT) {
                       if(!value.calcint) {
-                         if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Modulus of zero.");
+                         if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Modulus of zero.");
                          result.calctype = CALC_ERROR;
                          return(result);
 		      } else result.calcint %= value.calcint;
 		   } else {
-                      if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  The modulus of a floating point number isn't known.");
+                      if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  The modulus of a floating point number isn't known.");
                       result.calctype = CALC_ERROR;
                       return(result);
 		   }
@@ -266,7 +266,7 @@ struct calc_ops calculate_numeric_op(dbref player,struct calc_ops result,struct 
               case CALC_PWR:
                    if(result.calctype == CALC_INT) result.calcfloat = result.calcint;
                    if((result.calcfloat < 0) && ((value.calctype == CALC_FLOAT) && (modf(value.calcfloat,&temp) != 0))) {
-                      if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Raising a negative value to a non-integral power would result in a complex number.");
+                      if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Raising a negative value to a non-integral power would result in a complex number.");
                       result.calctype  = CALC_ERROR;
 		   } else if(!((result.calcfloat == 0) && (value.calcfloat < 0))) {
                       result.calcfloat = pow(result.calcfloat,value.calcfloat);
@@ -300,14 +300,14 @@ struct calc_ops calculate_numeric_op(dbref player,struct calc_ops result,struct 
                    result.calcint = (result.calcint >> value.calcint);
                    break;
               default:
-                   if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Missing/invalid operator(s) in expression.");
+                   if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Missing/invalid operator(s) in expression.");
                    result.calctype = CALC_ERROR;
                    return(result);
        }
 
        /* ---->  Arithmetic exception raised by numeric operation?  <---- */
        if(command_type & ARITHMETIC_EXCEPTION) {
-          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Arithmetic exception.");
+          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Arithmetic exception.");
           result.calctype = CALC_ERROR;
        }
        return(result);
@@ -319,13 +319,13 @@ struct calc_ops calculate_string_op(dbref player,struct calc_ops result,char *st
        if(!result.calctype) result.calctype = CALC_STRING;
 
        if(result.calctype != CALC_STRING) {
-          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Can't do numeric operation on a string.");
+          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Can't do numeric operation on a string.");
           result.calctype = CALC_ERROR;
           return(result);
        }
 
        if((calc_op != CALC_DEFAULT) && (calc_op != CALC_INIT) && (calc_op != CALC_ADD)) {
-          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Missing/invalid operator(s) in expression (Strings can only be concatenated ('"ANSI_LYELLOW"##"ANSI_LWHITE"' or '"ANSI_LYELLOW"+"ANSI_LWHITE"'.))");
+          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Missing/invalid operator(s) in expression (Strings can only be concatenated ('"ANSI_LYELLOW"##"ANSI_LWHITE"' or '"ANSI_LYELLOW"+"ANSI_LWHITE"'.))");
           result.calctype = CALC_ERROR;
           return(result);
        }
@@ -355,7 +355,7 @@ void calculate_evaluate(CONTEXT)
 
      /* ---->  Check no. of brackets hasn't exceeded max. limit  <---- */
      if(val1 > MAX_BRACKETS) {
-        output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"You've exceeded the maximum number of brackets allowed in a calculation ("ANSI_LYELLOW"%d"ANSI_LWHITE".)",MAX_BRACKETS);
+        output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"You've exceeded the maximum number of brackets allowed in a calculation ("ANSI_LYELLOW"%d"ANSI_LWHITE".)",MAX_BRACKETS);
         setreturn(ERROR,COMMAND_FAIL);
         return;
      } else if(!val1) command_type &= ~ARITHMETIC_EXCEPTION;
@@ -530,7 +530,7 @@ void calculate_evaluate(CONTEXT)
                                      break;
                                 case CALC_SQRT:
                                      if(temp.calcfloat < 0) {
-                                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Value is outside square domain.");
+                                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Value is outside square domain.");
                                         temp.calctype = CALC_ERROR;
 				     } else {
                                         temp.calcfloat = sqrt(temp.calcfloat);
@@ -551,7 +551,7 @@ void calculate_evaluate(CONTEXT)
                                      break;
                                 case CALC_ASIN:
                                      if((temp.calcfloat < -1) || (temp.calcfloat > 1)) {
-                                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Value must be in the range of "ANSI_LYELLOW"-1"ANSI_LWHITE" to "ANSI_LYELLOW"1"ANSI_LWHITE".");
+                                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Value must be in the range of "ANSI_LYELLOW"-1"ANSI_LWHITE" to "ANSI_LYELLOW"1"ANSI_LWHITE".");
                                         temp.calctype = CALC_ERROR;
 				     } else {
                                         temp.calcfloat = asin(temp.calcfloat);
@@ -560,7 +560,7 @@ void calculate_evaluate(CONTEXT)
                                      break;
                                 case CALC_ACOS:
                                      if((temp.calcfloat < -1) || (temp.calcfloat > 1)) {
-                                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Value must be in the range of "ANSI_LYELLOW"-1"ANSI_LWHITE" to "ANSI_LYELLOW"1"ANSI_LWHITE".");
+                                        if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Value must be in the range of "ANSI_LYELLOW"-1"ANSI_LWHITE" to "ANSI_LYELLOW"1"ANSI_LWHITE".");
                                         temp.calctype = CALC_ERROR;
 				     } else {
                                         temp.calcfloat = acos(temp.calcfloat);
@@ -717,10 +717,10 @@ void calculate_evaluate(CONTEXT)
 
                   /* ---->  Check LHS/RHS exist...  <---- */
                   if(!*p1 && CALC_COMPARISON(calc_op)) {
-                     if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Comparison has no right-hand side expression.");
+                     if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Comparison has no right-hand side expression.");
                      compare.calctype = CALC_ERROR;
 		  } else if(result.calctype == 0) {
-                     if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Comparison has no left-hand side expression.");
+                     if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Comparison has no left-hand side expression.");
                      compare.calctype = CALC_ERROR;
 		  }
 
@@ -734,14 +734,14 @@ void calculate_evaluate(CONTEXT)
                                           result.calcfloat = result.calcint;
                                           break;
                                      case CALC_STRING:
-                                          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Comparison of integer with string.");
+                                          if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Comparison of integer with string.");
                                           result.calctype = CALC_ERROR;
                                           break;
 			      }
 		              break;
                          case CALC_STRING:
                               if((result.calctype == CALC_FLOAT) || (result.calctype == CALC_INT)) {
-                                 if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE] \016&nbsp;\016 "ANSI_LWHITE"Error  -  Comparison of integer with string.");
+                                 if(!in_command) output(getdsc(player),player,0,1,12,ANSI_LGREEN"[EVALUATE]  "ANSI_LWHITE"Error  -  Comparison of integer with string.");
                                  compare.calctype = CALC_ERROR;
 			      }
                               break;

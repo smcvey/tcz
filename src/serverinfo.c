@@ -186,13 +186,6 @@ void serverinfo(void)
      writelog(SERVER_LOG,0,"SET SERVER INFO","Setting %s Web Site URL to '%s'.",tcz_short_name,html_home_url);
   }
 
-  if (strcasecmp(html_data_url,HTML_DATA_URL) == 0) {
-     FREENULL(html_data_url);
-     snprintf(buf,TEXT_SIZE,"http://%s/tczhtml/",tcz_server_name);
-     html_data_url = alloc_string(buf);
-     writelog(SERVER_LOG,0,"SET SERVER INFO","Setting HTML Interface data URL to '%s'.",html_data_url);
-  }
-
   if (tcz_server_ip == TCZ_SERVER_IP) {
      tcz_server_ip = ipaddr;
      writelog(SERVER_LOG,0,"SET SERVER INFO","Setting %s server IP address to %s",tcz_short_name,s_addrtoa(tcz_server_ip));

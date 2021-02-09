@@ -647,9 +647,9 @@ void pagetell_send(CONTEXT)
 		     } else sprintf(scratch_buffer,"%s"ANSI_LGREEN"PAGING from a secret location",Pagebell(ptr->player) ? "\007":"");
                      strcat_limits(&str_data,scratch_buffer);
                      if((targetgroup != STANDARD) || (listsize > 1)) {
-                        sprintf(scratch_buffer," (Group page to %s): \016&nbsp;\016 ",pagetell_construct_list(player,ptr->player,(union group_data *) head,listsize - blocked,scratch_return_string,ANSI_LWHITE,ANSI_LGREEN,0,targetgroup,INDEFINITE));
+                        sprintf(scratch_buffer," (Group page to %s):  ",pagetell_construct_list(player,ptr->player,(union group_data *) head,listsize - blocked,scratch_return_string,ANSI_LWHITE,ANSI_LGREEN,0,targetgroup,INDEFINITE));
                         strcat_limits(&str_data,scratch_buffer);
-	             } else strcat_limits(&str_data,": \016&nbsp;\016 ");
+	             } else strcat_limits(&str_data,":  ");
                      if(Blank(arg2)) sprintf(scratch_return_string,ANSI_DWHITE"%s"ANSI_LWHITE"%s"ANSI_DWHITE" tries to contact you.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                         else if((*arg2 == *POSE_TOKEN) || (*arg2 == *THINK_TOKEN) || (*arg2 == *ALT_POSE_TOKEN) || (*arg2 == *ALT_THINK_TOKEN)) strcpy(scratch_return_string,construct_message(player,ANSI_LWHITE,ANSI_DWHITE,"",'.',-1,OTHERS,arg2,0,(Location(ptr->player) == Location(player)) ? DEFINITE:INDEFINITE));
                            else strcpy(scratch_return_string,construct_message(player,ANSI_LWHITE,ANSI_DWHITE,"",'.',0,OTHERS,arg2,0,(Location(ptr->player) == Location(player)) ? DEFINITE:INDEFINITE));
@@ -718,53 +718,47 @@ void pagetell_recall(CONTEXT)
 
               if(count > 0) {
                  if(count <= p->messagecount) {
-                    html_anti_reverse(p,1);
                     count--, now = p->messages[count].time + timediff;
-                    if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
                     if(!in_command) {
-                       if(p->messages[count].pager != player) output(p,player,2,1,1,"%s%s from %s"ANSI_LWHITE"%s"ANSI_LCYAN" on "ANSI_LYELLOW"%s"ANSI_LCYAN".%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",(p->messages[count].tell) ? "Tell":"Page",Article(p->messages[count].pager,LOWER,INDEFINITE),getcname(NOTHING,p->messages[count].pager,0,0),date_to_string(now,UNSET_DATE,player,FULLDATEFMT),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-                          else output(p,player,2,1,1,"%s%s from yourself on "ANSI_LYELLOW"%s"ANSI_LCYAN".%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",(p->messages[count].tell) ? "Tell":"Page",date_to_string(now,UNSET_DATE,player,FULLDATEFMT),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-                       if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,1,'-','='));
-		    } else if(!IsHtml(p) && !p->messages[count].tell) output(p,player,0,1,0,"");
+                       if(p->messages[count].pager != player) output(p, player, 2, 1, 1, "\n %s from %s" ANSI_LWHITE "%s" ANSI_LCYAN " on " ANSI_LYELLOW "%s" ANSI_LCYAN ".\n", (p->messages[count].tell) ? "Tell" : "Page", Article(p->messages[count].pager, LOWER, INDEFINITE), getcname(NOTHING, p->messages[count].pager, 0, 0), date_to_string(now, UNSET_DATE, player, FULLDATEFMT));
+                          else output(p, player, 2, 1, 1, "\n %s from yourself on " ANSI_LYELLOW "%s" ANSI_LCYAN ".\n", (p->messages[count].tell) ? "Tell" : "Page", date_to_string(now, UNSET_DATE, player, FULLDATEFMT));
+                       output(p,player,0,1,0,separator(twidth,1,'-','='));
+		    } else if(!p->messages[count].tell) output(p,player,0,1,0,"");
 
-                    output(p,player,2,1,3,"%s%s%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT>\016":" ",Blank(p->messages[count].message) ? "Unknown":decompress(p->messages[count].message),(p->messages[count].tell && !(IsHtml(p) || in_command)) ? "\n":"",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                    output(p, player, 2, 1, 3, " %s%s\n", Blank(p->messages[count].message) ? "Unknown" : decompress(p->messages[count].message), (p->messages[count].tell && !in_command) ? "\n" : "");
                     if(!in_command) {
-                       if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
-                       if(!last && (count > 0)) output(p,player,2,1,1,"%sTo reply to this message, simply type '"ANSI_LGREEN"page %d <MESSAGE>"ANSI_LWHITE"' or '"ANSI_LGREEN"tell %d <MESSAGE>"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",count + 1,count + 1,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-                          else output(p,player,2,1,1,"%sTo reply to this message, simply type '"ANSI_LGREEN"reply <MESSAGE>"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-                       if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,1,'-','='));
+                       output(p,player,0,1,0,separator(twidth,0,'-','-'));
+                       if(!last && (count > 0))
+                          output(p, player, 2, 1, 1, ANSI_LWHITE " To reply to this message, simply type '" ANSI_LGREEN "page %d <MESSAGE>" ANSI_LWHITE "' or '" ANSI_LGREEN "tell %d <MESSAGE>" ANSI_LWHITE "'.\n", count + 1, count + 1);
+                          else output(p, player, 2, 1, 1, ANSI_LWHITE " To reply to this message, simply type '" ANSI_LGREEN "reply <MESSAGE>" ANSI_LWHITE "'.\n");
+                       output(p,player,0,1,0,separator(twidth,1,'-','='));
 		    }
-                    if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-                    html_anti_reverse(p,0);
                     setreturn(OK,COMMAND_SUCC);
 		 } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you only have "ANSI_LWHITE"%d"ANSI_LGREEN" stored message%s.",p->messagecount,Plural(p->messagecount));
 	      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, that message number is invalid  -  Please specify a positive number.");
 	   } else {
 
               /* ---->  List stored messages  <---- */
-              html_anti_reverse(p,1);
-              if(!p->pager && !IsHtml(p) && Validchar(p->player) && More(p->player)) pager_init(p);
-              if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+              if(!p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
               if(!in_command) {
-                 output(p,player,2,1,1,"%sMost recent messages sent to you using either '"ANSI_LWHITE"page"ANSI_LCYAN"' or '"ANSI_LWHITE"tell"ANSI_LCYAN"'...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=2><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+                 output(p, player, 2, 1, 1, "\n Most recent messages sent to you using either '" ANSI_LWHITE "page" ANSI_LCYAN "' or '" ANSI_LWHITE "tell" ANSI_LCYAN "'...\n");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
 	      }
 
               for(count = 0; count < p->messagecount; count++) {
                   sprintf(scratch_return_string,"(%d)",count + 1);
-                  if(p->messages[count].pager != player) sprintf(scratch_buffer,"%s%-6s%s"ANSI_LWHITE"%s from %s"ANSI_LYELLOW"%s"ANSI_LWHITE" on ",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN:ANSI_LGREEN" ",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016":"",(p->messages[count].tell) ? "Tell":"Page",Article(p->messages[count].pager,LOWER,INDEFINITE),getcname(NOTHING,p->messages[count].pager,0,0));
-                     else sprintf(scratch_buffer,"%s%-6s%s"ANSI_LWHITE"%s from yourself on ",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN:ANSI_LGREEN" ",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016":"",(p->messages[count].tell) ? "Tell":"Page");
+                  if(p->messages[count].pager != player)
+                     sprintf(scratch_buffer, ANSI_LGREEN " %-6s" ANSI_LWHITE "%s from %s" ANSI_LYELLOW "%s" ANSI_LWHITE " on ", scratch_return_string, (p->messages[count].tell) ? "Tell" : "Page", Article(p->messages[count].pager, LOWER, INDEFINITE), getcname(NOTHING, p->messages[count].pager, 0, 0));
+                     else sprintf(scratch_buffer, ANSI_LGREEN " %-6s" ANSI_LWHITE "%s from yourself on ", scratch_return_string, (p->messages[count].tell) ? "Tell" : "Page");
                   now = p->messages[count].time + timediff;
-                  output(p,player,2,1,7,"%s"ANSI_LCYAN"%s"ANSI_LWHITE".%s",scratch_buffer,date_to_string(now,UNSET_DATE,player,FULLDATEFMT),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                  output(p, player, 2, 1, 7, "%s" ANSI_LCYAN "%s" ANSI_LWHITE ".\n", scratch_buffer, date_to_string(now, UNSET_DATE, player, FULLDATEFMT));
 	      }
 
               if(!in_command) {
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
-                 output(p,player,2,1,1,"%sTo recall one of the above messages, type '"ANSI_LGREEN"recall <NUMBER>"ANSI_LWHITE"'.  To reply, simply type '"ANSI_LGREEN"page <NUMBER> <MESSAGE>"ANSI_LWHITE"' or '"ANSI_LGREEN"tell <NUMBER> <MESSAGE>"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=2>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,1,'-','='));
+                 output(p,player,0,1,0,separator(twidth,0,'-','-'));
+                 output(p, player, 2, 1, 1, ANSI_LWHITE " To recall one of the above messages, type '" ANSI_LGREEN "recall <NUMBER>" ANSI_LWHITE "'.  To reply, simply type '" ANSI_LGREEN "page <NUMBER> <MESSAGE>" ANSI_LWHITE "' or '" ANSI_LGREEN "tell <NUMBER> <MESSAGE>" ANSI_LWHITE "'.\n");
+                 output(p,player,0,1,0,separator(twidth,1,'-','='));
 	      }
-              if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-              html_anti_reverse(p,0);
               setreturn(OK,COMMAND_SUCC);
 	   }
 	} else output(p,player,0,1,0,ANSI_LGREEN"Sorry, no-one has sent any messages to you using '"ANSI_LWHITE"page"ANSI_LGREEN"' or '"ANSI_LWHITE"tell"ANSI_LGREEN"' yet.");

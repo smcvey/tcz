@@ -345,12 +345,10 @@ void combat_statistics(CONTEXT)
 	}
      } else victim = player;
 
-     html_anti_reverse(p,1);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
      if(!in_command) {
-        if(victim != player) output(p,player,2,1,0,"%s%s"ANSI_LWHITE"%s"ANSI_LCYAN"'s combat statistics...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(victim,UPPER,DEFINITE),getcname(NOTHING,victim,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           else output(p,player,2,1,0,"%sYour combat statistics...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+        if(victim != player) output(p, player, 2, 1, 0, "\n %s" ANSI_LWHITE "%s" ANSI_LCYAN "'s combat statistics...\n", Article(victim, UPPER, DEFINITE), getcname(NOTHING, victim, 0, 0));
+           else output(p, player, 2, 1, 0, "\n Your combat statistics...\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      if(Combat(Location(victim))) {
@@ -361,20 +359,18 @@ void combat_statistics(CONTEXT)
               strcpy(scratch_return_string,getfield(area,AREANAME));
               bad_language_filter(scratch_return_string,scratch_return_string);
            } else strcpy(scratch_return_string,getname(Location(victim)));
-           output(p,player,2,1,18,"%sCombat area:%s"ANSI_LCYAN"%s"ANSI_LWHITE" owned by %s"ANSI_LYELLOW"%s"ANSI_LWHITE".%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_MAGENTA"><I>\016"ANSI_LMAGENTA:ANSI_LMAGENTA"    ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT WIDTH=25% COLSPAN=3>\016":"  ",scratch_return_string,Article(victim,LOWER,DEFINITE),getcname(NOTHING,victim,0,0),Haven(Location(victim)) ? ANSI_LRED"  (HAVEN)":"",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        } else output(p,player,2,1,18,"%sCombat area:%s"ANSI_LWHITE"Secret location.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_MAGENTA"><I>\016"ANSI_LMAGENTA:ANSI_LMAGENTA"    ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT WIDTH=25% COLSPAN=3>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     } else output(p,player,2,1,18,"%sCombat area:%s"ANSI_LWHITE"No.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_MAGENTA"><I>\016"ANSI_LMAGENTA:ANSI_LMAGENTA"    ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT WIDTH=25% COLSPAN=3>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+           output(p, player, 2, 1, 18, ANSI_LMAGENTA "    Combat area:  " ANSI_LCYAN "%s" ANSI_LWHITE " owned by %s" ANSI_LYELLOW "%s" ANSI_LWHITE ".%s\n", scratch_return_string, Article(victim, LOWER, DEFINITE), getcname(NOTHING, victim, 0, 0), Haven(Location(victim)) ? ANSI_LRED "  (HAVEN)" : "");
+        } else output(p, player, 2, 1, 18, ANSI_LMAGENTA "    Combat area:  " ANSI_LWHITE "Secret location.\n");
+     } else output(p, player, 2, 1, 18, ANSI_LMAGENTA "    Combat area:  " ANSI_LWHITE "No.\n");
+     output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
      update_health(victim);
-     output(p,player,2,1,0,"%sCurrent health:%s"ANSI_LWHITE"%-25s%s"ANSI_LGREEN"Current score:%s"ANSI_LWHITE"%d point%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",combat_percent(currency_to_double(&(db[victim].data->player.health)),100),IsHtml(p) ? "\016</TD><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_GREEN"><I>\016":"",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",db[victim].data->player.score,Plural(db[victim].data->player.score),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+     output(p, player, 2, 1, 0, ANSI_LGREEN " Current health:  " ANSI_LWHITE "%-25s" ANSI_LGREEN "Current score:  " ANSI_LWHITE "%d point%s.\n", combat_percent(currency_to_double(&(db[victim].data->player.health)), 100), db[victim].data->player.score, Plural(db[victim].data->player.score));
+     output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
-     output(p,player,2,1,0,"%sBattles won:%s"ANSI_LWHITE"%-18d%s"ANSI_LYELLOW"Total battles fought:%s"ANSI_LWHITE"%-10d%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"    ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",db[victim].data->player.won,IsHtml(p) ? "\016</TD><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016":"",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",(db[victim].data->player.won + db[victim].data->player.lost),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sBattles lost:%s"ANSI_LWHITE"%-20d%s"ANSI_LYELLOW"Combat performance:%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"   ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",db[victim].data->player.lost,IsHtml(p) ? "\016</TD><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016":"",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",combat_percent(db[victim].data->player.won,(db[victim].data->player.won + db[victim].data->player.lost)),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(!IsHtml(p) && !in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(p,0);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "    Battles won:  " ANSI_LWHITE "%-18d" ANSI_LYELLOW "Total battles fought:  " ANSI_LWHITE "%-10d\n", db[victim].data->player.won, (db[victim].data->player.won + db[victim].data->player.lost));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "   Battles lost:  " ANSI_LWHITE "%-20d" ANSI_LYELLOW "Combat performance:  " ANSI_LWHITE "%s\n", db[victim].data->player.lost, combat_percent(db[victim].data->player.won, (db[victim].data->player.won + db[victim].data->player.lost)));
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 

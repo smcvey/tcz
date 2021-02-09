@@ -221,7 +221,6 @@ SRC = \
 	global.c \
         group.c \
         help.c \
-        html.c \
 	interface.c \
         lists.c \
 	logfiles.c \

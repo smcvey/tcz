@@ -45,7 +45,6 @@
 #include "descriptor_flags.h"
 #include "object_types.h"
 #include "flagset.h"
-#include "html.h"
 
 
 struct helptopic *generictutorials = NULL;  /*  Linked list of generic tutorials  */
@@ -406,36 +405,9 @@ void help_status(void)
      }
 }
 
-/* ---->  Help system navigation buttons  <---- */
-const char *help_buttons(struct descriptor_data *d,struct helptopic *topic,unsigned char page,unsigned char connected,int help,char *buffer)
-{
-      char buf[128];
-      int  copied;
-
-      *buffer = '\0';
-      if(topic && (page < topic->pages) && !(command_type & HTML_ACCESS))
-         sprintf(buffer + strlen(buffer),"<A HREF=\"%sTOPIC=%s+%d&%s\"%s TITLE=\"Click to view next page...\"><IMG SRC=\"%s\" ALT=\"[NEXT]\" BORDER=0></A> ",html_server_url(d,0,2,(help) ? "help":"tutorial"),html_encode(topic->topicname,buf,&copied,127),page + 1,html_get_preferences(d),(connected) ? " TARGET=_blank":"",html_image_url("next.gif"));
-            else sprintf(buffer + strlen(buffer),"<IMG SRC=\"%s\" ALT=\"{NEXT}\" BORDER=0> ",html_image_url("nonext.gif"));
-
-      if(topic && (page > 1) && !(command_type & HTML_ACCESS))
-         sprintf(buffer + strlen(buffer),"<A HREF=\"%sTOPIC=%s+%d&%s\"%s TITLE=\"Click to view previous page...\"><IMG SRC=\"%s\" ALT=\"[PREVIOUS]\" BORDER=0></A> ",html_server_url(d,0,2,(help) ? "help":"tutorial"),html_encode(topic->topicname,buf,&copied,127),page - 1,html_get_preferences(d),(connected) ? " TARGET=_blank":"",html_image_url("prev.gif"));
-            else sprintf(buffer + strlen(buffer),"<IMG SRC=\"%s\" ALT=\"{PREVIOUS}\" BORDER=0> ",html_image_url("noprev.gif"));
-
-      if(help && topic && (topic->flags & HELP_TUTORIAL))
-         sprintf(buffer + strlen(buffer),"<A HREF=\"%sTOPIC=%s&%s\"%s TITLE=\"Click for a tutorial...\"><IMG SRC=\"%s\" ALT=\"[TUTORIAL]\" BORDER=0></A> ",html_server_url(d,0,2,"tutorial"),html_encode(topic->topicname,buf,&copied,127),html_get_preferences(d),(connected) ? " TARGET=_blank":"",html_image_url("tutorial.gif"));
-            else sprintf(buffer + strlen(buffer),"<IMG SRC=\"%s\" ALT=\"{TUTORIAL}\" BORDER=0> ",html_image_url("notutorial.gif"));
-
-      sprintf(buffer + strlen(buffer),"<A HREF=\"%sTOPIC=INDEX&%s\"%s TITLE=\"Click for %s On-line Help...\"><IMG SRC=\"%s\" ALT=\"[HELP INDEX]\" BORDER=0></A> ",html_server_url(d,0,2,"help"),html_get_preferences(d),(connected) ? " TARGET=_blank":"",tcz_full_name,html_image_url("help.index.gif"));
-      sprintf(buffer + strlen(buffer),"<A HREF=\"%sTOPIC=INDEX&%s\"%s TITLE=\"Click for %s tutorials...\"><IMG SRC=\"%s\" ALT=\"[TUTORIALS]\" BORDER=0></A> ",html_server_url(d,0,2,"tutorial"),html_get_preferences(d),(connected) ? " TARGET=_blank":"",tcz_full_name,html_image_url("tutorials.gif"));
-      if(topic) sprintf(buffer + strlen(buffer),"<A HREF=\"%sSEARCHMODE=%s&%s\"%s TITLE=\"Click to search...\"><IMG SRC=\"%s\" ALT=\"[SEARCH]\" BORDER=0></A> ",html_server_url(d,0,2,"search"),(help) ? "HELP":"TUTORIAL",html_get_preferences(d),(connected) ? " TARGET=_blank":"",html_image_url("search.gif"));
-         else sprintf(buffer + strlen(buffer),"<IMG SRC=\"%s\" ALT=\"{SEARCH}\" BORDER=0> ",html_image_url("nosearch.gif"));
-      return(buffer);
-}
-
 /* ---->  Display given page of help topic/tutorial from linked list  <---- */
 int help_display_topic(struct descriptor_data *d,struct helptopic *topic,unsigned char page,const char *topicname,int help)
 {
-    unsigned char connected = (IsHtml(d) && (d->flags & CONNECTED) && Validchar(d->player));
     struct   substitution_data subst;
     struct   helppage *helppage;
     int      loop,twidth;
@@ -443,99 +415,69 @@ int help_display_topic(struct descriptor_data *d,struct helptopic *topic,unsigne
 
     if(!topic || !d) return(0);
     twidth = output_terminal_width(d->player);
-    if(!(command_type & HTML_ACCESS)) {
-       for(loop = 1, helppage = topic->page; helppage && (loop < page); helppage = helppage->next, loop++);
-       if(!helppage) helppage = topic->page, page = 1;
-    } else helppage = topic->page;
+    for(loop = 1, helppage = topic->page; helppage && (loop < page); helppage = helppage->next, loop++);
+    if(!helppage) helppage = topic->page, page = 1;
     if(!helppage) return(0);
 
     if(!Blank(helppage->text)) {
 
-       /* ---->  Help system navigation buttons  <---- */
-       if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4><TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><FONT SIZE=4 COLOR="HTML_LGREEN"><I>%s On-line %s</I></FONT></TD></TR><TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY">%s</TD></TR>",(connected) ? "<BR>":"",tcz_full_name,(help) ? "Help System":"Tutorials",help_buttons(d,topic,page,connected,help,scratch_return_string));
-          else output(d,d->player,0,1,0,"\n%s",(char *) separator(twidth,0,'-','='));
+       output(d,d->player,0,1,0,"\n%s",(char *) separator(twidth,0,'-','='));
 
        /* ---->  Display title of help topic  <---- */       
        if(!Blank(topic->title)) {
-          if((topic->pages > 1) && !(command_type & HTML_ACCESS)) sprintf(scratch_return_string," %s \016&nbsp;\016(Page %d of %d)...",decompress(topic->title),page,topic->pages);
+          if(topic->pages > 1) sprintf(scratch_return_string," %s (Page %d of %d)...",decompress(topic->title),page,topic->pages);
              else sprintf(scratch_return_string," %s...",decompress(topic->title));
           substitute(d->player,scratch_buffer,scratch_return_string,0,ANSI_LYELLOW,NULL,0);
-       } else if((topic->pages > 1) && !(command_type & HTML_ACCESS)) sprintf(scratch_buffer,ANSI_LYELLOW" %s on '"ANSI_LWHITE"%s"ANSI_LYELLOW"' (Page %d of %d)...",(help) ? "Help":"Tutorial",String(topicname),page,topic->pages);
-          else sprintf(scratch_buffer,ANSI_LYELLOW" %s on '"ANSI_LWHITE"%s"ANSI_LYELLOW"'...",(help) ? "Help":"Tutorial",String(topicname));
-       output(d,d->player,2,1,1,"%s%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=5><I>\016":"",scratch_buffer,IsHtml(d) ? "\016</I></FONT></TH></TR>\016":"\n");
+       } else if(topic->pages > 1) sprintf(scratch_buffer,ANSI_LYELLOW" %s on '"ANSI_LWHITE"%s"ANSI_LYELLOW"' (Page %d of %d)...",(help) ? "Help":"Tutorial",String(topicname),page,topic->pages);
+         else sprintf(scratch_buffer,ANSI_LYELLOW" %s on '"ANSI_LWHITE"%s"ANSI_LYELLOW"'...",(help) ? "Help":"Tutorial",String(topicname));
+       output(d, d->player, 2, 1, 1, "%s\n", scratch_buffer);
 
-       if(!IsHtml(d)) {
-          sprintf(scratch_buffer,separator(twidth,0,'-','-'));
-          if(topic->flags & HELP_TUTORIAL)
-             strcpy(scratch_buffer + strlen(scratch_buffer) - 22,"["ANSI_LCYAN""ANSI_UNDERLINE"TUTORIAL AVAILABLE\016"ANSI_DCYAN"]--");
-          output(d,d->player,0,1,0,"%s",scratch_buffer);
-       } else output(d,d->player,1,2,0,(command_type & HTML_ACCESS) ? "</TABLE><BR>":"<TR><TD ALIGN=LEFT>");
+       sprintf(scratch_buffer,separator(twidth,0,'-','-'));
+       if(topic->flags & HELP_TUTORIAL)
+          strcpy(scratch_buffer + strlen(scratch_buffer) - 22,"["ANSI_LCYAN""ANSI_UNDERLINE"TUTORIAL AVAILABLE"ANSI_DCYAN"]--");
+       output(d,d->player,0,1,0,"%s",scratch_buffer);
 
        /* ---->  Format help text  <---- */
-       do {
-          subst.cur_bg = ANSI_IBLACK, subst.textflags = 0, subst.flags = 0;
-          strcpy(subst.cur_ansi,ANSI_LWHITE);
-          command_type |= LARGE_SUBSTITUTION;
-          p1 = decompress(helppage->text);
-          if(!Blank(p1)) {
-             while(*p1) {
-                   p2 = scratch_return_string;
-                   while(*p1 && (*p1 != '\n')) {
-                         if(!strncasecmp(p1," <-SEPARATOR->",14) || !strncasecmp(p1," <-SINGLE->",11)) {
+       subst.cur_bg = ANSI_IBLACK, subst.textflags = 0, subst.flags = 0;
+       strcpy(subst.cur_ansi,ANSI_LWHITE);
+       command_type |= LARGE_SUBSTITUTION;
+       p1 = decompress(helppage->text);
+       if(!Blank(p1)) {
+          while(*p1) {
+                p2 = scratch_return_string;
+                while(*p1 && (*p1 != '\n')) {
+                      if(!strncasecmp(p1," <-SEPARATOR->",14) || !strncasecmp(p1," <-SINGLE->",11)) {
 
-                            /* ---->  Insert separating line ('-----')?  <---- */
-                            if(!IsHtml(d)) {
-                               *p2++ = '%', *p2++ = 'c';
-                               for(loop = 0; loop < twidth; loop++) *p2++ = '-';
-                               *p2++ = '%', *p2++ = 'x';
-                               while(*p1 && (*p1 != '\n')) p1++;
-  			    } else {
-                               if(command_type & HTML_ACCESS) strcpy(p2,"\016<HR>\016%x"), p2 += 8;
-                                  else strcpy(p2,"\016</TD></TR><TR><TD ALIGN=LEFT>\016%x"), p2 += 33;
-                               while(*p1 && (*p1 != '\n')) p1++;
-                               if(*p1 && (*p1 == '\n')) p1++;
-			    }
-			 } else if(!strncasecmp(p1," <-DOUBLE->",11)) {
+                         /* ---->  Insert separating line ('-----')?  <---- */
+                         *p2++ = '%', *p2++ = 'c';
+                         for(loop = 0; loop < twidth; loop++) *p2++ = '-';
+                         *p2++ = '%', *p2++ = 'x';
+                         while(*p1 && (*p1 != '\n')) p1++;
+                      } else if(!strncasecmp(p1," <-DOUBLE->",11)) {
 
-                            /* ---->  Insert separating double line ('=====')?  <---- */
-                            if(!IsHtml(d)) {
-                               *p2++ = '%', *p2++ = 'c';
-                               for(loop = 0; loop < twidth; loop++) *p2++ = '=';
-                               *p2++ = '%', *p2++ = 'x';
-                               while(*p1 && (*p1 != '\n')) p1++;
-			    } else {
-                               if(command_type & HTML_ACCESS) strcpy(p2,"\016<HR>\016%x"), p2 += 8;
-                                  else strcpy(p2,"\016</TD></TR><TR><TD ALIGN=LEFT>\016%x"), p2 += 33;
-                               while(*p1 && (*p1 != '\n')) p1++;
-                               if(*p1 && (*p1 == '\n')) p1++;
-			    }
-			 } else while(*p1 && (*p1 != '\n')) *p2++ = *p1++;
-		   }
-                   if(*p1) for(p1++; *p1 && (*p1 == '\n'); *p2++ = *p1++);
-                   *p2 = '\0';
+                         /* ---->  Insert separating double line ('=====')?  <---- */
+                         *p2++ = '%', *p2++ = 'c';
+                         for(loop = 0; loop < twidth; loop++) *p2++ = '=';
+                         *p2++ = '%', *p2++ = 'x';
+                         while(*p1 && (*p1 != '\n')) p1++;
+		       } else while(*p1 && (*p1 != '\n')) *p2++ = *p1++;
+		}
+                if(*p1) for(p1++; *p1 && (*p1 == '\n'); *p2++ = *p1++);
+                *p2 = '\0';
 
-                   substitute(d->player,scratch_buffer,scratch_return_string,0,ANSI_LWHITE,&subst,0);
-                   if(!((p2 = (char *) strchr(scratch_buffer,'\x06')) && !((p2 > scratch_buffer) && (*(p2 - 1) == '\x05')))) output(d,d->player,0,1,0,"%s",scratch_buffer);
- 	     }
-             command_type &= ~LARGE_SUBSTITUTION;
-             output(d,d->player,2,1,0,"");
-	  }
+                substitute(d->player,scratch_buffer,scratch_return_string,0,ANSI_LWHITE,&subst,0);
+                if(!((p2 = (char *) strchr(scratch_buffer,'\x06')) && !((p2 > scratch_buffer) && (*(p2 - 1) == '\x05')))) output(d,d->player,0,1,0,"%s",scratch_buffer);
+ 	  }
+          command_type &= ~LARGE_SUBSTITUTION;
+          output(d,d->player,2,1,0,"");
+    }
 
-          if(command_type & HTML_ACCESS) {
-             helppage = helppage->next;
-             if(helppage) output(d,d->player,0,1,0,"");
-	  }
-       } while((command_type & HTML_ACCESS) && helppage);
-
-       if(command_type & HTML_ACCESS) output(d,d->player,1,2,0,"<BR><TABLE WIDTH=100%% BORDER CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">");
-       if(!IsHtml(d)) {
-          if((topic->pages > 1) && (page < topic->pages) && !Blank(topicname)) {
-             output(d,d->player,0,1,0,(char *) separator(twidth,0,'-','-'));
-             sprintf(scratch_return_string," Type '%%g%%l%%%cnext%%>%%x' (Or '%%g%%l%%%c%s %d%%>%%x') to see the next page...",(help) ? '<':'+',(help) ? '<':'+',String(topicname),page + 1);
-             output(d,d->player,0,1,0,"%s",substitute(d->player,scratch_buffer,scratch_return_string,0,ANSI_LWHITE,NULL,0));
-	  }
-          output(d,d->player,0,1,0,separator(twidth,1,'-','='));
-       } else output(d,d->player,1,2,0,"</TD></TR><TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY">%s</TD></TR></TABLE>%s",help_buttons(d,topic,page,connected,help,scratch_return_string),(connected) ? "<BR>":"");
+       if((topic->pages > 1) && (page < topic->pages) && !Blank(topicname)) {
+          output(d,d->player,0,1,0,(char *) separator(twidth,0,'-','-'));
+          sprintf(scratch_return_string," Type '%%g%%l%%u%s next%%x' (Or '%%g%%l%%u%s %s %d%%x') to see the next page...",(help) ? "help":"tutorial",(help) ? "help":"tutorial",String(topicname),page + 1);
+          output(d,d->player,0,1,0,"%s",substitute(d->player,scratch_buffer,scratch_return_string,0,ANSI_LWHITE,NULL,0));
+       }
+       output(d,d->player,0,1,0,separator(twidth,1,'-','='));
        return(1);
     } else return(0);
 }
@@ -586,67 +528,6 @@ struct helptopic *help_match_topic(const char *topic,int help)
      }
 
      return((pnearest) ? pnearest:inearest);   
-}
-
-/* ---->  Search on-line help and display results (HTML)  <---- */
-void help_search(struct descriptor_data *d,char *topic,int page,int help)
-{
-     int  copied,nolocal = 0;
-     char buffer[TEXT_SIZE];
-
-     output(d,NOTHING,1,0,0,"<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY"><TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><FONT SIZE=4 COLOR="HTML_LGREEN"><I>%s On-line %s</I></FONT></TD></TR><TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY">%s</TD></TR>",tcz_full_name,(help) ? "Help System":"Tutorials",help_buttons(d,NULL,0,0,help,buffer));
-     if(!Blank(topic)) {
-        int    offset = ((page * (HTML_MATCHES - 1)) + 1),matches = 0;
-        struct helptopic *search,*local,*generic,*ptr;
-
-        /* ---->  Perform search  <---- */
-        if(strlen(topic) > 128) topic[128] = '\0';
-        strcpy(buffer,help_topic_filter(topic));
-        strcpy(topic,buffer);
-        output(d,NOTHING,1,0,0,"<TR><TH BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=5 COLOR="HTML_LYELLOW"><I>Results of search for '<FONT COLOR=%s>%s</FONT>'...</I></FONT></TH></TR><TR><TD ALIGN=LEFT BGCOLOR=%s>",(IsHtml(d) && (d->html->flags & HTML_WHITE_AS_BLACK)) ? HTML_DBLACK:HTML_LWHITE,topic,(IsHtml(d) && (d->html->flags & HTML_WHITE_AS_BLACK)) ? HTML_TABLE_WHITE:HTML_TABLE_BLACK);
-        if(page > 0) output(d,NOTHING,1,0,0,"<CENTER><FONT SIZE=2><I>&nbsp;<BR><A HREF=\"%sTOPIC=%s&PAGE=%d&SEARCHMODE=%s&%s\" TITLE=\"Click to view previous page of search results...\">(Previous page of results)</A></I></FONT></CENTER><P>",html_server_url(d,0,2,"search"),html_encode(topic,buffer,&copied,128),page - 1,(help) ? "HELP":"TUTORIALS",html_get_preferences(d));
-
-        if((totalentries > 0) && ((help) ? (generichelp || localhelp):(generictutorials || localtutorials))) {
-           local   = (help) ? localhelp:localtutorials;
-           generic = (help) ? generichelp:generictutorials;
-           if(!local) local = generic, generic = NULL, nolocal = 1;
-           for(ptr = local; ptr; ptr->flags &= ~HELP_MATCHED, ptr = (ptr->next) ? ptr->next:generic)
-               if(ptr == generic) generic = NULL;
-
-           if(!nolocal) generic = (help) ? generichelp:generictutorials;
-           for(search = local; search; search = (search->next) ? search->next:generic) {
-               if(!Blank(search->topicname) && !(search->flags & HELP_MATCHED) && instring(topic,search->topicname) && (matches < (HTML_MATCHES + 1))) {
-                  if(offset) offset--;
-                  for(ptr = search; ptr; ptr = ptr->next)
-                      if((ptr->title == search->title) || (ptr->page == search->page))
-                         ptr->flags |= HELP_MATCHED;
-
-                  if(!offset) {
-                     if(matches < HTML_MATCHES) {
-                        if(!matches) output(d,NOTHING,1,0,0,"%s<UL>",(page > 0) ? "":"&nbsp;<BR>");
-                        if(search->title) output(d,NOTHING,2,0,0,"\016<LI><A HREF=\"%sTOPIC=%s&%s\">\016%s...\016</A>\016",html_server_url(d,0,2,(help) ? "help":"tutorial"),html_encode(search->topicname,buffer,&copied,128),html_get_preferences(d),substitute(Validchar(maint_owner) ? maint_owner:ROOT,scratch_return_string,decompress(search->title),0,ANSI_LCYAN,NULL,0));
-                           else output(d,NOTHING,2,0,0,"\016<LI><A HREF=\"%sTOPIC=%s&%s\">\016%s on '%s'...\016</A>\016",html_server_url(d,0,2,(help) ? "help":"tutorial"),html_encode(search->topicname,buffer,&copied,128),html_get_preferences(d),(help) ? "Help":"Tutorial",search->topicname);
-                        matches++;
-		     } else matches++;
-		  }
-	       }
-               if(search == generic) generic = NULL;
-	   }
-	}
-
-        if(matches > HTML_MATCHES) {
-           output(d,NOTHING,1,0,0,"</UL><P><CENTER><FONT SIZE=2><I><A HREF=\"%sTOPIC=%s&PAGE=%d&SEARCHMODE=%s&%s\" TITLE=\"Click to view next page of search results...\">(Next page of results)</A></I><BR>&nbsp;</FONT></CENTER>",html_server_url(d,0,2,"search"),html_encode(topic,buffer,&copied,128),page + 1,(help) ? "HELP":"TUTORIALS",html_get_preferences(d));
-	} else if(!matches) {
-           output(d,NOTHING,1,0,0,"<CENTER><FONT SIZE=5 COLOR="HTML_LRED">&nbsp;<BR><B>No matching help topics found.</B><BR>&nbsp;</FONT></CENTER><P>");
-	} else output(d,NOTHING,1,0,0,"</UL><BR>&nbsp;");
-        output(d,NOTHING,1,0,0,"</TD></TR>");
-     } else output(d,NOTHING,1,0,0,"<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=5 COLOR="HTML_LYELLOW"><I>On-line %s Search Facility</I></FONT></TH></TR>",(help) ? "Help System":"Tutorials");
-
-     /* ---->  Search form  <---- */
-     output(d,NOTHING,1,0,0,"<TR><TD BGCOLOR="HTML_TABLE_MGREY"><FORM NAME=SEARCHFORM METHOD=POST ACTION=\"%s\"><INPUT NAME=DATA TYPE=HIDDEN VALUE=SEARCH><INPUT NAME=ID TYPE=HIDDEN VALUE=%08X><CENTER><TABLE CELLPADDING=0><TR><TD><B><FONT COLOR="HTML_LMAGENTA">Please enter topic/subject/command to search for:</FONT></B><BR>",html_server_url(d,0,0,NULL),IsHtml(d) ? d->html->identifier:0);
-     output(d,NOTHING,1,0,0,"<INPUT NAME=TOPIC TYPE=TEXT SIZE=60 MAXLENGTH=128 VALUE=\"%s\"> &nbsp; &nbsp; <INPUT TYPE=SUBMIT VALUE=\"Search...\"></TD></TR></TABLE>",html_encode_basic(String(topic),buffer,&copied,128));
-     output(d,NOTHING,1,0,0,"<I><B><FONT COLOR="HTML_LGREEN">Search:</FONT></B> &nbsp; &nbsp; <FONT COLOR="HTML_LCYAN"><INPUT NAME=SEARCHMODE TYPE=RADIO VALUE=HELP%s> &nbsp; On-line Help. &nbsp; &nbsp; <INPUT NAME=SEARCHMODE TYPE=RADIO VALUE=TUTORIAL%s> &nbsp; Tutorials.</FONT></I></CENTER></TD></TR></FORM>",(help) ? " CHECKED":"",(help) ? "":" CHECKED");
-     output(d,NOTHING,1,0,0,"<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY">%s</TD></TR></TABLE></BODY></HTML>",help_buttons(d,NULL,0,0,help,buffer));
 }
 
 /* ---->  Return pointer to random title screen  <---- */
@@ -876,7 +757,7 @@ void help_main(CONTEXT)
         for(p = descriptor_list; p && (p->player != NOBODY); p = p->next);
         player = NOTHING;
         if(!p) return;
-        if(!IsHtml(p)) p->player = NOTHING;
+        p->player = NOTHING;
      }
 
      /* ---->  Next/previous page of help topic?  <---- */

@@ -265,7 +265,6 @@ struct search_data search_flagtype2[] =
        {"FriendsChat",       FRIENDS_CHAT,                  0,           SEARCH_NOT_OBJECT},
        {"GoHome",            SENDHOME,                      0,           SEARCH_NOT_CHARACTER},
        {"Home",              SENDHOME,                      0,           SEARCH_NOT_CHARACTER},
-       {"HTML",              HTML,                          0,           SEARCH_NOT_OBJECT},
        {"Immovable",         IMMOVABLE,                     0,           SEARCH_NOT_CHARACTER},
        {"Inheritable",       INHERITABLE,                   0,           0},
        {"LF+CR",             LFTOCR_LFCR,                   LFTOCR_MASK, SEARCH_NOT_OBJECT},

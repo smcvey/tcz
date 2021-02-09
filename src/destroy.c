@@ -1006,39 +1006,34 @@ void destroy_undestroy(CONTEXT)
 	      }
 	   }
 
-           html_anti_reverse(p,1);
            if(!(object_flags & SEARCH_ALL_OBJECTS)) object_flags |= SEARCH_ALL_OBJECTS;
-           if(p && !p->pager && !IsHtml(p) && Validchar(p->player) && More(p->player)) pager_init(p);
-           if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+           if(p && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
            set_conditions(player,0,0,object_flags,owner,arg1,506);
            cached_scrheight                   = db[player].data->player.scrheight;
            db[player].data->player.scrheight -= 6;
            union_initgrouprange((union group_data *) destroy_queue);
 
            if(!in_command) {
-              if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=15%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>#ID:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name, object type and original owner:</I></FONT></TH></TR>\016");
-                 else output(p,player,0,1,0,"\n #ID:         Name, object type and original owner:");
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+              output(p,player,0,1,0,"\n #ID:         Name, object type and original owner:");
+              output(p,player,0,1,0,separator(twidth,0,'-','='));
 	   }
 
            if(grp->distance > 0) {
               while(union_grouprange())
-                    output(p,player,2,1,14,"%s"ANSI_LYELLOW"#%-12d%s"ANSI_LWHITE"%s \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LMAGENTA"%s"ANSI_DCYAN", "ANSI_LGREEN"%s"ANSI_DCYAN")%s",IsHtml(p) ? "\016<TR><TD WIDTH=15% ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW">\016":" ",grp->cunion->destroy.id,IsHtml(p) ? "\016</TD><TD ALIGN=LEFT>\016":"",grp->cunion->destroy.obj.name,names[((grp->cunion->destroy.obj.type))],(Validchar(grp->cunion->destroy.obj.owner)) ? getcname(player,grp->cunion->destroy.obj.owner,1,UPPER|INDEFINITE):"*NO OWNER*",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                    output(p, player, 2, 1, 14, ANSI_LYELLOW " #%-12d" ANSI_LWHITE "%s  " ANSI_DCYAN "(" ANSI_LMAGENTA "%s" ANSI_DCYAN ", " ANSI_LGREEN "%s" ANSI_DCYAN ")\n", grp->cunion->destroy.id, grp->cunion->destroy.obj.name, names[((grp->cunion->destroy.obj.type))], (Validchar(grp->cunion->destroy.obj.owner)) ? getcname(player, grp->cunion->destroy.obj.owner, 1, UPPER|INDEFINITE) : "*NO OWNER*");
 
               if(!in_command) {
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-	         output(p,player,2,1,0,"%sDestroyed objects listed: \016&nbsp;\016 "ANSI_DWHITE"%s\016 &nbsp; &nbsp; \016"ANSI_LWHITE"Queue size: \016&nbsp;\016 "ANSI_DWHITE"%d/%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),destroy_queue_size,DESTROY_QUEUE_SIZE,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
+	         output(p, player, 2, 1, 0, ANSI_LWHITE " Destroyed objects listed:  " ANSI_DWHITE "%s   " ANSI_LWHITE "Queue size:  " ANSI_DWHITE "%d/%d.\n\n", listed_items(scratch_return_string, 1), destroy_queue_size, DESTROY_QUEUE_SIZE);
 	      }
 	   } else {
-              output(p,player,2,1,0,IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; NO DESTROYED OBJECTS FOUND &nbsp; ***</I></TD></TR>\016":ANSI_LCYAN" ***  NO DESTROYED OBJECTS FOUND  ***\n");
+              output(p, player, 2, 1, 0, ANSI_LCYAN " ***  NO DESTROYED OBJECTS FOUND  ***\n");
               if(!in_command) {
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-                 output(p,player,2,1,0,"%sDestroyed objects listed: \016&nbsp;\016 "ANSI_DWHITE"None.\016 &nbsp; &nbsp; \016"ANSI_LWHITE"Queue size: \016&nbsp;\016 "ANSI_DWHITE"%d/%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",destroy_queue_size,DESTROY_QUEUE_SIZE,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
+                 output(p, player, 2, 1, 0, ANSI_LWHITE " Destroyed objects listed:  " ANSI_DWHITE "None.   " ANSI_LWHITE "Queue size:  " ANSI_DWHITE "%d/%d.\n\n", destroy_queue_size, DESTROY_QUEUE_SIZE);
 	      }
 	   }
            db[player].data->player.scrheight = cached_scrheight;
-           if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-           html_anti_reverse(p,0);
            setreturn(OK,COMMAND_SUCC);
 	} else if(!Blank(arg1)) {
            struct   destroy_data *dest,*next,*last = NULL;

@@ -1,7 +1,7 @@
 /*
 
 .-----------------------------------------------------------------------------.
-| The Chatting Zone (TCZ)                            (C) J.P.Boggis 1993-2004 |
+| The Chatting Zone (TCZ)                            (C) J.P.Boggis 1993-2021 |
 | ~~~~~~~~~~~~~~~~~~~~~~~                            ~~~~~~~~~~~~~~~~~~~~~~~~ |
 |---------------------------[ Module Description ]----------------------------|
 | ADMIN.C  -  Implements administrative commands (I.e:  Those only available  |
@@ -166,8 +166,8 @@ void admin_welcome_message(struct descriptor_data *d,unsigned char guest)
 
      if(Validchar(d->player)) {
         wrap_leading = 11;
-        sprintf(buffer1,ANSI_LGREEN"[WELCOME] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" (A new%s user) has just been created from "ANSI_LCYAN"%s"ANSI_LWHITE".  Please type '"ANSI_LGREEN"welcome %s"ANSI_LWHITE"' to welcome them to %s and let them know that you're available to give them help and assistance, should they need it.",Article(d->player,UPPER,INDEFINITE),getcname(NOTHING,d->player,0,0),(guest) ? " guest":"",String(d->hostname),getname(d->player),tcz_full_name);
-        sprintf(buffer2,ANSI_LGREEN"[WELCOME] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" (A new%s user) has just been created.  Please type '"ANSI_LGREEN"welcome %s"ANSI_LWHITE"' to welcome them to %s and let them know that you're available to give them help and assistance, should they need it.",Article(d->player,UPPER,INDEFINITE),getcname(NOTHING,d->player,0,0),(guest) ? " guest":"",getname(d->player),tcz_full_name);
+        sprintf(buffer1,ANSI_LGREEN"[WELCOME]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" (A new%s user) has just been created from "ANSI_LCYAN"%s"ANSI_LWHITE".  Please type '"ANSI_LGREEN"welcome %s"ANSI_LWHITE"' to welcome them to %s and let them know that you're available to give them help and assistance, should they need it.",Article(d->player,UPPER,INDEFINITE),getcname(NOTHING,d->player,0,0),(guest) ? " guest":"",String(d->hostname),getname(d->player),tcz_full_name);
+        sprintf(buffer2,ANSI_LGREEN"[WELCOME]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" (A new%s user) has just been created.  Please type '"ANSI_LGREEN"welcome %s"ANSI_LWHITE"' to welcome them to %s and let them know that you're available to give them help and assistance, should they need it.",Article(d->player,UPPER,INDEFINITE),getcname(NOTHING,d->player,0,0),(guest) ? " guest":"",getname(d->player),tcz_full_name);
         admin_notify_assist(buffer1,buffer2,NOTHING);
         wrap_leading = 0;
      }
@@ -218,10 +218,8 @@ void admin_options(CONTEXT)
               unsigned char cached_dumpstatus = dumpstatus;
 
               /* ---->  Display current option settings  <---- */
-              html_anti_reverse(p,1);
-              if(IsHtml(p)) output(p,player,1,2,0,"<BR><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-              output(p,player,2,1,1,"%s%s Server Administrative Options...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",tcz_short_name,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+              output(p,player,2,1,1,"\n %s Server Administrative Options...\n",tcz_short_name);
+              output(p,player,0,1,0,separator(twidth,0,'-','='));
 
               /* ---->  Database dumping  <---- */
               gettime(numb);
@@ -236,62 +234,62 @@ void admin_options(CONTEXT)
               dumpstatus = cached_dumpstatus;
               if(dumpstatus <= 0) {
                  if(option_dumping(OPTSTATUS))
-                    output(p,player,2,1,30,"%sTime until next dump:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",interval((dumptiming + dumpinterval) - numb,(dumptiming + dumpinterval) - numb,ENTITIES,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-                       else output(p,player,2,1,30,"%sTime until next dump:%s"ANSI_LRED"Disabled.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                    output(p, player, 2, 1, 30, ANSI_LGREEN "       Time until next dump:  " ANSI_LWHITE "%s.\n", interval((dumptiming + dumpinterval) - numb, (dumptiming + dumpinterval) - numb, ENTITIES, 0));
+                       else output(p, player, 2, 1, 30, ANSI_LGREEN "       Time until next dump:  " ANSI_LRED "Disabled.\n");
 	      }
 
               /* ---->  Time left until server shutdown  <---- */
               if(shutdown_counter >= 0) {
                  if((shutdown_timing > 0) && (shutdown_timing <= numb)) numb -= shutdown_timing;
                     else numb = 0;
-                 output(p,player,2,1,30,"%sServer shutdown:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LRED:ANSI_LRED"            ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",interval((shutdown_counter * MINUTE) - numb,(shutdown_counter * MINUTE) - numb,ENTITIES,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                 output(p, player, 2, 1, 30, ANSI_LRED "            Server shutdown:  " ANSI_LWHITE "%s.\n", interval((shutdown_counter * MINUTE) - numb, (shutdown_counter * MINUTE) - numb, ENTITIES, 0));
 	      }
 
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+              output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
               /* ---->  Database dumping options  <---- */
-              output(p,player,2,1,30,"%sDatabase "ANSI_LYELLOW""ANSI_UNDERLINE"dumping"ANSI_LGREEN" interval:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"  ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",interval(dumpinterval,dumpinterval,ENTITIES,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Data"ANSI_LGREEN" dumped per cycle:%s"ANSI_LWHITE"%dkb.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",dumpdatasize / KB,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-              output(p,player,2,1,30,"%sDump "ANSI_LYELLOW""ANSI_UNDERLINE"cycle"ANSI_LGREEN" interval:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"        ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",interval(dumpcycle,dumpcycle,ENTITIES,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LGREEN "  Database " ANSI_LYELLOW ANSI_UNDERLINE "dumping" ANSI_LGREEN " interval:  " ANSI_LWHITE "%s.\n", interval(dumpinterval, dumpinterval, ENTITIES, 0));
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "      " ANSI_UNDERLINE "Data" ANSI_LGREEN " dumped per cycle:  " ANSI_LWHITE "%dkb.\n", dumpdatasize / KB);
+              output(p, player, 2, 1, 30, ANSI_LGREEN "        Dump " ANSI_LYELLOW ANSI_UNDERLINE "cycle" ANSI_LGREEN " interval:  " ANSI_LWHITE "%s.\n", interval(dumpcycle, dumpcycle, ENTITIES, 0));
 
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+              output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
               /* ---->  Maximum connections restrictions  <---- */
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Limit"ANSI_LGREEN" maximum connections:%s"ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LGREEN"\016<B><I>\016Connections\016</I></B>\016 "ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016allowed\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%d"ANSI_LGREEN".%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",(limit_connections) ? "Yes":"No",allowed,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "  " ANSI_UNDERLINE "Limit" ANSI_LGREEN " maximum connections:  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LGREEN "Connections " ANSI_LYELLOW ANSI_UNDERLINE "allowed" ANSI_LGREEN ":  " ANSI_LWHITE "%d" ANSI_LGREEN ".\n", (limit_connections) ? "Yes" : "No", allowed);
 
 #ifdef HOME_ROOMS
 
               /* ---->  {J.P.Boggis 23/07/2000}  Home rooms container  <---- */
               if(Valid(homerooms)) sprintf(scratch_return_string,"#%d",homerooms);
                  else strcpy(scratch_return_string,"Not set");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Home"ANSI_LGREEN" rooms container:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "       " ANSI_UNDERLINE "Home" ANSI_LGREEN " rooms container:  " ANSI_LWHITE "%s.\n", scratch_return_string);
 #endif
 
               /* ---->  Allow user creations/connections  <---- */
-              output(p,player,2,1,30,"%s\016<B><I>\016Allow user\016</I></B>\016 "ANSI_LYELLOW""ANSI_UNDERLINE"creation"ANSI_LGREEN"\016<B><I>\016:\016</I></B>\016%s"ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LGREEN"\016<B><I>\016Allow user\016</I></B>\016 "ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016connections\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN".%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"        ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",(creations) ? (creations == 2) ? "Guests Only":"Yes":"No",(connections) ? "Yes":"No",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LGREEN "        Allow user " ANSI_LYELLOW ANSI_UNDERLINE "creation" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LGREEN "Allow user " ANSI_LYELLOW ANSI_UNDERLINE "connections" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ".\n", (creations) ? (creations == 2) ? "Guests Only" : "Yes" : "No", (connections) ? "Yes" : "No");
 
               /* ---->  Bank access room  <---- */
               if(Valid(bankroom)) sprintf(scratch_return_string,"#%d",bankroom);
                  else strcpy(scratch_return_string,"Not set");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Bank"ANSI_LGREEN" access room:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"           ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "           " ANSI_UNDERLINE "Bank" ANSI_LGREEN " access room:  " ANSI_LWHITE "%s.\n", scratch_return_string);
 
               /* ---->  Mail access room  <---- */
               if(Valid(mailroom)) sprintf(scratch_return_string,"#%d",mailroom);
                  else strcpy(scratch_return_string,"Not set");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Mail"ANSI_LGREEN" access room:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"           ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "           " ANSI_UNDERLINE "Mail" ANSI_LGREEN " access room:  " ANSI_LWHITE "%s.\n", scratch_return_string);
 
               /* ---->  BBS access room  <---- */
               if(Valid(bbsroom)) sprintf(scratch_return_string,"#%d",bbsroom);
                  else strcpy(scratch_return_string,"Not set");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"BBS"ANSI_LGREEN" access room:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"            ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "            " ANSI_UNDERLINE "BBS" ANSI_LGREEN " access room:  " ANSI_LWHITE "%s.\n", scratch_return_string);
 
               /* ---->  Current server time adjustment setting  <---- */
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Time"ANSI_LGREEN" adjustment:%s"ANSI_LWHITE"(%c) %s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"            ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",(timeadjust < 0) ? '-':'+',interval(abs(timeadjust),0,ENTITIES,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "            " ANSI_UNDERLINE "Time" ANSI_LGREEN " adjustment:  " ANSI_LWHITE "(%c) %s.\n", (timeadjust < 0) ? '-' : '+', interval(abs(timeadjust), 0, ENTITIES, 0));
 
               /* ---->  Global aliases owner  <---- */
               if(Validchar(aliases)) sprintf(scratch_return_string,"%s(#%d)",getname(aliases),aliases);
                  else strcpy(scratch_return_string,"Not set");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Global"ANSI_LGREEN" aliases:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"             ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "             " ANSI_UNDERLINE "Global" ANSI_LGREEN " aliases:  " ANSI_LWHITE "%s.\n", scratch_return_string);
 
               /* ---->  Character/object maintenance  <---- */
               if(maint_morons) sprintf(scratch_return_string,"%d",maint_morons);
@@ -306,12 +304,8 @@ void admin_options(CONTEXT)
                  else strcpy(scratch_return_string + 400,"Off");
               if(maint_junk) sprintf(scratch_return_string + 500,"%d",maint_junk);
                  else strcpy(scratch_return_string + 500,"Off");
-              output(p,player,2,1,30,"%s"ANSI_UNDERLINE"Maintenance"ANSI_LGREEN":%s"ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Owner\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s(#%d)"ANSI_LGREEN".\n"
-                    ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Morons\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Newbies\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Mortals\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Builders\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Objects\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN", \016&nbsp;\016"ANSI_LYELLOW""ANSI_UNDERLINE"\016<B><I>\016Junk\016</I></B>\016"ANSI_LGREEN"\016<B><I>\016:\016</I></B> &nbsp;\016 "ANSI_LWHITE"%s"ANSI_LGREEN".%s",
-                    IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT VALIGN=TOP WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",(maintenance) ? "On":"Off",getname(maint_owner),maint_owner,scratch_return_string,scratch_return_string + 300,scratch_return_string + 100,scratch_return_string + 200,scratch_return_string + 400,scratch_return_string + 500,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,1,'-','='));
-                 else output(p,player,1,2,0,"</TABLE><BR>");
-              html_anti_reverse(p,0);
+              output(p, player, 2, 1, 30, ANSI_LYELLOW "                " ANSI_UNDERLINE "Maintenance" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LYELLOW ANSI_UNDERLINE "Owner" ANSI_LGREEN ":  " ANSI_LWHITE "%s(#%d)" ANSI_LGREEN ".\n" ANSI_LYELLOW ANSI_UNDERLINE "Morons" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LYELLOW ANSI_UNDERLINE "Newbies" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LYELLOW ANSI_UNDERLINE "Mortals" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LYELLOW ANSI_UNDERLINE "Builders" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LYELLOW ANSI_UNDERLINE "Objects" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ", " ANSI_LYELLOW ANSI_UNDERLINE "Junk" ANSI_LGREEN ":  " ANSI_LWHITE "%s" ANSI_LGREEN ".\n", (maintenance) ? "On" : "Off", getname(maint_owner), maint_owner, scratch_return_string, scratch_return_string + 300, scratch_return_string + 100, scratch_return_string + 200, scratch_return_string + 400, scratch_return_string + 500);
+              output(p,player,0,1,0,separator(twidth,1,'-','='));
               setreturn(OK,COMMAND_SUCC);
 	   } else if(string_prefix("options",gettextfield(1,' ',arg1,0,scratch_return_string))) {
 
@@ -671,20 +665,14 @@ void admin_options(CONTEXT)
 void admin_list_all(struct descriptor_data *p,dbref player)
 {
      int   twidth = output_terminal_width(player),admin = 0,retired = 0,experienced = 0,assistants = 0;
-     char  buffer[BUFFER_LEN],buffer2[BUFFER_LEN];
+     char  buffer[BUFFER_LEN];
      int   count,header = 0;
      dbref loop;
 
      /* ---->  List all Admin (In short list)  <---- */
-     html_anti_reverse(p,1);
-     if(Validchar(player) && !in_command && p && !IsHtml(p) && !p->pager && More(player)) pager_init(p);
-     if(IsHtml(p)) {
-	output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">",(in_command || !Validchar(player)) ? "":"<BR>");
-	output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=5><I>Administrators, Experienced Builders and Assistants of %s...</I></FONT></TH></TR>\016",tcz_full_name);
-     } else {
-	output(p,player,0,1,1,ANSI_LCYAN"\n Administrators, Experienced Builders and Assistants of %s...",tcz_full_name);
-	output(p,player,0,1,0,separator(twidth,0,'-','='));
-     }
+     if(Validchar(player) && !in_command && p && !p->pager && More(player)) pager_init(p);
+     output(p,player,0,1,1,ANSI_LCYAN"\n Administrators, Experienced Builders and Assistants of %s...",tcz_full_name);
+     output(p,player,0,1,0,separator(twidth,0,'-','='));
 
      /* ---->  Deities  <---- */
      for(loop = 0, count = 0; loop < db_top; loop++)
@@ -693,16 +681,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','=')), header = 1;
-	output(p,player,2,1,1,"%s"DEITY_COLOUR"Deities ("ANSI_LWHITE"%d"DEITY_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_MAGENTA"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_DMAGENTA"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','=')), header = 1;
+	output(p, player, 2, 1, 1, DEITY_COLOUR " Deities (" ANSI_LWHITE "%d" DEITY_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_DMAGENTA"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level1(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"DEITY_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:DEITY_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,DEITY_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -715,16 +702,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"ELDER_COLOUR"Elder Wizards ("ANSI_LWHITE"%d"ELDER_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_GREEN"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_DGREEN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, ELDER_COLOUR " Elder Wizards (" ANSI_LWHITE "%d" ELDER_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_DGREEN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level2(loop) && !Level1(loop) && !Druid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"ELDER_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:ELDER_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,ELDER_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -737,16 +723,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"ELDER_DRUID_COLOUR"Elder Druids ("ANSI_LWHITE"%d"ELDER_DRUID_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_GREEN"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_LGREEN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, ELDER_DRUID_COLOUR " Elder Druids (" ANSI_LWHITE "%d" ELDER_DRUID_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_LGREEN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level2(loop) && !Level1(loop) && Druid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"ELDER_DRUID_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:ELDER_DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,ELDER_DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -759,16 +744,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"WIZARD_COLOUR"Wizards ("ANSI_LWHITE"%d"WIZARD_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_DCYAN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, WIZARD_COLOUR " Wizards (" ANSI_LWHITE "%d" WIZARD_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_DCYAN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level3(loop) && !Level2(loop) && !Druid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"WIZARD_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:WIZARD_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,WIZARD_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -781,16 +765,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"DRUID_COLOUR"Druids ("ANSI_LWHITE"%d"DRUID_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_LCYAN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, DRUID_COLOUR " Druids (" ANSI_LWHITE "%d" DRUID_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_LCYAN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level3(loop) && !Level2(loop) && Druid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"DRUID_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -803,16 +786,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"APPRENTICE_COLOUR"Apprentice Wizards ("ANSI_LWHITE"%d"APPRENTICE_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_DYELLOW"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, APPRENTICE_COLOUR " Apprentice Wizards (" ANSI_LWHITE "%d" APPRENTICE_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_DYELLOW"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level4(loop) && !Level3(loop) && !Druid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"APPRENTICE_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:APPRENTICE_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,APPRENTICE_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -825,16 +807,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	admin += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"APPRENTICE_DRUID_COLOUR"Apprentice Druids ("ANSI_LWHITE"%d"APPRENTICE_DRUID_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_LYELLOW"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, APPRENTICE_DRUID_COLOUR " Apprentice Druids (" ANSI_LWHITE "%d" APPRENTICE_DRUID_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_LYELLOW"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Level4(loop) && !Level3(loop) && Druid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"APPRENTICE_DRUID_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:APPRENTICE_DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,APPRENTICE_DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -847,16 +828,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	retired += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"RETIRED_COLOUR"Retired Wizards ("ANSI_LWHITE"%d"RETIRED_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_RED"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, RETIRED_COLOUR " Retired Wizards (" ANSI_LWHITE "%d" RETIRED_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && RetiredWizard(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"RETIRED_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:RETIRED_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,RETIRED_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -869,16 +849,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	retired += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"RETIRED_DRUID_COLOUR"Retired Druids ("ANSI_LWHITE"%d"RETIRED_DRUID_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_RED"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_LRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, RETIRED_DRUID_COLOUR " Retired Druids (" ANSI_LWHITE "%d" RETIRED_DRUID_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_LRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && RetiredDruid(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"RETIRED_DRUID_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:RETIRED_DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,RETIRED_DRUID_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -891,16 +870,15 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	experienced += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"EXPERIENCED_COLOUR"Experienced Builders ("ANSI_LWHITE"%d"EXPERIENCED_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_RED"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, EXPERIENCED_COLOUR " Experienced Builders (" ANSI_LWHITE "%d" EXPERIENCED_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Experienced(loop) && !Level4(loop) && !Retired(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"EXPERIENCED_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:EXPERIENCED_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,EXPERIENCED_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
@@ -913,26 +891,22 @@ void admin_list_all(struct descriptor_data *p,dbref player)
 
      if(count) {
 	assistants += count;
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
-	output(p,player,2,1,1,"%s"ASSISTANT_COLOUR"Assistants ("ANSI_LWHITE"%d"ASSISTANT_COLOUR")...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_RED"><FONT SIZE=4><I>\016":" ",count,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(header++ && !IsHtml(p)) output(p,player,0,1,0,ANSI_LRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
+	if(header++) output(p,player,0,1,0,separator(twidth,0,'=','='));
+	output(p, player, 2, 1, 1, ASSISTANT_COLOUR " Assistants (" ANSI_LWHITE "%d" ASSISTANT_COLOUR ")...\n", count);
+	if(header++) output(p,player,0,1,0,ANSI_LRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN)), header = 1;
 	output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,0,NULL,scratch_return_string);
 
 	for(loop = 0, count = 0; loop < db_top; loop++)
 	    if((Typeof(loop) == TYPE_CHARACTER) && !Being(loop) && Assistant(loop) && !Level4(loop) && (Controller(loop) == loop)) {
-	       if(IsHtml(p)) sprintf(scratch_buffer,"\016<A HREF=\"%sNAME=*%s&\" TARGET=_blank TITLE=\"Click to scan user...\">\016"ASSISTANT_COLOUR"%s\016</A>\016",html_server_url(p,0,1,"scan"),html_encode(getname(loop),buffer,NULL,sizeof(buffer)),getname_prefix(loop,20,buffer2));
-		  else strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
-	       output_columns(p,player,scratch_buffer,IsHtml(p) ? NULL:ASSISTANT_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
+               strcpy(scratch_buffer,getname_prefix(loop,20,buffer));
+	       output_columns(p,player,scratch_buffer,ASSISTANT_COLOUR,0,1,20,2,0,1,DEFAULT,0,NULL,scratch_return_string);
 	    }
 
 	output_columns(p,player,NULL,NULL,0,1,20,2,0,1,LAST,0,NULL,scratch_return_string);
      }
 
-     if(!IsHtml(p))
-	output(p,player,0,1,0,separator(twidth,0,'-','='));
-     output(p,player,2,1,1,"%sTotal Admin: \016&nbsp;\016 "ANSI_DWHITE"%d. \016&nbsp;\016 "EXPERIENCED_COLOUR"Retired Admin: \016&nbsp;\016 "ANSI_DWHITE"%d. \016&nbsp;\016 "EXPERIENCED_COLOUR"Exp. Builders:"ANSI_DWHITE" \016&nbsp;\016 %d. \016&nbsp;\016 "ASSISTANT_COLOUR"Assistants:"ANSI_DWHITE" \016&nbsp;\016 %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_RED"><B>\016"ANSI_LWHITE:ANSI_LWHITE" ",admin,retired,experienced,assistants,IsHtml(p) ? "\016</B></TH></TR>\016":"\n\n");
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(in_command || !Validchar(player)) ? "":"<BR>");
-     html_anti_reverse(p,0);
+     output(p,player,0,1,0,separator(twidth,0,'-','='));
+     output(p, player, 2, 1, 1, ANSI_LWHITE " Total Admin:  " ANSI_DWHITE "%d.  " EXPERIENCED_COLOUR "Retired Admin:  " ANSI_DWHITE "%d.  " EXPERIENCED_COLOUR "Exp. Builders:" ANSI_DWHITE "  %d.  " ASSISTANT_COLOUR "Assistants:" ANSI_DWHITE "  %d.\n\n", admin, retired, experienced, assistants);
 }
 
 /* ---->  List current Admin/connected Admin (Available to Mortals)  <---- */
@@ -1050,7 +1024,7 @@ void admin_assist(CONTEXT)
                                        if(islower(*ptr)) *ptr = toupper(*ptr);
 
                                    output(d,d->player,0,1,0,"");
-                                   output(d,d->player,0,1,10,ANSI_LRED"[ASSIST] \016&nbsp;\016 "ANSI_LYELLOW"%s"ANSI_LWHITE"%s"ANSI_LYELLOW" offers you %s help (Type "ANSI_LGREEN"TELL %s = YOUR MESSAGE"ANSI_LYELLOW" to reply)...\n",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),Possessive(player,LOWER),scratch_return_string);
+                                   output(d,d->player,0,1,10,ANSI_LRED"[ASSIST]  "ANSI_LYELLOW"%s"ANSI_LWHITE"%s"ANSI_LYELLOW" offers you %s help (Type "ANSI_LGREEN"TELL %s = YOUR MESSAGE"ANSI_LYELLOW" to reply)...\n",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),Possessive(player,LOWER),scratch_return_string);
                                    sprintf(scratch_return_string,"*%s",getname(d->player));                                
                                    pagetell_send(player,NULL,NULL,scratch_return_string,arg2,1,0);
 
@@ -1061,7 +1035,7 @@ void admin_assist(CONTEXT)
 
                                       /* ---->  Notify appropriate Admin that user has been given assistance  <---- */
                                       wrap_leading = 10;
-                                      sprintf(scratch_buffer,ANSI_LGREEN"[ASSIST] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" responds to ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+                                      sprintf(scratch_buffer,ANSI_LGREEN"[ASSIST]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" responds to ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                                       sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LYELLOW"%s"ANSI_LWHITE"'s request for assistance.",Article(d->player,LOWER,INDEFINITE),getcname(NOTHING,d->player,0,0));
                                       admin_notify_assist(scratch_buffer,NULL,player);
                                       wrap_leading = 0;
@@ -1092,7 +1066,7 @@ void admin_assist(CONTEXT)
 
                                    /* ---->  Notify user being given assistance  <---- */
                                    output(d,d->player,0,1,0,"");
-                                   output(d,d->player,0,1,10,ANSI_LRED"[ASSIST] \016&nbsp;\016 "ANSI_LYELLOW"%s"ANSI_LWHITE"%s"ANSI_LYELLOW" %sand offers you %s help.\n",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),(db[player].location != cached_loc) ? "enters the room ":"",Possessive(player,LOWER));
+                                   output(d,d->player,0,1,10,ANSI_LRED"[ASSIST]  "ANSI_LYELLOW"%s"ANSI_LWHITE"%s"ANSI_LYELLOW" %sand offers you %s help.\n",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),(db[player].location != cached_loc) ? "enters the room ":"",Possessive(player,LOWER));
 
                                    if(db[player].location != cached_loc) {
 
@@ -1113,7 +1087,7 @@ void admin_assist(CONTEXT)
 
                                    /* ---->  Notify appropriate Admin that user has been given assistance  <---- */
                                    wrap_leading = 10;
-                                   sprintf(scratch_buffer,ANSI_LGREEN"[ASSIST] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" heads off to give ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+                                   sprintf(scratch_buffer,ANSI_LGREEN"[ASSIST]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" heads off to give ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                                    sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" some assistance.",Article(d->player,LOWER,INDEFINITE),getcname(NOTHING,d->player,0,0));
                                    admin_notify_assist(scratch_buffer,NULL,player);
                                    wrap_leading = 0;
@@ -1167,7 +1141,7 @@ void admin_assist(CONTEXT)
                           wrap_leading = 10;
                           if(!Blank(p->assist)) sprintf(scratch_return_string," ('"ANSI_LCYAN"%s"ANSI_LWHITE"')",substitute(player,scratch_buffer,ptr,0,ANSI_LCYAN,NULL,0));
                              else *scratch_return_string = '\0';
-                          sprintf(scratch_buffer,ANSI_LRED"[ASSIST] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" is stuck and needs some assistance from you%s  -  ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
+                          sprintf(scratch_buffer,ANSI_LRED"[ASSIST]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" is stuck and needs some assistance from you%s  -  ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
                           if(!Blank(p->assist)) sprintf(scratch_return_string," ('%s')",ptr);
                              else *scratch_return_string = '\0';
                           if(p->flags & ASSIST) {
@@ -1458,7 +1432,7 @@ void admin_controller(CONTEXT)
 
                                       if(Level4(player)) writelog(ADMIN_LOG,1,"PUPPET","%s(#%d) made %s(#%d) a puppet of %s(#%d).",getname(player),player,getname(character),character,getname(controller),controller);
                                          else writelog(ADMIN_LOG,1,"HACK","Mortal %s(#%d) made %s(#%d) a puppet of %s(#%d) from within compound command %s(#%d) owned by %s(#%d).",getname(player),player,getname(character),character,getname(controller),controller,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
-                                      output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"You're now one of %s"ANSI_LYELLOW"%s"ANSI_LWHITE"'s puppets.",Article(controller,LOWER,INDEFINITE),getcname(NOTHING,controller,0,0));
+                                      output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"You're now one of %s"ANSI_LYELLOW"%s"ANSI_LWHITE"'s puppets.",Article(controller,LOWER,INDEFINITE),getcname(NOTHING,controller,0,0));
                                       db[character].data->player.controller = controller;
                                       db[character].data->player.quotalimit = 0;
                                       setreturn(OK,COMMAND_SUCC);
@@ -1601,7 +1575,7 @@ void admin_force(CONTEXT)
            if(!in_command) {
               output(getdsc(player),player,0,1,0,ANSI_LGREEN"You force %s"ANSI_LWHITE"%s"ANSI_LGREEN" to execute the command '"ANSI_LWHITE"%s"ANSI_LGREEN"'.\n\n"ANSI_DCYAN"[Start of forced character's output...]",Article(character,LOWER,DEFINITE),getcname(NOTHING,character,0,0),arg2);
               if((player != character) && (Controller(character) != player))
-                 output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" forced you to execute the command '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),arg2);
+                 output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" forced you to execute the command '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),arg2);
 	   }
 
            /* ---->  Force character to execute command  <---- */
@@ -1882,11 +1856,11 @@ void admin_monitor(CONTEXT)
                        /* ---->  Inform connected Admin (If non-Mortal is monitored)  <---- */
                        if(!Level4(character)) {
                           if(flags) {
-                             sprintf(scratch_buffer,ANSI_LBLUE"[MONITOR] \016&nbsp;\016 "ANSI_LWHITE"Monitor started on %s"ANSI_LYELLOW"%s"ANSI_LWHITE"%s by ",Article(character,LOWER,INDEFINITE),getcname(NOTHING,character,0,0),(flags & MONITOR_OUTPUT) ? (flags & MONITOR_CMDS) ? " (Commands and output monitored)":" (Output monitored only)":(flags & MONITOR_CMDS) ? " (Commands monitored only)":"");
-                             output_admin(1,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE"%s%s",scratch_buffer,Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),!Blank(reason) ? " \016&nbsp;\016 "ANSI_DBLUE"- \016&nbsp;\016 "ANSI_LBLUE"REASON:  "ANSI_LCYAN:".",!Blank(reason) ? punctuate(reason,1,'.'):"");
+                             sprintf(scratch_buffer,ANSI_LBLUE"[MONITOR]  "ANSI_LWHITE"Monitor started on %s"ANSI_LYELLOW"%s"ANSI_LWHITE"%s by ",Article(character,LOWER,INDEFINITE),getcname(NOTHING,character,0,0),(flags & MONITOR_OUTPUT) ? (flags & MONITOR_CMDS) ? " (Commands and output monitored)":" (Output monitored only)":(flags & MONITOR_CMDS) ? " (Commands monitored only)":"");
+                             output_admin(1,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE"%s%s",scratch_buffer,Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),!Blank(reason) ? "  "ANSI_DBLUE"-  "ANSI_LBLUE"REASON:  "ANSI_LCYAN:".",!Blank(reason) ? punctuate(reason,1,'.'):"");
 			  } else {
-                             sprintf(scratch_buffer,ANSI_LBLUE"[MONITOR] \016&nbsp;\016 "ANSI_LWHITE"Monitor on %s"ANSI_LYELLOW"%s"ANSI_LWHITE" stopped by ",Article(character,LOWER,INDEFINITE),getcname(NOTHING,character,0,0));
-                             output_admin(1,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE"%s%s",scratch_buffer,Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),!Blank(reason) ? " \016&nbsp;\016 "ANSI_DBLUE"- \016&nbsp;\016 "ANSI_LBLUE"REASON:  "ANSI_LCYAN:".",!Blank(reason) ? punctuate(reason,1,'.'):"");
+                             sprintf(scratch_buffer,ANSI_LBLUE"[MONITOR]  "ANSI_LWHITE"Monitor on %s"ANSI_LYELLOW"%s"ANSI_LWHITE" stopped by ",Article(character,LOWER,INDEFINITE),getcname(NOTHING,character,0,0));
+                             output_admin(1,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE"%s%s",scratch_buffer,Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),!Blank(reason) ? "  "ANSI_DBLUE"-  "ANSI_LBLUE"REASON:  "ANSI_LCYAN:".",!Blank(reason) ? punctuate(reason,1,'.'):"");
 			  }
 		       }
 
@@ -1918,28 +1892,28 @@ void admin_chat(CONTEXT)
            if(!Quiet(player)) {
               if(!Level1(player)) {
                  if(Level2(player)) {
-                    if(Druid(player)) title = ELDER_DRUID_COLOUR"[ELDER DRUID] \016&nbsp;\016 ", wrap_leading = 15;
-                       else title = ELDER_COLOUR"[ELDER WIZARD] \016&nbsp;\016 ", wrap_leading = 16;
+                    if(Druid(player)) title = ELDER_DRUID_COLOUR"[ELDER DRUID]  ", wrap_leading = 15;
+                       else title = ELDER_COLOUR"[ELDER WIZARD]  ", wrap_leading = 16;
 		 } else if(Level3(player)) {
-                    if(Druid(player)) title = DRUID_COLOUR"[DRUID] \016&nbsp;\016 ", wrap_leading = 9;
-                       else title = WIZARD_COLOUR"[WIZARD] \016&nbsp;\016 ", wrap_leading = 10;
+                    if(Druid(player)) title = DRUID_COLOUR"[DRUID]  ", wrap_leading = 9;
+                       else title = WIZARD_COLOUR"[WIZARD]  ", wrap_leading = 10;
 		 } else if(Level4(player)) {
-                    if(Druid(player)) title = APPRENTICE_DRUID_COLOUR"[APP. DRUID] \016&nbsp;\016 ", wrap_leading = 14;
-                       else title = APPRENTICE_COLOUR"[APP. WIZARD] \016&nbsp;\016 ", wrap_leading = 15;
+                    if(Druid(player)) title = APPRENTICE_DRUID_COLOUR"[APP. DRUID]  ", wrap_leading = 14;
+                       else title = APPRENTICE_COLOUR"[APP. WIZARD]  ", wrap_leading = 15;
 		 } else if(!Moron(player)) {
                     if(!Retired(player)) {
                        if(!Experienced(player)) {
                           if(!Assistant(player)) {
-         	             if(Builder(player)) title = BUILDER_COLOUR"[BUILDER] \016&nbsp;\016 ", wrap_leading = 11;
-		                else title = MORTAL_COLOUR"[MORTAL] \016&nbsp;\016 ", wrap_leading = 10;
-			  } else title = ASSISTANT_COLOUR"[ASSISTANT] \016&nbsp;\016 ", wrap_leading = 13;
-		       } else title = EXPERIENCED_COLOUR"[EXP. BUILDER] \016&nbsp;\016 ", wrap_leading = 16;
+         	             if(Builder(player)) title = BUILDER_COLOUR"[BUILDER]  ", wrap_leading = 11;
+		                else title = MORTAL_COLOUR"[MORTAL]  ", wrap_leading = 10;
+			  } else title = ASSISTANT_COLOUR"[ASSISTANT]  ", wrap_leading = 13;
+		       } else title = EXPERIENCED_COLOUR"[EXP. BUILDER]  ", wrap_leading = 16;
 		    } else {
-                       if(RetiredDruid(player)) title = RETIRED_DRUID_COLOUR"[RET. DRUID] \016&nbsp;\016 ", wrap_leading = 14;
-                          else title = RETIRED_COLOUR"[RET. WIZARD] \016&nbsp;\016 ", wrap_leading = 15;
+                       if(RetiredDruid(player)) title = RETIRED_DRUID_COLOUR"[RET. DRUID]  ", wrap_leading = 14;
+                          else title = RETIRED_COLOUR"[RET. WIZARD]  ", wrap_leading = 15;
 		    }
-		 } else title = MORON_COLOUR"[MORON] \016&nbsp;\016 ", wrap_leading = 9;
-	      } else title = DEITY_COLOUR"[DEITY] \016&nbsp;\016 ", wrap_leading = 9;
+		 } else title = MORON_COLOUR"[MORON]  ", wrap_leading = 9;
+	      } else title = DEITY_COLOUR"[DEITY]  ", wrap_leading = 9;
 
               strcpy(scratch_return_string,construct_message(player,ANSI_LWHITE,ANSI_DWHITE,"say",'.',-1,PLAYER,params,0,DEFINITE));
               output(getdsc(player),player,0,1,0,"%s%s",title,scratch_return_string);
@@ -1998,7 +1972,7 @@ void admin_newpassword(CONTEXT)
                        db[character].data->player.password = (char *) alloc_string((char *) crypt(scratch_buffer,scratch_buffer) + 2);
 #endif
                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s password changed.",Article(character,UPPER,DEFINITE),getcname(NOTHING,character,0,0));
-                       output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your password.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+                       output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your password.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                        setreturn(OK,COMMAND_SUCC);
 		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a new password for %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(character,LOWER,DEFINITE),getcname(NOTHING,character,0,0));
 		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only change the password of someone who's of a lower level than yourself.");
@@ -2259,7 +2233,7 @@ void admin_shout(CONTEXT)
               if(!in_command) writelog(SHOUT_LOG,1,"SHOUT","%s(#%d) announced '%s'.",getname(player),player,params + 1);
                  else writelog(SHOUT_LOG,1,"SHOUT","%s(#%d) announced '%s' from within compound command %s(#%d) owned %s(#%d).",getname(player),player,params + 1,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
               strcpy(scratch_return_string,construct_message(player,ANSI_LWHITE,ANSI_LWHITE,"",'.',-1,OTHERS,params,0,INDEFINITE));
-              sprintf(scratch_buffer,ANSI_LYELLOW"[ANNOUNCEMENT: \016&nbsp;\016 %s"ANSI_LYELLOW"]",scratch_return_string);
+              sprintf(scratch_buffer,ANSI_LYELLOW"[ANNOUNCEMENT:  %s"ANSI_LYELLOW"]",scratch_return_string);
               for(d = descriptor_list; d; d = d->next)
                   if((d->flags & CONNECTED) && ((d == p) || (!Quiet(d->player) && !Quiet(db[d->player].location))))
                      output(d,d->player,0,1,2,"%s",scratch_buffer);
@@ -2278,7 +2252,7 @@ void admin_shout(CONTEXT)
 
               if(!in_command) writelog(SHOUT_LOG,1,"SHOUT","%s(#%d) broadcasted '%s'.",getname(player),player,params + 1);
                  else writelog(SHOUT_LOG,1,"SHOUT","%s(#%d) broadcasted '%s' from within compound command %s(#%d) owned by %s(#%d).",getname(player),player,params + 1,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
-              sprintf(scratch_buffer,ANSI_LRED"\007[BROADCAST MESSAGE from %s"ANSI_LYELLOW"%s"ANSI_LRED": \016&nbsp;\016 %s"ANSI_LRED"]",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),substitute(player,scratch_return_string,punctuate((char *) params + 1,2,'.'),0,ANSI_LWHITE,NULL,0));
+              sprintf(scratch_buffer,ANSI_LRED"\007[BROADCAST MESSAGE from %s"ANSI_LYELLOW"%s"ANSI_LRED":  %s"ANSI_LRED"]",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),substitute(player,scratch_return_string,punctuate((char *) params + 1,2,'.'),0,ANSI_LWHITE,NULL,0));
               for(d = descriptor_list; d; d = d->next)
                   if(d->flags & CONNECTED)
                      output(d,d->player,0,0,2,"%s",scratch_buffer);
@@ -2313,7 +2287,7 @@ void admin_shutdown(CONTEXT)
                  /* ---->  Cancel shutdown  <---- */
                  if(shutdown_counter >= 0) {
                     writelog(SERVER_LOG,1,"SHUTDOWN","Shutdown cancelled by %s(#%d).",getname(player),player);
-                    output_all(1,1,0,0,"\n\x05\x09\x05\x03"ANSI_LRED"["ANSI_BLINK""ANSI_UNDERLINE"SHUTDOWN"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Shutdown cancelled by %s"ANSI_LYELLOW"%s"ANSI_LWHITE".\n",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0));
+                    output_all(1,1,0,0,"\n\x05\x09\x05\x03"ANSI_LRED"["ANSI_BLINK""ANSI_UNDERLINE"SHUTDOWN"ANSI_LRED"]  "ANSI_LWHITE"Shutdown cancelled by %s"ANSI_LYELLOW"%s"ANSI_LWHITE".\n",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0));
                     FREENULL(shutdown_reason);
                     shutdown_counter = -1;
                     shutdown_who     = NOTHING;
@@ -2442,7 +2416,7 @@ void admin_summon(CONTEXT)
                      if(Validchar(d->player) && (d->player == player))
                         d->summon = NOTHING;
 
-                 output(getdsc(who),who,0,1,10,ANSI_LGREEN"[SUMMON] \016&nbsp;\016 "ANSI_LWHITE"Sorry, %s"ANSI_LYELLOW"%s"ANSI_LWHITE" does not wish to be summoned to your present location.",Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
+                 output(getdsc(who),who,0,1,10,ANSI_LGREEN"[SUMMON]  "ANSI_LWHITE"Sorry, %s"ANSI_LYELLOW"%s"ANSI_LWHITE" does not wish to be summoned to your present location.",Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
                  setreturn(OK,COMMAND_SUCC);
 	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, no one has asked you for permission to be summoned to their present location.");
 	   } else if(!Blank(arg2)) {
@@ -2476,7 +2450,7 @@ void admin_summon(CONTEXT)
                                 if(Validchar(who)) {
 
                                    /* ---->  Request to summon user  <---- */
-                                   sprintf(scratch_buffer,ANSI_LGREEN"[SUMMON] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" requests your permission to be summoned to %s current location ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),Possessive(player,LOWER));
+                                   sprintf(scratch_buffer,ANSI_LGREEN"[SUMMON]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" requests your permission to be summoned to %s current location ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),Possessive(player,LOWER));
                                    output(getdsc(who),who,0,1,10,"%s(%s"ANSI_LCYAN"%s"ANSI_LWHITE")  -  Please type '"ANSI_LGREEN"summon accept"ANSI_LWHITE"' to accept, or '"ANSI_LGREEN"summon refuse"ANSI_LWHITE"' to refuse.",scratch_buffer,Article(db[player].location,UPPER,INDEFINITE),unparse_object(who,db[player].location,0));
                                    output(getdsc(player),player,0,1,0,ANSI_LGREEN"You ask %s"ANSI_LWHITE"%s"ANSI_LGREEN" for permission to be summoned to your current location.",Article(who,LOWER,DEFINITE),getcname(NOTHING,who,0,0));
 
@@ -2514,7 +2488,7 @@ void admin_warn(CONTEXT)
                        if(!Blank(arg2)) {
                           output(getdsc(player),player,0,1,2,ANSI_LGREEN"You issue an official warning to %s"ANSI_LYELLOW"%s"ANSI_LGREEN":  "ANSI_LWHITE"%s%s",Article(character,LOWER,DEFINITE),getcname(NOTHING,character,0,0),substitute(player,scratch_return_string,ptr = punctuate(arg2,2,'.'),0,ANSI_LWHITE,NULL,0),Connected(character) ? "":"\n");
                           if(!Connected(character)) output(getdsc(player),player,0,1,14,ANSI_LCYAN"PLEASE NOTE:  "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" isn't currently connected  -  Please also mail details of %s official warning to %s.\n",Article(character,UPPER,DEFINITE),getcname(NOTHING,character,0,0),Possessive(character,0),Objective(character,0));
-                          output(getdsc(character),character,0,1,0,"\n\x05\x09\x05\x02"ANSI_LRED"\007["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LMAGENTA"This is an "ANSI_LYELLOW""ANSI_UNDERLINE""ANSI_BLINK"OFFICIAL WARNING"ANSI_LMAGENTA" from %s"ANSI_LCYAN"%s"ANSI_LMAGENTA": \016&nbsp;\016 "ANSI_LWHITE"%s\n",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
+                          output(getdsc(character),character,0,1,0,"\n\x05\x09\x05\x02"ANSI_LRED"\007["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LMAGENTA"This is an "ANSI_LYELLOW""ANSI_UNDERLINE""ANSI_BLINK"OFFICIAL WARNING"ANSI_LMAGENTA" from %s"ANSI_LCYAN"%s"ANSI_LMAGENTA":  "ANSI_LWHITE"%s\n",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
                           writelog(WARN_LOG,1,"OFFICIAL WARNING","%s(#%d) issued an official warning to %s(#%d):  %s",getname(player),player,getname(character),character,ptr);
                           setreturn(OK,COMMAND_SUCC);
 		       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What official warning would you like to issue to %s"ANSI_LWHITE"%s"ANSI_LGREEN"?",Article(character,LOWER,DEFINITE),getcname(NOTHING,character,0,0));
@@ -2582,7 +2556,7 @@ void admin_welcome(CONTEXT)
                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"You welcome %s"ANSI_LWHITE"%s"ANSI_LGREEN" to %s.",Article(d->player,LOWER,(who == NOTHING) ? INDEFINITE:DEFINITE),getcname(NOTHING,d->player,0,0),tcz_full_name);
 
                        wrap_leading = 11;
-                       sprintf(scratch_buffer,ANSI_LGREEN"[WELCOME] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" welcomes ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+                       sprintf(scratch_buffer,ANSI_LGREEN"[WELCOME]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" welcomes ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                        sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" to %s.",Article(d->player,LOWER,INDEFINITE),getcname(NOTHING,d->player,0,0),tcz_full_name);
                        admin_notify_assist(scratch_buffer,NULL,player);
                        wrap_leading = 0;

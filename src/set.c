@@ -137,7 +137,7 @@ void set_afk(CONTEXT)
               for(d = descriptor_list; d; d = d->next)
                   if((d->player == player) && (d->flags & CONNECTED) && !d->clevel) {
                      output(d,player,0,1,0,ANSI_LGREEN"\nYou are now AFK (Away From Keyboard)  -  To leave AFK mode, simply enter your password.\n");
-                     output(d,player,0,1,14,"PLEASE NOTE: \016&nbsp;\016 "ANSI_LWHITE"If you idle for more than "ANSI_LYELLOW"%d minute%s"ANSI_LWHITE", you'll still get disconnected.\n",MAX_IDLE_TIME,Plural(MAX_IDLE_TIME));
+                     output(d,player,0,1,14,"PLEASE NOTE:  "ANSI_LWHITE"If you idle for more than "ANSI_LYELLOW"%d minute%s"ANSI_LWHITE", you'll still get disconnected.\n",MAX_IDLE_TIME,Plural(MAX_IDLE_TIME));
                      FREENULL(d->afk_message);
                      d->afk_message =  (char *) alloc_string(params);
                      d->afk_time    =  now;
@@ -213,30 +213,6 @@ void set_cstring(CONTEXT)
 	} else if(Level3(db[player].owner)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only change the contents string of a room/thing which you own or a room/thing owned by someone of a lower level than yourself.");
            else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only change the contents string of a room/thing which you own.");
      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s doesn't have a contents string.",object_type(thing,1));
-}
-
-/* ---->  {J.P.Boggis 24/09/2000}  Set preferred date/time format  <---- */
-void set_datetimeformat(CONTEXT)
-{
-     dbref      character = NOTHING;
-     char       *fmttype,*format;
-     const char *charname = NULL;
-
-     if(!Blank(arg2)) {
-        split_params(arg2,&fmttype,&format);
-        if(Blank(arg1))
-           character = Owner(player);
-              else charname = arg1;
-     } else {
-        character = Owner(player);
-        fmttype   = arg1;
-        format    = arg2;
-     }
-
-     if((character == player) || ((character = lookup_character(player,charname,1)) != NOTHING)) {
-        
-     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the character '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg2);
-     setreturn(ERROR,COMMAND_FAIL);
 }
 
 /* ---->  Set description of object  <---- */
@@ -609,14 +585,11 @@ void set_feeling(CONTEXT)
            for(arg1 += 4; *arg1 && (*arg1 == ' '); arg1++);
         arg1 = (char *) parse_grouprange(player,arg1,FIRST,1);
 
-        if(IsHtml(p)) {
-           html_anti_reverse(p,1);
-           output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">",(in_command) ? "":"<BR>");
-	} else if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+	if(!in_command && p && !p->pager && More(player)) pager_init(p);
 
         if(!in_command) {
-           output(p,player,2,1,1,"%sThe following feelings are available...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 1, "\n The following feelings are available...\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
 	}
 
         output_columns(p,player,NULL,NULL,output_terminal_width(player),1,17,2,0,1,FIRST,9,"***  NO FEELINGS ARE AVAILABLE  ***",scratch_return_string);
@@ -626,16 +599,12 @@ void set_feeling(CONTEXT)
         output_columns(p,player,NULL,NULL,0,1,17,2,0,1,LAST,0,NULL,scratch_return_string);
 
         if(!in_command) {
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
-           output(p,player,2,1,1,"%sTo use one of the above feelings, simply type '"ANSI_LGREEN"@feeling <FEELING>"ANSI_LWHITE"', e.g:  '"ANSI_LGREEN"@feeling happy"ANSI_LWHITE"'.  You can reset your feeling by typing '"ANSI_LGREEN"@feeling reset"ANSI_LWHITE"'.  Type '"ANSI_LGREEN"@feeling list <PAGE>"ANSI_LWHITE"' to show other pages.%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-           output(p,player,2,1,0,"%sFeelings listed: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','-'));
+           output(p, player, 2, 1, 1, ANSI_LWHITE " To use one of the above feelings, simply type '" ANSI_LGREEN "@feeling <FEELING>" ANSI_LWHITE "', e.g:  '" ANSI_LGREEN "@feeling happy" ANSI_LWHITE "'.  You can reset your feeling by typing '" ANSI_LGREEN "@feeling reset" ANSI_LWHITE "'.  Type '" ANSI_LGREEN "@feeling list <PAGE>" ANSI_LWHITE "' to show other pages.\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 0, ANSI_LWHITE " Feelings listed:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
 	}
 
-        if(IsHtml(p)) {
-           output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-           html_anti_reverse(p,0);
-	}
         setreturn(OK,COMMAND_SUCC);
      } else if(!in_command || Wizard(current_command)) {
         if(can_write_to(player,character,0)) {
@@ -646,7 +615,7 @@ void set_feeling(CONTEXT)
                  db[character].data->player.feeling = 0;
                  if(!in_command) {
                     if(player != character) {
-                       output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has reset your feeling.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+                       output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has reset your feeling.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                        output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s feeling has been reset.",Article(character,UPPER,DEFINITE),getcname(player,character,0,0));
 		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Your feeling has been reset.");
 		 }
@@ -659,7 +628,7 @@ void set_feeling(CONTEXT)
                     db[character].data->player.feeling = feelinglist[loop].id;
                     if(!in_command) {
                        if(player != character) {
-                          output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your feeling to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),feelinglist[loop].name);
+                          output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your feeling to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),feelinglist[loop].name);
                           output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s feeling has been changed to '"ANSI_LYELLOW"%s"ANSI_LGREEN"'.",Article(character,UPPER,DEFINITE),getcname(player,character,0,0),feelinglist[loop].name);
 		       } else {
                           strcpy(scratch_return_string,feelinglist[loop].name);
@@ -1489,7 +1458,7 @@ void set_name(CONTEXT)
                              if(p && (thing == player)) p->name_time = (now + NAME_TIME);
 
                              if(thing != player) {
-                                output(getdsc(thing),thing,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your name to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_buffer);
+                                output(getdsc(thing),thing,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your name to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_buffer);
                                 if(Controller(thing) != player) {
                                    writelog(NAME_LOG,1,"NAME CHANGE","%s(#%d) changed %s(#%d)'s name to '%s'.",getname(player),player,getname(thing),thing,scratch_buffer);
                                    if(!Level4(player)) writelog(HACK_LOG,1,"HACK","%s(#%d) changed %s(#%d)'s name to '%s'.",getname(player),player,getname(thing),thing,scratch_buffer);
@@ -1731,7 +1700,7 @@ void set_owner(CONTEXT)
                                             if(!can_write_to(player,thing,0) && (friend_flags(owner,player) & FRIEND_SHARABLE)) db[thing].flags |= SHARABLE;
                                             if(in_command && (owner != db[current_command].owner) && (level_app(owner) >= level_app(db[current_command].owner))) {
                                                writelog(HACK_LOG,1,"HACK","Fuse %s(#%d) (Owned by %s(#%d)) changed to %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)",getname(thing),thing,getname(original_owner),original_owner,getname(owner),owner,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
-                                               sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Fuse "ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(owner,thing,0));
+                                               sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Fuse "ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(owner,thing,0));
                                                sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LYELLOW"%s"ANSI_LWHITE") changed to your ownership within compound command ",Article(original_owner,LOWER,INDEFINITE),getcname(owner,original_owner,1,0));
                                                sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(db[current_command].owner,current_command,0));
                                                output(getdsc(player),player,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)",scratch_buffer,Article(db[current_command].owner,LOWER,INDEFINITE),getcname(owner,db[current_command].owner,1,0));
@@ -1752,7 +1721,7 @@ void set_owner(CONTEXT)
                                             if(!can_write_to(player,thing,0) && (friend_flags(owner,player) & FRIEND_SHARABLE)) db[thing].flags |= SHARABLE;
                                             if(in_command && (owner != db[current_command].owner) && (level_app(owner) >= level_app(db[current_command].owner))) {
                                                writelog(HACK_LOG,1,"HACK","Compound command %s(#%d) (Owned by %s(#%d)) changed to %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)",getname(thing),thing,getname(original_owner),original_owner,getname(owner),owner,getname(current_command),current_command,getname(db[current_command].owner),db[current_command].owner);
-                                               sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Compound command "ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(owner,thing,0));
+                                               sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Compound command "ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(owner,thing,0));
                                                sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LYELLOW"%s"ANSI_LWHITE") changed to your ownership within compound command ",Article(original_owner,LOWER,INDEFINITE),getcname(owner,original_owner,1,0));
                                                sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(db[current_command].owner,current_command,0));
                                                output(getdsc(player),player,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)",scratch_buffer,Article(db[current_command].owner,LOWER,INDEFINITE),getcname(owner,db[current_command].owner,1,0));
@@ -2012,7 +1981,7 @@ void set_prefix(CONTEXT)
 
               if(character != player) {
                  if(!in_command) {
-                    output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your name prefix to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),ptr);
+                    output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your name prefix to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),ptr);
 		    writelog(ADMIN_LOG,1,"PREFIX CHANGE","%s(#%d) changed %s(#%d)'s name prefix to '%s'.",getname(player),player,getname(character),character,ptr);
 		 } else if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","%s(#%d) changed %s(#%d)'s name prefix to '%s' within compound command %s(#%d).",getname(player),player,getname(character),character,ptr,getname(current_command),current_command);
 	      }
@@ -2528,13 +2497,12 @@ void set_race(CONTEXT)
                  if(Level2(db[player].owner) || (strlen(arg2) > 2)) {
                     if(!(!Blank(arg2) && strchr(arg2,'\n'))) {
                        if(!(!Blank(arg2) && instring("%{",arg2))) {
-                          if(!(!Blank(arg2) && instring("%h",arg2))) {
    	                     if(ok_name(arg2)) {
                                 setfield(character,RACE,arg2,1);
                                 if(!in_command) {
                                    strcpy(scratch_buffer,punctuate((char *) substitute(player,scratch_return_string,arg2,0,ANSI_LWHITE,NULL,0),2,'\0'));
                                    if(player != character) {
-                                      if(!in_command) output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your race to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),arg2);
+                                      if(!in_command) output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your race to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),arg2);
                                       *arg2 = toupper(*arg2);
                                       if(Controller(character) != player) {
                                          if(!in_command) writelog(ADMIN_LOG,1,"RACE CHANGE","%s(#%d) changed %s(#%d)'s race to '%s'.",getname(player),player,getname(character),character,arg2);
@@ -2545,7 +2513,6 @@ void set_race(CONTEXT)
 				}
                                 setreturn(OK,COMMAND_SUCC);
 		  	     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that race is invalid.");
-			  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s race can't contain embedded HTML tags.",(character == player) ? "your":"a character's");
 		       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s race can't contain query command substitutions ('"ANSI_LWHITE"%%{<QUERY COMMAND>}"ANSI_LGREEN"'.)",(character == player) ? "your":"a character's");
 		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s race can't contain embedded NEWLINE's.",(character == player) ? "your":"a character's");
 		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, that race is too short  -  It must be at least 3 characters in length.");
@@ -2592,10 +2559,8 @@ void set_screenconfig(CONTEXT)
 
      setreturn(ERROR,COMMAND_FAIL);
      if(p) {
-        if(!IsHtml(p)) {
-           p->clevel = 21;
-           setreturn(OK,COMMAND_SUCC);
-	} else output(p,player,0,1,0,ANSI_LGREEN"Sorry, the '"ANSI_LWHITE"screenconfig"ANSI_LGREEN"' command can't be used with World Wide Web Interface connections (It isn't neccessary.)");
+        p->clevel = 21;
+        setreturn(OK,COMMAND_SUCC);
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you must be connected to use the '"ANSI_LWHITE"screenconfig"ANSI_LGREEN"' command.");
 }
 
@@ -2666,7 +2631,7 @@ void set_suffix(CONTEXT)
 	      }
 
               if(character != player) {
-                 if(!in_command) output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your name suffix to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_buffer);
+                 if(!in_command) output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your name suffix to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_buffer);
                  sprintf(scratch_return_string,ANSI_LGREEN"%s"ANSI_LWHITE"%s",Article(player,UPPER,DEFINITE),getcname(player,character,1,0));
                  if(!in_command) writelog(ADMIN_LOG,1,"SUFFIX CHANGE","%s(#%d) changed %s(#%d)'s name suffix to '%s'.",getname(player),player,getname(character),character,scratch_buffer);
                     else if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","%s(#%d) changed %s(#%d)'s name suffix to '%s' within compound command %s(#%d).",getname(player),player,getname(character),character,scratch_buffer,getname(current_command),current_command);

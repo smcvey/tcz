@@ -192,36 +192,28 @@ void site_view(dbref player,const char *ipaddress,const char *arg2)
 
      if(!Blank(arg2)) ipaddress = arg2;
      if(!((!(address = text_to_ip(ipaddress,&mask)) && !mask) || !(site = lookup_site_details(address,mask,&site)))) {
-        if(IsHtml(p)) {
-	   html_anti_reverse(p,1);
-           output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-	}
-
         if(!in_command) {
-           output(p,player,2,1,0,"%sFull details of registered Internet site "ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=2><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",ip_to_text(address,mask,scratch_return_string),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 0, "\n Full details of registered Internet site " ANSI_LWHITE "%s" ANSI_LCYAN "...\n", ip_to_text(address,mask,scratch_return_string));
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
 	}
 
         /* ---->  Site details  <---- */
-        if(site->max_connections != NOTHING) output(p,player,2,1,23,"%sMaximum connections:%s"ANSI_LWHITE"%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",site->max_connections,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           else output(p,player,2,1,23,"%sMaximum connections:%s"ANSI_LWHITE"N/A.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,23,"%sIP Address/mask:%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"     ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,23,"%sDescription:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"         ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",decompress(site->description),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,23,"%sFlags:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"               ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",siteflags_description(site->flags),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+        if(site->max_connections != NOTHING) output(p, player, 2, 1, 23, ANSI_LGREEN " Maximum connections:  "ANSI_LWHITE"%d.\n", site->max_connections);
+           else output(p, player, 2, 1, 23, ANSI_LGREEN " Maximum connections:  " ANSI_LWHITE "N/A.\n");
+        output(p, player, 2, 1, 23, ANSI_LGREEN "     IP Address/mask:  " ANSI_LWHITE "%s\n", scratch_return_string);
+        output(p, player, 2, 1, 23, ANSI_LGREEN "         Description:  " ANSI_LWHITE "%s.\n", decompress(site->description));
+        output(p, player, 2, 1, 23, ANSI_LGREEN "               Flags:  " ANSI_LWHITE "%s.\n", siteflags_description(site->flags));
 
         /* ---->  Site statistics  <---- */
         for(d = descriptor_list, count = 0; d; d = d->next)
             if((d->flags & CONNECTED) && d->site && (d->site == site))
                count++;
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
-        output(p,player,2,1,0,"%sTotal characters connected from this site:%s"ANSI_LWHITE"%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",site->connected,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,0,"%sTotal characters created from this site:%s"ANSI_LWHITE"%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"           ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",site->created,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,0,"%sTotal characters presently on-line from this site:%s"ANSI_LWHITE"%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=55% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",count,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','-'));
+        output(p, player, 2, 1, 0, ANSI_LYELLOW "         Total characters connected from this site:  " ANSI_LWHITE "%d.\n", site->connected);
+        output(p, player, 2, 1, 0, ANSI_LYELLOW "           Total characters created from this site:  " ANSI_LWHITE "%d.\n", site->created);
+        output(p, player, 2, 1, 0, ANSI_LYELLOW " Total characters presently on-line from this site:  " ANSI_LWHITE "%d.\n", count);
         
-        if(IsHtml(p)) {
-           output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-	   html_anti_reverse(p,0);
-	} else if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+	if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
         setreturn(OK,COMMAND_SUCC);
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, either the IP address you specified is invalid, or a site with that IP address doesn't exist.");
 }
@@ -253,10 +245,7 @@ void site_list(dbref player,const char *ipaddress,const char *flags)
      }
      if(!flags_inc) flags_inc = SEARCH_ALL;
 
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     } else if(p && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
+     if(p && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
 
      ipaddress        = (char *) parse_grouprange(player,ipaddress,FIRST,1);
      address          = text_to_ip(ipaddress,&mask);
@@ -264,9 +253,8 @@ void site_list(dbref player,const char *ipaddress,const char *flags)
      db[player].data->player.scrheight = ((db[player].data->player.scrheight - 8) / 2) * 2;
 
      if(!in_command) {
-        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>IP Address:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Flags:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Max Con:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Connected:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Created:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>On-line:</I></FONT></TH></TR>\016");
-           else output(p,player,0,1,0,"\n IP Address:      Flags:      Max Con:  Connected:  Created:  On-line:");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p,player,0,1,0,"\n IP Address:      Flags:      Max Con:  Connected:  Created:  On-line:");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      set_conditions_ps(player,address,mask,flags_inc,flags_exc,NOTHING,NOTHING,NOTHING,(!address && !mask) ? (!Blank(ipaddress)) ? ipaddress:NULL:NULL,503);
@@ -276,8 +264,8 @@ void site_list(dbref player,const char *ipaddress,const char *flags)
                if((d->flags & CONNECTED) && d->site && (d->site == &grp->cunion->site))
                   count++;
            if(grp->cunion->site.max_connections != NOTHING) sprintf(cmpbuf,ANSI_LWHITE"%d",grp->cunion->site.max_connections);
-              else sprintf(cmpbuf,"%sN/A"ANSI_LWHITE,IsHtml(p) ? ANSI_DCYAN:"");
-           output(p,player,2,1,0,"%s%-17s%s"ANSI_DCYAN"["ANSI_LCYAN"%c%c%c%c%c%c%c%c"ANSI_DCYAN"]%s%-21s%s%-12d%s%-10d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_BLUE"><TD BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW:ANSI_LYELLOW" ",ip_to_text(grp->cunion->site.addr,grp->cunion->site.mask,scratch_return_string),IsHtml(p) ? "\016</TD><TD><TT>\016":"",
+              else sprintf(cmpbuf, "N/A" ANSI_LWHITE);
+           output(p, player, 2, 1, 0, ANSI_LYELLOW " %-17s" ANSI_DCYAN "[" ANSI_LCYAN "%c%c%c%c%c%c%c%c" ANSI_DCYAN "]  %-21s%-12d%-10d%d\n", ip_to_text(grp->cunion->site.addr, grp->cunion->site.mask, scratch_return_string),
                  (grp->cunion->site.flags & SITE_ADMIN)         ? 'A':'-',
                  (grp->cunion->site.flags & SITE_BANNED)        ? 'B':'-',
                  (grp->cunion->site.flags & SITE_CREATE)        ? 'C':'-',
@@ -286,22 +274,18 @@ void site_list(dbref player,const char *ipaddress,const char *flags)
                  (grp->cunion->site.flags & SITE_NODNS)         ? 'N':'-',
                  (grp->cunion->site.flags & SITE_READONLY)      ? 'R':'-',
                  (grp->cunion->site.flags & SITE_UNCONDITIONAL) ? 'U':'-',
-                 IsHtml(p) ? "\016</TT></TD><TD>\016":"  ",cmpbuf,IsHtml(p) ? "\016</TD><TD>\016":"",grp->cunion->site.connected,IsHtml(p) ? "\016</TD><TD>\016":"",grp->cunion->site.created,IsHtml(p) ? "\016</TD><TD>\016":"",count,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,9,"%s`---> \016&nbsp;\016 "ANSI_LGREEN"%s.%s",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT COLSPAN=6>&nbsp;\016"ANSI_LCYAN:ANSI_DCYAN"  ",decompress(grp->cunion->site.description),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                 cmpbuf, grp->cunion->site.connected, grp->cunion->site.created,count);
+           output(p, player, 2, 1, 9, ANSI_DCYAN "  `--->  " ANSI_LGREEN "%s.\n", decompress(grp->cunion->site.description));
      }
 
-     if(grp->rangeitems == 0) output(p,player,2,1,0,IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=6>"ANSI_LCYAN"<I>*** &nbsp; NO REGISTERED INTERNET SITES FOUND &nbsp; ***</I></TD></TR>\016":" ***  NO REGISTERED INTERNET SITES FOUND  ***\n");
+     if(grp->rangeitems == 0) output(p, player, 2, 1, 0, " ***  NO REGISTERED INTERNET SITES FOUND  ***\n");
      if(!in_command) {
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-        if(grp->rangeitems != 0) output(p,player,2,1,0,"%sRegistered Internet sites found: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=6>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-	   else output(p,player,2,1,0,"%sRegistered Internet sites found: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=6>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
+        if(grp->rangeitems != 0) output(p, player, 2, 1, 0, ANSI_LWHITE " Registered Internet sites found:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
+	   else output(p, player, 2, 1, 0, ANSI_LWHITE " Registered Internet sites found:  " ANSI_DWHITE "None.\n\n");
      }
 
      db[player].data->player.scrheight = cached_scrheight;
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     }
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -327,30 +311,22 @@ void site_stats(dbref player)
      }
 
      /* ---->  Display site statistics  <---- */
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
-        output(p,player,2,1,1,"%sThere %s "ANSI_LWHITE"%d"ANSI_LCYAN" registered Internet site%s...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=3><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",(total == 1) ? "is":"are",total,Plural(total),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,1,separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 1, "\n There %s " ANSI_LWHITE "%d" ANSI_LCYAN " registered Internet site%s...\n", (total == 1) ? "is" : "are", total, Plural(total));
+        output(p,player,0,1,1,separator(twidth,0,'-','='));
      }
 
      /* ---->  Site details  <---- */
-     output(p,player,2,1,0,"%sUnconditional:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",unconditional,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(unconditional,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sCreate banned:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",create,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(create,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sGuests banned:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",noguests,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(noguests,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sAdmin banned:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",admin,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(admin,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sRead-Only:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",readonly,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(readonly,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sBanned:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"        ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",banned,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(banned,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sNoDNS:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",nodns,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(nodns,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sDNS:%s"ANSI_LWHITE"%-12d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"           ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",dns,IsHtml(p) ? "\016</TD><TD WIDTH=33% BGCOLOR="HTML_TABLE_DGREY">\016":"",stats_percent(dns,total),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Unconditional:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", unconditional, stats_percent(unconditional, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Create banned:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", create, stats_percent(create, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Guests banned:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", noguests, stats_percent(noguests, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "  Admin banned:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", admin, stats_percent(admin, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Read-Only:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", readonly, stats_percent(readonly, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "        Banned:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", banned, stats_percent(banned, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "         NoDNS:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", nodns, stats_percent(nodns, total));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "           DNS:  " ANSI_LWHITE "%-12d" ANSI_DWHITE "%s\n", dns, stats_percent(dns, total));
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 

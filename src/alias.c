@@ -237,18 +237,14 @@ void alias_aliases(CONTEXT)
 
      for(object = db[player].parent; Validchar(object) && (object != who); object = db[object].parent);
      if(!((object != who) && !can_read_from(player,who))) {
-        if(p && !IsHtml(p) && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
-        if(IsHtml(p)) {
-	   html_anti_reverse(p,1);
-	   output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-	}
+        if(p && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
 
         if(!in_command) {
            if(player != who) {
-              if(object == who) output(p,player,2,1,1,"%sYou inherit the following aliases from %s"ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",Article(who,UPPER,DEFINITE),getcname(NOTHING,who,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-                 else output(p,player,2,1,1,"%s%s"ANSI_LWHITE"%s"ANSI_LCYAN" has the following aliases...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",Article(who,UPPER,DEFINITE),getcname(NOTHING,who,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	   } else output(p,player,2,1,1,"%sYou have the following aliases...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+              if(object == who) output(p, player, 2, 1, 1, "\n You inherit the following aliases from %s" ANSI_LWHITE "%s" ANSI_LCYAN "...\n", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0));
+                 else output(p, player, 2, 1, 1, "\n %s" ANSI_LWHITE "%s" ANSI_LCYAN " has the following aliases...\n", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0));
+	   } else output(p,player,2,1,1,"\n You have the following aliases...\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
 	}
 
         if(db[who].data->player.aliases) {
@@ -265,30 +261,26 @@ void alias_aliases(CONTEXT)
               for(ptr = db[who].data->player.aliases; ptr; ptr = (ptr->next == db[who].data->player.aliases) ? NULL:ptr->next)
                   if(ptr->id == grp->cunion->alias.id)
                      sprintf(scratch_return_string + strlen(scratch_return_string),"%s%s",(*scratch_return_string) ? ANSI_LGREEN", "ANSI_LYELLOW:"",ptr->alias);
-              output(p,player,2,1,3,"%s%s"ANSI_LGREEN" \016&nbsp;\016 ---> \016&nbsp;\016 "ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",scratch_return_string,decompress(grp->cunion->alias.command),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              output(p, player, 2, 1, 3, ANSI_LYELLOW " %s" ANSI_LGREEN "  --->  " ANSI_LWHITE "%s\n", scratch_return_string, decompress(grp->cunion->alias.command));
 	}
         if(next) db[who].data->player.aliases->prev->next = next;
 
-        if(grp->rangeitems == 0) output(p,player,2,1,0,IsHtml(p) ? "\016<TR ALIGN=CENTER><TD>"ANSI_LCYAN"<I>*** &nbsp; NO ALIASES FOUND &nbsp; ***</I></TD></TR>\016":" ***  NO ALIASES FOUND  ***\n");
+        if(grp->rangeitems == 0) output(p,player,2,1,0," ***  NO ALIASES FOUND  ***\n");
         if(!in_command) {
            if(Validchar(db[who].parent)) {
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+              output(p,player,0,1,0,separator(twidth,0,'-','-'));
               if(who != player) {
-                 sprintf(scratch_buffer,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE" inherits further aliases from ",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_DGREY"><TD ALIGN=CENTER>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",Article(who,UPPER,DEFINITE),getcname(NOTHING,who,0,0));
-                 output(p,player,2,1,1,"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" (Type '"ANSI_LGREEN"aliases %s"ANSI_LWHITE"' for a list.)%s",scratch_buffer,Article(db[who].parent,LOWER,INDEFINITE),getcname(NOTHING,db[who].parent,0,0),getname(db[who].parent),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-	      } else output(p,player,2,1,1,"%sYou inherit further aliases from %s"ANSI_LYELLOW"%s"ANSI_LWHITE" (Type '"ANSI_LGREEN"aliases %s"ANSI_LWHITE"' for a list.)%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_DGREY"><TD ALIGN=CENTER>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",Article(db[who].parent,LOWER,INDEFINITE),getcname(NOTHING,db[who].parent,0,0),getname(db[who].parent),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                 sprintf(scratch_buffer, ANSI_LWHITE " %s" ANSI_LYELLOW "%s" ANSI_LWHITE " inherits further aliases from ", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0));
+                 output(p,player,2,1,1,"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" (Type '"ANSI_LGREEN"aliases %s"ANSI_LWHITE"' for a list.)\n",scratch_buffer,Article(db[who].parent,LOWER,INDEFINITE),getcname(NOTHING,db[who].parent,0,0),getname(db[who].parent));
+	      } else output(p, player, 2, 1, 1, ANSI_LWHITE " You inherit further aliases from %s" ANSI_LYELLOW "%s" ANSI_LWHITE " (Type '" ANSI_LGREEN "aliases %s" ANSI_LWHITE "' for a list.)\n", Article(db[who].parent, LOWER, INDEFINITE), getcname(NOTHING, db[who].parent, 0, 0), getname(db[who].parent));
 	   }
 
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-           if(grp->rangeitems != 0) output(p,player,2,1,1,"%sAliases listed: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-	      else output(p,player,2,1,1,"%sAliases listed: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
+           if(grp->rangeitems != 0) output(p, player, 2, 1, 1, ANSI_LWHITE " Aliases listed:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
+	      else output(p, player, 2, 1, 1, ANSI_LWHITE " Aliases listed:  " ANSI_DWHITE "None.\n\n");
 	}
 
         db[who].data->player.scrheight = cached_scrheight;
-        if(IsHtml(p)) {
-           output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-	   html_anti_reverse(p,0);
-	}
         setreturn(OK,COMMAND_SUCC);
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you can only list your own aliases.");
 }

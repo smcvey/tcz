@@ -78,7 +78,7 @@
 #define BOOLFLAG_ENGAGED            50
 #define BOOLFLAG_FRIENDS_INFORM     52
 #define BOOLFLAG_HAVEN              7
-#define BOOLFLAG_HTML               49
+/* #define BOOLFLAG_HTML               49 */
 #define BOOLFLAG_INHERITABLE        43
 #define BOOLFLAG_LFTOCR_CR          36
 #define BOOLFLAG_LFTOCR_CRLF        32

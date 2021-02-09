@@ -547,7 +547,7 @@ dbref connect_character(const char *name,const char *password,const char *hostna
             db[player].data->player.failedlogins++;
          if((p = getdsc(player))) {
             if(!(p->flags2 & WARN_LOGIN_FAILED))
-               output(p,player,0,1,11,ANSI_LRED"\007["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Somebody else unsuccessfully tried to connect as your character from "ANSI_LYELLOW"%s"ANSI_LWHITE".  There %s been%s "ANSI_LCYAN"%d"ANSI_LWHITE" failed login attempt%s so far since you connected.",hostname,(db[player].data->player.failedlogins == 1) ? "has":"have",(db[player].data->player.failedlogins < 255) ? "":" over",db[player].data->player.failedlogins,Plural(db[player].data->player.failedlogins));
+               output(p,player,0,1,11,ANSI_LRED"\007["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Somebody else unsuccessfully tried to connect as your character from "ANSI_LYELLOW"%s"ANSI_LWHITE".  There %s been%s "ANSI_LCYAN"%d"ANSI_LWHITE" failed login attempt%s so far since you connected.",hostname,(db[player].data->player.failedlogins == 1) ? "has":"have",(db[player].data->player.failedlogins < 255) ? "":" over",db[player].data->player.failedlogins,Plural(db[player].data->player.failedlogins));
             p->flags2 |= WARN_LOGIN_FAILED;
 	 }
          return(NOTHING);
@@ -556,7 +556,7 @@ dbref connect_character(const char *name,const char *password,const char *hostna
          /* ---->  Password OK, but still warn used if connected  <---- */
          for(p = descriptor_list; p; p = p->next)
              if((p->flags & CONNECTED) && (p->player == player))
-                output(p,player,0,1,11,ANSI_LRED"\007["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Your character has been successfully connected from "ANSI_LYELLOW"%s"ANSI_LWHITE".",hostname);
+                output(p,player,0,1,11,ANSI_LRED"\007["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Your character has been successfully connected from "ANSI_LYELLOW"%s"ANSI_LWHITE".",hostname);
          return(player);
       }
 }
@@ -771,7 +771,7 @@ const char *check_duplicates(dbref player,const char *email,unsigned char warn,u
 	      }
 
               /* ---->  Notify non-QUIET Admin  <---- */
-              sprintf(scratch_buffer,ANSI_LMAGENTA"[DUPLICATE] \016&nbsp;\016 "ANSI_LWHITE"%s %s the same (Or similar) E-mail address%s as %s"ANSI_LYELLOW"%s"ANSI_LWHITE" ("ANSI_LCYAN"%s"ANSI_LWHITE")\n",scratch_return_string,(count == 1) ? "has":"have",(count == 1) ? "":"es",(newchar) ? "the new user ":"",getcname(NOTHING,player,0,0),email);
+              sprintf(scratch_buffer,ANSI_LMAGENTA"[DUPLICATE]  "ANSI_LWHITE"%s %s the same (Or similar) E-mail address%s as %s"ANSI_LYELLOW"%s"ANSI_LWHITE" ("ANSI_LCYAN"%s"ANSI_LWHITE")\n",scratch_return_string,(count == 1) ? "has":"have",(count == 1) ? "":"es",(newchar) ? "the new user ":"",getcname(NOTHING,player,0,0),email);
               for(d = descriptor_list; d; d = d->next)
                   if(Validchar(d->player) && Level4(d->player) && !Quiet(d->player))
                      output(d,d->player,2,0,13,scratch_buffer,0);

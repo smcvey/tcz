@@ -254,14 +254,11 @@ void search_entrances(CONTEXT)
         return;
      }
 
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     } else if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+     if(!in_command && p && !p->pager && More(player)) pager_init(p);
 
      if(!in_command) {
-        output(p,player,2,1,1,"%sEntrances to %s"ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 1, "\n Entrances to %s" ANSI_LWHITE "%s" ANSI_LCYAN "...\n", Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
+        output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
      }
 
      command_type                     |= NO_USAGE_UPDATE;
@@ -272,28 +269,24 @@ void search_entrances(CONTEXT)
 
      if(grp->distance > 0) {
         while(entiredb_grouprange()) {
-              if(!first && !IsHtml(p)) output(p,player,0,1,0,"");
-	      sprintf(scratch_buffer,"%sFrom %s"ANSI_LYELLOW"%s"ANSI_LGREEN": \016&nbsp;\016 ",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT>\016"ANSI_LGREEN:ANSI_LGREEN" ",Article(db[grp->cobject].location,LOWER,INDEFINITE),unparse_object(player,db[grp->cobject].location,0));
-              output(p,player,2,1,3,"%s%s%s",scratch_buffer,punctuate((char *) getexitname(db[player].owner,grp->cobject),0,'.'),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+              if(!first) output(p,player,0,1,0,"");
+	      sprintf(scratch_buffer, ANSI_LGREEN " From %s" ANSI_LYELLOW "%s" ANSI_LGREEN ":  ", Article(db[grp->cobject].location, LOWER, INDEFINITE), unparse_object(player, db[grp->cobject].location,0));
+              output(p, player, 2, 1, 3, "%s%s\n", scratch_buffer, punctuate((char *) getexitname(db[player].owner,grp->cobject), 0, '.'));
               first = 0;
 	}
 
         if(!in_command) {
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-           output(p,player,2,1,1,"%sTotal entrances: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 1, ANSI_LWHITE " Total entrances:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
 	}
      } else {
-        output(p,player,2,1,0,"%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD>"ANSI_LCYAN"<I>*** &nbsp; NO ENTRANCES FOUND &nbsp; ***</I></TD></TR>\016":" ***  NO ENTRANCES FOUND  ***\n");
+        output(p, player, 2, 1, 0, " ***  NO ENTRANCES FOUND  ***\n");
         if(!in_command) {
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-           output(p,player,2,1,1,"%sTotal entrances: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 1, ANSI_LWHITE " Total entrances:  " ANSI_DWHITE "None.\n\n");
 	}
      }
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     }
      db[player].data->player.scrheight = cached_scrheight;
      command_type                     &= ~NO_USAGE_UPDATE;
      setreturn(OK,COMMAND_SUCC);
@@ -359,49 +352,42 @@ void search_find(CONTEXT)
         entiredb_initgrouprange();
 
         /* ---->  Show results of search  <---- */
-        if(IsHtml(p)) {
-           html_anti_reverse(p,1);
-           output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-	} else if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+	if(!in_command && p && !p->pager && More(player)) pager_init(p);
 
         if(!in_command) {
-           output(p,player,2,1,1,"%sResult(s) of search...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           if(!IsHtml(p)) output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 1, "\n Result(s) of search...\n");
+           output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
 	}
 
         if(grp->distance > 0) {
            *scratch_return_string = '\0';
            while(entiredb_grouprange()) {
-                 if((field_flags & SEARCH_RACE) && (p1 = getfield(grp->cobject,RACE)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN" \016&nbsp;\016 ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
-                    else if((field_flags & SEARCH_TITLE) && (p1 = getfield(grp->cobject,TITLE)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN" \016&nbsp;\016 ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
+                 if((field_flags & SEARCH_RACE) && (p1 = getfield(grp->cobject,RACE)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN"  ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
+                    else if((field_flags & SEARCH_TITLE) && (p1 = getfield(grp->cobject,TITLE)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN"  ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
                        else if(field_flags & SEARCH_EMAIL) {
                           if(Blank(arg2)) {
                              if(!((p1 = gettextfield(2,'\n',getfield(grp->cobject,EMAIL),0,scratch_buffer)) && *p1))
                                 p1 = gettextfield(0,'\n',getfield(grp->cobject,EMAIL),2,scratch_buffer);
 			  } else p1 = match_wildcard_list(arg2,'\n',getfield(grp->cobject,EMAIL),scratch_buffer);
-                          if(!Blank(p1)) sprintf(scratch_return_string,ANSI_DCYAN" \016&nbsp;\016 ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
-		       } else if((field_flags & SEARCH_LASTSITE) && (p1 = getfield(grp->cobject,LASTSITE)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN" \016&nbsp;\016 ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
-                          else if((field_flags & SEARCH_WWW) && (p1 = getfield(grp->cobject,WWW)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN" \016&nbsp;\016 ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
+                          if(!Blank(p1)) sprintf(scratch_return_string,ANSI_DCYAN"  ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
+		       } else if((field_flags & SEARCH_LASTSITE) && (p1 = getfield(grp->cobject,LASTSITE)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN"  ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
+                          else if((field_flags & SEARCH_WWW) && (p1 = getfield(grp->cobject,WWW)) && *p1) sprintf(scratch_return_string,ANSI_DCYAN"  ("ANSI_LWHITE"%s"ANSI_DCYAN")",p1);
                              else *scratch_return_string = '\0';
-                 output(p,player,2,1,3,"%s%s%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT>\016"ANSI_DWHITE:ANSI_DWHITE" ",getcname(player,grp->cobject,1,UPPER|INDEFINITE),scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                 output(p, player, 2, 1, 3, ANSI_DWHITE " %s%s\n", getcname(player,grp->cobject, 1, UPPER|INDEFINITE), scratch_return_string);
 	   }
 
            if(!in_command) {
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-              output(p,player,2,1,0,"%sTotal items found: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+              output(p,player,0,1,0,separator(twidth,0,'-','='));
+              output(p, player, 2, 1, 0, ANSI_LWHITE " Total items found:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
 	   }
         } else {
-           output(p,player,2,1,0,"%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD>"ANSI_LCYAN"<I>*** &nbsp; NOTHING FOUND &nbsp; ***</I></TD></TR>\016":" ***  NOTHING FOUND  ***\n");
+           output(p, player, 2, 1, 0, " ***  NOTHING FOUND  ***\n");
            if(!in_command) {
-              if(!IsHtml(p)) output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
-              output(p,player,2,1,0,"%sTotal items found: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+              output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
+              output(p, player, 2, 1, 0, ANSI_LWHITE " Total items found:  " ANSI_DWHITE "None.\n\n");
 	   }
 	}
 
-        if(IsHtml(p)) {
-           output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-           html_anti_reverse(p,0);
-	}
         db[player].data->player.scrheight = cached_scrheight;
         command_type                     &= ~NO_USAGE_UPDATE;
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, only Experienced Builders and above may use '"ANSI_LWHITE"@find"ANSI_LGREEN"' from within a compound command.");
@@ -496,10 +482,7 @@ void search_list(CONTEXT)
                  entiredb_initgrouprange();
 
                  /* ---->  Show results of search  <---- */
-                 if(IsHtml(p)) {
-                    html_anti_reverse(p,1);
-                    output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-		 } else if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+		 if(!in_command && p && !p->pager && More(player)) pager_init(p);
 
                  if(!in_command) {
                     strcpy(scratch_buffer,"Result(s) of search ");
@@ -507,30 +490,26 @@ void search_list(CONTEXT)
                        else if(who == NOTHING) strcat(scratch_buffer,"(Objects of specified type(s) belonging to anyone)");
                           else if(who != player) sprintf(scratch_buffer + strlen(scratch_buffer),"(Objects of specified type(s) belonging to %s"ANSI_LWHITE"%s"ANSI_LCYAN")",Article(who,LOWER,DEFINITE),getcname(NOTHING,who,0,0));
                              else strcat(scratch_buffer,"(Objects of specified type(s) belonging to you)");
-                    output(p,player,2,1,1,"%s%s...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",scratch_buffer,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-                    if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+                    output(p, player, 2, 1, 1, "\n %s...\n", scratch_buffer);
+                    output(p,player,0,1,0,separator(twidth,0,'-','='));
 		 }
 
                  if(grp->distance > 0) {
                     while(entiredb_grouprange())
-                          output(p,player,2,1,3,"%s%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT>\016"ANSI_DWHITE:ANSI_DWHITE" ",getcname(player,grp->cobject,1,UPPER|INDEFINITE),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                          output(p, player, 2, 1, 3, ANSI_DWHITE " %s\n", getcname(player,grp->cobject, 1, UPPER|INDEFINITE));
 
                     if(!in_command) {
-                       if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-                       output(p,player,2,1,0,"%sTotal items found: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                       output(p,player,0,1,0,separator(twidth,0,'-','='));
+                       output(p, player, 2, 1, 0, ANSI_LWHITE " Total items found:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
 		    }
 		 } else {
-                    output(p,player,2,1,0,"%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD>"ANSI_LCYAN"<I>*** &nbsp; NOTHING FOUND &nbsp; ***</I></TD></TR>\016":" ***  NOTHING FOUND  ***\n");
+                    output(p, player, 2, 1, 0, " ***  NOTHING FOUND  ***\n");
                     if(!in_command) {
-                       if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-                       output(p,player,2,1,0,"%sTotal items found: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                       output(p,player,0,1,0,separator(twidth,0,'-','='));
+                       output(p, player, 2, 1, 0, ANSI_LWHITE " Total items found:  " ANSI_DWHITE "None.\n\n");
 		    }
 		 }
 
-                 if(IsHtml(p)) {
-                    output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-                    html_anti_reverse(p,0);
-		 }
                  db[player].data->player.scrheight = cached_scrheight;
                  command_type                     &= ~NO_USAGE_UPDATE;
 	      } else output(p,player,0,1,0,"%s"ANSI_LGREEN"Please specify the object type(s)/flag(s) to list/search for.\n",(cr) ? "\n":"");

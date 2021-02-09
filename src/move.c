@@ -234,7 +234,7 @@ unsigned char move_enter(dbref player,dbref destination,unsigned char autolook)
 	    return(0);
 	 }
 
-	 if(!in_command && (p = getdsc(player)) && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+	 if(!in_command && (p = getdsc(player)) && !p->pager && More(player)) pager_init(p);
 	 if(destination != old) {
 
 	    /* ---->  Destination room is different from current room  <---- */

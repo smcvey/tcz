@@ -63,7 +63,6 @@
 #include "flagset.h"
 #include "search.h"
 #include "match.h"
-#include "html.h"
 #include "quota.h"
 #include "teleport.h"
 
@@ -178,7 +177,6 @@ const    char  *tcz_admin_email    = NULL;                /*  TCZ Admin. E-mail 
 const    char  *tcz_short_name     = NULL;                /*  TCZ short abbreviated name (TCZ)  */
 const    char  *tcz_full_name      = NULL;                /*  TCZ full name (The Chatting Zone)  */
 const    char  *html_home_url      = NULL;                /*  URL of TCZ web site  */
-const    char  *html_data_url      = NULL;                /*  URL of World Wide Web Interface images (Buttons, etc.)  */
 const    char  *tcz_location       = NULL;                /*  Location of TCZ server (Full name and location of ISP, company, university, etc.)  */
 const    char  *tcz_timezone       = NULL;                /*  Server time zone  */
 const    char  *tcz_prompt         = NULL;                /*  Standard user prompt ('TCZ>')  */
@@ -187,7 +185,6 @@ unsigned long  tcz_server_network  = TCZ_SERVER_NETWORK;  /*  Network address of
 unsigned long  tcz_server_netmask  = TCZ_SERVER_NETMASK;  /*  Network mask of TCZ server  */
 unsigned long  tcz_server_ip       = TCZ_SERVER_IP;       /*  IP address of TCZ server  */
 unsigned long  telnetport          = TELNETPORT;          /*  Telnet port number  */
-unsigned long  htmlport            = HTMLPORT;            /*  World Wide Web Interface port number  */
 int      tcz_year                  = 1993;                /*  Current year  */
 
 
@@ -1132,7 +1129,6 @@ void initialise_data(dbref object)
                     db[object].data->player.htmlbackground  = NULL;
                     db[object].data->player.longdateformat  = LONGDATEFMT;
                     db[object].data->player.dateseparator   = DATESEPARATOR;
-                    db[object].data->player.htmlcmdwidth    = HTML_CMDWIDTH;
                     db[object].data->player.failedlogins    = 0;
                     db[object].data->player.longesttime     = 0;
                     db[object].data->player.longestdate     = now;
@@ -1148,7 +1144,6 @@ void initialise_data(dbref object)
                     db[object].data->player.totaltime       = 0;
                     db[object].data->player.scrheight       = STANDARD_CHARACTER_SCRHEIGHT;
                     db[object].data->player.maillimit       = MAIL_LIMIT_MORTAL;
-                    db[object].data->player.htmlflags       = HTML_START;
                     db[object].data->player.password        = NULL;
                     db[object].data->player.timediff        = 0;
                     db[object].data->player.lasttime        = now;
@@ -1689,7 +1684,7 @@ void db_create(void)
      writelog(SERVER_LOG,0,"RESTART","Generating new database...");
 
      /* ---->  (#0)  The Junkpile  <---- */
-     room = create_room(ROOT,NULL,NULL,"The Junkpile","Unwanted objects end up in this location when junked using the '%g%l%(junk%)%x' command (See '%g%l%<junk%>%x'.)",0,1);
+     room = create_room(ROOT,NULL,NULL,"The Junkpile","Unwanted objects end up in this location when junked using the '%g%l%ujunk%x' command (See '%g%l%ujunk%x'.)",0,1);
      if(Valid(room) && (room == ROOMZERO)) {
 	db[room].flags  |=  (ABODE|QUIET|HAVEN|INVISIBLE);
 	db[room].flags2 |=  SECURE;
@@ -1726,7 +1721,7 @@ void db_create(void)
 
      /* ---->  (#3)  New Character Start  <---- */
      sprintf(name,"Welcome to the virtual world of %s!",tcz_full_name);
-     sprintf(description,"Welcome to the virtual world of %s, %%n.\n\nFor more information, please type '%%g%%l%%(help%%)%%x'.\nAlso, see '%%g%%l%%+newbie%%>%%x' (Tutorial for new users.)\n\nType '%%g%%l%%(home%%)%%x' to go to your home room.",tcz_short_name);
+     sprintf(description,"Welcome to the virtual world of %s, %%n.\n\nFor more information, please type '%%g%%l%%uhelp%%x'.\nAlso, see '%%g%%l%%unewbie%%x' (Tutorial for new users.)\n\nType '%%g%%l%%uhome%%x' to go to your home room.",tcz_short_name);
      room = create_room(ROOT,NULL,NULL,name,description,0,1);
      if(Valid(room) && (room == START_LOCATION)) {
 	db[room].flags  |=  HAVEN;
@@ -1753,7 +1748,7 @@ void db_create(void)
 
      /* ---->  Bulletin Board System (BBS)  <---- */
      sprintf(name,"%s BBS",tcz_full_name);
-     sprintf(description,"You may access %%y%%l%s BBS%%x in this room (See '%%g%%l%%<bbs%%>%%x' for further details.)",tcz_short_name);
+     sprintf(description,"You may access %%y%%l%s BBS%%x in this room (See '%%g%%l%%ubbs%%x' for further details.)",tcz_short_name);
      room = create_room(ROOT,NULL,NULL,name,description,0,1);
      if(Valid(room)) {
         db[room].flags  |=  (QUIET|HAVEN|INVISIBLE);
@@ -1764,7 +1759,7 @@ void db_create(void)
 
      /* ---->  Bank  <---- */
      sprintf(name,"The Bank of %s",tcz_short_name);
-     sprintf(description,"You may perform transactions with %%y%%lThe Bank of %s%%x in this room (See '%%g%%l%%<bank%%>%%x' for further details.)",tcz_short_name);
+     sprintf(description,"You may perform transactions with %%y%%lThe Bank of %s%%x in this room (See '%%g%%l%%ubank%%x' for further details.)",tcz_short_name);
      room = create_room(ROOT,NULL,NULL,name,description,0,1);
      if(Valid(room)) {
 	db[room].flags  |=  HAVEN;
@@ -1775,7 +1770,7 @@ void db_create(void)
 
      /* ---->  Post Office (Mail room)  <---- */
      sprintf(name,"%s Post Office",tcz_short_name);
-     sprintf(description,"You may read and send %s mail in this room (See '%%g%%l%%<mail%%>%%x' for further details.)",tcz_short_name);
+     sprintf(description,"You may read and send %s mail in this room (See '%%g%%l%%umail%%x' for further details.)",tcz_short_name);
      room = create_room(ROOT,NULL,NULL,name,description,0,1);
      if(Valid(room)) {
 	db[room].flags  |=  (QUIET|HAVEN);
@@ -1785,7 +1780,7 @@ void db_create(void)
      } else writelog(SERVER_LOG,0,"RESTART","Unable to create room '%s Post Office'.",tcz_short_name);
 
      /* ---->  Home Rooms  <---- */
-     room = create_room(ROOT,NULL,NULL,"Home Rooms","User home rooms are stored in this room (See '%g%l%<home%>%x' and '%g%l%<@homeroom%>%x' for further details.)",0,1);
+     room = create_room(ROOT,NULL,NULL,"Home Rooms","User home rooms are stored in this room (See '%g%l%uhome%x' and '%g%l%u@homeroom%x' for further details.)",0,1);
      if(Valid(room)) {
         db[room].flags  |=  YELL;
         db[room].flags2 &= ~(WARP|FINANCE|TRANSPORT|VISIT|ABODE);
@@ -2410,7 +2405,7 @@ int db_write_object(FILE *f,dbref i)
 void dump_crash_handler(int sig)
 {
      writelog(DUMP_LOG,1,"DUMP","Database dumping process received signal %d (%s:  %s)  -  Exiting...",signal,SignalName(sig),SignalDesc(sig));
-     sprintf(cmpbuf,"%sdump.%d.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport,(int) htmlport);
+     sprintf(cmpbuf,"%sdump.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport);
      unlink(cmpbuf);
      exit(1);
 }
@@ -2453,7 +2448,7 @@ void db_write(struct descriptor_data *p)
         writelog(DUMP_LOG,1,"DUMP","An error occurred while dumping the database to disk  -  Database dump aborted.");
         writelog(SERVER_LOG,1,"DUMP","Database dump #%d (#%ld) failed  -  Check 'Dump' log file for details.",dumpnumber,dump_serial_no + 1);
         writelog(DUMP_LOG,1,"DUMP","Database dump #%d (#%ld) failed.",dumpnumber,dump_serial_no + 1);
-        output_admin(0,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 \007"ANSI_LYELLOW"An error occurred while dumping the database to disk  -  Database dump aborted (Check '"ANSI_LWHITE"Dump'"ANSI_LYELLOW" log file for details.)");
+        output_admin(0,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  \007"ANSI_LYELLOW"An error occurred while dumping the database to disk  -  Database dump aborted (Check '"ANSI_LWHITE"Dump'"ANSI_LYELLOW" log file for details.)");
         dumpstatus = 255;
      }
 
@@ -2471,13 +2466,13 @@ void db_write(struct descriptor_data *p)
                  totaldata  = 0;
                  dumpdata   = 0;
 
-                 sprintf(tmpfile,"%s.%d.%d.DUMP",dumpfile,(int) telnetport, (int) htmlport);
+                 sprintf(tmpfile,"%s.%d.DUMP",dumpfile,(int) telnetport);
                  unlink(tmpfile);
 
 #ifdef DB_COMPRESSION
                  if(option_compress_disk(OPTSTATUS)) {
                     compressed_db = 1;
-                    sprintf(tmpfile,DB_COMPRESS" > %s.%d.%d.DUMP",dumpfile,(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,DB_COMPRESS" > %s.%d.DUMP",dumpfile,(int) telnetport);
                     dump = popen(tmpfile,"w");
 		 } else {
                     dump = fopen(tmpfile,"w");
@@ -2612,7 +2607,7 @@ void db_write(struct descriptor_data *p)
                         case DUMP_NORMAL:
                              if(1) {
                                 char newfile[512];
-                                sprintf(tmpfile,"%s.%d.%d.DUMP",dumpfile,(int) telnetport, (int) htmlport);
+                                sprintf(tmpfile,"%s.%d.DUMP",dumpfile,(int) telnetport);
                                 sprintf(newfile,"%s.new%s",dumpfile,(compressed_db) ? DB_EXTENSION:"");
                                 if(rename(tmpfile,newfile) < 0) {
                                    writelog(DUMP_LOG,1,"DUMP","Unable to rename database dump file '%s' to '%s' (%s.)",tmpfile,newfile,strerror(errno));
@@ -2623,7 +2618,7 @@ void db_write(struct descriptor_data *p)
                         case DUMP_PANIC:
                              if(1) {
                                 char newfile[512];
-                                sprintf(tmpfile,"%s.%d.%d.DUMP",dumpfile,(int) telnetport, (int) htmlport);
+                                sprintf(tmpfile,"%s.%d.DUMP",dumpfile,(int) telnetport);
                                 sprintf(newfile,"%s.PANIC%s",dumpfile,(compressed_db) ? DB_EXTENSION:"");
                                 if(rename(tmpfile,newfile) < 0) {
                                    writelog(DUMP_LOG,1,"DUMP","Unable to rename PANIC database dump file '%s' to '%s' (%s.)",tmpfile,newfile,strerror(errno));
@@ -2654,13 +2649,13 @@ void db_write(struct descriptor_data *p)
             case 96:
 
                  /* ---->  Initialise registered Internet sites dump to 'lib/sites.tcz'  <---- */
-                 sprintf(tmpfile,SITE_FILE".%d.%d.DUMP",(int) telnetport, (int) htmlport);
+                 sprintf(tmpfile,SITE_FILE".%d.DUMP",(int) telnetport);
                  unlink(tmpfile);
 
 #ifdef DB_COMPRESSION
                  if(option_compress_disk(OPTSTATUS)) {
                     compressed_db = 1;
-                    sprintf(tmpfile,DB_COMPRESS" > "SITE_FILE".%d.%d.DUMP",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,DB_COMPRESS" > "SITE_FILE".%d.DUMP",(int) telnetport);
                     dump = popen(tmpfile,"w");
 		 } else {
                     dump = fopen(tmpfile,"w");
@@ -2714,14 +2709,14 @@ void db_write(struct descriptor_data *p)
                     else fclose(dump);
                  if(dumptype == DUMP_PANIC) {
                     sprintf(tmpfile,SITE_FILE".PANIC%s",(compressed_db) ? DB_EXTENSION:"");
-                    sprintf(tmpfile2,SITE_FILE".%d.%d.DUMP",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile2,SITE_FILE".%d.DUMP",(int) telnetport);
                     if(rename(tmpfile2,tmpfile) < 0) {
                        writelog(DUMP_LOG,1,"DUMP","Unable to rename PANIC registered Internet sites dump file '%s' to '%s' (%s.)",tmpfile2,tmpfile,strerror(errno));
                        dumperror = 1;
 		    }
 		 } else {
                     sprintf(tmpfile,SITE_FILE"%s",(compressed_db) ? DB_EXTENSION:"");
-                    sprintf(tmpfile2,SITE_FILE".%d.%d.DUMP",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile2,SITE_FILE".%d.DUMP",(int) telnetport);
                     if(rename(tmpfile2,tmpfile) < 0) {
                        writelog(DUMP_LOG,1,"DUMP","Unable to rename registered Internet sites dump file '%s' to '%s' (%s.)",tmpfile2,tmpfile,strerror(errno));
                        dumperror = 1;
@@ -2760,44 +2755,44 @@ void db_write(struct descriptor_data *p)
                  /* ---->  Report on dump progress (For '@admin')  <---- */
                  switch(laststatus) {
                         case 1:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Initialising database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Initialising database dump.\n");
                              break;
                         case 2:
-                             if(dumptopic) sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Dumping BBS topic '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",String(dumptopic->name),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-			        else sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Finishing BBS topic database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             if(dumptopic) sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Dumping BBS topic '" ANSI_LYELLOW "%s" ANSI_LWHITE "'.\n", String(dumptopic->name));
+			        else sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Finishing BBS topic database dump.\n");
                              break;
                         case 3:
-                             if(dumpobject < dumpmax) sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"%d/%d objects dumped.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",dumpobject + 1,dumpmax,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-			        else sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"%d/%d objects dumped.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",dumpmax,dumpmax,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             if(dumpobject < dumpmax) sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "%d/%d objects dumped.\n", dumpobject + 1, dumpmax);
+			        else sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "%d/%d objects dumped.\n", dumpmax, dumpmax);
                              break;
                         case 4:
                         case 5:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Finishing database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Finishing database dump.\n");
                              break;
                         case 6:
-                             if(dumpbanish) sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Dumping banished name '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",String(dumpbanish->name),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-			        else sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Finishing banished names database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             if(dumpbanish) sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Dumping banished name '" ANSI_LYELLOW "%s" ANSI_LWHITE "'.\n", String(dumpbanish->name));
+			        else sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Finishing banished names database dump.\n");
                              break;
                         case 96:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Initialising site database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Initialising site database dump.\n");
                              break;
                         case 97:
-                             if(dumpsite) sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"%d/%d sites dumped.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",dumpobject + 1,dumpmax,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-			        else sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Finishing Internet site database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             if(dumpsite) sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "%d/%d sites dumped.\n", dumpobject + 1, dumpmax);
+			        else sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Finishing Internet site database dump.\n");
                              break;
                         case 98:
                         case 99:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Finishing Internet site database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Finishing Internet site database dump.\n");
                              break;
                         case 100:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Updating database dump statistics.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Updating database dump statistics.\n");
                              break;
                         case 253:
                         case 254:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Dump in progress (See '"ANSI_LYELLOW"Dump"ANSI_LWHITE"' log file.)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Dump in progress (See '" ANSI_LYELLOW "Dump" ANSI_LWHITE "' log file.)\n");
                              break;
                         case 255:
-                             sprintf(cmpbuf,"%sDatabase dumping status:%s"ANSI_LWHITE"Aborting database dump.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                             sprintf(cmpbuf, ANSI_LGREEN "    Database dumping status:  " ANSI_LWHITE "Aborting database dump.\n");
                              break;
 		 }
                  break;
@@ -2806,21 +2801,7 @@ void db_write(struct descriptor_data *p)
                  /* ---->  Report on database dump duration  <---- */
                  if(1) {
                     long average = (dcount > 0) ? (dtotal / dcount):0;
-                    sprintf(cmpbuf,
-                            "%sDatabase dump duration:%s"ANSI_LWHITE"%d:%02d.%02d"ANSI_DCYAN"/"ANSI_LWHITE"%ld:%02ld.%02ld"ANSI_DCYAN"/"ANSI_LWHITE"%d:%02d.%02d"ANSI_DCYAN" \016&nbsp;\016 ("ANSI_LCYAN"Min"ANSI_DCYAN"/"ANSI_LCYAN"Avg"ANSI_DCYAN"/"ANSI_LCYAN"Max"ANSI_DCYAN")%s",
-			    IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=35% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"     ",
-			    IsHtml(p) ? "\016</I></TH><TD>\016":"  ",
-			    (dtotal > 0) ? (dmin / HOUR):0,
-			    (dtotal > 0) ? (dmin % HOUR / MINUTE):0,
-			    (dtotal > 0) ? (dmin % MINUTE):0,
-			    average / HOUR,
-			    average % HOUR / MINUTE,
-			    average % MINUTE,
-			    dmax / HOUR,
-			    dmax % HOUR / MINUTE,
-			    dmax % MINUTE,
-			    IsHtml(p) ? "\016</TD></TR>\016":"\n"
-			    );
+                    sprintf(cmpbuf, ANSI_LGREEN "     Database dump duration:  " ANSI_LWHITE "%d:%02d.%02d" ANSI_DCYAN "/" ANSI_LWHITE "%ld:%02ld.%02ld" ANSI_DCYAN "/" ANSI_LWHITE "%d:%02d.%02d" ANSI_DCYAN "  (" ANSI_LCYAN "Min" ANSI_DCYAN "/" ANSI_LCYAN "Avg" ANSI_DCYAN "/" ANSI_LCYAN "Max" ANSI_DCYAN ")\n", (dtotal > 0) ? (dmin / HOUR) : 0, (dtotal > 0) ? (dmin % HOUR / MINUTE) : 0, (dtotal > 0) ? (dmin % MINUTE) : 0, average / HOUR, average % HOUR / MINUTE, average % MINUTE, dmax / HOUR, dmax % HOUR / MINUTE, dmax % MINUTE);
 		 }
                  break;
             case 253:
@@ -2878,7 +2859,7 @@ void db_write(struct descriptor_data *p)
 #endif
 
                     /* ---->  Create dump lock file  <---- */
-                    sprintf(tmpfile,"%sdump.%d.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,"%sdump.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport);
                     if((lf = fopen(tmpfile,"w"))) {
                        fprintf(lf,"%d",getpid());
                        fflush(lf);
@@ -2892,7 +2873,7 @@ void db_write(struct descriptor_data *p)
                           db_write(NULL);
 
                     /* ---->  Delete dump lock file  <---- */
-                    sprintf(tmpfile,"%sdump.%d.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,"%sdump.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport);
                     unlink(tmpfile);
                     exit(0);
 
@@ -2925,7 +2906,7 @@ void db_write(struct descriptor_data *p)
 
                     dumpchild = NOTHING;
                     kill(dumppid,9);
-                    sprintf(tmpfile,"%sdump.%d.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,"%sdump.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport);
                     unlink(tmpfile);
 		 }
 #endif
@@ -2940,9 +2921,9 @@ void db_write(struct descriptor_data *p)
                           else fclose(dump);
 		    }
 
-                    sprintf(tmpfile,SITE_FILE".%d.%d.DUMP",(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,SITE_FILE".%d.DUMP",(int) telnetport);
                     unlink(tmpfile);
-                    sprintf(tmpfile,"%s.%d.%d.DUMP",dumpfile,(int) telnetport, (int) htmlport);
+                    sprintf(tmpfile,"%s.%d.DUMP",dumpfile,(int) telnetport);
                     unlink(tmpfile);
 		 }
 
@@ -3996,12 +3977,6 @@ dbref db_read_object(FILE *f,dbref i,int version)
                     if(version >= 60) {
                       o->data->player.htmlflags      = db_read_int(f);
                       o->data->player.htmlbackground = (char *) db_read_string(f,1,1);
-                      if(version < 86) {
-                         if((o->data->player.htmlflags & HTML_JAVA) && !(o->data->player.htmlflags & HTML_SCROLLBY))
-                            o->data->player.htmlflags |= HTML_SCROLL;
-                         o->data->player.htmlflags |= HTML_SMILEY;
-		      }
-                      if(version < 87) o->data->player.htmlflags |= HTML_LINKS;
                     }
 
                     if(version >= 73) {
@@ -4041,7 +4016,7 @@ dbref db_read_object(FILE *f,dbref i,int version)
 
                  /* ---->  Compatibility (No more fields read after this point for characters)  <---- */
                  o->data->player.quota = 0;
-                 o->flags2 &= ~(CONNECTED|CHAT_OPERATOR|CHAT_PRIVATE|HTML);
+                 o->flags2 &= ~(CONNECTED|CHAT_OPERATOR|CHAT_PRIVATE);
                  if((version < 45) && Level4(i)) o->flags   |=  SHOUT|BOOT;
                  if(version  < 30) o->flags2                |=  FRIENDS_CHAT;
                  if(version == 45) o->data->player.scrheight =  STANDARD_CHARACTER_SCRHEIGHT;
@@ -4055,8 +4030,6 @@ dbref db_read_object(FILE *f,dbref i,int version)
                  if((version < 69) && Experienced(i)) o->flags &= ~HELP;
                  if((version < 72) && Retired(i)) o->flags &= ~(APPRENTICE|WIZARD|ELDER|DEITY);
                  if(version  < 88) o->flags &= ~BEING;
-                 if((version < 93) && Blank(o->data->player.htmlbackground))
-                    o->data->player.htmlflags &= ~HTML_BGRND;
                  if(version  < 98) {
                     o->data->player.idletime = 0;
                     o->data->player.logins   = 1;

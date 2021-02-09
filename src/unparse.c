@@ -495,15 +495,8 @@ const char *getexitname(dbref player,dbref exit)
       for(; (temp > str) && (*(temp - 1) == ' '); temp--);
       if(temp != NULL) c = *temp, *temp = '\0';
 
-      for(d = descriptor_list; d && !(IsHtml(d) && (d->player == player) && (d->flags & CONNECTED)); d = d->next);
-      if(IsHtml(d) && (ptr == str)) {
-         char buffer[KB];
-         int  copied;
-
-         if(!Number(player) && (Level4(db[player].owner) || Experienced(db[player].owner) || can_read_from(player,exit)))
-            sprintf(objname,ANSI_LWHITE"%s\016<A HREF=\"%sSUBST=OK&COMMAND=%%7Cmove+%s&\" TARGET=TCZINPUT><B>\016%s\016</B></A>\016(#%d %s)",Article(exit,UPPER,INDEFINITE),html_server_url(d,1,2,"input"),html_encode(str,buffer,&copied,KB),str,exit,unparse_flags(exit));
-               else sprintf(objname,ANSI_LWHITE"%s\016<A HREF=\"%sSUBST=OK&COMMAND=%%7Cmove+%s&\" TARGET=TCZINPUT><B>\016%s\016</B></A>\016",Article(exit,UPPER,INDEFINITE),html_server_url(d,1,2,"input"),html_encode(str,buffer,&copied,KB),str);
-      } else if(!Number(player) && (Level4(db[player].owner) || Experienced(db[player].owner) || can_read_from(player,exit)))
+      for(d = descriptor_list; d && !((d->player == player) && (d->flags & CONNECTED)); d = d->next);
+      if(!Number(player) && (Level4(db[player].owner) || Experienced(db[player].owner) || can_read_from(player,exit)))
          sprintf(objname,ANSI_LWHITE"%s%s(#%d %s)%s",Article(exit,UPPER,INDEFINITE),str,exit,unparse_flags(exit),(ptr == str) ? "":" (");
             else sprintf(objname,ANSI_LWHITE"%s%s%s",Article(exit,UPPER,INDEFINITE),str,(ptr == str) ? "":" (");
       if(temp != NULL) *temp = c;
@@ -513,12 +506,7 @@ const char *getexitname(dbref player,dbref exit)
          if(temp != NULL) c = *temp, *temp = '\0';
          u = *ptr;
          if(islower(*ptr)) *ptr = toupper(*ptr);
-         if(IsHtml(d)) {
-            char buffer[KB];
-            int  copied;
-
-            sprintf(objname + strlen(objname),ANSI_LGREEN"\016<A HREF=\"%sSUBST=OK&COMMAND=%%7Cmove+%s&\" TARGET=TCZINPUT><B>\016%s\016</B></A>\016"ANSI_LWHITE") ",html_server_url(d,1,2,"input"),html_encode(ptr,buffer,&copied,KB),ptr);
-	 } else sprintf(objname + strlen(objname),ANSI_LGREEN""ANSI_UNDERLINE"%s"ANSI_LWHITE") ",ptr);
+	 sprintf(objname + strlen(objname),ANSI_LGREEN""ANSI_UNDERLINE"%s"ANSI_LWHITE") ",ptr);
 	 *ptr = u;
          if(temp != NULL) *temp = c;
       }         

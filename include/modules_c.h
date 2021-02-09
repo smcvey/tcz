@@ -291,13 +291,6 @@
         "JPB | Y | 06/07/1994 | 02/12/2004 >>>"
 
 
-/* ---->  From html.c  <---- */
-#define module_html_c_date "21/06/1996"
-#define module_html_c_desc "World Wide Web Interface & HTML support"
-#define module_html_c_authors \
-        "JPB | Y | 21/06/1996 | 02/12/2004 >>>"
-
-
 /* ---->  From interface.c  <---- */
 #define module_interface_c_date "21/12/1993"
 #define module_interface_c_desc "Command pre-processing"
@@ -488,7 +481,7 @@
 
 /* ---->  From server.c  <---- */
 #define module_server_c_date "21/12/1993"
-#define module_server_c_desc "Handling of Telnet/HTML sockets"
+#define module_server_c_desc "Handling of Telnet sockets"
 #define module_server_c_authors \
         "BY  | Y | 01/01/1989 | 21/12/1993 >>>" \
         "DA  | Y | 01/01/1989 | 21/12/1993 >>>" \

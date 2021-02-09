@@ -231,11 +231,11 @@
 
 
 /* ---->  Large substitution flags  <---- */
-#define SUBST_HTML           0x01  /*  '%h' HTML tag evaluation        */
-#define SUBST_HARDHTML       0x02  /*  Hard-coded HTML tag evaluation  */
-#define SUBST_HTMLTAG        0x04  /*  Don't substitute text within HTML tag  */
-#define SUBST_STRIP_TELNET   0x10  /*  Strip text between '%|'s        */
-#define SUBST_STRIP_HTML     0x20  /*  Strip text between '%^'s        */
+#define SUBST_UNUSED1        0x01  /*  Unused                                 */
+#define SUBST_UNUSED2        0x02  /*  Unused                                 */
+#define SUBST_UNUSED3        0x04  /*  Unused                                 */
+#define SUBST_UNUSED4        0x10  /*  Unused                                 */
+#define SUBST_UNUSED5        0x20  /*  Unused                                 */
 
 
 /* ---->  Text formatting flags  <---- */
@@ -375,44 +375,6 @@
 #define ANSI_UNDERLINE  "\x1B[4m"
 
 
-/* ---->  HTML simulations of light ANSI colours  <---- */
-#define HTML_LBLACK    "#525252"
-#define HTML_LRED      "#FF0000"
-#define HTML_LGREEN    "#00FF00"
-#define HTML_LYELLOW   "#FFFF00"
-#define HTML_LBLUE     "#0000FF"
-#define HTML_LMAGENTA  "#FF00FF"
-#define HTML_LCYAN     "#00FFFF"
-#define HTML_LWHITE    "#FFFFFF"
-
-
-/* ---->  HTML simulations of dark ANSI colours  <---- */
-#define HTML_DBLACK    "#000000"
-#define HTML_DRED      "#AD0000"
-#define HTML_DGREEN    "#00AD00"
-#define HTML_DYELLOW   "#ADAD00"
-#define HTML_DBLUE     "#0000AD"
-#define HTML_DMAGENTA  "#AD00AD"
-#define HTML_DCYAN     "#00ADAD"
-#define HTML_DWHITE    "#ADADAD"
-
-
-/* ---->  HTML table background colours  <---- */
-#define HTML_TABLE_BLACK    "#000000"
-#define HTML_TABLE_DGREY    "#222222"
-#define HTML_TABLE_GREY     "#333333"
-#define HTML_TABLE_MGREY    "#444444"
-#define HTML_TABLE_LGREY    "#555555"
-#define HTML_TABLE_RED      "#440000"
-#define HTML_TABLE_GREEN    "#004400"
-#define HTML_TABLE_YELLOW   "#443300"
-#define HTML_TABLE_BLUE     "#000033"
-#define HTML_TABLE_MBLUE    "#111144"
-#define HTML_TABLE_MAGENTA  "#440044"
-#define HTML_TABLE_CYAN     "#004444"
-#define HTML_TABLE_WHITE    "#FFFFFF"
-
-
 /* ---->  Restrictions on strings  <---- */
 #define TEXT_SIZE       (KB * 4)
 #define BUFFER_LEN      ((TEXT_SIZE * 2) + KB)
@@ -493,7 +455,6 @@ extern long                     nextcycle;
 extern unsigned long            bytesread;
 extern int                      dumpchild;
 extern unsigned char            dumptype;
-extern unsigned long            htmlport;
 extern unsigned char            lib_dir;
 
 extern const    char            *email_forward_name;
@@ -504,14 +465,12 @@ extern const    char            *tcz_server_name;
 extern const    char            *tcz_admin_email;
 extern const    char            *tcz_short_name;
 extern const    char            *html_home_url;
-extern const    char            *html_data_url;
 extern const    char            *tcz_full_name;
 extern const    char            *tcz_location;
 extern const    char            *tcz_timezone;
 extern unsigned long            tcz_server_ip;
 extern const    char            *tcz_prompt;
 extern unsigned long            telnetport;
-extern unsigned long            htmlport;
 extern int                      tcz_year;
 
 extern int                      db_accumulated_restarts;

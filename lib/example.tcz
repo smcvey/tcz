@@ -72,6 +72,7 @@ DatabaseCheck: No				# Force full database consistency check (Yes/No)
      FullName: New TCZ-based MUD    		# Full name of server (The Chatting Zone)
     ShortName: TCZ			 	# Short abbreviated name of server (TCZ)
      Location: Not Specified 			# Name and location of ISP, company, university, etc. where TCZ server is located/hosted
+      WebSite: http://www.website.host          # Web Site URL (http://server/path)
 
        Server: tcz.mud.host  			# Server DNS address (server.domain)
    TelnetPort: 8342  				# Telnet port number (8342)
@@ -88,16 +89,6 @@ DatabaseCheck: No				# Force full database consistency check (Yes/No)
     NiceLevel: 0				# Run at nice level (N):  0.
      Shutdown: No				# Immeditate shutdown after start-up (Yes/No)
         Debug: No				# Run in debugging/developer mode (Yes/No)
-
-
-# ---->  HTML (WWW) Interface Options  <----
-#        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-     HTMLPort: 8080				# HTML Interface port number (8080  -  Most firewalls should allow this port number.)
-      WebSite: http://www.website.host		# Web Site URL (http://server/path)
-      DataURL: http://www.website.host/tczhtml	# HTML Interface data URL (http://server/path)
-       Images: No                               # Serve images used by HTML Interface internally (Yes/No) (NOTE:  External web server (DataURL) may be faster.)
-          SSL: Yes				# SSL (Secure Socket Layer) connections (Yes/No)
 
 
 # ---->  E-mail Options  <----

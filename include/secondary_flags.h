@@ -63,7 +63,7 @@
 #define SENDHOME        0x00000800  /*  (Re-used UNDERLINE)  Object should be sent to its home on restart of TCZ.  */
 #define FRIENDS_CHAT    0x00001000  /*  Friends chatting channel on/off?  */
 #define SECURE          0x00001000  /*  (Re-used FRIENDS_CHAT)  Credit dropped in object cannot be taken (Except by object's owner.)  */
-#define HTML            0x00002000  /*  World Wide Web Interface currently in use by character (HTML connection through World Wide Web browser)  */
+/* #define HTML            0x00002000  Unused  */
 #define INHERITABLE     0x00004000  /*  Someone else can make object a parent without being able to control it  */
 #define ORIGINAL        0x00008000  /*  Used during DB dump  -  Object without this flag has been destroyed and re-created during dump (Also used by boolean expression (Object locks) sanity check)  */
 #define LOCAL_ECHO      0x00010000  /*  TCZ should echo text typed by user back to their terminal?  */

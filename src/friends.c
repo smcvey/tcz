@@ -391,7 +391,7 @@ unsigned char process_friendflag(dbref player,struct friend_data *fptr,const cha
 			      db[fptr->friend].data->player.uid = fptr->friend;
 			} else {
 			   output(getdsc(player),player,0,1,0,"");
-			   output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to create objects under your ownership (%s compound commands) and change the owner of any of their objects to you.  If you do not want them to be able to do this, please reset their "ANSI_LYELLOW"CREATE"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = !create"ANSI_LWHITE"'.)\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),(fptr->flags & FRIEND_COMMANDS) ? "Including":"Excluding",getname(fptr->friend));
+			   output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to create objects under your ownership (%s compound commands) and change the owner of any of their objects to you.  If you do not want them to be able to do this, please reset their "ANSI_LYELLOW"CREATE"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = !create"ANSI_LWHITE"'.)\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),(fptr->flags & FRIEND_COMMANDS) ? "Including":"Excluding",getname(fptr->friend));
 			}
 		     } else {
 			output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the "ANSI_LYELLOW"CREATE"ANSI_LGREEN" friend flag can't be set/reset from within a compound command.");
@@ -405,7 +405,7 @@ unsigned char process_friendflag(dbref player,struct friend_data *fptr,const cha
 			return(0);
 		     } else if(!reset) {
 			output(getdsc(player),player,0,1,0,"");
-			output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to destroy %s of your objects%s, %s compound commands.  If you do not want them to be able to do this, please reset their "ANSI_LYELLOW"DESTROY"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = !destroy"ANSI_LWHITE"'.)\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),(fptr->flags & FRIEND_SHARABLE) ? "any":ANSI_LMAGENTA""ANSI_BLINK"ANY"ANSI_LWHITE,(fptr->flags & FRIEND_SHARABLE) ? " which have their "ANSI_LYELLOW"SHARABLE"ANSI_LWHITE" flag set":"",(fptr->flags & FRIEND_COMMANDS) ? "including":"excluding",getname(fptr->friend));
+			output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to destroy %s of your objects%s, %s compound commands.  If you do not want them to be able to do this, please reset their "ANSI_LYELLOW"DESTROY"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = !destroy"ANSI_LWHITE"'.)\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),(fptr->flags & FRIEND_SHARABLE) ? "any":ANSI_LMAGENTA""ANSI_BLINK"ANY"ANSI_LWHITE,(fptr->flags & FRIEND_SHARABLE) ? " which have their "ANSI_LYELLOW"SHARABLE"ANSI_LWHITE" flag set":"",(fptr->flags & FRIEND_COMMANDS) ? "including":"excluding",getname(fptr->friend));
 		     }
 		     break;
 		case FRIEND_PAGETELL:
@@ -425,7 +425,7 @@ unsigned char process_friendflag(dbref player,struct friend_data *fptr,const cha
 		     } else if(reset && (fptr->flags & FRIEND_WRITE)) {
 			fptr->flags &= ~FRIEND_COMMANDS;
 			output(getdsc(player),player,0,1,0,"");
-			output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to modify and destroy "ANSI_LMAGENTA""ANSI_BLINK"ANY"ANSI_LWHITE" of your objects (Excluding compound commands.)  If you do not want them to be able to do this, please set their "ANSI_LYELLOW"SHARABLE"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = sharable"ANSI_LWHITE"'.)\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),getname(fptr->friend));
+			output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to modify and destroy "ANSI_LMAGENTA""ANSI_BLINK"ANY"ANSI_LWHITE" of your objects (Excluding compound commands.)  If you do not want them to be able to do this, please set their "ANSI_LYELLOW"SHARABLE"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = sharable"ANSI_LWHITE"'.)\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),getname(fptr->friend));
 		     }
 		     friend(player,fptr->friend);
 		     break;
@@ -439,7 +439,7 @@ unsigned char process_friendflag(dbref player,struct friend_data *fptr,const cha
 			      fptr->flags |=  FRIEND_SHARABLE;
 			      fptr->flags &= ~FRIEND_COMMANDS;
 			      output(getdsc(player),player,0,1,0,"");
-			      output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to modify and destroy "ANSI_LMAGENTA""ANSI_BLINK"ANY"ANSI_LWHITE" of your objects (Excluding compound commands) which have their "ANSI_LYELLOW"SHARABLE"ANSI_LWHITE" flag set (If you do not want them to be able to do this, please reset their "ANSI_LYELLOW"WRITE"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = !write"ANSI_LWHITE"'.))\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),getname(fptr->friend));
+			      output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" will now be able to modify and destroy "ANSI_LMAGENTA""ANSI_BLINK"ANY"ANSI_LWHITE" of your objects (Excluding compound commands) which have their "ANSI_LYELLOW"SHARABLE"ANSI_LWHITE" flag set (If you do not want them to be able to do this, please reset their "ANSI_LYELLOW"WRITE"ANSI_LWHITE" friend flag ('"ANSI_LGREEN"fset %s = !write"ANSI_LWHITE"'.))\n",Article(fptr->friend,UPPER,DEFINITE),getcname(NOTHING,fptr->friend,0,0),getname(fptr->friend));
 			   }
 			} else {
 			   output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the "ANSI_LYELLOW"WRITE"ANSI_LGREEN" friend flag can't be set on a lower level character (As this would allow them to obtain privileges to which they are not entitled.)");
@@ -616,9 +616,7 @@ void friends_list(CONTEXT)
 
         if(!(!valid && !Blank(arg1) && !Blank(arg2))) {
            setreturn(OK,COMMAND_SUCC);
-           html_anti_reverse(p,1);
-           if(p && !p->pager && !IsHtml(p) && Validchar(p->player) && More(p->player)) pager_init(p);
-           if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+           if(p && !p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
            set_conditions_ps(who,flags_inc,flags_mask,flags_inc2,flags_mask2,flags_exc,fflags_exc,fflags_inc,namespec,(val1) ? 303:304);
            cached_scrheight               = db[who].data->player.scrheight;
            db[who].data->player.scrheight = (db[player].data->player.scrheight) - 8;
@@ -627,51 +625,45 @@ void friends_list(CONTEXT)
            /* ---->  List friends  <---- */
            if(!in_command) {
               if(val1) {
-                 if(who != player) output(p,player,2,1,0,"%s%s"ANSI_LWHITE"%s"ANSI_LGREEN" has the following people in %s friends list...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><TH COLSPAN=2><FONT COLOR="HTML_LGREEN" SIZE=4>\016":"\n "ANSI_LGREEN,Article(who,UPPER,DEFINITE),getcname(player,who,1,0),Possessive(who,0),IsHtml(p) ? "\016</FONT></TH></TR>\016":"\n\n");
-                    else output(p,player,2,1,0,"%sYou have the following people in your friends list...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><TH COLSPAN=2><FONT COLOR="HTML_LGREEN" SIZE=4>\016":"\n "ANSI_LGREEN,IsHtml(p) ? "\016</FONT></TH></TR>\016":"\n\n");
-                 if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Friend flags that you've set on them:</I></FONT></TH></TR>\016");
-                    else output(p,player,0,1,0," Name:                 Friend flags that you've set on them:");
+                 if(who != player) output(p, player, 2, 1, 0, "\n " ANSI_LGREEN "%s" ANSI_LWHITE "%s" ANSI_LGREEN " has the following people in %s friends list...\n\n", Article(who, UPPER, DEFINITE), getcname(player, who, 1, 0), Possessive(who, 0));
+                    else output(p, player, 2, 1, 0, ANSI_LGREEN "\n You have the following people in your friends list...\n\n");
+                 output(p,player,0,1,0," Name:                 Friend flags that you've set on them:");
 	      } else {
-                 if(who != player) output(p,player,2,1,0,"%sThe following people have %s"ANSI_LWHITE"%s"ANSI_LGREEN" in their friends list...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><TH COLSPAN=2><FONT COLOR="HTML_LGREEN" SIZE=4>\016":"\n "ANSI_LGREEN,Article(who,LOWER,DEFINITE),getcname(player,who,1,0),IsHtml(p) ? "\016</FONT></TH></TR>\016":"\n\n");
-                    else output(p,player,2,1,0,"%sThe following people have you in their friends list...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><TH COLSPAN=2><FONT COLOR="HTML_LGREEN" SIZE=4>\016":"\n "ANSI_LGREEN,IsHtml(p) ? "\016</FONT></TH></TR>\016":"\n\n");
-                 if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Friend flags that they've set on you:</I></FONT></TH></TR>\016");
-                    else output(p,player,0,1,0," Name:                 Friend flags that they've set on you:");
+                 if(who != player) output(p, player, 2, 1, 0, ANSI_LGREEN "\n The following people have %s" ANSI_LWHITE "%s" ANSI_LGREEN " in their friends list...\n\n", Article(who, LOWER, DEFINITE), getcname(player, who, 1, 0));
+                    else output(p, player, 2, 1, 0, ANSI_LGREEN "\n The following people have you in their friends list...\n\n");
+                 output(p,player,0,1,0," Name:                 Friend flags that they've set on you:");
 	      }
-              if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+              output(p,player,0,1,0,separator(twidth,0,'-','='));
 	   }
 
            if(grp->distance > 0) {
               while(entiredb_grouprange()) {
-                    sprintf(scratch_buffer,"%s%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TD WIDTH=25%>\016":"",colour = privilege_colour(grp->cobject));
+                    sprintf(scratch_buffer, "%s", colour = privilege_colour(grp->cobject));
                     p1 = (char *) getfield(grp->cobject,PREFIX);
                     if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cobject))) <= 20))
                        sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cobject));
                           else sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s",getname(grp->cobject));
 
-                    if(!IsHtml(p)) {
-                       if((result = strlen(p2)) <= 21) {
-                          for(ptr = p2 + result; result < 21; *ptr++ = ' ', result++);
-                              *ptr = '\0';
-		       } else p2[21] = '\0';
-                       strcat(scratch_buffer,"  ");
-		    }
-                    output(p,player,2,1,23,"%s%s"ANSI_LWHITE"%s"ANSI_DCYAN".%s",scratch_buffer,IsHtml(p) ? "\016</TD><TD>\016":"",friendflags_description((val1) ? friend_flags(who,grp->cobject):friend_flags(grp->cobject,who)),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                    if((result = strlen(p2)) <= 21) {
+                       for(ptr = p2 + result; result < 21; *ptr++ = ' ', result++);
+                           *ptr = '\0';
+		    } else p2[21] = '\0';
+                    strcat(scratch_buffer,"  ");
+                    output(p, player, 2, 1, 23, "%s" ANSI_LWHITE "%s" ANSI_DCYAN ".\n", scratch_buffer, friendflags_description((val1) ? friend_flags(who, grp->cobject) : friend_flags(grp->cobject, who)));
 	      }
 
               if(!in_command) {
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-                 output(p,player,2,1,1,"%sTotal friends found: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
+                 output(p, player, 2, 1, 1, ANSI_LWHITE " Total friends found:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
 	      }
 	   } else {
-              output(p,player,2,1,0,"%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; NO FRIENDS FOUND &nbsp; ***</I></TD></TR>\016":ANSI_LCYAN" ***  NO FRIENDS FOUND  ***\n");
+              output(p, player, 2, 1, 0, ANSI_LCYAN " ***  NO FRIENDS FOUND  ***\n");
               if(!in_command) {
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-                 output(p,player,2,1,0,"%sTotal friends found: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
+                 output(p, player, 2, 1, 0, ANSI_LWHITE " Total friends found:  " ANSI_DWHITE "None.\n\n");
 	      }
 	   }
            db[who].data->player.scrheight = cached_scrheight;
-           if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-           html_anti_reverse(p,1);
 	} else output(p,player,0,1,0,ANSI_LGREEN"%sPlease specify the flag(s) characters must have to be listed.\n",(cr) ? "\n":"");
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may use '"ANSI_LWHITE"%s"ANSI_LGREEN"' from within a compound command.",(val1) ? "flist":"fothers");
 }

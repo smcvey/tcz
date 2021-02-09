@@ -883,7 +883,6 @@ void bbs_add(CONTEXT)
              	                   if(!Blank(arg1)) {
                                       if(!((strlen(arg1) > 50) || strchr(arg1,'\n'))) {
                                          if(!instring("%{",arg1)) {
-                                            if(!instring("%h",arg1)) {
                                                posttime = now + POST_TIME, postwho = player;
                                                if(!Blank(arg2)) {
                                                   ansi_code_filter(arg1,arg1,0);
@@ -913,7 +912,6 @@ void bbs_add(CONTEXT)
                                                   output(getdsc(player),player,0,1,0,ANSI_LWHITE"Please enter your message (Pressing "ANSI_LCYAN"RETURN"ANSI_LWHITE" or "ANSI_LCYAN"ENTER"ANSI_LWHITE" after each line.)  Once you're finished, type '"ANSI_LGREEN".view"ANSI_LWHITE"' to view and check your message.  If you're happy with it, type '"ANSI_LGREEN".save"ANSI_LWHITE"' to save it and add it to %s BBS, otherwise type '"ANSI_LGREEN".abort = yes"ANSI_LWHITE"'.\n",tcz_full_name);
                                                   setreturn(OK,COMMAND_SUCC);
 					       }
-					    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the subject of your message can't contain embedded HTML tags.");
 					 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the subject of your message can't contain query command substitutions ('"ANSI_LWHITE"%%{<QUERY COMMAND>}"ANSI_LGREEN"'.)");
 				      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of the subject for your message is 50 characters.  It also must not contain embedded NEWLINE's.");
 				   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a subject for the message you'd like to add.");
@@ -1043,7 +1041,7 @@ void bbs_ignore(CONTEXT)
 
      setreturn(ERROR,COMMAND_FAIL);
      if(!strcasecmp("all",params)) all = 1;
-     if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+     if(!in_command && p && !p->pager && More(player)) pager_init(p);
      if(all || (igntopic = lookup_topic(player,params,&igntopic,&ignsubtopic))) {
         if(all || can_access_topic(player,(ignsubtopic) ? ignsubtopic:igntopic,NULL,1)) {
            for(; topic; topic = topic->next)
@@ -1102,7 +1100,6 @@ void bbs_latest(CONTEXT)
      struct   bbs_message_data *message;
      dbref    owner = NOTHING;
      short    loop,loop2,mno;
-     int      copied;
 
      struct rank_data {
             struct bbs_message_data *message;
@@ -1202,19 +1199,15 @@ void bbs_latest(CONTEXT)
 	 }
 
      /* ---->  Display results  <---- */
-     html_anti_reverse(p,1);
-     if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!in_command && p && !p->pager && More(player)) pager_init(p);
      if(!in_command) {
         if(owner != NOTHING) {
-           if(owner != player) output(p,player,2,1,1,"%sLatest messages added to "ANSI_LYELLOW"%s BBS"ANSI_LGREEN" by %s"ANSI_LWHITE"%s"ANSI_LGREEN"...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH COLSPAN=4>"ANSI_LGREEN"<I>\016":ANSI_LGREEN"\n ",tcz_full_name,Article(owner,LOWER,DEFINITE),getcname(NOTHING,owner,0,0),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-	      else output(p,player,2,1,1,"%sLatest messages added to "ANSI_LYELLOW"%s BBS"ANSI_LGREEN" by yourself...%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH COLSPAN=4>"ANSI_LGREEN"<I>\016":ANSI_LGREEN"\n ",tcz_full_name,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+           if(owner != player) output(p,player,2,1,1, ANSI_LGREEN "\n Latest messages added to "ANSI_LYELLOW"%s BBS"ANSI_LGREEN" by %s"ANSI_LWHITE"%s"ANSI_LGREEN"...\nn",tcz_full_name,Article(owner,LOWER,DEFINITE),getcname(NOTHING,owner,0,0));
+	      else output(p,player,2,1,1,ANSI_LGREEN "\n Latest messages added to "ANSI_LYELLOW"%s BBS"ANSI_LGREEN" by yourself...\n",tcz_full_name);
 	}
 
-        if(!IsHtml(p)) {
-           output(p,player,0,1,0,"\n Rank:   Topic/sub-topic:            Message number and title:");
-           output(p,player,0,1,0,separator(twidth,0,'-','='));
-	} else output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Rank:</I></FONT></TH><TH WIDTH=30%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Topic/sub-topic:</I></FONT></TH><TH COLSPAN=2><FONT COLOR="HTML_LCYAN" SIZE=4><I>Message number and title:</I></FONT></TH></TR>\016");
+        output(p,player,0,1,0,"\n Rank:   Topic/sub-topic:            Message number and title:");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      if(ranking[0].message) {
@@ -1224,32 +1217,21 @@ void bbs_latest(CONTEXT)
             sprintf(scratch_return_string,"(%s)",rank(loop + 1));
             sprintf(scratch_return_string + 100,"(%d)",ranking[loop].number);
             sprintf(scratch_return_string + 200,"%s%s%s",(ranking[loop].subtopic) ? ranking[loop].subtopic->name:"",(ranking[loop].subtopic) ? "/":"",ranking[loop].topic->name);
-            if(IsHtml(p)) sprintf(scratch_buffer,"\016<TR ALIGN=CENTER><TD WIDTH=10%% BGCOLOR="HTML_TABLE_RED">\016"ANSI_LRED"%s\016</TD><TD ALIGN=CENTER WIDTH=30%% BGCOLOR="HTML_TABLE_BLUE"><A HREF=\"%sSUBST=OK&COMMAND=%%7Cbbs+topic+%s&\" TARGET=TCZINPUT>\016%s\016</A></TD><TD WIDTH=10%% BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN"%s\016</TD><TD ALIGN=LEFT WIDTH=50%%>\016",scratch_return_string,html_server_url(p,1,2,"input"),html_encode(scratch_return_string + 200,scratch_return_string + 500,&copied,128),scratch_return_string + 200,scratch_return_string + 100);
-               else sprintf(scratch_buffer,ANSI_LRED" %-8s"ANSI_LWHITE"%-28s"ANSI_LGREEN"%-7s",scratch_return_string,scratch_return_string + 200,scratch_return_string + 100);
+            sprintf(scratch_buffer,ANSI_LRED" %-8s"ANSI_LWHITE"%-28s"ANSI_LGREEN"%-7s",scratch_return_string,scratch_return_string + 200,scratch_return_string + 100);
             substitute(Validchar(ranking[loop].message->owner) ? ranking[loop].message->owner:player,scratch_return_string,decompress(ranking[loop].message->subject),0,ANSI_LYELLOW,NULL,0);
             if(ranking[loop].topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string,scratch_return_string);
-            if(!IsHtml(p)) truncatestr(scratch_return_string,scratch_return_string,0,(ranking[loop].message->flags & MESSAGE_REPLY) ? 28:32);
+            truncatestr(scratch_return_string,scratch_return_string,0,(ranking[loop].message->flags & MESSAGE_REPLY) ? 28:32);
             sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"'",(ranking[loop].message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string);
             sprintf(scratch_return_string,"%s%s",bbs_unread_message(ranking[loop].message,player,&ignored) ? ANSI_LMAGENTA" (*UNREAD*)":(ignored) ? ANSI_LMAGENTA" (Ignored)":"",(ranking[loop].message->flags & MESSAGE_APPEND) ? ANSI_LBLUE" (Appended)":"");
-            if(!BlankContent(scratch_return_string)) sprintf(scratch_buffer + strlen(scratch_buffer)," \016&nbsp;\016%s",scratch_return_string);
-            output(p,player,2,1,44,"%s%s",scratch_buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+            if(!BlankContent(scratch_return_string)) sprintf(scratch_buffer + strlen(scratch_buffer)," %s",scratch_return_string);
+            output(p,player,2,1,44,"%s\n",scratch_buffer);
 	}
-     } else if(IsHtml(p)) output(p,player,2,1,0,(owner == NOTHING) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; SORRY, THERE ARE NO MESSAGES ON THE BBS AT THE MOMENT &nbsp; ***</I></TD></TR>\016":"\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO MESSAGES FOUND &nbsp; ***</I></TD></TR>\016");
-        else output(p,player,0,1,0,(owner == NOTHING) ? " ***  SORRY, THERE ARE NO MESSAGES ON THE BBS AT THE MOMENT  ***":" ***  NO MESSAGES FOUND  ***");
+     } else output(p,player,0,1,0,(owner == NOTHING) ? " ***  SORRY, THERE ARE NO MESSAGES ON THE BBS AT THE MOMENT  ***":" ***  NO MESSAGES FOUND  ***");
 
      /* ---->  BBS navigation buttons  <---- */
-     if(!in_command) {
-        if(IsHtml(p)) {
-           strcpy(scratch_buffer,"<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=4>");
-           sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+unread&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT UNREAD]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("nextunread.gif"));
-           sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+topics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("topics.gif"));
-           sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+summary&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUMMARY]\" BORDER=0></A>",html_server_url(p,1,2,"input"),html_image_url("summary.gif"));
-           output(p,player,1,2,0,"%s</TD></TR>",scratch_buffer);
-	} else output(p,player,0,1,0,separator(twidth,1,'-','='));
-     }
+     if(!in_command)
+	output(p,player,0,1,0,separator(twidth,1,'-','='));
 
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(p,0);
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -1444,60 +1426,53 @@ void bbs_settings(CONTEXT)
 
      setreturn(ERROR,COMMAND_FAIL);
      if((topic = lookup_topic(player,params,&topic,&subtopic))) {
-        html_anti_reverse(p,1);
-        if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
-        if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-           else output(p,player,0,1,0,"");
+        if(!in_command && p && !p->pager && More(player)) pager_init(p);
+        output(p,player,0,1,0,"");
 
         if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_buffer,decompress(topic->desc));
            else strcpy(scratch_buffer,decompress(topic->desc));
         substitute(Validchar(topic->owner) ? topic->owner:player,scratch_return_string,scratch_buffer,0,ANSI_LWHITE,NULL,0);
-        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR><TH ALIGN=CENTER WIDTH=20%% BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016"ANSI_LYELLOW""ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN"\016</I></FONT></TH><TH ALIGN=LEFT BGCOLOR="HTML_TABLE_BLUE"><FONT SIZE=4><I>\016"ANSI_LWHITE"%s\016</I></FONT></TH></TR>\016",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,scratch_return_string);
-           else output(p,player,0,1,strlen(topic->name) + ((subtopic) ? (strlen(subtopic->name) + 1):0) + 4,ANSI_LYELLOW" "ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN":  "ANSI_LWHITE"%s",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,scratch_return_string);
+        output(p,player,0,1,strlen(topic->name) + ((subtopic) ? (strlen(subtopic->name) + 1):0) + 4,ANSI_LYELLOW" "ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN":  "ANSI_LWHITE"%s",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,scratch_return_string);
 
         /* ---->  Topic's owner  <---- */
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-        if(subtopic) output(p,player,2,1,1,"%s"ANSI_LCYAN"This sub-topic in the topic '"ANSI_LYELLOW"%s"ANSI_LCYAN"' is owned by %s"ANSI_LWHITE"%s"ANSI_LCYAN".%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TD COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN">\016":" ",subtopic->name,Article(topic->owner,LOWER,INDEFINITE),getcname(NOTHING,topic->owner,0,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           else output(p,player,2,1,1,"%s"ANSI_LCYAN"This topic is owned by %s"ANSI_LWHITE"%s"ANSI_LCYAN".%s",IsHtml(p) ? "\016<TR ALIGN=LEFT><TD COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN">\016":" ",Article(topic->owner,LOWER,INDEFINITE),getcname(NOTHING,topic->owner,0,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
+        if(subtopic) output(p,player,2,1,1,ANSI_LCYAN " This sub-topic in the topic '"ANSI_LYELLOW"%s"ANSI_LCYAN"' is owned by %s"ANSI_LWHITE"%s"ANSI_LCYAN".\n",subtopic->name,Article(topic->owner,LOWER,INDEFINITE),getcname(NOTHING,topic->owner,0,0));
+           else output(p,player,2,1,1,ANSI_LCYAN " This topic is owned by %s"ANSI_LWHITE"%s"ANSI_LCYAN".\n",Article(topic->owner,LOWER,INDEFINITE),getcname(NOTHING,topic->owner,0,0));
+        output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
         /* ---->  Topic's access level  <---- */
-        if(IsHtml(p)) output(p,player,1,2,0,"<TR><TD ALIGN=LEFT COLSPAN=2 BGCOLOR="HTML_TABLE_BLACK">");
         if(subtopic && (subtopic->accesslevel < topic->accesslevel))
            accesslevel = subtopic->accesslevel, inherited = 1;
 	      else accesslevel = topic->accesslevel;
         if(accesslevel < 8) {
-           if(inherited) output(p,player,2,1,1,"%s"ANSI_LGREEN"This sub-topic may only be accessed by %s (This access restriction is inherited from the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'.)%s",IsHtml(p) ? "":" ",clevels[accesslevel],subtopic->name,IsHtml(p) ? "\016<P>\016":"\n\n");
-              else output(p,player,2,1,1,"%s"ANSI_LGREEN"This %stopic may only be accessed by %s.%s",IsHtml(p) ? "":" ",(subtopic) ? "sub-":"",clevels[accesslevel],IsHtml(p) ? "\016<P>\016":"\n\n");
-	} else output(p,player,2,1,1,"%s"ANSI_LGREEN"Access to this %stopic is not restricted.%s",IsHtml(p) ? "":" ",(subtopic) ? "sub-":"",IsHtml(p) ? "\016<P>\016":"\n\n");
+           if(inherited) output(p,player,2,1,1,ANSI_LGREEN " This sub-topic may only be accessed by %s (This access restriction is inherited from the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'.)\n\n",clevels[accesslevel],subtopic->name);
+              else output(p,player,2,1,1,ANSI_LGREEN" This %stopic may only be accessed by %s.\n\n",(subtopic) ? "sub-":"",clevels[accesslevel]);
+	} else output(p,player,2,1,1,ANSI_LGREEN" Access to this %stopic is not restricted.\n\n",(subtopic) ? "sub-":"");
 
         /* ---->  Topic's time limit  <---- */
-        if(topic->timelimit) output(p,player,2,1,1,"%s"ANSI_LGREEN"Messages which haven't been read for "ANSI_LYELLOW"%d"ANSI_LGREEN" day%s will be deleted automatically.%s",IsHtml(p) ? "":" ",topic->timelimit,Plural(topic->timelimit),IsHtml(p) ? "\016<P>\016":"\n\n");
-	   else output(p,player,2,1,1,"%s"ANSI_LGREEN"Messages are not subject to a time limit and will not be deleted automatically.%s",IsHtml(p) ? "":" ",IsHtml(p) ? "\016<P>\016":"\n\n");
+        if(topic->timelimit) output(p,player,2,1,1,ANSI_LGREEN" Messages which haven't been read for "ANSI_LYELLOW"%d"ANSI_LGREEN" day%s will be deleted automatically.\n\n",topic->timelimit,Plural(topic->timelimit));
+	   else output(p,player,2,1,1,ANSI_LGREEN" Messages are not subject to a time limit and will not be deleted automatically.\n\n");
 
         /* ---->  Topic's message limit  <---- */
         count = bbs_messagecount(topic->messages,player,&count);
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"A maximum of "ANSI_LWHITE"%d"ANSI_LGREEN" message%s %s allowed in this %stopic at any one time (There %s "ANSI_LWHITE"%d"ANSI_LGREEN" message%s at present)  -  %s%s",IsHtml(p) ? "":" ",topic->messagelimit,Plural(topic->messagelimit),(topic->messagelimit == 1) ? "is":"are",(subtopic) ? "sub-":"",(count == 1) ? "is":"are",count,Plural(count),(topic->flags & TOPIC_CYCLIC) ? "Old messages will automatically be deleted when this topic is full and new messages are added (Cyclic deletion.)":"When this topic is full, no new messages may be added.",IsHtml(p) ? "\016<P>\016":"\n");
+        output(p,player,2,1,1,ANSI_LGREEN" A maximum of "ANSI_LWHITE"%d"ANSI_LGREEN" message%s %s allowed in this %stopic at any one time (There %s "ANSI_LWHITE"%d"ANSI_LGREEN" message%s at present)  -  %s\n",topic->messagelimit,Plural(topic->messagelimit),(topic->messagelimit == 1) ? "is":"are",(subtopic) ? "sub-":"",(count == 1) ? "is":"are",count,Plural(count),(topic->flags & TOPIC_CYCLIC) ? "Old messages will automatically be deleted when this topic is full and new messages are added (Cyclic deletion.)":"When this topic is full, no new messages may be added.");
 
         /* ---->  Topic's sub-topic limit  <---- */
         if(!subtopic) {
            for(subtopic = topic->subtopics, count = 0; subtopic; subtopic = subtopic->next, count++);
-           output(p,player,2,1,1,"%s"ANSI_LGREEN"A maximum of "ANSI_LWHITE"%d"ANSI_LGREEN" sub-topic%s %s allowed in this topic (There %s "ANSI_LWHITE"%d"ANSI_LGREEN" sub-topic%s at present.)%s",IsHtml(p) ? "\016<P>\016":"\n ",topic->subtopiclimit,Plural(topic->subtopiclimit),(topic->subtopiclimit == 1) ? "is":"are",(count == 1) ? "is":"are",count,Plural(count),IsHtml(p) ? "":"\n");
+           output(p,player,2,1,1,ANSI_LGREEN"\n A maximum of "ANSI_LWHITE"%d"ANSI_LGREEN" sub-topic%s %s allowed in this topic (There %s "ANSI_LWHITE"%d"ANSI_LGREEN" sub-topic%s at present.)\n",topic->subtopiclimit,Plural(topic->subtopiclimit),(topic->subtopiclimit == 1) ? "is":"are",(count == 1) ? "is":"are",count,Plural(count));
            subtopic = NULL;
 	}
-        if(IsHtml(p)) output(p,player,1,2,0,"</TD></TR><TR><TD ALIGN=LEFT COLSPAN=2 BGCOLOR="HTML_TABLE_BLACK">");
-           else output(p,player,0,1,0,separator(twidth,0,'-','-'));
+        output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
         /* ---->  Topic's parameters  <---- */
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"Messages may%s be added.%s",IsHtml(p) ? "":" ",(topic->flags & TOPIC_ADD) ? "":" not",IsHtml(p) ? "\016<BR>\016":"\n");
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"Mortals may%s add messages.%s",IsHtml(p) ? "":" ",(topic->flags & TOPIC_MORTALADD) ? "":" not",IsHtml(p) ? "\016<BR>\016":"\n");
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"Messages may%s be made anonymous.%s",IsHtml(p) ? "":" ",(topic->flags & TOPIC_ANON) ? "":" not",IsHtml(p) ? "\016<BR>\016":"\n");
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"Bad language in messages will%s be censored.%s",IsHtml(p) ? "":" ",(topic->flags & TOPIC_CENSOR) ? "":" not",IsHtml(p) ? "\016<BR>\016":"\n");
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"Messages will%s be automatically formatted.%s",IsHtml(p) ? "":" ",(topic->flags & TOPIC_FORMAT) ? "":" not",IsHtml(p) ? "\016<BR>\016":"\n");
-        output(p,player,2,1,1,"%s"ANSI_LGREEN"This topic will%s be hilighted in the list of %stopics.%s",IsHtml(p) ? "":" ",(topic->flags & TOPIC_HILIGHT) ? "":" not",(subtopic) ? "sub-":"",IsHtml(p) ? "\016<BR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,1,separator(twidth,1,'-','='));
-           else output(p,player,1,2,0,"</TD></TR></TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
+        output(p,player,2,1,1,ANSI_LGREEN" Messages may%s be added.\n",(topic->flags & TOPIC_ADD) ? "":" not");
+        output(p,player,2,1,1,ANSI_LGREEN" Mortals may%s add messages.\n",(topic->flags & TOPIC_MORTALADD) ? "":" not");
+        output(p,player,2,1,1,ANSI_LGREEN" Messages may%s be made anonymous.\n",(topic->flags & TOPIC_ANON) ? "":" not");
+        output(p,player,2,1,1,ANSI_LGREEN" Bad language in messages will%s be censored.\n",(topic->flags & TOPIC_CENSOR) ? "":" not");
+        output(p,player,2,1,1,ANSI_LGREEN" Messages will%s be automatically formatted.\n",(topic->flags & TOPIC_FORMAT) ? "":" not");
+        output(p,player,2,1,1,ANSI_LGREEN" This topic will%s be hilighted in the list of %stopics.\n",(topic->flags & TOPIC_HILIGHT) ? "":" not",(subtopic) ? "sub-":"");
+        output(p,player,0,1,1,separator(twidth,1,'-','='));
         setreturn(OK,COMMAND_SUCC);
      } else if(!Blank(params)) output(p,player,0,1,0,ANSI_LGREEN"Sorry, the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",params);
         else output(p,player,0,1,0,ANSI_LGREEN"Please choose a topic first by typing '"ANSI_LWHITE"%stopic <TOPIC NAME>"ANSI_LGREEN"' (Type '"ANSI_LYELLOW"%stopics"ANSI_LGREEN"' to see the list of available topics.)",(command_type == BBS_COMMAND) ? "bbs ":"",(command_type == BBS_COMMAND) ? "bbs ":"");
@@ -1506,7 +1481,7 @@ void bbs_settings(CONTEXT)
 /* ---->  Summary of topics with new messages on the BBS  <---- */
 void bbs_summary(CONTEXT)
 {
-     int      newcount = 0,topicnew,latestmsg,msgcount,copied;
+     int      newcount = 0,topicnew,latestmsg,msgcount;
      struct   bbs_list_data *head = NULL,*tail = NULL,*new;
      unsigned char twidth = output_terminal_width(player);
      struct   bbs_message_data *message,*last,*latest;
@@ -1515,17 +1490,13 @@ void bbs_summary(CONTEXT)
      unsigned char finished,ignored;
 
      setreturn(OK,COMMAND_SUCC);
-     html_anti_reverse(p,1);
      if((!strcasecmp("page",params) && (strlen(params) == 4)) || !strncasecmp(params,"page ",5))
         for(params += 4; *params && (*params == ' '); params++);
      params = (char *) parse_grouprange(player,params,FIRST,1);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
 
      if(!in_command) {
-        if(!IsHtml(p)) {
-           output(p,player,0,1,0,ANSI_LGREEN"\nSummary of unread messages in topics/sub-topics on "ANSI_LYELLOW"%s BBS"ANSI_LGREEN"...\n\n"ANSI_LCYAN" Topic/sub-topic:         Unread:  Number and title of first unread message:",tcz_full_name);
-           output(p,player,0,1,0,separator(twidth,0,'-','='));
-	} else output(p,player,2,1,1,"\016<TR ALIGN=CENTER><TH COLSPAN=4 BGCOLOR="HTML_TABLE_GREEN">"ANSI_LGREEN"<I>Summary of unread messages in topics/sub-topics on "ANSI_LYELLOW"%s BBS"ANSI_LGREEN"...</I></TH></TR><TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=30%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Topic/sub-topic:</I></FONT></TH><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN"><I>Unread:</I></FONT></TH><TH COLSPAN=2><FONT COLOR="HTML_LCYAN"><I>Number and title of first unread message:</I></FONT></TH></TR>\016",tcz_full_name);
+        output(p,player,0,1,0,ANSI_LGREEN"\nSummary of unread messages in topics/sub-topics on "ANSI_LYELLOW"%s BBS"ANSI_LGREEN"...\n\n"ANSI_LCYAN" Topic/sub-topic:         Unread:  Number and title of first unread message:",tcz_full_name);
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      /* ---->  Place topics and sub-topics with unread messages (In order) into linked list  <---- */
@@ -1568,8 +1539,7 @@ void bbs_summary(CONTEXT)
            truncatestr(scratch_return_string + 50,scratch_return_string + 50,0,(latest->flags & MESSAGE_REPLY) ? 30:34);
            if(grp->cunion->bbslist.topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string + 50,scratch_return_string + 50);
            sprintf(scratch_return_string + 200,"%s%s%s",(grp->cunion->bbslist.subtopic) ? grp->cunion->bbslist.subtopic->name:"",(grp->cunion->bbslist.subtopic) ? "/":"",grp->cunion->bbslist.topic->name);
-           if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD ALIGN=CENTER WIDTH=30%% BGCOLOR="HTML_TABLE_BLUE"><A HREF=\"%sSUBST=OK&COMMAND=%%7Cbbs+topic+%s&\" TARGET=TCZINPUT>\016%s\016</A></TD><TD WIDTH=10%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"%d</TD><TD WIDTH=10%% BGCOLOR="HTML_TABLE_GREEN">"ANSI_LGREEN"%s</TD><TD ALIGN=LEFT WIDTH=50%%>\016"ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s\016</TD></TR>\016",html_server_url(p,1,2,"input"),html_encode(scratch_return_string + 200,scratch_buffer,&copied,128),scratch_return_string + 200,topicnew,scratch_return_string,(latest->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string + 50,(latest->flags & MESSAGE_APPEND) ? ANSI_LBLUE" \016&nbsp;\016 (Appended)":"");
-              else output(p,player,0,1,42,ANSI_LWHITE" %-29s"ANSI_LRED"%3d"ANSI_LGREEN"  %-7s"ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s",scratch_return_string + 200,topicnew,scratch_return_string,(latest->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string + 50,(latest->flags & MESSAGE_APPEND) ? ANSI_LBLUE"  (Appended)":"");
+           output(p,player,0,1,42,ANSI_LWHITE" %-29s"ANSI_LRED"%3d"ANSI_LGREEN"  %-7s"ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"'%s",scratch_return_string + 200,topicnew,scratch_return_string,(latest->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string + 50,(latest->flags & MESSAGE_APPEND) ? ANSI_LBLUE"  (Appended)":"");
      }
 
      /* ---->  Free linked list  <---- */
@@ -1578,27 +1548,16 @@ void bbs_summary(CONTEXT)
          FREENULL(head);
      }
 
-     if(grp->rangeitems == 0) output(p,player,2,1,1,IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; SORRY, THERE ARE NO UNREAD MESSAGES ON THE BBS AT THE MOMENT &nbsp; ***</I></TD></TR>\016":ANSI_LCYAN" ***  SORRY, THERE ARE NO UNREAD MESSAGES ON THE BBS AT THE MOMENT  ***\n");
+     if(grp->rangeitems == 0) output(p,player,2,1,1,ANSI_LCYAN" ***  SORRY, THERE ARE NO UNREAD MESSAGES ON THE BBS AT THE MOMENT  ***\n");
      if(!in_command) {
 
-        /* ---->  BBS navigation buttons  <---- */
-        if(IsHtml(p)) {
-           strcpy(scratch_buffer,"<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=4>");
-           sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+unread&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT UNREAD]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("nextunread.gif"));
-           sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+topics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("topics.gif"));
-           sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+latest&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[LATEST]\" BORDER=0></A>",html_server_url(p,1,2,"input"),html_image_url("latest.gif"));
-           output(p,player,1,2,0,"%s</TD></TR>",scratch_buffer);
-	}
-
         /* ---->  Topics listed/total unread messages within topics  <---- */
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
         if(grp->rangeitems != 0) {
            listed_items(scratch_return_string,1);
-           output(p,player,2,1,1,"%sTopics listed: \016&nbsp;\016 "ANSI_DWHITE"%s\016 &nbsp; &nbsp; &nbsp; \016"ANSI_LWHITE"Total unread messages listed: \016&nbsp;\016 "ANSI_DWHITE"%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=4>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",scratch_return_string,newcount,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-	} else output(p,player,2,1,1,"%sTopics listed: \016&nbsp;\016 "ANSI_DWHITE"None.\016 &nbsp; &nbsp; &nbsp; \016"ANSI_LWHITE"Total unread messages listed: \016&nbsp;\016 "ANSI_DWHITE"0.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=4>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-        if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
+           output(p,player,2,1,1,ANSI_LWHITE " Topics listed:  "ANSI_DWHITE"%s    "ANSI_LWHITE"Total unread messages listed:  "ANSI_DWHITE"%d.\n\n",scratch_return_string,newcount);
+	} else output(p,player,2,1,1,ANSI_LWHITE " Topics listed:  "ANSI_DWHITE"None.    "ANSI_LWHITE"Total unread messages listed:  "ANSI_DWHITE"0.\n\n");
      }
-     html_anti_reverse(p,0);
 }
 
 /* ---->  Select topic to browse from list of available topics/sub-topics  <---- */
@@ -1666,7 +1625,7 @@ void bbs_topics(CONTEXT)
 {
      unsigned short selected = (val1) ? db[player].data->player.subtopic_id:db[player].data->player.topic_id;
      unsigned char twidth = output_terminal_width(player),cached_scrheight,access;
-     int      totalunread = 0,messages,unread,counter = 0,columns,copied;
+     int      totalunread = 0,messages,unread,counter = 0,columns;
      struct   bbs_topic_data *ptr = NULL,*topic = NULL,*subtopic = NULL;
      struct   descriptor_data *p = getdsc(player);
      char     *selname = NULL;
@@ -1682,23 +1641,16 @@ void bbs_topics(CONTEXT)
         if(!val1 || can_access_topic(player,(subtopic) ? subtopic:topic,NULL,1)) {
            if(!val1 || (subtopic && subtopic->subtopics) || (!subtopic && topic->subtopics)) {
               messages         = bbs_topiccount((val1) ? (subtopic) ? subtopic->subtopics:topic->subtopics:bbs);
-              columns          = IsHtml(p) ? 3:(twidth / 26);
+              columns          = twidth / 26;
               cached_scrheight = db[player].data->player.scrheight;
 
 
-              html_anti_reverse(p,1);
               db[player].data->player.scrheight = ((db[player].data->player.scrheight - 9) * columns) * 2;
-              if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
 
               if(!in_command) {
-                 if(IsHtml(p)) {
-	            if(val1) output(p,player,2,1,1,"\016<TR><TH ALIGN=CENTER COLSPAN=6 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN"There %s "ANSI_LWHITE"%d"ANSI_LCYAN" sub-topic%s available in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' on "ANSI_LYELLOW"%s BBS"ANSI_LCYAN"...\016</I></FONT></TH></TR>\016",(messages == 1) ? "is":"are",messages,Plural(messages),(subtopic) ? subtopic->name:topic->name,tcz_full_name);
-                       else output(p,player,2,1,1,"\016<TR><TH ALIGN=CENTER COLSPAN=6 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN"There %s "ANSI_LWHITE"%d"ANSI_LCYAN" topic%s on "ANSI_LYELLOW"%s BBS"ANSI_LCYAN"...\016</I></FONT></TH></TR>\016",(messages == 1) ? "is":"are",messages,Plural(messages),tcz_full_name);
-	         } else {
-                    if(val1) output(p,player,0,1,1,"\n There %s "ANSI_LWHITE"%d"ANSI_LCYAN" sub-topic%s available in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' on "ANSI_LYELLOW"%s BBS"ANSI_LCYAN"...",(messages == 1) ? "is":"are",messages,Plural(messages),(subtopic) ? subtopic->name:topic->name,tcz_full_name);
-                       else output(p,player,0,1,1,"\n There %s "ANSI_LWHITE"%d"ANSI_LCYAN" topic%s on "ANSI_LYELLOW"%s BBS"ANSI_LCYAN"...",(messages == 1) ? "is":"are",messages,Plural(messages),tcz_full_name);
-                    output(p,player,0,1,0,separator(twidth,0,'-','='));
-		 }
+                 if(val1) output(p,player,0,1,1,"\n There %s "ANSI_LWHITE"%d"ANSI_LCYAN" sub-topic%s available in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' on "ANSI_LYELLOW"%s BBS"ANSI_LCYAN"...",(messages == 1) ? "is":"are",messages,Plural(messages),(subtopic) ? subtopic->name:topic->name,tcz_full_name);
+                    else output(p,player,0,1,1,"\n There %s "ANSI_LWHITE"%d"ANSI_LCYAN" topic%s on "ANSI_LYELLOW"%s BBS"ANSI_LCYAN"...",(messages == 1) ? "is":"are",messages,Plural(messages),tcz_full_name);
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
 	      }
 
               /* ---->  List topics/sub-topics  <---- */
@@ -1707,8 +1659,8 @@ void bbs_topics(CONTEXT)
               while(union_grouprange()) {
                     counter++, unread = 0;
                     if(counter > columns) {
-                       output(p,player,2,1,0,IsHtml(p) ? "\016<TR ALIGN=CENTER>\016%s\016</TR>\016":"%s\n",scratch_buffer);
-                       strcpy(scratch_buffer,IsHtml(p) ? "":" "ANSI_LWHITE);
+                       output(p,player,2,1,0,"%s\n",scratch_buffer);
+                       strcpy(scratch_buffer," "ANSI_LWHITE);
                        counter = 1;
 		    }
 
@@ -1724,54 +1676,30 @@ void bbs_topics(CONTEXT)
 
                     sprintf(scratch_return_string,"%s"ANSI_DCYAN,grp->cunion->topic.name);
                     sprintf(scratch_return_string + 100,"("ANSI_LGREEN"%d"ANSI_DCYAN","ANSI_LWHITE"%d"ANSI_DCYAN")",unread,messages);
-                    if(IsHtml(p)) sprintf(scratch_buffer + strlen(scratch_buffer),"\016<TD WIDTH=25%% BGCOLOR="HTML_TABLE_BLUE">%s<A HREF=\"%sSUBST=OK&COMMAND=%%7Cbbs+%stopic+%s&\" TARGET=TCZINPUT>\016%s%s%s\016</A></TD><TD WIDTH=8%% BGCOLOR="HTML_TABLE_MBLUE">\016"ANSI_DCYAN"%s\016</TD>\016",(selected == grp->cunion->topic.topic_id) ? ANSI_WMAGENTA"->"ANSI_LWHITE" ":(!can_access_topic(player,&(grp->cunion->topic),subtopic,0)) ? ANSI_LRED"!":(grp->cunion->topic.flags & TOPIC_HILIGHT) ? ANSI_LYELLOW"*":"",html_server_url(p,1,2,"input"),(val1) ? "sub":"",html_encode(grp->cunion->topic.name,scratch_return_string + 200,&copied,256),(selected == grp->cunion->topic.topic_id) ? "\016<B>\016":(grp->cunion->topic.flags & TOPIC_HILIGHT) ? "\016<B><I>\016":"",scratch_return_string,(selected == grp->cunion->topic.topic_id) ? "\016</B>\016":(grp->cunion->topic.flags & TOPIC_HILIGHT) ? "\016</B></I>\016":"",scratch_return_string + 100);
-                       else sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s%s%-20s%46s ",(selected == grp->cunion->topic.topic_id) ? ANSI_WMAGENTA"->":(!can_access_topic(player,&(grp->cunion->topic),subtopic,0)) ? ANSI_LRED" !":(grp->cunion->topic.flags & TOPIC_HILIGHT) ? ANSI_LYELLOW" *":"  ",(selected == grp->cunion->topic.topic_id) ? ANSI_LYELLOW:(grp->cunion->topic.flags & TOPIC_HILIGHT) ? ANSI_LCYAN:ANSI_LWHITE,((selected == grp->cunion->topic.topic_id) && Underline(player)) ? ANSI_UNDERLINE:"",scratch_return_string,scratch_return_string + 100);
+                    sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s%s%-20s%46s ",(selected == grp->cunion->topic.topic_id) ? ANSI_WMAGENTA"->":(!can_access_topic(player,&(grp->cunion->topic),subtopic,0)) ? ANSI_LRED" !":(grp->cunion->topic.flags & TOPIC_HILIGHT) ? ANSI_LYELLOW" *":"  ",(selected == grp->cunion->topic.topic_id) ? ANSI_LYELLOW:(grp->cunion->topic.flags & TOPIC_HILIGHT) ? ANSI_LCYAN:ANSI_LWHITE,((selected == grp->cunion->topic.topic_id) && Underline(player)) ? ANSI_UNDERLINE:"",scratch_return_string,scratch_return_string + 100);
                     if(selected == grp->cunion->topic.topic_id) selname = grp->cunion->topic.name;
 	      }
-              if(counter > 0) {
-                 if(IsHtml(p)) while(++counter <= columns) strcat(scratch_buffer,"\016<TD WIDTH=25% BGCOLOR="HTML_TABLE_BLUE">&nbsp;</TD><TD WIDTH=8% BGCOLOR="HTML_TABLE_MBLUE">&nbsp;</TD>\016");
-                 output(p,player,2,1,0,IsHtml(p) ? "\016<TR ALIGN=CENTER>\016%s\016</TR>\016":"%s\n",scratch_buffer);
-	      }
+              if(counter > 0)
+                 output(p,player,2,1,0,"%s\n",scratch_buffer);
 
-              if(grp->rangeitems == 0) output(p,player,2,1,1,IsHtml(p) ? "\016<TH ALIGN=CENTER><TD COLSPAN=6>"ANSI_LCYAN"<I>*** &nbsp; SORRY, THERE ARE NO TOPICS AVAILABLE AT THE MOMENT &nbsp; ***</I></TD></TR>\016":ANSI_LCYAN" ***  SORRY, THERE ARE NO TOPICS AVAILABLE AT THE MOMENT  ***\n");
+              if(grp->rangeitems == 0) output(p,player,2,1,1,ANSI_LCYAN" ***  SORRY, THERE ARE NO TOPICS AVAILABLE AT THE MOMENT  ***\n");
               if(!in_command) {
 
                  /* ---->  Topic selection instructions  <---- */
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
-                 if(!Blank(selname) && selected) output(p,player,2,1,1,"%sYour current selected %stopic is '"ANSI_LYELLOW"%s"ANSI_LWHITE"'. \016&nbsp;\016 To select a different topic, type '"ANSI_LGREEN"%s%stopic <TOPIC NAME>"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=6><I>\016"ANSI_LWHITE:ANSI_LWHITE" ",(val1) ? "sub-":"",selname,(command_type == BBS_COMMAND) ? "bbs ":"",(val1) ? "sub":"",IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-                    else output(p,player,2,1,1,"%sPlease select a %stopic from the above list by typing '"ANSI_LGREEN"%s%stopic <TOPIC NAME>"ANSI_LWHITE"'.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=6>"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",(val1) ? "sub-":"",(command_type == BBS_COMMAND) ? "bbs ":"",(val1) ? "sub":"",IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-                 if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-
-                 /* ---->  Topic navigation buttons (HTML)  <---- */
-                 if(IsHtml(p)) {
-                    strcpy(scratch_buffer,"<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=6>");
-                    if((grp->nogroups > 0) && (grp->groupno < grp->nogroups))
-                       sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+%stopics+page+%d&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT PAGE]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),(val1) ? "sub":"",grp->groupno + 1,html_image_url("nextpage.gif"));
-                          else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{NEXT PAGE}\" BORDER=0> ",html_image_url("nonextpage.gif"));
-                    if((grp->nogroups > 0) && (grp->groupno > 1))
-                       sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+%stopics+page+%d&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[PREVIOUS PAGE]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),(val1) ? "sub":"",grp->groupno - 1,html_image_url("prevpage.gif"));
-                          else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{PREVIOUS PAGE}\" BORDER=0> ",html_image_url("noprevpage.gif"));
-                    sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+unread&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT UNREAD]\" BORDER=0></A><BR>",html_server_url(p,1,2,"input"),html_image_url("nextunread.gif"));
-                    if(val1) sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+topics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("topics.gif"));
-                       else if(!val1 && (topic = lookup_topic(player,NULL,&topic,&subtopic)) && topic->subtopics)
-                          sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+subtopics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUB-TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("subtopics.gif"));
-                             else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{SUB-TOPICS}\" BORDER=0> ",html_image_url("nosubtopics.gif"));
-                    sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Csummary&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUMMARY]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("summary.gif"));
-                    sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Clatest&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[LATEST]\" BORDER=0></A>",html_server_url(p,1,2,"input"),html_image_url("latest.gif"));
-                    output(p,player,1,2,0,"%s</TD></TR>",scratch_buffer);
-		 }
+                 output(p,player,0,1,0,separator(twidth,0,'-','-'));
+                 if(!Blank(selname) && selected) output(p,player,2,1,1,ANSI_LWHITE " Your current selected %stopic is '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.  To select a different topic, type '"ANSI_LGREEN"%s%stopic <TOPIC NAME>"ANSI_LWHITE"'.\n",(val1) ? "sub-":"",selname,(command_type == BBS_COMMAND) ? "bbs ":"",(val1) ? "sub":"");
+                    else output(p,player,2,1,1,ANSI_LWHITE " Please select a %stopic from the above list by typing '"ANSI_LGREEN"%s%stopic <TOPIC NAME>"ANSI_LWHITE"'.\n",(val1) ? "sub-":"",(command_type == BBS_COMMAND) ? "bbs ":"",(val1) ? "sub":"");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
 
                  /* ---->  Total messages listed/unread messages  <---- */
                  if(grp->rangeitems != 0) {
                     listed_items(scratch_return_string + 100,1);
                     if(totalunread) sprintf(scratch_return_string,"%d",totalunread);
                        else strcpy(scratch_return_string,"None");
-                    output(p,player,2,1,1,"%s%sopics listed: %s "ANSI_DWHITE"%s%s"ANSI_LWHITE"Total unread messages: %s "ANSI_DWHITE"%s.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=6>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",(val1) ? "Sub-t":"T",IsHtml(p) ? "\016&nbsp;\016":"",scratch_return_string + 100,IsHtml(p) ? "\016 &nbsp; &nbsp; \016":"   ",IsHtml(p) ? "\016&nbsp;\016":"",scratch_return_string,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-  	         } else output(p,player,2,1,1,"%s%sopics listed: %s "ANSI_DWHITE"None.%s"ANSI_LWHITE"Total unread messages: %s "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=6>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",(val1) ? "Sub-t":"T",IsHtml(p) ? "\016&nbsp;\016":"",IsHtml(p) ? "\016 &nbsp; &nbsp; \016":"   ",IsHtml(p) ? "\016&nbsp;\016":"",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                    output(p,player,2,1,1,ANSI_LWHITE " %sopics listed:  "ANSI_DWHITE"%s   "ANSI_LWHITE"Total unread messages:  "ANSI_DWHITE"%s.\n\n",(val1) ? "Sub-t":"T",scratch_return_string + 100,scratch_return_string);
+  	         } else output(p,player,2,1,1,ANSI_LWHITE " %sopics listed:  "ANSI_DWHITE"None.   "ANSI_LWHITE"Total unread messages:  "ANSI_DWHITE"None.\n\n",(val1) ? "Sub-t":"T");
 	      }
-              if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
               db[player].data->player.scrheight = cached_scrheight;
-              html_anti_reverse(p,0);
 	   } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' has no sub-topics.",topic->name);
 	} else {
            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' may only be accessed by %s.  Please choose another topic (Type '"ANSI_LWHITE"%stopics"ANSI_LGREEN"' and then '"ANSI_LWHITE"%stopic <TOPIC NAME>"ANSI_LGREEN"'.)",(subtopic) ? subtopic->name:topic->name,clevels[(subtopic) ? subtopic->accesslevel:topic->accesslevel],(command_type == BBS_COMMAND) ? "bbs ":"",(command_type == BBS_COMMAND) ? "bbs ":"");
@@ -1871,20 +1799,16 @@ void bbs_view(CONTEXT)
 			     }
 			  }
 
-                          html_anti_reverse(p,1);
                           cached_scrheight = db[player].data->player.scrheight;
                           db[player].data->player.scrheight = db[player].data->player.scrheight - ((topic->timelimit) ? 10:9) - ((topic->subtopics) ? 1:0);
-                          if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
 
                           if(!in_command) {
                              if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_buffer,decompress(topic->desc));
                                 else strcpy(scratch_buffer,decompress(topic->desc));
                              substitute(Validchar(topic->owner) ? topic->owner:player,scratch_return_string,scratch_buffer,0,ANSI_LWHITE,NULL,0);
-                             if(!IsHtml(p)) {
-                                output(p,player,0,1,0,"");
-                                output(p,player,0,1,strlen(topic->name) + ((subtopic) ? (strlen(subtopic->name) + 1):0) + 4,ANSI_LYELLOW" "ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN":  "ANSI_LWHITE"%s",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,scratch_return_string);
-                                output(p,player,0,1,0,separator(twidth,0,'-','='));
-			     } else output(p,player,2,1,0,"\016<TR><TH ALIGN=CENTER WIDTH=20%% BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016"ANSI_LYELLOW""ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN"\016</I></FONT></TH><TH ALIGN=LEFT BGCOLOR="HTML_TABLE_BLUE"><FONT SIZE=4><I>\016"ANSI_LWHITE"%s\016</I></FONT></TH></TR>\016",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,scratch_return_string);
+                             output(p,player,0,1,0,"");
+                             output(p,player,0,1,strlen(topic->name) + ((subtopic) ? (strlen(subtopic->name) + 1):0) + 4,ANSI_LYELLOW" "ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN":  "ANSI_LWHITE"%s",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,scratch_return_string);
+                             output(p,player,0,1,0,separator(twidth,0,'-','='));
 			  }
 
                           total = bbs_messagecount(topic->messages,player,&unread);
@@ -1897,8 +1821,7 @@ void bbs_view(CONTEXT)
                                 sprintf(scratch_return_string,"(%d)",(val2) ? loop:(grp->before + loop));
                                 substitute(Validchar(grp->cunion->message.owner) ? grp->cunion->message.owner:player,scratch_return_string + 100,decompress(grp->cunion->message.subject),0,ANSI_LYELLOW,NULL,0);
                                 if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string + 100,scratch_return_string + 100);
-                                if(IsHtml(p)) sprintf(scratch_buffer,"\016<TR><TD ALIGN=CENTER WIDTH=20%% BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><A HREF=\"%sCOMMAND=%%7Cbbs+read+%d&\" TARGET=TCZINPUT>\016%s\016</A></FONT></TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"' left by ",html_server_url(p,1,2,"input"),(val2) ? loop:(grp->before + loop),scratch_return_string,(grp->cunion->message.flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string + 100);
-                                   else sprintf(scratch_buffer,ANSI_LGREEN" %-7s"ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"' left by ",scratch_return_string,(grp->cunion->message.flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string + 100);
+                                sprintf(scratch_buffer,ANSI_LGREEN" %-7s"ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"' left by ",scratch_return_string,(grp->cunion->message.flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string + 100);
                                 sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LGREEN"%s"ANSI_LWHITE" on "ANSI_LCYAN"%s%s",(grp->cunion->message.flags & MESSAGE_ANON) ? "<ANONYMOUS>":decompress(grp->cunion->message.name),date_to_string(grp->cunion->message.date + (db[player].data->player.timediff * HOUR),UNSET_DATE,player,FULLDATEFMT),bbs_unread_message(&(grp->cunion->message),player,&ignored) ? ANSI_LMAGENTA" (*UNREAD*)":(ignored) ? ANSI_LMAGENTA" (Ignored)":"");
                                 if((count = bbs_readercount(&(grp->cunion->message))) > 0) sprintf(scratch_return_string,"%d",count);
                                    else strcpy(scratch_return_string,"None");
@@ -1912,7 +1835,7 @@ void bbs_view(CONTEXT)
 
                                       gettime(now);
                                       now = (grp->cunion->message.expiry * DAY) - (now % DAY);
-                                      sprintf(scratch_return_string + 300,", Expires: \016&nbsp;\016 "ANSI_LWHITE"%dd %dh"ANSI_LYELLOW,(int) now / DAY,((int) now % DAY) / HOUR);
+                                      sprintf(scratch_return_string + 300,", Expires:  "ANSI_LWHITE"%dd %dh"ANSI_LYELLOW,(int) now / DAY,((int) now % DAY) / HOUR);
 				   } else strcpy(scratch_return_string + 300,ANSI_LYELLOW);
 
                                    if(!(grp->cunion->message.flags & MESSAGE_PRIVATE)) {
@@ -1927,25 +1850,23 @@ void bbs_view(CONTEXT)
 		   		         else strcpy(scratch_return_string,"None"ANSI_LYELLOW);
                                       if(vagainst) sprintf(scratch_return_string + 100,"%d "ANSI_LYELLOW"(%s%.0f%%"ANSI_LYELLOW")",vagainst,((againstpercent >= forpercent) && (againstpercent >= abstainpercent)) ? ANSI_LGREEN:ANSI_LRED,againstpercent);
 	                                 else strcpy(scratch_return_string + 100,"None"ANSI_LYELLOW);
-                                      if(vabstain) sprintf(scratch_return_string + 200,", Abstain: \016&nbsp;\016 "ANSI_LWHITE"%d "ANSI_LYELLOW"(%s%.0f%%"ANSI_LYELLOW")",vabstain,((abstainpercent >= againstpercent) && (abstainpercent >= forpercent)) ? ANSI_LGREEN:ANSI_LRED,abstainpercent);
+                                      if(vabstain) sprintf(scratch_return_string + 200,", Abstain:  "ANSI_LWHITE"%d "ANSI_LYELLOW"(%s%.0f%%"ANSI_LYELLOW")",vabstain,((abstainpercent >= againstpercent) && (abstainpercent >= forpercent)) ? ANSI_LGREEN:ANSI_LRED,abstainpercent);
 		                         else strcpy(scratch_return_string + 200,ANSI_LYELLOW);
-                                      sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW" (%sotes for: \016&nbsp;\016 "ANSI_LWHITE"%s, Against:  "ANSI_LWHITE"%s%s%s.)",(grp->cunion->message.flags & MESSAGE_MAJORITY) ? "Majority factor v":"V",scratch_return_string,scratch_return_string + 100,scratch_return_string + 200,scratch_return_string + 300);
+                                      sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW" (%sotes for:  "ANSI_LWHITE"%s, Against:  "ANSI_LWHITE"%s%s%s.)",(grp->cunion->message.flags & MESSAGE_MAJORITY) ? "Majority factor v":"V",scratch_return_string,scratch_return_string + 100,scratch_return_string + 200,scratch_return_string + 300);
 				   } else sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW" (Votes subject to a secret ballot%s.)",scratch_return_string + 300);
 				}
-                                output(p,player,2,1,8,"%s%s",scratch_buffer,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                                output(p,player,2,1,8,"%s\n",scratch_buffer);
 			  }
 
-                          if(grp->rangeitems == 0) output(p,player,2,1,1,IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; SORRY, THERE ARE NO MESSAGES IN THIS %sTOPIC AT THE MOMENT &nbsp; ***</I></TD></TR>\016":ANSI_LCYAN" ***  SORRY, THERE ARE NO MESSAGES IN THIS %sTOPIC AT THE MOMENT  ***\n",(subtopic) ? "SUB-":"");
+                          if(grp->rangeitems == 0) output(p,player,2,1,1,ANSI_LCYAN" ***  SORRY, THERE ARE NO MESSAGES IN THIS %sTOPIC AT THE MOMENT  ***\n",(subtopic) ? "SUB-":"");
                           if(!in_command) {
 
                              /* ---->  Message instructions  <---- */
                              if((grp->rangeitems > 0) || topic->subtopics) {
                                 unsigned char msg = 0;
    
-                                if(!IsHtml(p)) {
-                                   output(p,player,0,1,0,separator(twidth,0,'-','-'));
-		                   strcpy(scratch_buffer,ANSI_LWHITE" ");
-				} else strcpy(scratch_buffer,"\016<TR BGCOLOR="HTML_TABLE_MGREY"><TD ALIGN=CENTER COLSPAN=2><I>\016"ANSI_LWHITE);
+                                output(p,player,0,1,0,separator(twidth,0,'-','-'));
+		                strcpy(scratch_buffer,ANSI_LWHITE" ");
                                 if(grp->rangeitems > 0) sprintf(scratch_buffer + strlen(scratch_buffer),"To read one of the above messages, simply type '"ANSI_LGREEN"%sread <NUMBER>"ANSI_LWHITE"'.",(command_type == BBS_COMMAND) ? "bbs ":""), msg = 1;
                                 if(topic->subtopics) {
                                    struct bbs_topic_data *ptr = topic->subtopics;
@@ -1956,52 +1877,24 @@ void bbs_view(CONTEXT)
                                        bbs_messagecount(ptr->messages,player,&unread);
                                        subunread += unread;
 				   }
-                                   if(subunread) sprintf(scratch_buffer + strlen(scratch_buffer),"%sThis topic also has "ANSI_LYELLOW"%d"ANSI_LWHITE" sub-topic%s (Type '"ANSI_LGREEN"%ssubtopics"ANSI_LWHITE"' to list %s), which contain%s "ANSI_LYELLOW"%d"ANSI_LWHITE" unread message%s.",(msg) ? IsHtml(p) ? " \016&nbsp;\016 ":"  ":"",subcount,Plural(subcount),(command_type == BBS_COMMAND) ? "bbs ":"",(subcount == 1) ? "it":"them",(subcount == 1) ? "s":"",subunread,Plural(subunread)), msg = 1;
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"%sThis topic also has "ANSI_LYELLOW"%d"ANSI_LWHITE" sub-topic%s (Type '"ANSI_LGREEN"%ssubtopics"ANSI_LWHITE"' to list %s.)",(msg) ? IsHtml(p) ? " \016&nbsp;\016 ":"  ":"",subcount,Plural(subcount),(command_type == BBS_COMMAND) ? "bbs ":"",(subcount == 1) ? "it":"them"), msg = 1;
+                                   if(subunread) sprintf(scratch_buffer + strlen(scratch_buffer),"%sThis topic also has "ANSI_LYELLOW"%d"ANSI_LWHITE" sub-topic%s (Type '"ANSI_LGREEN"%ssubtopics"ANSI_LWHITE"' to list %s), which contain%s "ANSI_LYELLOW"%d"ANSI_LWHITE" unread message%s.",(msg) ? "  ":"",subcount,Plural(subcount),(command_type == BBS_COMMAND) ? "bbs ":"",(subcount == 1) ? "it":"them",(subcount == 1) ? "s":"",subunread,Plural(subunread)), msg = 1;
+                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"%sThis topic also has "ANSI_LYELLOW"%d"ANSI_LWHITE" sub-topic%s (Type '"ANSI_LGREEN"%ssubtopics"ANSI_LWHITE"' to list %s.)",(msg) ? "  ":"",subcount,Plural(subcount),(command_type == BBS_COMMAND) ? "bbs ":"",(subcount == 1) ? "it":"them"), msg = 1;
 				}
-                                if(topic->timelimit) sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LCYAN"PLEASE NOTE: %s "ANSI_LWHITE"Messages in this %stopic which haven't been read for "ANSI_LYELLOW"%d day%s"ANSI_LWHITE" will be deleted.",(msg) ? IsHtml(p) ? " \016&nbsp;\016 ":"  ":"",IsHtml(p) ? "\016&nbsp;\016":"",(subtopic) ? "sub-":"",topic->timelimit,Plural(topic->timelimit));
-                                output(p,player,2,1,1,"%s%s",scratch_buffer,IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-			     }
-
-                             /* ---->  Message navigation buttons (HTML)  <---- */
-                             if(IsHtml(p)) {
-                                strcpy(scratch_buffer,"<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=2>");
-                                if((total > 0) && (p->currentmsg < total))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+next&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("next.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{NEXT}\" BORDER=0> ",html_image_url("nonext.gif"));
-                                if((total > 0) && (p->currentmsg > 1))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+prev&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[PREVIOUS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("prev.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{PREVIOUS}\" BORDER=0> ",html_image_url("noprev.gif"));
-
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+unread&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT UNREAD]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("nextunread.gif"));
-                                if((grp->nogroups > 0) && (grp->groupno < grp->nogroups))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+page+%d&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT PAGE]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),grp->groupno + 1,html_image_url("nextpage.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{NEXT PAGE}\" BORDER=0> ",html_image_url("nonextpage.gif"));
-                                if((grp->nogroups > 0) && (grp->groupno > 1))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+page+%d&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[PREVIOUS PAGE]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),grp->groupno - 1,html_image_url("prevpage.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{PREVIOUS PAGE}\" BORDER=0> ",html_image_url("noprevpage.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<BR><A HREF=\"%sCOMMAND=%%7Cbbs+topics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("topics.gif"));
-                                if(!val1 && ((subtopic && subtopic->subtopics) || (!subtopic && topic->subtopics)))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+subtopics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUB-TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("subtopics.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{SUB-TOPICS}\" BORDER=0> ",html_image_url("nosubtopics.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Csummary&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUMMARY]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("summary.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Clatest&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[LATEST]\" BORDER=0></A>",html_server_url(p,1,2,"input"),html_image_url("latest.gif"));
-                                output(p,player,1,2,0,"%s</TD></TR>",scratch_buffer);
+                                if(topic->timelimit) sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LCYAN"PLEASE NOTE:  "ANSI_LWHITE"Messages in this %stopic which haven't been read for "ANSI_LYELLOW"%d day%s"ANSI_LWHITE" will be deleted.",(msg) ? "  ":"",(subtopic) ? "sub-":"",topic->timelimit,Plural(topic->timelimit));
+                                output(p,player,2,1,1,"%s\n",scratch_buffer);
 			     }
 
                              /* ---->  Total messages listed/unread messages  <---- */
-                             if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+                             output(p,player,0,1,0,separator(twidth,0,'-','='));
                              if(grp->rangeitems != 0) {
                                 listed_items(scratch_return_string + 100,1);
                                 if(unread) sprintf(scratch_return_string,"%d",unread);
                                    else strcpy(scratch_return_string,"None");
-                                output(p,player,2,1,1,"%sMessages listed: %s "ANSI_DWHITE"%s%s"ANSI_LWHITE"Total unread messages: %s "ANSI_DWHITE"%s.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016&nbsp;\016":"",scratch_return_string + 100,IsHtml(p) ? "\016 &nbsp; &nbsp; \016":"   ",IsHtml(p) ? "\016&nbsp;\016":"",scratch_return_string,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-			     } else output(p,player,2,1,1,"%sMessages listed: %s "ANSI_DWHITE"None.%s"ANSI_LWHITE"Total unread messages: %s "ANSI_DWHITE"None.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016&nbsp;\016":"",IsHtml(p) ? "\016 &nbsp; &nbsp; \016":"   ",IsHtml(p) ? "\016&nbsp;\016":"",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                                output(p,player,2,1,1,ANSI_LWHITE "  Messages listed:  "ANSI_DWHITE"%s   "ANSI_LWHITE"Total unread messages:  "ANSI_DWHITE"%s.\n\n",scratch_return_string + 100,scratch_return_string);
+			     } else output(p,player,2,1,1,ANSI_LWHITE " Messages listed:  "ANSI_DWHITE"None.   "ANSI_LWHITE"Total unread messages:  "ANSI_DWHITE"None.\n\n");
 			  }
 
-                          if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
                           db[player].data->player.scrheight = cached_scrheight;
-                          html_anti_reverse(p,0);
                           setreturn(OK,COMMAND_SUCC);
 		       } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, the '"ANSI_LWHITE"readanon"ANSI_LGREEN"'/'"ANSI_LWHITE"viewanon"ANSI_LGREEN"' command can only be used to read a message and reveal the user who added it anonymously.");
 		    } else if((val1 != 1) || !Blank(arg2)) {
@@ -2019,31 +1912,23 @@ void bbs_view(CONTEXT)
 
                              /* ---->  Message header  <---- */
                              gettime(message->lastread);
-                             html_anti_reverse(p,1);
-                             if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+                             if(!in_command && p && !p->pager && More(player)) pager_init(p);
                              for(d = descriptor_list; d; d = d->next)
                                  if(d->player == player)
                                     d->currentmsg = no;
-                             if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-                                else output(p,player,0,1,0,"");
+                             output(p,player,0,1,0,"");
 
                              substitute(Validchar(message->owner) ? message->owner:player,scratch_return_string,decompress(message->subject),0,ANSI_LYELLOW,NULL,0);
                              if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string,scratch_return_string);
-                             sprintf(scratch_buffer,"%s"ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN"%s"ANSI_LGREEN"(%d) \016&nbsp;\016 "ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"' left by ",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER WIDTH=20%% BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,IsHtml(p) ? "\016</I></FONT></TH><TH ALIGN=LEFT BGCOLOR="HTML_TABLE_BLUE"><I>\016":":  ",no,(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string);
+                             sprintf(scratch_buffer,ANSI_LYELLOW " " ANSI_UNDERLINE"%s%s%s"ANSI_DCYAN":  "ANSI_LGREEN"(%d)  "ANSI_LWHITE"'%s"ANSI_LYELLOW"%s"ANSI_LWHITE"' left by ",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name,no,(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string);
                              sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LGREEN"%s%s"ANSI_LWHITE" on "ANSI_LCYAN,((message->flags & MESSAGE_ANON) && !(val1 && ((!Level4(message->owner) && Level4(player)) || (Level4(message->owner) && Level1(player))))) ? "":decompress(message->name),(message->flags & MESSAGE_ANON) ? (val1 && ((!Level4(message->owner) && Level4(player)) || (Level4(message->owner) && Level1(player)))) ? ANSI_LYELLOW" (ANONYMOUS)":"<ANONYMOUS>":"");
-                             output(p,player,2,1,strlen(topic->name) + ((subtopic) ? (strlen(subtopic->name) + 1):0) + digit_wrap(8,no),"%s%s"ANSI_LWHITE".%s",scratch_buffer,date_to_string(message->date + (db[player].data->player.timediff * HOUR),UNSET_DATE,player,FULLDATEFMT),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+                             output(p,player,2,1,strlen(topic->name) + ((subtopic) ? (strlen(subtopic->name) + 1):0) + digit_wrap(8,no),"%s%s"ANSI_LWHITE".\n",scratch_buffer,date_to_string(message->date + (db[player].data->player.timediff * HOUR),UNSET_DATE,player,FULLDATEFMT));
 
                              /* ---->  Message text  <---- */
                              bbs_query_readertimediff(player,NULL,NULL,NULL,NULL,1,player);
                              wrap_leading = (topic->flags & TOPIC_FORMAT) ? 1:0;
-                             if(IsHtml(p)) {
-                                output(p,player,1,2,0,"<TR><TD ALIGN=LEFT COLSPAN=2><FONT SIZE=4>");
-                                substitute_large(Validchar(message->owner) ? message->owner:player,player,(topic->flags & TOPIC_FORMAT) ? punctuate(decompress(message->message),2,'.'):decompress(message->message),ANSI_LWHITE,scratch_return_string,(topic->flags & TOPIC_CENSOR));
-                                output(p,player,1,2,0,"</FONT></TD></TR>");
-			     } else {
-                                output(p,player,0,1,0,separator(twidth,0,'-','='));
-                                substitute_large(Validchar(message->owner) ? message->owner:player,player,(topic->flags & TOPIC_FORMAT) ? punctuate(decompress(message->message),2,'.'):decompress(message->message),ANSI_LWHITE,scratch_return_string,(topic->flags & TOPIC_CENSOR));
-			     }
+                             output(p,player,0,1,0,separator(twidth,0,'-','='));
+                             substitute_large(Validchar(message->owner) ? message->owner:player,player,(topic->flags & TOPIC_FORMAT) ? punctuate(decompress(message->message),2,'.'):decompress(message->message),ANSI_LWHITE,scratch_return_string,(topic->flags & TOPIC_CENSOR));
                              bbs_query_readertimediff(player,NULL,NULL,NULL,NULL,1,NOTHING);
                              wrap_leading = 0;
 
@@ -2054,40 +1939,16 @@ void bbs_view(CONTEXT)
 
                                    gettime(now);
                                    now = (message->expiry * DAY) - (now % DAY);
-                                   sprintf(scratch_return_string," \016&nbsp;\016 Voting on this message closes in "ANSI_LCYAN"%s"ANSI_LWHITE" time.",interval(now,now,ENTITIES,0));
+                                   sprintf(scratch_return_string,"  Voting on this message closes in "ANSI_LCYAN"%s"ANSI_LWHITE" time.",interval(now,now,ENTITIES,0));
 				} else *scratch_return_string = '\0';
 
-                                if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
-                                output(p,player,2,1,1,"%sYou can vote for this message by typing '"ANSI_LGREEN"%svote %d for"ANSI_LWHITE"' or against it by typing '"ANSI_LGREEN"%svote %d against"ANSI_LWHITE"'. \016&nbsp;\016 You can also abstain your vote by typing '"ANSI_LGREEN"%svote %d abstain"ANSI_LWHITE"'.%s%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_MGREY"><TD ALIGN=CENTER COLSPAN=2><I>\016"ANSI_LWHITE:ANSI_LWHITE" ",(command_type == BBS_COMMAND) ? "bbs ":"",no,(command_type == BBS_COMMAND) ? "bbs ":"",no,(command_type == BBS_COMMAND) ? "bbs ":"",no,scratch_return_string,IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-			     }
-
-                             /* ---->  Message navigation buttons (HTML)  <---- */
-                             if(IsHtml(p)) {
-                                short total,unread;
-
-                                total = bbs_messagecount(topic->messages,player,&unread);
-                                strcpy(scratch_buffer,"<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=2>");
-                                if((total > 0) && (no < total))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+next&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("next.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{NEXT}\" BORDER=0> ",html_image_url("nonext.gif"));
-                                if((total > 0) && (no > 1))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+prev&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[PREVIOUS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("prev.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{PREVIOUS}\" BORDER=0> ",html_image_url("noprev.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+read+unread&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[NEXT UNREAD]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("nextunread.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+reply+%d&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[LEAVE REPLY]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),no,html_image_url("reply.gif"));
-
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<BR><A HREF=\"%sCOMMAND=%%7Cbbs+topics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("topics.gif"));
-                                if(!val1 && ((subtopic && subtopic->subtopics) || (!subtopic && topic->subtopics)))
-                                   sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Cbbs+subtopics&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUB-TOPICS]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("subtopics.gif"));
-                                      else sprintf(scratch_buffer + strlen(scratch_buffer),"<IMG SRC=\"%s\" ALT=\"{SUB-TOPICS}\" BORDER=0> ",html_image_url("nosubtopics.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Csummary&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[SUMMARY]\" BORDER=0></A> ",html_server_url(p,1,2,"input"),html_image_url("summary.gif"));
-                                sprintf(scratch_buffer + strlen(scratch_buffer),"<A HREF=\"%sCOMMAND=%%7Clatest&\" TARGET=TCZINPUT><IMG SRC=\"%s\" ALT=\"[LATEST]\" BORDER=0></A>",html_server_url(p,1,2,"input"),html_image_url("latest.gif"));
-                                output(p,player,1,2,0,"%s</TD></TR>",scratch_buffer);
+                                output(p,player,0,1,0,separator(twidth,0,'-','-'));
+                                output(p,player,2,1,1,ANSI_LWHITE " You can vote for this message by typing '"ANSI_LGREEN"%svote %d for"ANSI_LWHITE"' or against it by typing '"ANSI_LGREEN"%svote %d against"ANSI_LWHITE"'.  You can also abstain your vote by typing '"ANSI_LGREEN"%svote %d abstain"ANSI_LWHITE"'.%s\n",(command_type == BBS_COMMAND) ? "bbs ":"",no,(command_type == BBS_COMMAND) ? "bbs ":"",no,(command_type == BBS_COMMAND) ? "bbs ":"",no,scratch_return_string);
 			     }
 
                              /* ---->  Message footer  <---- */
                              bbs_update_readers(message,player,1,((player != message->owner) && (Controller(player) != message->owner) && !((bbs_last_message == message) && (bbs_last_reader == player))));
-                             if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+                             output(p,player,0,1,0,separator(twidth,0,'-','='));
                              if(bbs_votecount(message,&vfor,&vagainst,&vabstain,&forscore,&againstscore,&abstainscore) || (message->flags & MESSAGE_VOTING)) {
                                 if(message->expiry) {
                                    time_t now;
@@ -2097,7 +1958,7 @@ void bbs_view(CONTEXT)
                                    *(scratch_return_string + 2048) = '\0';
                                    if((now / DAY) > 0) sprintf((scratch_return_string + 2048) + strlen(scratch_return_string + 2048),"%d day%s",(int) now / DAY,Plural((int) now / DAY));
                                    if(((now % DAY) / HOUR) > 0) sprintf((scratch_return_string + 2048) + strlen(scratch_return_string + 2048),"%s%d hour%s",!Blank(scratch_return_string + 2048) ? ", ":"",((int) now % DAY) / HOUR,Plural((now % DAY) / HOUR));
-                                   sprintf(scratch_return_string + 300,", Expires: \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW,scratch_return_string + 2048);
+                                   sprintf(scratch_return_string + 300,", Expires:  "ANSI_LWHITE"%s"ANSI_LYELLOW,scratch_return_string + 2048);
 				} else strcpy(scratch_return_string + 300,ANSI_LYELLOW);
 
                                 if(!(message->flags & MESSAGE_REPLY) && ((count = bbs_replycount(topic,message,message->id,1)) > 0))
@@ -2115,18 +1976,17 @@ void bbs_view(CONTEXT)
 				      else strcpy(scratch_return_string,"None"ANSI_LYELLOW);
                                    if(vagainst) sprintf(scratch_return_string + 100,"%d "ANSI_LYELLOW"(%s%.0f%%"ANSI_LYELLOW")",vagainst,((againstpercent >= forpercent) && (againstpercent >= abstainpercent)) ? ANSI_LGREEN:ANSI_LRED,againstpercent);
 	                              else strcpy(scratch_return_string + 100,"None"ANSI_LYELLOW);
-                                   if(vabstain) sprintf(scratch_return_string + 200,", Abstain: \016&nbsp;\016 "ANSI_LWHITE"%d "ANSI_LYELLOW"(%s%.0f%%"ANSI_LYELLOW")",vabstain,((abstainpercent >= againstpercent) && (abstainpercent >= forpercent)) ? ANSI_LGREEN:ANSI_LRED,abstainpercent);
+                                   if(vabstain) sprintf(scratch_return_string + 200,", Abstain:  "ANSI_LWHITE"%d "ANSI_LYELLOW"(%s%.0f%%"ANSI_LYELLOW")",vabstain,((abstainpercent >= againstpercent) && (abstainpercent >= forpercent)) ? ANSI_LGREEN:ANSI_LRED,abstainpercent);
 		                      else strcpy(scratch_return_string + 200,ANSI_LYELLOW);
-                                   output(p,player,2,1,11,"%sReaders: \016&nbsp;\016 "ANSI_DWHITE"%d \016&nbsp;\016 %s"ANSI_LYELLOW"(%sotes for: \016&nbsp;\016 "ANSI_LWHITE"%s, Against: \016&nbsp;\016 "ANSI_LWHITE"%s%s%s.)%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",bbs_readercount(message),scratch_return_string + 500,(message->flags & MESSAGE_MAJORITY) ? "Majority factor v":"V",scratch_return_string,scratch_return_string + 100,scratch_return_string + 200,scratch_return_string + 300,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-				} else output(p,player,2,1,11,"%sReaders: \016&nbsp;\016 "ANSI_DWHITE"%d \016&nbsp;\016 %s"ANSI_LYELLOW"(Votes subject to a secret ballot%s.)%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",bbs_readercount(message),scratch_return_string + 500,scratch_return_string + 300,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                                   output(p,player,2,1,11,ANSI_LWHITE " Readers:  "ANSI_DWHITE"%d  %s"ANSI_LYELLOW"(%sotes for:  "ANSI_LWHITE"%s, Against:  "ANSI_LWHITE"%s%s%s.)\n\n",bbs_readercount(message),scratch_return_string + 500,(message->flags & MESSAGE_MAJORITY) ? "Majority factor v":"V",scratch_return_string,scratch_return_string + 100,scratch_return_string + 200,scratch_return_string + 300);
+				} else output(p,player,2,1,11,ANSI_LWHITE " Readers:  "ANSI_DWHITE"%d  %s"ANSI_LYELLOW"(Votes subject to a secret ballot%s.)\n\n",bbs_readercount(message),scratch_return_string + 500,scratch_return_string + 300);
 			     } else {
                                 if(!(message->flags & MESSAGE_REPLY) && ((count = bbs_replycount(topic,message,message->id,1)) > 0))
-                                   sprintf(scratch_return_string," \016&nbsp;\016 "ANSI_LBLUE"(Replies:  "ANSI_LWHITE"%d"ANSI_LBLUE".)",count);
+                                   sprintf(scratch_return_string,"  "ANSI_LBLUE"(Replies:  "ANSI_LWHITE"%d"ANSI_LBLUE".)",count);
 			              else strcpy(scratch_return_string,".");
-                                output(p,player,2,1,1,"%sReaders: \016&nbsp;\016 "ANSI_DWHITE"%d%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_MGREY"><TD COLSPAN=2>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",bbs_readercount(message),scratch_return_string,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                                output(p,player,2,1,1,ANSI_LWHITE " Readers:  "ANSI_DWHITE"%d%s\n\n",bbs_readercount(message),scratch_return_string,"\n\n");
 			     }
                              bbs_last_message = message, bbs_last_reader = player;
-                             if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
 
                              if(val1) {
                                 sprintf(scratch_buffer,"%s%s(#%d) revealed the identity of the user who posted this message  -  REASON:  %s",bbs_logmsg(message,topic,subtopic,no,1),getname(player),player,punctuate(arg2,2,'.'));
@@ -2134,7 +1994,6 @@ void bbs_view(CONTEXT)
                                    else writelog(ADMIN_LOG,1,"ANONYMOUS","%s",scratch_buffer);
                                 writelog(BBS_LOG,1,"ANONYMOUS","%s",scratch_buffer);
 			     }
-                             html_anti_reverse(p,0);
                              setreturn(OK,COMMAND_SUCC);
 			  } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, '"ANSI_LWHITE"readanon"ANSI_LGREEN"'/'"ANSI_LWHITE"viewanon"ANSI_LGREEN"' can only be used to read anonymous messages.");
 		       } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, either a message with that number doesn't exist, or the message number you specified is invalid.");
@@ -2197,20 +2056,12 @@ void bbs_vote(CONTEXT)
                           unsigned char twidth = output_terminal_width(player);
                           int      total;
 
-                          html_anti_reverse(p,1);
-                          if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+                          if(!in_command && p && !p->pager && More(player)) pager_init(p);
                           substitute(Validchar(message->owner) ? message->owner:player,scratch_return_string,decompress(message->subject),0,ANSI_LYELLOW,NULL,0);
                           if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string,scratch_return_string);
-                          if(IsHtml(p)) {
-                             output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">",(in_command) ? "":"<BR>");
-                             if(subtopic) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT SIZE=5 COLOR="HTML_LCYAN"><I>\016Votes on the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'...\016</I></FONT></TH></TR>\016",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
-                                else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=5 COLOR="HTML_LCYAN"><I>\016Votes on the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...\016</I></FONT></TH></TR>\016",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
-                             twidth = 89;
-			  } else {
-                             if(subtopic) output(p,player,0,1,1,"\n Votes on the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
-                                else output(p,player,0,1,1,"\n Votes on the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
-                             output(p,player,0,1,0,separator(twidth,0,'-','='));
-			  }
+                          if(subtopic) output(p,player,0,1,1,"\n Votes on the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
+                             else output(p,player,0,1,1,"\n Votes on the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
+                          output(p,player,0,1,0,separator(twidth,0,'-','='));
 
                           /* ---->  Votes for message  <---- */
                           for(votes = 0, ne_votes = 0, reader = message->readers; reader; reader = reader->next)
@@ -2223,8 +2074,8 @@ void bbs_vote(CONTEXT)
 			      }
                           sprintf(scratch_buffer,"%d"ANSI_LGREEN" vote%s for%s",votes,Plural(votes),(ne_votes) ? " ":"...");
                           if(ne_votes) sprintf(scratch_buffer + strlen(scratch_buffer),"("ANSI_LWHITE"%d"ANSI_LGREEN" voter%s no-longer exist%s)...",ne_votes,Plural(ne_votes),(ne_votes == 1) ? "s":"");
-                          output(p,player,2,1,0,"%s%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_GREEN"><FONT SIZE=5><B>"ANSI_LWHITE"\016":ANSI_LWHITE" ",scratch_buffer,IsHtml(p) ? "\016</B></FONT></TD></TR>\016":"\n");
-                          if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DGREEN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN));
+                          output(p,player,2,1,0,ANSI_LWHITE " %s\n",scratch_buffer);
+                          output(p,player,0,1,0,ANSI_DGREEN"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN));
 
                           if(votes) {
 			     output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,5,"***  NO VOTERS FOUND  ***",scratch_return_string);
@@ -2236,7 +2087,7 @@ void bbs_vote(CONTEXT)
 			  }
 
                           /* ---->  Votes against message  <---- */
-                          if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'=','='));
+                          output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'=','='));
                           for(votes = 0, ne_votes = 0, reader = message->readers; reader; reader = reader->next)
                               if((reader->flags & READER_VOTE_MASK) == READER_VOTE_AGAINST) {
                                  if(!Validchar(reader->reader)) {
@@ -2247,8 +2098,8 @@ void bbs_vote(CONTEXT)
 			      }
                           sprintf(scratch_buffer,"%d"ANSI_LRED" vote%s against%s",votes,Plural(votes),(ne_votes) ? " ":"...");
                           if(ne_votes) sprintf(scratch_buffer + strlen(scratch_buffer),"("ANSI_LWHITE"%d"ANSI_LRED" voter%s no-longer exist%s)...",ne_votes,Plural(ne_votes),(ne_votes == 1) ? "s":"");
-                          output(p,player,2,1,0,"%s%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_RED"><FONT SIZE=5><B>"ANSI_LWHITE"\016":ANSI_LWHITE" ",scratch_buffer,IsHtml(p) ? "\016</B></FONT></TD></TR>\016":"\n");
-                          if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN));
+                          output(p,player,2,1,0,ANSI_LWHITE " %s\n",scratch_buffer);
+                          output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN));
 
                           if(votes) {
 			     output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,5,"***  NO VOTERS FOUND  ***",scratch_return_string);
@@ -2260,7 +2111,7 @@ void bbs_vote(CONTEXT)
 			  }
 
                           /* ---->  Abstained votes  <---- */
-                          if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'=','='));
+                          output(p,player,0,1,0,ANSI_DRED"%s",separator(twidth,0,'=','='));
                           for(votes = 0, ne_votes = 0, reader = message->readers; reader; reader = reader->next)
                               if((reader->flags & READER_VOTE_MASK) == READER_VOTE_ABSTAIN) {
                                  if(!Validchar(reader->reader)) {
@@ -2271,8 +2122,8 @@ void bbs_vote(CONTEXT)
 			      }
                           sprintf(scratch_buffer,"%d"ANSI_LBLUE" vote%s abstained%s",votes,Plural(votes),(ne_votes) ? " ":"...");
                           if(ne_votes) sprintf(scratch_buffer + strlen(scratch_buffer),"("ANSI_LWHITE"%d"ANSI_LBLUE" voter%s no-longer exist%s)...",ne_votes,Plural(ne_votes),(ne_votes == 1) ? "s":"");
-                          output(p,player,2,1,0,"%s%s%s",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_BLUE"><FONT SIZE=5><B>"ANSI_LWHITE"\016":ANSI_LWHITE" ",scratch_buffer,IsHtml(p) ? "\016</B></FONT></TD></TR>\016":"\n");
-                          if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DBLUE"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN));
+                          output(p,player,2,1,0,ANSI_LWHITE " %s\n",scratch_buffer);
+                          output(p,player,0,1,0,ANSI_DBLUE"%s",separator(twidth,0,'-','-') + strlen(ANSI_DCYAN));
 
                           if(votes) {
 			     output_columns(p,player,NULL,NULL,twidth,1,20,2,0,1,FIRST,5,"***  NO VOTERS FOUND  ***",scratch_return_string);
@@ -2284,7 +2135,7 @@ void bbs_vote(CONTEXT)
 			  }
 
                           /* ---->  Majority/majority factor  <---- */
-                          if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'=','='));
+                          output(p,player,0,1,0,separator(twidth,0,'=','='));
                           bbs_votecount(message,&vfor,&vagainst,&vabstain,&forscore,&againstscore,&abstainscore);
                           total          = forscore + againstscore + abstainscore;
                           forpercent     = (total == 0) ? 0:(((double) forscore / total) * 100);
@@ -2292,17 +2143,11 @@ void bbs_vote(CONTEXT)
                           abstainpercent = (total == 0) ? 0:(((double) abstainscore / total) * 100);
                           if(vabstain) sprintf(scratch_return_string,", %s%.0f%%"ANSI_LWHITE" abstained",((abstainpercent >= againstpercent) && (abstainpercent >= forpercent)) ? ANSI_LGREEN:ANSI_LRED,abstainpercent);
 		             else *scratch_return_string = '\0';
-                          output(p,player,2,1,1,"%sMajority%s: \016&nbsp;\016 %s%.0f%%"ANSI_LWHITE" for, %s%.0f%%"ANSI_LWHITE" against%s.%s",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY"><FONT SIZE=4>"ANSI_LMAGENTA"\016":ANSI_LMAGENTA" ",(message->flags & MESSAGE_MAJORITY) ? " factor":"",((forpercent >= againstpercent) && (forpercent >= abstainpercent)) ? ANSI_LGREEN:ANSI_LRED,forpercent,((againstpercent >= forpercent) && (againstpercent >= abstainpercent)) ? ANSI_LGREEN:ANSI_LRED,againstpercent,scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                          output(p,player,2,1,1,ANSI_LMAGENTA " Majority%s:  %s%.0f%%"ANSI_LWHITE" for, %s%.0f%%"ANSI_LWHITE" against%s.\n",(message->flags & MESSAGE_MAJORITY) ? " factor":"",((forpercent >= againstpercent) && (forpercent >= abstainpercent)) ? ANSI_LGREEN:ANSI_LRED,forpercent,((againstpercent >= forpercent) && (againstpercent >= abstainpercent)) ? ANSI_LGREEN:ANSI_LRED,againstpercent,scratch_return_string);
 
                           /* ---->  Total number of votes  <---- */
-                          if(IsHtml(p)) {
-                             output(p,player,2,1,1,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_MGREY">"ANSI_LWHITE"<B>\016Total votes: \016&nbsp;\016 "ANSI_DWHITE"%d.\016</B></TD></TR>\016",vfor + vagainst + vabstain);
-                             output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-			  } else {
-                             output(p,player,0,1,0,separator(twidth,0,'-','='));
-                             output(p,player,0,1,1,ANSI_LWHITE" Total votes:  "ANSI_DWHITE"%d.\n",vfor + vagainst + vabstain);
-			  }
-                          html_anti_reverse(p,0);
+                          output(p,player,0,1,0,separator(twidth,0,'-','='));
+                          output(p,player,0,1,1,ANSI_LWHITE" Total votes:  "ANSI_DWHITE"%d.\n",vfor + vagainst + vabstain);
                           setreturn(OK,COMMAND_SUCC);
 		       } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, the votes of that message are private (Subject to a secret ballot.)");
 		    } else if(!Blank(arg2) && (string_prefix("reset",arg2) || string_prefix("clear",arg2))) {
@@ -3414,23 +3259,15 @@ void bbs_readers(CONTEXT)
 #endif
 
                     /* ---->  Initialisation  <---- */
-                    html_anti_reverse(p,1);
-                    if(IsHtml(p)) twidth = 89;
                     parse_grouprange(player,arg2,FIRST,1);
                     set_conditions_ps(player,0,0,0,0,0,0,message->owner,NULL,513);
-                    if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+                    if(!in_command && p && !p->pager && More(player)) pager_init(p);
                     substitute(Validchar(message->owner) ? message->owner:player,scratch_return_string,decompress(message->subject),0,ANSI_LYELLOW,NULL,0);
                     if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string,scratch_return_string);
                     union_initgrouprange((union group_data *) message->readers);
 
                     /* ---->  Header  <---- */
-                    if(IsHtml(p)) {
-                       output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">",(in_command) ? "":"<BR>");
-                       if(!in_command) {
-                          if(subtopic) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=5 COLOR="HTML_LCYAN"><I>\016Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'...\016</I></FONT></TH></TR>\016",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
-                             else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=5 COLOR="HTML_LCYAN"><I>\016Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...\016</I></FONT></TH></TR>\016",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
-		       }
-		    } else if(!in_command) {
+		    if(!in_command) {
                        if(subtopic) output(p,player,0,1,1,"\n Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
                           else output(p,player,0,1,1,"\n Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
                        output(p,player,0,1,0,separator(twidth,0,'-','='));
@@ -3451,23 +3288,21 @@ void bbs_readers(CONTEXT)
  	                     output_columns(p,player,getname_prefix(grp->cunion->reader.reader,20,scratch_buffer),privilege_colour(grp->cunion->reader.reader),0,0,0,0,0,0,DEFAULT,0,NULL,scratch_return_string);
          	       output_columns(p,player,NULL,NULL,0,0,0,0,0,0,LAST,0,NULL,scratch_return_string);
 		    } else {
-                       output(p,player,2,1,1,"%sThis message has been marked as being read by everyone (Either the limit of "ANSI_LWHITE"%d"ANSI_LGREEN" reader%s has been exceeded, or the message has been on %s BBS for over "ANSI_LYELLOW"%s"ANSI_LGREEN".)%s",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_BLACK">"ANSI_LGREEN"\016":ANSI_LGREEN" ",BBS_MAX_READERS,Plural(BBS_MAX_READERS),tcz_full_name,interval(BBS_READERS_EXPIRY * DAY,0,ENTITIES,0),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+                       output(p,player,2,1,1,ANSI_LGREEN " This message has been marked as being read by everyone (Either the limit of "ANSI_LWHITE"%d"ANSI_LGREEN" reader%s has been exceeded, or the message has been on %s BBS for over "ANSI_LYELLOW"%s"ANSI_LGREEN".)\n",BBS_MAX_READERS,Plural(BBS_MAX_READERS),tcz_full_name,interval(BBS_READERS_EXPIRY * DAY,0,ENTITIES,0));
 		       count = message->readercount;
 		    }
 
                     /* ---->  Footer  <---- */
                     if(!in_command) {
-                       if(!IsHtml(p)) output(p,player,2,1,0,separator(twidth,1,'-','='));
+                       output(p,player,2,1,0,separator(twidth,1,'-','='));
      	               if(message->readercount && !(message->flags & MESSAGE_EVERYONE))
-                          sprintf(scratch_buffer + strlen(scratch_buffer)," \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LWHITE"%d"ANSI_LMAGENTA" "ANSI_LCYAN"reader%s no-longer exist%s."ANSI_DCYAN")",message->readercount,Plural(message->readercount),(message->readercount == 1) ? "s":"");
+                          sprintf(scratch_buffer + strlen(scratch_buffer),"  "ANSI_DCYAN"("ANSI_LWHITE"%d"ANSI_LMAGENTA" "ANSI_LCYAN"reader%s no-longer exist%s."ANSI_DCYAN")",message->readercount,Plural(message->readercount),(message->readercount == 1) ? "s":"");
                              else *scratch_buffer = '\0';
 
                        if(grp->totalitems > 0)
-                          output(p,player,2,1,1,"%sReaders: %s "ANSI_DWHITE"%s%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_MGREY">"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016&nbsp;\016":"",listed_items(scratch_return_string,1),scratch_buffer,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
-		             else output(p,player,2,1,1,"%sReaders: %s "ANSI_DWHITE"None.%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_MGREY">"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(p) ? "\016&nbsp;\016":"",scratch_buffer,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+                          output(p,player,2,1,1,ANSI_LWHITE " Readers:  "ANSI_DWHITE"%s%s\n\n",listed_items(scratch_return_string,1),scratch_buffer);
+		             else output(p,player,2,1,1,ANSI_LWHITE " Readers:  "ANSI_DWHITE"None.%s\n\n",scratch_buffer);
 		    }
-                    if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-                    html_anti_reverse(p,0);
                     setreturn(OK,COMMAND_SUCC);
 		 } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, a message with that number doesn't exist.");
 	      } else {

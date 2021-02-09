@@ -29,8 +29,7 @@
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
-       which is fully user extendable and features integration with the
-        World Wide Web, as well as standard text-based Telnet support.
+                       which is fully user extendable.
 
                      The only limit is your imagination!
 
@@ -79,29 +78,16 @@ commands in upper or lower case letters (Or both.)
 
 Connecting to a TCZ-based MUD and creating a character...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-You can either use your web browser or Telnet software installed on your
-computer to connect to a TCZ-based MUD.
+You can use a Telnet client or specialised MUD software computer to connect to
+a TCZ-based MUD.
 
-To connect via the World Wide Web, simply point your web browser at the
-World Wide Web Interface address, which you can obtain from the TCZ-based
-MUD's web site or administrators.  In most cases, you will find links on
-the TCZ-based MUD's web site that will take you to the character creation
-and connection forms.
-
-To connect using Telnet software, simply open a connection to the address
-of the TCZ-based MUD on port number 8342 (You should be able to obtain
-the Telnet address of the TCZ-based MUD from its web site, administrators
-or a public MUD list.)
+Simply open a connection to the address of the TCZ-based MUD on port number
+8342 (You should be able to obtain the Telnet address of the TCZ-based MUD from
+its web site, administrators or a public MUD list.)
 
 Some Telnet software requires the port number (8342) to be typed in a
 separate box.  Others require the address in the format tcz.mud.host:8342,
 where tcz.mud.host is the Telnet address of the TCZ-based MUD.
-
-If you're using a web browser to connect to the TCZ-based MUD, you will need
-a recent version of either Netscape Navigator or Microsoft Internet Explorer
-(Version 4.0 or better of either is recommended), or any other browser
-capable of supporting forms, frames, tables, JAVA Script 1.2 and optionally
-cascading style sheets.
 
 
 Display problems and how to fix them...
@@ -124,8 +110,7 @@ SET LFTOCR LFCR.  One of these commands will usually fix the problem.
 If you still have the problem, try SET LFTOCR OFF or SET LFTOCR CR.
 
 If all of the above does not resolve your problems, please download better
-Telnet software for your computer, or use your web browser to connect via
-the World Wide Web Interface.
+Telnet software for your computer.
 
 You may find that when you type, you can't see what you're typing on your
 screen  -  There are two ways to fix this problem:  Either turn the LOCAL
@@ -142,9 +127,6 @@ connected (I.e:  At the command prompt.)
 
 Once connected to the TCZ-based MUD...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-(NOTE:  Skip this section if you are using a web browser to connect to the
-        TCZ-based MUD.)
-
 Once connected, you'll be asked for your name  -  This can be up to 20
 characters long and will be who you will be known as on the TCZ-based MUD
 (This can be your real name, or a nickname/alias.)
@@ -372,10 +354,6 @@ HINTS:  Sometimes, you will find that typing a command will produce sufficient
         are currently using (If you see lots of strange codes when you
         connect, 'screenconfig' will usually fix this problem.)
 
-        (NOTE:  You will not need to do this if you are using a web browser
-                to connect to the TCZ-based MUD via the World Wide Web
-                Interface.)
-
         If you are using Telnet software to connect to the TCZ-based MUD, and
         it has its own built-in word wrapping facility, we recommend that you
         turn it off/disable it, because the TCZ-based MUD also has its own
@@ -531,9 +509,7 @@ screenconfig    Takes you through a few simple questions which will
                 automatically determine whether your computer/terminal
                 supports coloured text (ANSI colour) and/or underlined
                 text, enabling you to get the best and most suitable
-                display for your computer/terminal.  If you are using
-                the World Wide Web Interface, you do not need to use
-                this command.
+                display for your computer/terminal.
 
 @stats          Tells you the total number of objects in the database of
                 the TCZ-based MUD and how many of each type of object you
@@ -1048,8 +1024,7 @@ Rooms can be created using the '@room' command.
 ===============================================================================
 
 All TCZ-based MUD's support standard 8 or 16 colour ANSI.  If you're using a
-terminal that supports it or a World Wide Web browser which supports font
-colour tags, you can enjoy a TCZ-based MUD in full colour!
+terminal that supports it, you can enjoy a TCZ-based MUD in full colour!
 
 To determine whether your terminal supports ANSI colour, and to configure it
 correctly, simply type 'screenconfig' (PLEASE NOTE:  If you're using a World
@@ -1060,562 +1035,6 @@ You can easily use colour in spoken messages and Builders can freely use
 coloured text in the description, success/failure/drop messages, etc. of
 their rooms, compound commands, etc.  -  See section on substitutions for
 further details.
-
-
-===============================================================================
-   >>>>>                 The World Wide Web Interface                  <<<<<
-===============================================================================
-
-TCZ-based MUD's feature a World Wide Web Interface, through which you can
-connect using a standard web browser (Such as Netscape Navigator or Microsoft
-Internet Explorer) without the need for any additional software.
-
-To use the World Wide Web Interface, you will need a recent version of either
-Netscape Navigator or Microsoft Internet Explorer (Ideally version 4.0 or
-better of either), or any other browser capable of supporting forms, frames,
-tables and JAVA Script.
-
-If your browser isn't quite up-to-date, please visit either Netscape or
-Microsoft's web site and download the latest browser for free.  Not only
-will the latest browser enhance your World Wide Web Interface session,
-you'll also find browsing the rest of the World Wide Web easier.
-
-NOTE:  Support for JAVA Script is advisable, because this will make the World
-       Wide Web Interface more user-friendly by automatically scrolling the
-       output window.
-
-
-Advantages of the World Wide Web Interface
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The World Wide Web Interface offers many advantages over a text-only Telnet
-connection, including the following:
-
-*  Simple and easy to use:  Just start your browser, type in the URL of the
-   TCZ-based MUD's web site and follow the links from there to connect.
-
-*  Easy fill-in forms to connect or create a new character.
-
-*  Full 16 colour ANSI emulation with support for flashing, underlined,
-   inverted text and text background colours.
-
-*  Full hypertext edition of the On-line Help System, complete with links
-   between topics and search facility.  It can also be used externally from
-   the TCZ-based MUD, without even connecting a character.
-
-*  Split windows for input (Typing commands) and output with scroll back and
-   automatic scrolling (JAVA Script required.)
-
-*  Full editing on command line (So you can correct typing mistakes, etc.)
-   and recall/edit of previous typed command.
-
-*  HTML support within the TCZ-based MUD  -  You can use HTML in your
-   description, building projects, etc.  Most HTML features supported
-   by web browsers can be used, including hyperlinks and images.
-
-*  All internal ('hard coded') commands within the TCZ-based MUD have been
-   coded to take advantage of the World Wide Web Interface, using text
-   formatting, tables, clickable links and buttons, etc.
-
-*  Unlike some 'Web Chat' programs, you do not need to continuously reload
-   the page to get output.  The output window stays connected to the TCZ-based
-   MUD (Just like a Telnet connection) with output being delivered as and when
-   it occurs.
-
-*  SSL (Secure Socket Layer) connections are supported for increased privacy
-   and security (Providing your browser supports SSL and it is legal to use
-   encryption software in your country.)
-
-PLEASE NOTE:  The above features are subject to the World Wide Web browser you
-              are currently using.  Some web browsers may implement some (Or
-              all) of the above features differently or may not support them
-              at all.
-
-
-Connecting through the World Wide Web Interface...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Connecting to a TCZ-based MUD through the World Wide Web Interface is simple:
-Just type the URL of the TCZ-based MUD's web site into your browser.
-
-Once the web site has loaded, simply click on Connect Character menu item and
-you will be presented with a fill-in form.  Simply type in your character's
-name and password and then click on the 'Connect to the TCZ-based MUD...'
-button to connect.
-
-Before connecting your character, you should check the World Wide Web Interface
-Preferences at the bottom of the form, which are as follows:
-
-*  Use your saved preferences.
-
-   PLEASE NOTE:  This option doesn't appear on the character creation form.
-
-   The TCZ-based MUD remembers the options you first used for connecting
-   through the World Wide Web Interface.  If you leave this option checked,
-   the TCZ-based MUD will ignore any options you set on the connect/create
-   forms and use your saved preferences instead.  This saves you from having
-   to set your options and/or alternative background image every time you
-   connect.
-
-   If you wish to change your preferences, simply uncheck this option and
-   then set the rest of the options to your preferred settings.  On
-   connecting, your saved preferences will be updated to the new settings.
-
-   You can also change your saved preferences within the TCZ-based MUD.
-   Typing 'set' will display your usual TCZ-based MUD preferences, along
-   with a fill-in form (Similar to that found on the character connection
-   form) which shows you your current saved preferences.  You can change
-   these on the form appropriately and then click on the 'Save preferences...'
-   button to save your new preferences.
-
-*  Enable SSL (Secure Socket Layer) connections.
-
-   If your browser supports SSL (Secure Socket Layer) connections, you can
-   enable this option to use secure encrypted connections while connected
-   to the TCZ-based MUD, ensuring complete confidentiality and security of
-   information sent to/received from the TCZ-based MUD.  Ideal safeguard
-   against 'packet sniffing'  on your network.
-
-   IMPORTANT:  Use of encryption software may be illegal in some countries.
-
-*  Enable JAVA Script enhancements.
-
-   If your web browser supports JAVA Script, you can enable this option to
-   make the World Wide Web Interface easier and more user-friendly to use.
-
-   *  Use new scrolling method (Requires JAVA Script 1.2)
-
-      This option will automatically scroll the output window when activity
-      occurs in it (I.e:  Speech from another user, or output from commands
-      you send to the TCZ-based MUD.)  You will need a recent browser with
-      support for JAVA Script 1.2 to use this option.
-
-   *  Use old scrolling method (Recommended for older browsers.)
-
-      This option also automatically scrolls the output window, but uses an
-      older method, which should work with many older browsers.  It is not
-      perfect though, and may scroll incorrectly in some browsers (Especially
-      newer ones, where you should be using the new scrolling method instead.)
-
-   *  Automatically set focus to 'TCZ-based MUD command:' box.
-
-      This option automatically sets the focus back to the 'TCZ-based MUD
-      command:' box, so that you do not need to click on it or TAB to it
-      every time you send a command to the TCZ-based MUD (Highly recommended.)
-
-   NOTE:  If you get JAVA Script error messages, you will need to obtain a more
-          recent browser, or disable the JAVA enhancements altogether (Not
-          recommended.)
-
-*  Enable Cascading Style-Sheets enhancements.
-
-   If your browser supports Cascading Style-Sheets, you can enable this option
-   to take advantage of some page layout enhancements, along with text
-   background colours (Ensure that you also enable coloured text.)
-
-*  Display coloured text.
-
-   If this option is checked, <FONT COLOR> tags will be used to display
-   coloured text.  Coloured text simulates ANSI colour, which is supported
-   and used extensively throughout TCZ-based MUDs.
-   
-   To use this option (Enabled by default), your browser must be able to   
-   support <FONT COLOR> tags (Such as Netscape Navigator 2.0 and Microsoft
-   Internet Explorer 2.0 and better.)
-   
-   If you have a slow connection to the TCZ-based MUD, you may wish to turn
-   off this option to improve the performance of your connection (The
-   simulation of ANSI colour generates a suitable <FONT COLOR> tag for
-   each colour change.)
-
-   NOTE:  You may also wish to enable Cascading Style-Sheets, which will
-          also give you text background colours.
-
-*  Enable automatically formatted links.
-
-   If this option is checked, you will see properly formatted hyperlinks
-   that you can click on, whereever the following link styles are used:
-
-   www.domain
-   http://www.domain
-   mailto:user@domain
-
-*  Enable graphical smileys (Emoticons.)
-
-   If this option is checked, you will see graphical icon smileys (Emoticons)
-   instead of their text-based equivalents (E.g:  ':-)'.)  Smileys are used
-   by users to express emotions in conversation.
-
-*  Italic text instead of underlined text.
-
-   Some old browsers do not support and ignore the underline (<U> ... </U>)
-   tag.  For this reason, italics (<I> ... </I>) tags can be used instead as
-   an alternative to underlined text.  If your browser supports underlined
-   text, you should not enable this option.
-
-*  Use alternative background image.
-
-   By default, the TCZ-based MUD will usually use a standard background image
-   (Such as a dark hexagonal TCZ logo) behind the text in the output window. 
-   
-   You may wish to disable using a background image altogether (Especially
-   if your computer cannot display at least 256 colours simultaneously,
-   which will result in a grainy looking background.)  To do this, simply
-   check the 'Use alternative background image' option and leave the box
-   blank.
-
-   Alternatively, you can use your own custom background image.  This can
-   be a local image stored on your computer or an image stored on any
-   public World Wide Web server you have access to.  Simply check the
-   'Use alternative background image' option and type the URL of your
-   preferred background into the box, e.g:
-
-   file:/mypics/mybackground.gif
-   http://www.webserver.com/myhomepage/mybackground.gif
-
-   If the background image you use is light in colour, you may need to check
-   the 'Reverse foreground and background text colours' option, otherwise some
-   text in the output window may be difficult to read.
-
-   NOTE:  If the 'Use alternative background image' option is unchecked, the
-          default background will always be used.
-
-*  Reverse foreground and background text colours.
-
-   The default colours for the World Wide Web Interface is white and coloured
-   text on a black background.  If you are using an alternative background
-   image which is light in colour, you may need to check this option to
-   switch the colours black and white, so that you are given black and
-   coloured text on a white background.  If you don't do this, you may find
-   some text hard to read.
-
-*  Width of 'TCZ-based MUD command:' input box.
-
-   If you have a high-resolution display, you may like to increase the width
-   of the command input box to take full advantage of it.  Alternatively, you
-   may need to reduce the width.
-
-
-Creating a new character through the World Wide Web Interface...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Creating a character through the World Wide Web Interface is simple:
-Just type the URL of the TCZ-based MUD's web site into your browser.
-
-Once the web site has loaded, simply click on Create Character menu item and
-you will be presented with a fill-in form.
-
-NOTE:  You will need to fill in all of the options below in-order to create a
-       new character.
-
-*  Connect as a Guest Character.
-
-   Check this option if you would like to connect as a Guest Character rather
-   than creating a new character for yourself.  This option is useful if your
-   Internet site has been banned from creating new characters (Due to abuse.)
-
-*  Your preferred name.
-
-   Enter your preferred name for your new character.  This must be 4 or more
-   letters in length (Maximum of 20.)  You can also use spaces (' '), numbers
-   and underscores ('_') in your name.
-
-   E.g:  Fred Bloggs
-
-*  Password.
-
-   Enter a password for your new character (6 or more letters or numbers)
-   that you will use in future to connect your character.  This should be
-   something that others will not be able to easily guess to prevent
-   unauthorised/malicious use of your character.
-
-   E.g:  xfjemcks   (IMPORTANT:  PLEASE DO NOT USE THIS AS YOUR PASSWORD!!!)
-
-   NOTE:  Your password is case-sensitive (If you have trouble connecting in
-          future, check that CAPS-LOCK isn't on.)  You can change your
-          password to something else by typing '@password' at any time
-          while connected to the TCZ-based MUD.
-
-*  Verify password.
-
-   Type your password in again, exactly as you typed it the first time.  This
-   is to ensure that you have entered it correctly, so that you will be able
-   to connect your character the next time you want to use the TCZ-based MUD.
-
-   E.g:  xfjemcks   (IMPORTANT:  PLEASE DO NOT USE THIS AS YOUR PASSWORD!!!)
-
-*  Gender.
-
-   Choose the gender (Sex) of your character from the three available options:
-   Male, Female or Neuter.
-
-   NOTE:  Please be honest when choosing your gender.
-
-*  Disclaimer.
-
-   Please read this carefully, and then check the box below it if you accept
-   its terms and conditions, which your usage of the TCZ-based MUD is subject
-   to.
-
-*  Your character's race.
-
-   Enter a race for your character.
-
-   E.g:  Human, Alien, etc.
-
-*  Your full E-mail address.
-
-   Enter your FULL and valid E-mail address.  This is required to ensure that
-   you are a genuine new user, and to allow Admin. to contact you should the
-   need arises.
-
-   E.g:  Fred.Bloggs@tcz.mud.host
-
-   If you wish to obtain Builder privileges to build your rooms and areas,
-   you will need a valid private E-mail address ('Free' E-mail addresses
-   from Hotmail and similar services are not acceptable, because these
-   can be obtained anonymously by andbody.)
-
-   NOTE:  Your E-mail address will be kept strictly private and confidential
-          unless you choose to make it public.
-
-*  Time difference.
-
-   If you live in a different time zone from that of the TCZ-based MUD
-   (Normally GMT/BST), you should enter your time difference here, in hours.
-
-   E.g:  3    (3 hours ahead of time shown.)
-         -5   (5 hours behind time shown.)
-
-
-Before creating your new character, you should check the World Wide Web
-Interface Preferences at the bottom of the form (See the earlier section
-on Connecting through the World Wide Web Interface for full details of
-these options.)
-
-
-How to use the World Wide Web Interface...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-When you connect to a TCZ-based MUD through the World Wide Web Interface, your
-browser screen will split into two windows:  A small input window (Small lower
-section), into which you type your commands to the TCZ-based MUD, and a large
-output window (Large upper section), where you will see output resulting from
-your commands and activity of other users.
-
-
-The input window
-~~~~~~~~~~~~~~~~
-The small lower section is where you type your commands to the TCZ-based MUD
-(This is mainly refered to as the 'command-line'.)  In addition to sending
-commands to the TCZ-based MUD, a number of buttons are also provided, which
-perform several useful functions (These are described in more detail further
-on in this text.)
-
-Unlike most standard Telnet software, you can fully edit the text you type
-by using the cursor keys to move along the line.  This means you can easily
-correct typing mistakes.  You can also recall the last command you typed
-and edit it by clicking on the RECALL button.
-
-You don't need to click on the SEND button every time you type a command
-(Unless you prefer to do this)  -  Simply type your command and then press
-RETURN or ENTER to send it to the TCZ-based MUD.
-
-To speak to other users in the same room as you, you usually need to type
-'say' in front of your message.  However, if you click on the CONVERSE
-button, so that the text in it changes from red to green (Indicating that
-it is switched on), you can just type your message and it will automatically
-be spoken to other users in the room.  To enter commands again, simply click
-on the CONVERSE button again to switch it off.  Alternatively, you can simply
-type a '.' in front of your command, i.e:  '.help html'.
-
-The HELP and TUTORIAL buttons will call up the On-line Help and Tutorial
-systems respectively.  When you click on these buttons, a new browser window
-will open (So that your connection to the TCZ-based MUD isn't interupted), in
-which you can browse the On-line Help and Tutorials.  If you have a printer
-connected to your computer, you can also print out the On-line Help and
-Tutorial pages.
-
-The USERLIST button will open a new browser window and display a list of
-currently connected users, in the same format as the 'who' command.  This
-window will automatically refresh itself every 30 seconds if left open.
-
-The LOGOUT button is used to disconnect your character from the TCZ-based MUD
-and close your connection (Alternatively, you can type 'QUIT' on the TCZ-based
-MUD.)  Once you have finished using the TCZ-based MUD, and wish to log out,
-you should click on this button to close your connection and then exit your
-web browser (See below for why you need to do this.)
-
-IMPORTANT:  ALWAYS completely exit your web browser after you have finished
-            using the TCZ-based MUD (If you still need to use it, you can
-            easily run it again.)  If you fail to do this, somebody else
-            could come along (Especially if you are using a computer which
-            is publicly accessible, such as a library or university computer
-            room) and click on the 'BACK' button to get back to the connect
-            form and connect as your character.
-
-            Please DON'T click on the 'STOP' button or close your browser
-            without logging out of the TCZ-based MUD first, because this will
-            leave your character still connected for 5 minutes (The TCZ-based
-            MUD thinks that you've lost your connection, so keeps your
-            character connected to give you time to reconnect and resume it
-            again (This can be done by either reloading the page or using the
-            connect form to reconnect.)
-
-
-The output window
-~~~~~~~~~~~~~~~~~
-The large upper section is where output from the TCZ-based MUD will be
-displayed (Such as descriptions of rooms you enter, speech/actions from
-other users, etc.)
-
-This window stays connected to the TCZ-based MUD, so that you get output as
-and when it occurs without needing to reload the page.  As the output is
-effectively like downloading an infinitely sized web page, you may need to
-click on RELOAD from time to time to clear the output and free up the memory
-of your computer.  How often you need to do this depends on how much memory
-and hard disk space your computer has, and the quantity of output you receive.
-
-If you are on slow Internet connection (Low speed modem) or your computer
-doesn't have much memory (I.e:  Less than 8Mb), it's advisable to turn off
-downloading of images in your browser (This can be found in the browser's
-menus.)
-
-If your web browser supports JAVA script, you can have it automatically
-scroll the output window for you each time activity occurs in it.  If not,
-you will need to scroll it yourself manually.  For more information, please
-see the earlier section entitled 'Enable JAVA Script enhancements'.
-
-
-Common problems and solutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-PROBLEM:   Attempting to connect gives 'Sorry, corrupt HTML data received...'
-           or 'Your browser has sent a query this server cannot understand...'
-
-SOLUTION:  Please ensure you are attempting to connect to the TCZ-based MUD
-           through the proper official web pages.
-
-PROBLEM:   Attempting to connect gives a page saying 'Sorry, your browser
-           doesn't support frames...'
-
-SOLUTION:  The TCZ-based MUD's World Wide Web Interface requires a browser
-           capable of supporting frames, fill-in forms and tables at minimum.
-           Many older browsers do not support these features.  You will need
-           to download a more recent browser, such as Netscape Navigator or
-           Microsoft Internet Explorer (Ideally version 4.0 or better of
-           either.)
-
-PROBLEM:   The TCZ-based MUD ignores or doesn't respond to any of the commands
-           I type in the input window ('TCZ command:'), although I am connected
-           and the output window is still updating.
-
-SOLUTION:  The input window isn't connected to the TCZ-based MUD properly.
-           To solve this problem, simply click on your browser's RELOAD
-           button to reload the page.
-
-PROBLEM:   After sending a command to the TCZ-based MUD, I get 'Sorry, corrupt
-           HTML data recieved...'
-
-SOLUTION:  In rare cases, you may get the 'Sorry, corrupt HTML data
-           recieved...' message in your input window after sending a command
-           to the TCZ-based MUD.  This is a fault with some browsers and can
-           be resolved simply by clicking on the browser's RELOAD button to
-           reload the page.
-           
-           If this problem persists, try exiting your browser altogether and
-           then starting it again.  If the problem still persists after that,
-           you may need to download a more recent or different web browser
-           (Preferably Netscape Navigator or Microsoft Internet Explorer.)
-
-PROBLEM:   The output window doesn't scroll automatically when new output
-           occurs in it.
-
-SOLUTION:  You need a web browser capable of supporting JAVA Script for
-           the output window to scroll automatically whenever activity
-           occurs in it.  For more information, please see the earlier
-           section entitled 'Enable JAVA Script enhancements'.
-
-PROBLEM:   The output window does not scroll all the way down to the bottom.
-
-SOLUTION:  This is a common problem with the old JAVA scrolling method.
-           Ensure that you have a web browser installed that is capable
-           of supporting JAVA Script 1.2 (The latest versions of Netscape
-           and Microsoft Internet Explorer both do) and enable the new
-           JAVA scrolling method rather than the old one.
-
-PROBLEM:   The World Wide Web Interface is extremely slow.
-
-SOLUTION:  In order to use the World Wide Web Interface, you will ideally
-           need a computer with a minimum of 16Mb memory (32Mb or more
-           recommended.)  Your computer should at least be equivalent to
-           a 486 PC (Pentium or better recommended.)
-           
-           World Wide Web browsers, such as Netscape Navigator and Microsoft
-           Internet Explorer use a lot of memory, and can cause a lot of disk
-           activity on computers with insufficient memory.
-
-           If your computer is short on memory or has a slow processor, try
-           closing down any other applications you have running first (With
-           the exception of your Internet connection software.)
-  
-           The speed of your Internet connection also effects your connection
-           through the World Wide Web Interface.  If you have a slow modem,
-           or your Internet connection to the TCZ-based MUD is slow or poor,
-           you will not be able to use the World Wide Web Interface.
-
-           Either upgrade your modem (If it is the cause of the problem) or
-           use Telnet (Text-only) software to connect.
-
-           If your computer is low on memory or your connection speed is
-           slow, turning off loading of images in your web browser may help
-           considerably, as these can be quite large in size, slowing down
-           your connection and using up a lot of memory.
-
-           A useful tip is to click on the RELOAD button every once in a while
-           to clear the output window, which frees up the memory used by it.
-           The output window contains all the output (Including images) which
-           occurred since you connected to the TCZ-based MUD or last clicked on
-           the RELOAD button of your browser.
-
-PROBLEM:   ASCII Art in people's 'scan' and room descriptions is messed up
-           when using the World Wide Web Interface, but looks fine when
-           using Telnet.
-
-SOLUTION:  Ask the owner to enclose the ASCII Art in %[ ... %] substitution
-           codes, which will instruct the World Wide Web Interface to
-           format the ASCII Art correctly, so that it displays properly
-           in your web browser (NOTE:  To find out the owner of a room,
-           type 'settings' while in the room.)
-
-
-!IMPORTANT!   Security considerations   !IMPORTANT!
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-If you are using the World Wide Web Interface on a computer which can or
-will be used by other people (Such as a university computer room, library
-or Internet Cafe), there are a number of precautions you will need to take
-to prevent somebody else from maliciously hacking into your TCZ-based MUD
-character:
-
-(1)  Don't leave your computer/browser unattended at any time (Even in AFK
-     mode), unless your computer is somewhere where nobody else will be able
-     to get access to it and play around with it.  If you need to leave your
-     computer unattended, you should disconnnect from the TCZ-based MUD (Click
-     LOGOUT or type QUIT) and exit your browser altogether (See (2) and (3).)
-
-(2)  Make sure you disconnect from the TCZ-based MUD by clicking on the LOGOUT
-     button or typing QUIT, otherwise your character will remain connected for
-     upto 5 minutes (This is to give you the opportunity to resume your
-     connection if you lose it for some reason, such as visiting a link to
-     another page which hasn't been set to open a new web browser window.)
-
-(3)  Once you have finished using the TCZ-based MUD, clear the disk cache (If
-     you know how to  -  This option is usually in the PREFERENCES menu of the
-     browser) and then completely exit the browser altogether.  If you fail to
-     atleast exit the browser, another person could come along and click the
-     BACK button to get back to the connect form (Still complete with the
-     character name and password you entered to connect to the TCZ-based MUD)
-     and connect as your character.
-
-If you fail to take the above precautions, you are opening the door for
-hackers to maliciously hack into your TCZ-based MUD character, giving them
-the opportunity to ruin your Building work or use your character for
-malicious purposes.  You ignore these precautions at your own risk!
 
 
 ===============================================================================
@@ -1650,7 +1069,6 @@ There are 6 different types of substitutions available in TCZ-based MUD's
 *  Pronoun substitutions.
 *  Text colour and attribute substitutions.
 *  Text formatting substitutions.
-*  HTML (World Wide Web) substitutions.
 *  Query command/calculation substitutions.
 *  Miscellaneous substitutions.
 *  Variable substitutions (See next section.)
@@ -1695,8 +1113,8 @@ Substitution:  Pronoun:    Male:    Female:  Neuter:  Unset gender:
 Text colour and attribute substitutions...
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Substitutions can be used to change the colour of text (For users using an
-ANSI colour compatible terminal or a World Wide Web browser which supports
-font colour tags), embolden, underline, inverse and make the text flash...
+ANSI colour compatible terminal which supports font colour tags), embolden,
+underline, inverse and make the text flash...
 
 
 Substitution:  Colour:          Substitution:  Colour:
@@ -1775,63 +1193,6 @@ Substitution:  Effect:
                which will NOT be displayed if user's 'set underline'
                preference is 'on' (Used in conjunction with '%$'.)
 ==============================================================================
-
-
-HTML (World Wide Web) substitutions...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The World Wide Web Interface allows users to connect through a standard World
-Wide Web browser (Such as Netscape Navigator or Microsoft Internet Explorer)
--  See section on the World Wide Web Interface for further details.  Several
-substitutions are provided to support the use of the HTML language within the
-TCZ-based MUD.
-
-
-The '%h' substitution
-~~~~~~~~~~~~~~~~~~~~~
-The '%h' substitution toggles the evaluation of HTML tags.  By default, HTML
-tags are ignored by the TCZ-based MUD and will be relayed to your browser
-just as though they were ordinary text.
-
-However, by using the '%h' substitution, you can turn evaluation of HTML tags
-on, allowing you to use HTML tags in your description, room descriptions, etc.
-For example, '@echo %h<FONT SIZE=6>Some big text</FONT>%h'.  The first use of
-'%h' in a description, etc. will turn evaluation of HTML on, the second will
-turn it off again, the 3rd on, etc.  After the description has been displayed,
-evaluation of HTML is automatically turned off again (If it's turned on.)
-
-To prevent abuse (I.e:  Spamming large pictures, JAVA code, etc.) the '%h'
-substitution will have no effect when used in communication commands (I.e:
-'say', 'tell', etc.) in areas you do not own or have 'write' permission to.
-
-
-The '%|' and '%^' substitutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The '%|' substitution filters out all text between it and the next '%|'
-substitution, if the user is connected through Telnet.  Similarly, the
-'%^' substitution filters out all text between it and the next '%^', if
-the user is connected through the World Wide Web Interface.  These
-substitutions can be used to provide different descriptions or filter
-out text/HTML tags depending on whether the user is using Telnet or a
-World Wide Web browser, i.e:
-
-   %|%h<CENTER><IMG SRC="http://www.wibble.com/mypic.jpg"><P>This is what I
-   look like IRL!</CENTER>%h%|%^This is a description of what I look like,
-   for those of you using a text-only Telnet connection.%^
-
-If you used the above example for your description, the user would see a
-picture of you (Providing you gave a valid URL for it) if they were using a
-World Wide Web browser.  Otherwise, they would see a text description of what
-you look like (Providing you write it.)
-
-
-The '%[' and '%]' substitutions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The above two substitutions are effectively aliases for the '<PRE>' and
-'</PRE>' HTML tags respectively.  Because web browsers do not use a fixed
-width font by default, 'ASCII art', descriptions, compound commands, etc.
-which rely on the fixed width font of Telnet software will look extremely
-messy.  There is a solution however:  By enclosing the text within a '%['
-and '%]' substitution, it will be rendered in a fixed width font.
 
 
 Query command/calculation substitutions...
@@ -5692,11 +5053,6 @@ In most cases, things are given priority.
   without parameters for Telnet users will display the central section of
   the map.
 
-  For World Wide Web Interface users, a graphical map will be displayed
-  when 'map' is typed without any parameters.  However, web users can
-  also see the text-based map too (Which may show locations not on the
-  graphical map) by typing 'map' with parameters (E.g:  'map text'.)
-
   If changes are made to the map (By editing its files on the server), they
   can be loaded into the TCZ-based MUD by using '@reload map' (Deities and
   above only.)
@@ -6123,8 +5479,7 @@ In most cases, things are given priority.
   how long ago that was, race, score, credit, current location, etc.
 
   Two formats of 'scan' are available (Brief and full.)  'scan', 'finger'
-  and 'x' display the brief format on a Telnet connection and the full
-  format on a World Wide Web Interface connection.
+  and 'x' display the brief format.
 
 . 'scanfull', 'fingerfull' and 'xf' display the full format, and 'scanbrief',
   'fingerbrief' and 'xb' display the brief format.
@@ -6235,10 +5590,6 @@ In most cases, things are given priority.
 
   Typing 'set' without any parameters displays your current preferences for
   all of the above.
-
-  'set' can also be used on a World Wide Web Interface connection to change
-  your preferences for the World Wide Web Interface (These can also be set
-  when you connect or create your character.)
 
   Descriptions of what each of the above 'set' commands do follows...
 
@@ -6795,9 +6146,7 @@ In most cases, things are given priority.
   at random from a selection of title screens.
 
   The 'titles' command displays these title screens at random, without needing
-  to disconnect and then reconnect to the TCZ-based MUD.  This is also ideal
-  for users connecting through the World Wide Web Interface, who will not see
-  these text-based title screens when they connect.
+  to disconnect and then reconnect to the TCZ-based MUD.
 
 -------------------------------------------------------------------------------
 
@@ -11014,10 +10363,7 @@ In most cases, things are given priority.
                 '28th November 1994', etc.
 
                 Picture is the URL of a picture you have of yourself on the
-                World Wide Web.  If this field is set, users connecting using
-                a World Wide Web browser will see your picture on your
-                profile, and your picture will also appear in the TCZ-based
-                MUD's user picture gallery.  E.g:
+                World Wide Web.  E.g:
 
                 http://www.wibble.wobble.com/~fred/me.jpg
 
@@ -13048,9 +12394,8 @@ In most cases, things are given priority.
                  accidentally 'lagging' the TCZ-based MUD by repetitively
                  executing intensive commands/compound commands.)
   Disconnected   Lost connection (If a user disconnects without typing QUIT
-                 or clicking the LOGOUT button of the World Wide Web
-                 Interface, their connection will remain open for 5 minutes
-                 to allow them to reconnect and resume where they left off.)
+                 their connection will remain open for 5 minutes to allow them
+                 to reconnect and resume where they left off.)
   Input          Connection has pending input (Queued user commands.)
   Output         Connection has pending output.
 
@@ -14685,40 +14030,6 @@ In most cases, things are given priority.
 
 -------------------------------------------------------------------------------
 
-  {@?image}
-  ~~~~~~~~~
-  USAGE:  {@?image "<IMAGE URL>" "<DESCRIPTION>" ["<DESTINATION URL>"]}
-
-  Inserts a properly formatted HTML image and an optional link to a web site
-  (When the image is clicked on.)  The link is opened a new browser window so
-  that it doesn't interfere with the connection of a user using the World Wide
-  Web Interface.
-
-  <IMAGE URL> is the URL of the image, e.g:
-  https://www.website.com/images/tczlogo3.gif
-
-  <DESCRIPTION> is a text description of the image, which will be seen by
-  users who have images switched off, or are using a text-only browser.
-
-  <DESTINATION URL> is the URL of an optional web site link for when the image
-  is clicked on by the user, e.g:  https://github.com/smcvey/tcz
-
-  The best way to insert an image into a description is using query substition,
-  i.e:  '%{@?image ...}' (NOTE:  If you type this on the command-line, you will
-  need to protect the opening '{' with '\' to prevent it from being evaluated.)
-
-  IMPORTANT:  If you do not use query substitution, the HTML part of the link
-              will be 'hard' substituted and will be difficult to edit or
-              remove without deleting the entire line.
-
-
-  Example:
-  ~~~~~~~~
-  @desc me = %\{@?image "https://www.website.com/images/tczlogo3.gif" "TCZ City
-     Picture" "https://github.com/smcvey/tcz"}
-
--------------------------------------------------------------------------------
-
   {@?income}
   ~~~~~~~~~~
   USAGE:  {@?income [<NAME>] [= day|week|month]}
@@ -14921,41 +14232,6 @@ In most cases, things are given priority.
 
   Returns the current line number being executed of the current compound
   command.
-
--------------------------------------------------------------------------------
-
-  {@?link}
-  ~~~~~~~~
-  USAGE:  {@?link "<NAME>" "<DESTINATION>" ["<HELPTEXT>"]}
-
-  Inserts a properly formatted HTML link to a web site or any other suitable
-  URL recognised by web browsers.  The link is opened a new browser window so
-  that it doesn't interfere with the connection of a user using the World Wide
-  Web Interface.
-
-  <NAME> is the name of the link, which will appear on-screen for the user to
-  click on.
-
-  <DESTINATION> is the destination URL of the link, for example:
- https://github.com/smcvey/tcz 
-
-  <HELPTEXT> is optional quick help text that will be displayed in recent
-  browsers if the user holds their mouse pointer still over the link.
-
-  The best way to insert a link into a description is using query substition,
-  i.e:  '%{@?link ...}' (NOTE:  If you type this on the command-line, you will
-  need to protect the opening '{' with '\' to prevent it from being evaluated.)
-
-  IMPORTANT:  If you do not use query substitution, the HTML part of the link
-              will be 'hard' substituted and will be difficult to edit or
-              remove without deleting the entire line.
-
-
-  Example:
-  ~~~~~~~~
-  @desc me = Visit the TCZ project by clicking %\{@?link "HERE"
-      "https://github.com/smcvey/tcz" "Click to visit
-      the TCZ project web site..."}.
 
 -------------------------------------------------------------------------------
 
@@ -15933,10 +15209,6 @@ In most cases, things are given priority.
   the parameter 'single' is specified, the line will be in the style
   '-----------'.  If the parameter 'double' is specified, the line will be
   in the style '==========='.
-
-  If the user is using the World Wide Web Interface, '%h<HR>%h' will be
-  returned instead, generating a standard HTML horizontal rule.
-
 
   Examples:
   ~~~~~~~~~

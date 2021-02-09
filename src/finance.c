@@ -166,7 +166,7 @@ void finance_credit(CONTEXT)
 					    }
                                             
 					    output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" now has "ANSI_LYELLOW"%.2f"ANSI_LGREEN" credits in %s %s.",Article(who,UPPER,DEFINITE),getcname(NOTHING,who,0,0),amount,Possessive(who,0),(account) ? "bank account":"pocket");
-                                            output(getdsc(who),who,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed the credit in your %s to "ANSI_LYELLOW"%.2f"ANSI_LWHITE" credits.",Article(player,UPPER,(Location(player) == Location(who)) ? DEFINITE:INDEFINITE),getcname(NOTHING,player,0,0),(account) ? "bank account":"pocket",amount);
+                                            output(getdsc(who),who,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed the credit in your %s to "ANSI_LYELLOW"%.2f"ANSI_LWHITE" credits.",Article(player,UPPER,(Location(player) == Location(who)) ? DEFINITE:INDEFINITE),getcname(NOTHING,player,0,0),(account) ? "bank account":"pocket",amount);
                                             writelog(ADMIN_LOG,0,"CREDIT","%s(#%d) changed %s(#%d)'s %s to %.2f credits.",getname(player),player,getname(who),who,(account) ? "bank balance":"credit in pocket",amount);
                                             writelog(TRANSACTION_LOG,0,"CREDIT","%s(#%d) changed %s(#%d)'s %s to %.2f credits.",getname(player),player,getname(who),who,(account) ? "bank balance":"credit in pocket",amount);
                                             setreturn(OK,COMMAND_SUCC);
@@ -296,26 +296,22 @@ void finance_statement(CONTEXT)
      income      = currency_to_double(&(db[who].data->player.income));
      expenditure = currency_to_double(&(db[who].data->player.expenditure));
 
-     html_anti_reverse(p,1);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
      if(!in_command) {
-        output(p,player,2,1,1,"%sStatement of account for %s"ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(who,LOWER,DEFINITE),getcname(NOTHING,who,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 1, "\n Statement of account for %s" ANSI_LWHITE "%s" ANSI_LCYAN "...\n", Article(who, LOWER, DEFINITE), getcname(NOTHING, who, 0, 0));
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
-     if(IsHtml(p)) output(p,player,1,2,0,"<TR><TD>");
-     output(p,player,2,1,1,ANSI_LMAGENTA" Balance: \016&nbsp;\016 "ANSI_LWHITE"%.2f "ANSI_LMAGENTA"credits.\n\n",balance);
+     output(p,player,2,1,1,ANSI_LMAGENTA" Balance:  "ANSI_LWHITE"%.2f "ANSI_LMAGENTA"credits.\n\n",balance);
      if(!credit) {
         if(who == player) output(p,player,2,1,1,ANSI_LYELLOW" You currently have no credit in your pocket.\n\n");
            else output(p,player,2,1,1,ANSI_LYELLOW" %s currently has no credit in %s pocket.\n\n",Subjective(who,1),Possessive(who,0));
      } else if(who == player) output(p,player,2,1,1,ANSI_LYELLOW" You currently have "ANSI_LWHITE"%.2f"ANSI_LYELLOW" credits in your pocket.\n\n",credit);
         else output(p,player,2,1,1,ANSI_LYELLOW" %s currently has "ANSI_LWHITE"%.2f"ANSI_LYELLOW" credits in %s pocket.\n\n",Subjective(who,1),credit,Possessive(who,0));
-     output(p,player,2,1,23,ANSI_LRED" Payment restriction: \016&nbsp;\016 "ANSI_LWHITE"%d"ANSI_LRED" credit%s%s%s%s%s%s",db[who].data->player.restriction,Plural(db[who].data->player.restriction),(who == player) ? " ":"",((who == player) && IsHtml(p)) ? "\016<I>\016":"",(who == player) ? "(Type '"ANSI_LYELLOW"restrict <AMOUNT>"ANSI_LRED"' to change.)":"",((who == player) && IsHtml(p)) ? "\016</I>\016":"",IsHtml(p) ? "":"\n");
+     output(p, player, 2, 1, 23, ANSI_LRED " Payment restriction:  " ANSI_LWHITE "%d" ANSI_LRED " credit%s%s%s\n", db[who].data->player.restriction, Plural(db[who].data->player.restriction), (who == player) ? " " : "", (who == player) ? "(Type '" ANSI_LYELLOW "restrict <AMOUNT>"ANSI_LRED"' to change.)" : "");
 
-     if(IsHtml(p)) output(p,player,1,2,0,"</TD></TR><TR><TD BGCOLOR="HTML_TABLE_DGREY">");
-        else output(p,player,0,1,0,separator(twidth,0,'-','-'));
+     output(p,player,0,1,0,separator(twidth,0,'-','-'));
      output(p,player,0,1,1,ANSI_LGREEN" Income/expenditure for the period "ANSI_LWHITE"%s"ANSI_LGREEN" to "ANSI_LWHITE"%s"ANSI_LGREEN"...\n",date_to_string(quarter - QUARTER,UNSET_DATE,player,SHORTDATEFMT),date_to_string(quarter,UNSET_DATE,player,SHORTDATEFMT));
-     if(!IsHtml(p)) output(p,player,0,1,0,ANSI_LCYAN"               This quarter:   Average/day:   Average/week:   Average/month:\n"ANSI_DCYAN"               ~~~~~~~~~~~~~   ~~~~~~~~~~~~   ~~~~~~~~~~~~~   ~~~~~~~~~~~~~~");
+     output(p,player,0,1,0,ANSI_LCYAN"               This quarter:   Average/day:   Average/week:   Average/month:\n"ANSI_DCYAN"               ~~~~~~~~~~~~~   ~~~~~~~~~~~~   ~~~~~~~~~~~~~   ~~~~~~~~~~~~~~");
 
      gettime(now);
      w            = getdsc(who);
@@ -325,33 +321,23 @@ void finance_statement(CONTEXT)
      profit       = income - expenditure;
      daysleft     = (quarter - now) / DAY;
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-        output(p,player,2,1,0,"%s","\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN"><I>&nbsp;</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN"><I>This quarter:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN"><I>Average/day:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN"><I>Average/week:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN"><I>Average/month:</I></FONT></TH></TR>\016");
-     }
-     output(p,player,2,1,0,"%s"ANSI_LYELLOW"Income:%s"ANSI_LWHITE"%-16.2f%s%-15.2f%s%-16.2f%s%-.2f%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016":"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"  ",income,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",income / avgday,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",income / avgweek,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",income / avgmonth,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%s"ANSI_LYELLOW"Expenditure:%s"ANSI_LWHITE"%-16.2f%s%-15.2f%s%-16.2f%s%-.2f%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016":" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"  ",expenditure,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",expenditure / avgday,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",expenditure / avgweek,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",expenditure / avgmonth,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%s"ANSI_LYELLOW"Profit:%s"ANSI_LWHITE"% -16.2f%s% -15.2f%s% -16.2f%s% -.2f%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016":"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":" ",profit,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",profit / avgday,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",profit / avgweek,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",profit / avgmonth,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "      Income:  " ANSI_LWHITE "%-16.2f%-15.2f%-16.2f%-.2f\n", income, income / avgday, income / avgweek, income / avgmonth);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Expenditure:  " ANSI_LWHITE "%-16.2f%-15.2f%-16.2f%-.2f\n", expenditure, expenditure / avgday, expenditure / avgweek, expenditure / avgmonth);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "      Profit: " ANSI_LWHITE "% -16.2f% -15.2f% -16.2f% -.2f\n", profit, profit / avgday, profit / avgweek, profit / avgmonth);
 
      output(p,player,0,1,0,"");
-     output(p,player,0,1,18,ANSI_LMAGENTA" End of quarter: \016&nbsp;\016 "ANSI_LWHITE"%s \016&nbsp;\016"ANSI_LMAGENTA"("ANSI_LYELLOW"%d"ANSI_LMAGENTA" day%s remaining.)",date_to_string(quarter,UNSET_DATE,player,FULLDATEFMT),daysleft,Plural(daysleft));
-     if(IsHtml(p)) output(p,player,1,2,0,"</TR></TD>");
+     output(p,player,0,1,18,ANSI_LMAGENTA" End of quarter:  "ANSI_LWHITE"%s "ANSI_LMAGENTA"("ANSI_LYELLOW"%d"ANSI_LMAGENTA" day%s remaining.)",date_to_string(quarter,UNSET_DATE,player,FULLDATEFMT),daysleft,Plural(daysleft));
 
      if(w && Connected(who) && (player == who) && !Puppet(who)) {
         unsigned char dbltime;
 
-        if(IsHtml(p)) output(p,player,1,2,0,"<TR><TD>");
-           else output(p,player,0,1,0,separator(twidth,0,'-','-'));
+        output(p,player,0,1,0,separator(twidth,0,'-','-'));
         dbltime = (w && ((now - w->start_time) / (DOUBLE_PAYMENT * HOUR))) ? 2:1;
         if(Level4(p->player)) dbltime *= 2;
         output(p,player,0,1,1,ANSI_LRED" You have "ANSI_LWHITE"%s"ANSI_LRED" remaining until your next payment of "ANSI_LYELLOW"%d"ANSI_LRED" credit%s.",interval(HOUR - db[who].data->player.payment,0,ENTITIES,0),HOURLY_PAYMENT * dbltime,Plural(HOURLY_PAYMENT * dbltime));
-        if(IsHtml(p)) output(p,player,1,2,0,"</TR></TD>");
      }
 
-     if(!IsHtml(p) && !in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(p,0);
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 

@@ -5,7 +5,7 @@
 | ~~~~~~~~~~~~~~~~~~~~~~~                            ~~~~~~~~~~~~~~~~~~~~~~~~ |
 |---------------------------[ Module Description ]----------------------------|
 | SERVER.C  -  Implements the bulk of TCZ server, including handling of       |
-|              Telnet connections and initial handling of HTML connections.   |
+|              Telnet connections.                                            |
 |--------------------------[ Copyright Information ]--------------------------|
 | This program is free software; you can redistribute it and/or modify        |
 | it under the terms of the GNU General Public License as published by        |
@@ -73,7 +73,6 @@
 #include "fields.h"
 #include "search.h"
 #include "match.h"
-#include "html.h"
 
 #ifndef CYGWIN32
    #include <crypt.h>
@@ -113,7 +112,6 @@ char                    **output_fmt;  /*  fmt pointer used for passing external
 va_list                 output_ap;     /*  va_list variable used for passing external va_list to output()  */
 
 int                     telnet            = -1;   /*  Socket for incoming Telnet connections  */
-int                     html              = -1;   /*  Socket for incoming HTML connections  */
 
 
 /* ---->  UPS support  <---- */
@@ -159,7 +157,7 @@ time_t server_gettime(time_t *tm,int check_tz)
                 /* ---->  Log and warn administrators  <---- */
                 writelog(SERVER_LOG,1,"TIME","The system time has changed by (%c) %dd %dh %dm %ds (%s.)  Time on %s adjusted to compensate  -  Please check that the time is correct and adjust if neccessary using '@admin time'.",(adjustment < 0) ? '-':'+',ABS(adjustment) / DAY,(ABS(adjustment) % DAY) / HOUR,(ABS(adjustment) % HOUR) / MINUTE,ABS(adjustment) % MINUTE,(dst) ? "Due to Daylight Saving Time":"Due to manual adjustment from the server",tcz_short_name);
 	        writelog(ADMIN_LOG,1,"TIME","The system time has changed by (%c) %dd %dh %dm %ds (%s.)  Time on %s adjusted to compensate  -  Please check that the time is correct and adjust if neccessary using '@admin time'.",(adjustment < 0) ? '-':'+',ABS(adjustment) / DAY,(ABS(adjustment) % DAY) / HOUR,(ABS(adjustment) % HOUR) / MINUTE,ABS(adjustment) % MINUTE,(dst) ? "Due to Daylight Saving Time":"Due to manual adjustment from the server",tcz_short_name);
-	        output_admin(0,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"The system time has changed by "ANSI_LMAGENTA"(%c) "ANSI_LYELLOW"%dd %dh %dm %ds"ANSI_LWHITE" (%s.) \016&nbsp;\016 Time on %s adjusted to compensate \016&nbsp;\016 - \016&nbsp;\016 Please check that the time is correct and adjust if neccessary using '"ANSI_LGREEN"@admin time"ANSI_LWHITE"'.\n",(adjustment < 0) ? '-':'+',ABS(adjustment) / DAY,(ABS(adjustment) % DAY) / HOUR,(ABS(adjustment) % HOUR) / MINUTE,ABS(adjustment) % MINUTE,(dst) ? "Due to Daylight Saving Time":"Due to manual adjustment from the server",tcz_short_name);
+	        output_admin(0,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"The system time has changed by "ANSI_LMAGENTA"(%c) "ANSI_LYELLOW"%dd %dh %dm %ds"ANSI_LWHITE" (%s.)  Time on %s adjusted to compensate  -  Please check that the time is correct and adjust if neccessary using '"ANSI_LGREEN"@admin time"ANSI_LWHITE"'.\n",(adjustment < 0) ? '-':'+',ABS(adjustment) / DAY,(ABS(adjustment) % DAY) / HOUR,(ABS(adjustment) % HOUR) / MINUTE,ABS(adjustment) % MINUTE,(dst) ? "Due to Daylight Saving Time":"Due to manual adjustment from the server",tcz_short_name);
                 if(called > 0) called--;
                 adjusted = 1;
 	     } else adjusted = 0;
@@ -208,13 +206,13 @@ void server_connect_peaktotal(void)
 }
 
 /* ---->  Count number of connections currently in use by given character  <---- */
-int server_count_connections(dbref player,unsigned char html)
+int server_count_connections(dbref player)
 {
     struct descriptor_data *d;
     int    count = 0;
 
     for(d = descriptor_list; d; d = d->next)
-        if((d->flags & CONNECTED) && (d->player == player) && (html || !IsHtml(d)))
+        if((d->flags & CONNECTED) && (d->player == player))
             count++;
     return(count);
 }
@@ -313,8 +311,8 @@ void server_SIGPWR_handler(int sig)
         for(d = descriptor_list; d; d = d->next) {
             if((d->flags & CONNECTED) && Validchar(d->player) && Connected(d->player)) {
                if(Level4(d->player))
-                  output(d,d->player,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LYELLOW"Power to the server on which %s runs has been lost for the "ANSI_LWHITE"%s time"ANSI_LYELLOW".  The server is now running on "ANSI_UNDERLINE"battery backup"ANSI_LYELLOW", which may run out if mains power is not resumed again soon.\n\nA database dump %s.  If the power fails, any changes made to the database since "ANSI_LWHITE"%s"ANSI_LYELLOW" (The time of the last successful database dump) may be lost.\n\nWhen mains power is resumed, you will receive notification of this.  If you suddenly get disconnected, the battery backup has probably run out of power (Try connecting again later when mains power has been resumed.)\n",tcz_full_name,rank(powercount),(!dumpstatus) ? "has been started":"is already in progress",date_to_string((dumptiming) ? dumptiming:uptime,UNSET_DATE,d->player,FULLDATEFMT));
-	             else output(d,d->player,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LYELLOW"Power to the server on which %s runs has been lost.  The server is now running on "ANSI_UNDERLINE"battery backup"ANSI_LYELLOW", which may run out if mains power is not resumed again soon.\n\nA database dump %s.  If the power fails, any building work or changes made to your character, objects, areas, etc. since "ANSI_LWHITE"%s"ANSI_LYELLOW" (The time of the last successful database dump) may be lost.\n\nWhen mains power is resumed, you will receive notification of this.  If you suddenly get disconnected, the battery backup has probably run out of power (Try connecting again later when mains power has been resumed.)\n",tcz_full_name,(!dumpstatus) ? "has been started":"is already in progress",date_to_string((dumptiming) ? dumptiming:uptime,UNSET_DATE,d->player,FULLDATEFMT));
+                  output(d,d->player,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LYELLOW"Power to the server on which %s runs has been lost for the "ANSI_LWHITE"%s time"ANSI_LYELLOW".  The server is now running on "ANSI_UNDERLINE"battery backup"ANSI_LYELLOW", which may run out if mains power is not resumed again soon.\n\nA database dump %s.  If the power fails, any changes made to the database since "ANSI_LWHITE"%s"ANSI_LYELLOW" (The time of the last successful database dump) may be lost.\n\nWhen mains power is resumed, you will receive notification of this.  If you suddenly get disconnected, the battery backup has probably run out of power (Try connecting again later when mains power has been resumed.)\n",tcz_full_name,rank(powercount),(!dumpstatus) ? "has been started":"is already in progress",date_to_string((dumptiming) ? dumptiming:uptime,UNSET_DATE,d->player,FULLDATEFMT));
+	             else output(d,d->player,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LYELLOW"Power to the server on which %s runs has been lost.  The server is now running on "ANSI_UNDERLINE"battery backup"ANSI_LYELLOW", which may run out if mains power is not resumed again soon.\n\nA database dump %s.  If the power fails, any building work or changes made to your character, objects, areas, etc. since "ANSI_LWHITE"%s"ANSI_LYELLOW" (The time of the last successful database dump) may be lost.\n\nWhen mains power is resumed, you will receive notification of this.  If you suddenly get disconnected, the battery backup has probably run out of power (Try connecting again later when mains power has been resumed.)\n",tcz_full_name,(!dumpstatus) ? "has been started":"is already in progress",date_to_string((dumptiming) ? dumptiming:uptime,UNSET_DATE,d->player,FULLDATEFMT));
 	    }
 	}
 
@@ -339,8 +337,8 @@ void server_SIGPWR_handler(int sig)
 
         /* ---->  Power resumed  <---- */
         gettime(now);
-        output_all(1,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LYELLOW"Mains power has now been resumed.  It is now safe to make changes to your character, objects, areas, etc. again.  However, please wait for atleast "ANSI_LWHITE"5-10 minutes"ANSI_LYELLOW" to be sure that the power will not be lost again.\n");
-        output_all(0,1,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LYELLOW"Mains power has now been resumed (Total time without power:  "ANSI_LWHITE"%s"ANSI_LYELLOW", Total number of power failures:  "ANSI_LWHITE"%d"ANSI_LYELLOW".)  It is now safe to make changes to the database again.  However, please wait for atleast "ANSI_LWHITE"5-10 minutes"ANSI_LYELLOW" to be sure that the power will not be lost again.\n",interval(now - powertime,0,ENTITIES,0),powercount);
+        output_all(1,0,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LYELLOW"Mains power has now been resumed.  It is now safe to make changes to your character, objects, areas, etc. again.  However, please wait for atleast "ANSI_LWHITE"5-10 minutes"ANSI_LYELLOW" to be sure that the power will not be lost again.\n");
+        output_all(0,1,0,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LYELLOW"Mains power has now been resumed (Total time without power:  "ANSI_LWHITE"%s"ANSI_LYELLOW", Total number of power failures:  "ANSI_LWHITE"%d"ANSI_LYELLOW".)  It is now safe to make changes to the database again.  However, please wait for atleast "ANSI_LWHITE"5-10 minutes"ANSI_LYELLOW" to be sure that the power will not be lost again.\n",interval(now - powertime,0,ENTITIES,0),powercount);
         writelog(SERVER_LOG,1,"POWER","Power to host server has been resumed (Total time without power:  %s, Total number of power failures:  %d.)",interval(now - powertime,0,ENTITIES,0),powercount);
         writelog(ADMIN_LOG,1,"POWER","Power to host server has been resumed (Total time without power:  %s, Total number of power failures:  %d.)",interval(now - powertime,0,ENTITIES,0),powercount);
      }
@@ -363,7 +361,7 @@ void server_SIGCHLD_handler(int sig)
 	/* ---->  Child dumping process did not complete - Attempt to dump database internally  <---- */
 	writelog(DUMP_LOG,1,"DUMP","Database dumping process has crashed/terminated  -  Attempting to dump database internally...");
 	writelog(SERVER_LOG,1,"DUMP","Database dumping process has crashed/terminated  -  Attempting to dump database internally...");
-	output_admin(0,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 \007"ANSI_LYELLOW"Database dumping process has crashed/terminated  -  Attempting to dump database internally in the background...");
+	output_admin(0,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  \007"ANSI_LYELLOW"Database dumping process has crashed/terminated  -  Attempting to dump database internally in the background...");
 
 	dumpchild  = NOTHING;
 	dumpstatus = 1;
@@ -389,21 +387,7 @@ int server_process_output(struct descriptor_data *d)
 {
     int cnt;
 
-#define HTML_JAVA_SCROLLBY "<SCRIPT LANGUAGE=\"JavaScript\">\n<!--\nscrl2()\n//-->\n</SCRIPT>"
-#define HTML_JAVA_SCROLL   "<SCRIPT LANGUAGE=\"JavaScript\">\n<!--\nscrl1()\n//-->\n</SCRIPT>"
-
     if(d->descriptor == NOTHING) return(1);
-    if((d->flags2 & OUTPUT_PENDING) && IsHtml(d) && (d->html->flags & HTML_OUTPUT) && (d->html->flags & HTML_JAVA)) {
-
-       /* ---->  Scroll HTML output window  <---- */
-       if(d->html->flags & HTML_SCROLL)
-          server_queue_output(d,HTML_JAVA_SCROLL,sizeof(HTML_JAVA_SCROLL));
-       
-       if(d->html->flags & HTML_SCROLLBY)
-          server_queue_output(d,HTML_JAVA_SCROLLBY,sizeof(HTML_JAVA_SCROLLBY));
-
-       d->flags2 &= ~OUTPUT_PENDING;
-    }
 
     while(d->output.start) {
 
@@ -447,8 +431,8 @@ int server_process_output(struct descriptor_data *d)
     return(1);
 }
 
-/* ---->  Process input from Telnet/HTML connections  <---- */
-int server_process_input(struct descriptor_data *d,unsigned char html)
+/* ---->  Process input from connections  <---- */
+int server_process_input(struct descriptor_data *d)
 {
     static unsigned char  *t,*p,*pend,*q,*qend;
     static char           tbuffer[BUFFER_LEN];
@@ -470,15 +454,6 @@ int server_process_input(struct descriptor_data *d,unsigned char html)
           lower_bytes_in -= KB;
           upper_bytes_in++;
     }
-
-#ifdef HTML_INTERFACE
-    if(html) {
-       html_process_input(d,buffer,got);
-       if(IsHtml(d) && !(d->html->flags & HTML_INPUT_PENDING))
-          if(!html_process_data(d)) return(0);
-       return(1);
-    }
-#endif
 
     if(!(d->flags & CONNECTED) && (option_loglevel(OPTSTATUS) >= 6))
        writelog(COMMAND_LOG,1,"TELNET","[%d]  %s",d->descriptor,binary_to_ascii(buffer,(got > KB) ? KB:got,tbuffer));
@@ -727,7 +702,7 @@ int server_process_input(struct descriptor_data *d,unsigned char html)
     return(1);
 }
 
-/* ---->  Shutdown all sockets (User connections and Telnet/HTML sockets)  <---- */
+/* ---->  Shutdown all sockets (User connections and Telnet sockets)  <---- */
 void server_close_sockets()
 {
      struct descriptor_data *d,*dnext;
@@ -735,15 +710,12 @@ void server_close_sockets()
      wrap_leading = 0;
      for(d = descriptor_list; d; d = dnext) {
          dnext = d->next;
-         if(!(IsHtml(d) && !(d->html->flags & HTML_OUTPUT))) {
-            output(d,d->player,2,0,0,"%s",bootmessage);
-            server_process_output(d);
-	 }
+         output(d,d->player,2,0,0,"%s",bootmessage);
+         server_process_output(d);
          if(d->descriptor) shutdown(d->descriptor,2);
          close(d->descriptor);
      }
 
-     if(html   >= 0) close(html);
      if(telnet >= 0) close(telnet);
 }
 
@@ -944,23 +916,23 @@ void server_initialise_telnet(int descriptor)
 }
 
 /* ---->  Open socket for incoming connections  <---- */
-int server_open_socket(int port,unsigned char restart,unsigned char refresh,unsigned char html,unsigned char logtime)
+int server_open_socket(int port,unsigned char restart,unsigned char refresh,unsigned char logtime)
 {
     struct sockaddr_in server;
     int    opt,new;
 
     /* ---->  Attempt to open socket  <---- */
     if((new = socket(AF_INET,SOCK_STREAM,0)) < 0) {
-       if(restart) writelog(SERVER_LOG,logtime,"RESTART","Unable to open socket for incoming %s connections (%s)  -  Either %s is already running or the port is in use by another process  -  Restart aborted.",(html) ? "HTML":"Telnet",strerror(errno),tcz_short_name);
-          else writelog(SERVER_LOG,logtime,(html) ? "HTML":"TELNET","Error  -  Unable to %sopen socket for incoming %s connections (%s)  -  Re-trying in %d minute%s.",(refresh) ? "re-":"",(html) ? "HTML":"Telnet",strerror(errno),(refresh) ? 1:REFRESH_SOCKET_INTERVAL,Plural((refresh) ? 1:REFRESH_SOCKET_INTERVAL));
+       if(restart) writelog(SERVER_LOG,logtime,"RESTART","Unable to open socket for incoming Telnet connections (%s)  -  Either %s is already running or the port is in use by another process  -  Restart aborted.",strerror(errno),tcz_short_name);
+          else writelog(SERVER_LOG,logtime,"TELNET","Error  -  Unable to %sopen socket for incoming Telnet connections (%s)  -  Re-trying in %d minute%s.",(refresh) ? "re-":"",strerror(errno),(refresh) ? 1:REFRESH_SOCKET_INTERVAL,Plural((refresh) ? 1:REFRESH_SOCKET_INTERVAL));
        return(-1);
     }
 
     /* ---->  Set socket options  <---- */
     opt = 1;
     if(setsockopt(new,SOL_SOCKET,SO_REUSEADDR,(char *) &opt,sizeof(opt)) < 0) {
-       if(restart) writelog(SERVER_LOG,logtime,"RESTART","Unable to set options of socket for incoming %s connections (%s)  -  Restart aborted.",(html) ? "HTML":"Telnet",strerror(errno));
-          else writelog(SERVER_LOG,logtime,(html) ? "HTML":"TELNET","Error  -  Unable to set options of %ssocket for incoming %s connections (%s)  -  Re-trying in %d minute%s.",(refresh) ? "new ":"",(html) ? "HTML":"Telnet",strerror(errno),(refresh) ? 1:REFRESH_SOCKET_INTERVAL,Plural((refresh) ? 1:REFRESH_SOCKET_INTERVAL));
+       if(restart) writelog(SERVER_LOG,logtime,"RESTART","Unable to set options of socket for incoming Telnet connections (%s)  -  Restart aborted.",strerror(errno));
+          else writelog(SERVER_LOG,logtime,"TELNET","Error  -  Unable to set options of %ssocket for incoming Telnet connections (%s)  -  Re-trying in %d minute%s.",(refresh) ? "new ":"",strerror(errno),(refresh) ? 1:REFRESH_SOCKET_INTERVAL,Plural((refresh) ? 1:REFRESH_SOCKET_INTERVAL));
        close(new);
        return(-1);
     }
@@ -973,8 +945,8 @@ int server_open_socket(int port,unsigned char restart,unsigned char refresh,unsi
     server.sin_family      = AF_INET;
     server.sin_port        = htons(port);
     if(bind(new,(struct sockaddr *) &server,sizeof(server))) {
-       if(restart) writelog(SERVER_LOG,logtime,"RESTART","Unable to bind socket for incoming %s connections (%s)  -  Restart aborted.",(html) ? "HTML":"Telnet",strerror(errno));
-          else writelog(SERVER_LOG,logtime,(html) ? "HTML":"TELNET","Error  -  Unable to bind %ssocket for incoming %s connections (%s)  -  Re-trying in %d minute%s.",(refresh) ? "new ":"",(html) ? "HTML":"Telnet",strerror(errno),(refresh) ? 1:REFRESH_SOCKET_INTERVAL,Plural((refresh) ? 1:REFRESH_SOCKET_INTERVAL));
+       if(restart) writelog(SERVER_LOG,logtime,"RESTART","Unable to bind socket for incoming Telnet connections (%s)  -  Restart aborted.",strerror(errno));
+          else writelog(SERVER_LOG,logtime,"TELNET","Error  -  Unable to bind %ssocket for incoming Telnet connections (%s)  -  Re-trying in %d minute%s.",(refresh) ? "new ":"",strerror(errno),(refresh) ? 1:REFRESH_SOCKET_INTERVAL,Plural((refresh) ? 1:REFRESH_SOCKET_INTERVAL));
        close(new);
        return(-1);
     }
@@ -1051,11 +1023,6 @@ void server_mainloop(void)
 #ifdef SOCKETS
      if((telnetport > 0) && (telnet >= 0))
         writelog(SERVER_LOG,0,"RESTART","Accepting Telnet connections on port %d.",telnetport);
-
-#ifdef HTML_INTERFACE
-     if((htmlport > 0) && (html >= 0))
-        writelog(SERVER_LOG,0,"RESTART","Accepting HTML (World Wide Web) connections on port %d.",htmlport);
-#endif
 #endif
 
      log_stderr = 0;
@@ -1118,34 +1085,12 @@ void server_mainloop(void)
 	      }
               if(telnet < 0) {
                  gettime(lastconn);
-                 if((telnet = server_open_socket(telnetport,0,1,0,1)) < 0) {
+                 if((telnet = server_open_socket(telnetport,0,1,1)) < 0) {
                     lastconn -= ((REFRESH_SOCKET_INTERVAL * MINUTE) - MINUTE);
                     telnet = -1;
 		 }
 	      }
 	   }
-
-#ifdef HTML_INTERFACE
-
-           /* ---->  Refresh socket for new HTML connections if last new connection was more than REFRESH_SOCKET_INTERVAL minutes ago  <---- */
-           if(((now - lasthtml) >= (REFRESH_SOCKET_INTERVAL * MINUTE)) && (htmlport > 0)) {
-              if(html >= 0) {
-                 if(newconnections) writelog(SERVER_LOG,1,"HTML","No activity on socket for incoming HTML connections for %d minute%s  -  Refreshing socket.",(now - lasthtml) / MINUTE,Plural((now - lasthtml) / MINUTE));
-                 newconnections = 0;
-                 if(close(html)) {
-                    writelog(SERVER_LOG,1,"HTML","Unable to close socket for incoming HTML connections (%s)  -  Retrying in 1 minutes time.",strerror(errno));
-                    lasthtml -= ((REFRESH_SOCKET_INTERVAL * MINUTE) - MINUTE);
-		 } else html = -1;
-	      }
-              if(html < 0) {
-                 gettime(lasthtml);
-                 if((html = server_open_socket(htmlport,0,1,1,1)) < 0) {
-                    lasthtml -= ((REFRESH_SOCKET_INTERVAL * MINUTE) - MINUTE);
-                    html = -1;
-		 }
-	      }
-	   }
-#endif
 #endif
 #endif
 
@@ -1155,19 +1100,13 @@ void server_mainloop(void)
               if(telnet >= maxd) maxd = telnet + 1;
               FD_SET(telnet,&input_set);
 	   }
-#ifdef HTML_INTERFACE
-           if((html >= 0) && (ndescriptors < (max_descriptors + RESERVED_DESCRIPTORS))) {
-              if(html >= maxd) maxd = html + 1;
-              FD_SET(html,&input_set);
-	   }
-#endif
 
            /* ---->  Set descriptors to listen for input and process output  <---- */
            for(d = descriptor_list; d; d = d->next)
                if(d->descriptor != NOTHING) {
                   if(d->descriptor >= maxd) maxd = d->descriptor + 1;
                   FD_SET(d->descriptor,&input_set);
-                  if(d->output.start || (IsHtml(d) && (d->html->flags & HTML_INPUT_PENDING))) {
+                  if(d->output.start) {
                      if(d->descriptor >= maxd) maxd = d->descriptor + 1;
                      FD_SET(d->descriptor,&output_set);
 		  }
@@ -1193,7 +1132,7 @@ void server_mainloop(void)
               /* ---->  New Telnet connections  <---- */
               gettime(now);
               if((telnet >= 0) && FD_ISSET(telnet,&input_set)) {
-                 if((newd = server_new_connection(telnet,0))) {
+                 if((newd = server_new_connection(telnet))) {
                     gettime(activity);
                     if(idle_state == 1) {
                        writelog(SERVER_LOG,1,"SERVER","New Telnet connection  -  Leaving semi-idle state.");
@@ -1202,20 +1141,6 @@ void server_mainloop(void)
                     server_initialise_telnet(newd->descriptor);
 		 } else if(errno) writelog(CONNECT_LOG,1,"CONNECT","Unable to establish new Telnet connection (Errno = %d:  %s.)",errno,strerror(errno));
 	      }
-
-#ifdef HTML_INTERFACE
-
-              /* ---->  New HTML connections  <---- */
-              if((html >= 0) && FD_ISSET(html,&input_set)) {
-                 if((newd = server_new_connection(html,1))) {
-                    gettime(activity);
-                    if(idle_state == 1) {
-                       writelog(SERVER_LOG,1,"SERVER","New HTML connection  -  Leaving semi-idle state.");
-                       idle_state = 0;
-		    }
-		 } else if(errno) writelog(CONNECT_LOG,1,"CONNECT","Unable to establish new HTML connection (Errno = %d:  %s.)",errno,strerror(errno));
-	      }
-#endif
 #endif
 
               /* ---->  Input/Output  <---- */
@@ -1229,17 +1154,17 @@ void server_mainloop(void)
                            if((d->descriptor != NOTHING) && FD_ISSET(d->descriptor,&input_set)) {
                               gettime(activity);
                               if(idle_state == 1) {
-                                 writelog(SERVER_LOG,1,"SERVER","Input on descriptor %d (%s)  -  Leaving semi-idle state.",d->descriptor,IsHtml(d) ? "HTML":"Telnet");
+                                 writelog(SERVER_LOG, 1, "SERVER", "Input on descriptor %d (Telnet)  -  Leaving semi-idle state.", d->descriptor);
                                  idle_state = 0;
 			      }
 
-                              if(!server_process_input(d,IsHtml(d) ? 1:0)) server_shutdown_sock(d,0,1);
+                              if(!server_process_input(d)) server_shutdown_sock(d, 0, 1);
 			   }
 
                            if(!reset_list && (d->descriptor != NOTHING) && FD_ISSET(d->descriptor,&output_set)) {
                               gettime(activity);
                               if(idle_state == 1) {
-                                 writelog(SERVER_LOG,1,"SERVER","Output on descriptor %d (%s)  -  Leaving semi-idle state.",d->descriptor,IsHtml(d) ? "HTML":"Telnet");
+                                 writelog(SERVER_LOG, 1, "SERVER", "Output on descriptor %d (Telnet)  -  Leaving semi-idle state.", d->descriptor);
                                  idle_state = 0;
 			      }
 
@@ -1271,10 +1196,6 @@ void server_mainloop(void)
                            gettime(d->afk_time);
                            output(d,d->player,0,1,0,ANSI_LMAGENTA"\nYou have been automatically sent AFK for idling for "ANSI_LWHITE"%d minute%s"ANSI_LMAGENTA".  Please enter your password to resume your %s session...\n",db[d->player].data->player.afk,Plural(db[d->player].data->player.afk),tcz_short_name);
                            prompt_display(d);
-
-                           /* ---->  Use JAVA Script (1.1+) to reload the 'TCZ Command:' input window to show the 'Please enter password:' prompt  <---- */
-                           if(IsHtml(d) && (d->html->flags & HTML_JAVA))
-                              output(d,d->player,1,0,0,"<SCRIPT LANGUAGE=\"JavaScript1.1\">\n<!--\n parent.TCZINPUT.document.location.replace(\"%sREFRESH=%d&\");\n//-->\n</SCRIPT>",html_server_url(d,1,1,"input"),d->afk_time);
 			}
 
                      if(!(d->flags & CONNECTED)) {
@@ -1306,42 +1227,27 @@ void server_set_echo(struct descriptor_data *d,int echo)
      if(echo) {
         if(d->flags & SUPPRESS_ECHO) {
            d->flags &= ~SUPPRESS_ECHO;
-           if(!IsHtml(d)) {
-              write(d->descriptor,_IAC""_DONT""_LFLOW,3);
-              write(d->descriptor,_IAC""_DO""_LINE,3);
-              write(d->descriptor,_IAC""_WONT""_ECHO,3);
-	   }
+           write(d->descriptor,_IAC""_DONT""_LFLOW,3);
+           write(d->descriptor,_IAC""_DO""_LINE,3);
+           write(d->descriptor,_IAC""_WONT""_ECHO,3);
 	}
      } else if(!(d->flags & SUPPRESS_ECHO)) {
         d->flags |= SUPPRESS_ECHO;
-        if(!IsHtml(d)) {
-           write(d->descriptor,_IAC""_DO""_LFLOW,3);
-           write(d->descriptor,_IAC""_DONT""_LINE,3);
-           write(d->descriptor,_IAC""_WILL""_ECHO,3);
-	}
+        write(d->descriptor,_IAC""_DO""_LFLOW,3);
+        write(d->descriptor,_IAC""_DONT""_LINE,3);
+        write(d->descriptor,_IAC""_WILL""_ECHO,3);
      }
 }
 
 /* ---->  Check site isn't unconditionally banned/connection restricted  <---- */
-int server_unconditionally_banned(struct site_data *site,int sock,char *buffer,unsigned char ctype)
+int server_unconditionally_banned(struct site_data *site,int sock,char *buffer)
 {
-    const char *error;
-
     if(!site || !(site->flags & SITE_UNCONDITIONAL)) return(0);
 
     /* ---->  Check site isn't banned  <---- */
     if(site->flags & SITE_BANNED) {
-       if(ctype == 1) {
-          char buffer[BUFFER_LEN],buffer2[TEXT_SIZE];
-
-          sprintf(buffer,"Sorry, connections from your site are no-longer accepted due to excessive abuse.<P>Please send E-mail to <A HREF=\"mailto:%s\">%s</A> to negotiate lifting this ban.",tcz_admin_email,tcz_admin_email);
-	  sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-          error = html_error(NULL,0,buffer,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR|HTML_CODE_HEADER);
-          write(sock,error,strlen(error));
-       } else {
-          sprintf(buffer,"\n\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n Sorry, connections from your site are no-longer accepted due to excessive\n abuse.\n\n Please send E-mail to %s to negotiate lifting this ban.\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n",tcz_admin_email);
-          write(sock,buffer,strlen(buffer));
-       }
+       sprintf(buffer,"\n\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n Sorry, connections from your site are no-longer accepted due to excessive\n abuse.\n\n Please send E-mail to %s to negotiate lifting this ban.\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n",tcz_admin_email);
+       write(sock,buffer,strlen(buffer));
        return(1);
     }
 
@@ -1354,17 +1260,8 @@ int server_unconditionally_banned(struct site_data *site,int sock,char *buffer,u
            if(d->site && (d->site->addr == site->addr)) count++;
 
        if(count >= site->max_connections) {
-          if(ctype == 1) {
-             char buffer2[TEXT_SIZE],buffer3[TEXT_SIZE];
-
-             sprintf(buffer2,"Sorry, there are too many users connected from your site at the moment (A maximum of %d are allowed simultaneously.)<P>Please try again later.",site->max_connections);
-  	     sprintf(buffer3,"Back to %s web site...",tcz_full_name);
-             error = html_error(NULL,0,buffer2,"CONNECTION REFUSED",buffer3,html_home_url,HTML_CODE_ERROR|HTML_CODE_HEADER);
-             write(sock,error,strlen(error));
-	  } else {
-             sprintf(buffer,"\n\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n Sorry, there are too many users connected from your site at the moment (A\n maximum of %d are allowed simultaneously.)  Please try again later.\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n",site->max_connections);
-             write(sock,buffer,strlen(buffer));
-	  }
+          sprintf(buffer,"\n\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n Sorry, there are too many users connected from your site at the moment (A\n maximum of %d are allowed simultaneously.)  Please try again later.\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\n",site->max_connections);
+          write(sock,buffer,strlen(buffer));
           return(1);
        }
     }
@@ -1372,11 +1269,9 @@ int server_unconditionally_banned(struct site_data *site,int sock,char *buffer,u
 }
 
 /* ---->  Initialise DESCRIPTOR_DATA of new connection  <---- */
-/*        (CTYPE:  0 = Normal, 1 = HTML.)                     */
-struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,struct site_data *site,unsigned char ctype)
+struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,struct site_data *site)
 {
        char                   buffer[TEXT_SIZE];
-       static unsigned long   identifier = 0;
        time_t                 now;
        struct descriptor_data *d;
 
@@ -1439,20 +1334,6 @@ struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,str
        d->name           = NULL;
        d->page           = 0;
 
-       /* ---->  HTML data  <---- */
-       if(ctype == 1) {
-          MALLOC(d->html,struct html_data);
-          d->html->background = NULL;
-          d->html->identifier = ++identifier;
-          d->html->txtflags   = 0;
-          d->html->cmdwidth   = HTML_CMDWIDTH;
-          d->html->protocol   = 0;
-          d->html->flags      = HTML_INPUT_PENDING;
-          d->html->tag        = NULL;
-          d->html->id1        = 0;
-          d->html->id2        = 0;
-       } else d->html = NULL;
-
        /* ---->  Site data  <---- */
        d->site              = site;
        d->address           = ntohl(a->sin_addr.s_addr);
@@ -1471,28 +1352,25 @@ struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,str
        d->prev              = NULL;
        descriptor_list      = d;
 
-       if(!ctype) {
 #ifdef PAGE_TITLESCREENS
-          d->page_title  = ((lrand48() % titlescreens) + 1);
-          d->page_clevel = 1;
-          d->clevel = 30;
-          d->page = 1;
+       d->page_title  = ((lrand48() % titlescreens) + 1);
+       d->page_clevel = 1;
+       d->clevel = 30;
+       d->page = 1;
 #else
-          const char *ptr = help_get_titlescreen(0);
+       const char *ptr = help_get_titlescreen(0);
 
-          /* ---->  Display title screen and instructions  <---- */
-          if(ptr) output(d,d->player,2,0,0,"%s",decompress(ptr));
-             else output(d,d->player,2,0,0,WELCOME_MESSAGE,tcz_full_name,tcz_year);
-          d->clevel = 1;
+       /* ---->  Display title screen and instructions  <---- */
+       if(ptr) output(d,d->player,2,0,0,"%s",decompress(ptr));
+          else output(d,d->player,2,0,0,WELCOME_MESSAGE,tcz_full_name,tcz_year);
+       d->clevel = 1;
 #endif
-          prompt_display(d);
-       }
+       prompt_display(d);
        return(d);
 }
 
-/* ---->  Accept new Telnet/HTML connections  <---- */
-/*         (CTYPE:  0 = Normal, 1 = HTML.)          */
-struct descriptor_data *server_new_connection(int sock,unsigned char ctype)
+/* ---->  Accept new Telnet connection  <---- */
+struct descriptor_data *server_new_connection(int sock)
 {
        struct descriptor_data *d;
        struct sockaddr_in addr;
@@ -1506,7 +1384,7 @@ struct descriptor_data *server_new_connection(int sock,unsigned char ctype)
 #ifdef DEBUG_ACCEPT
 
        /* ---->  Log new connection (Debugging only)  <---- */
-       writelog(CONNECT_LOG,1,"ESTABLISHING CONNECTION","Socket %d%s.",sock,(ctype == 1) ? ", HTML protocol":", Telnet protocol");
+       writelog(CONNECT_LOG,1,"ESTABLISHING CONNECTION","Socket %d Telnet protocol.",sock);
 #endif
 
        /* ---->  Try to establish connection  <---- */
@@ -1518,22 +1396,16 @@ struct descriptor_data *server_new_connection(int sock,unsigned char ctype)
        if(count >= max_descriptors) {
 
           /* ---->  Too many simultanous user connections  <---- */
-          writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s connection from %s (%d) on descriptor %d (Too many simultaneous connections.)",(ctype == 1) ? "HTML":"Telnet",scratch_return_string,ntohs(addr.sin_port),new);
-          if(ctype == 1) {
-             char buffer[TEXT_SIZE],buffer2[TEXT_SIZE];
-
-	     sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-	     sprintf(buffer,"Sorry, there are too many users connected to %s at the moment  -  Please try again in a few minutes time.",tcz_full_name);
-             strcpy(scratch_buffer,html_error(NULL,0,buffer,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR|HTML_CODE_HEADER));
-	  } else strcpy(scratch_buffer,"\n\r\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r           Sorry, there are too many users connected at the moment.\n\r\n\r                           Please try again later.\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r\n\r");
+          writelog(CONNECT_LOG,1,"CONNECTION REFUSED","Telnet connection from %s (%d) on descriptor %d (Too many simultaneous connections.)", scratch_return_string,ntohs(addr.sin_port),new);
+	  strcpy(scratch_buffer,"\n\r\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r           Sorry, there are too many users connected at the moment.\n\r\n\r                           Please try again later.\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r\n\r");
           write(new,scratch_buffer,strlen(scratch_buffer));
           shutdown(new,2);
           close(new);
           return(0);
-       } else if(server_unconditionally_banned(site,new,scratch_buffer,ctype)) {
+       } else if(server_unconditionally_banned(site,new,scratch_buffer)) {
 
           /* ---->  Site unconditionally banned/restricted?  <----- */
-          writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s connection from %s (%d) on descriptor %d (Site unconditionally banned/restricted.)",(ctype == 1) ? "HTML":"Telnet",scratch_return_string,ntohs(addr.sin_port),new);
+          writelog(CONNECT_LOG,1,"CONNECTION REFUSED","Telnet connection from %s (%d) on descriptor %d (Site unconditionally banned/restricted.)",scratch_return_string,ntohs(addr.sin_port),new);
           shutdown(new,2);
           close(new);
           return(0);
@@ -1541,26 +1413,20 @@ struct descriptor_data *server_new_connection(int sock,unsigned char ctype)
        } else if((count >= 7) || (ntohl(addr.sin_addr.s_addr) != 0x7F000001)) {
 
           /* ---->  DEMO TCZ:  Connections (Maximum of 7 simultaneously) only allowed from 127.0.0.1  <---- */
-          if(ctype == 1) {
-             char buffer[TEXT_SIZE],buffer2[TEXT_SIZE];
-
-             sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-	     sprintf(buffer,"Sorry, this is a <I>demonstration version</I> of %s.<P>Only a maximum of <B>7 connections</B> are allowed simultaneously via local loop-back (<B>127.0.0.1</B>) of the machine on which %s is currently running.",tcz_full_name,tcz_short_name);
-             strcpy(scratch_buffer,html_error(NULL,0,buffer,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR|HTML_CODE_HEADER));
-	  } else sprintf(scratch_buffer,"\n\r\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r Sorry, this is a demonstration version of %s.\n\r\n\r Only a maximum of 7 connections are allowed simultaneously from local\n\r loop-back (<I>127.0.0.1</I>) of the machine on which %s is currently\n\r running.\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r\n\r",tcz_full_name,tcz_short_name);
+	  sprintf(scratch_buffer,"\n\r\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r Sorry, this is a demonstration version of %s.\n\r\n\r Only a maximum of 7 connections are allowed simultaneously from local\n\r loop-back (<I>127.0.0.1</I>) of the machine on which %s is currently\n\r running.\n\r-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n\r\n\r",tcz_full_name,tcz_short_name);
 
           write(new,scratch_buffer,strlen(scratch_buffer));
-          writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s connection from %s (%d) on descriptor %d (Connections (Maximum of 7 simultaneously) are only allowed from 127.0.0.1 (Local loop-back.))",(ctype == 1) ? "HTML":"Telnet",scratch_return_string,ntohs(addr.sin_port),new);
+          writelog(CONNECT_LOG,1,"CONNECTION REFUSED","Telnet connection from %s (%d) on descriptor %d (Connections (Maximum of 7 simultaneously) are only allowed from 127.0.0.1 (Local loop-back.))",scratch_return_string,ntohs(addr.sin_port),new);
           shutdown(new,2);
           close(new);
           return(0);
 #endif
-       } else if(ctype != 1) writelog(CONNECT_LOG,1,"CONNECTION ACCEPTED","%s connection from %s (%d) on descriptor %d.",(ctype == 1) ? "HTML":"Telnet",scratch_return_string,ntohs(addr.sin_port),new);
+       } else writelog(CONNECT_LOG,1,"CONNECTION ACCEPTED","Telnet connection from %s (%d) on descriptor %d.",scratch_return_string,ntohs(addr.sin_port),new);
 
-       if(!ctype && (option_loglevel(OPTSTATUS) >= 6))
+       if(option_loglevel(OPTSTATUS) >= 6)
           writelog(COMMAND_LOG,1,"TELNET","[%d]  Connection on descriptor %d.",new,new);
 
-       return(server_initialise_sock(new,&addr,site,ctype));
+       return(server_initialise_sock(new,&addr,site));
 }
 
 /* ---->  Clear text queue structure (Free memory used)  <---- */
@@ -1627,19 +1493,6 @@ void server_clear_strings(struct descriptor_data *d)
 
      /* ---->  'more' pager  <---- */
      if(d->pager) pager_free(d);
-
-     /* ---->  HTML data  <---- */
-     if(IsHtml(d)) {
-        struct html_tag_data *current;
-
-        while(d->html->tag) {
-              current = d->html->tag;
-              d->html->tag = d->html->tag->next;
-              FREENULL(current);
-	}
-        FREENULL(d->html->background);
-        FREENULL(d->html);
-     }
 }
 
 /* ---->  Queue user input  <---- */
@@ -1678,12 +1531,9 @@ unsigned char server_queue_input(struct descriptor_data *d,const char *str,int l
 /* ---->  Queue user output  <---- */
 int server_queue_output(struct descriptor_data *d,const char *str,int len)
 {
-    static char htmlbuffer[BUFFER_LEN];
     struct text_data *new;
 
     if(!d || (len < 1) || (d->flags2 & OUTPUT_SUPPRESS)) return(0);
-    if(IsHtml(d) && (option_loglevel(OPTSTATUS) >= 6))
-       writelog(COMMAND_LOG,1,"HTML","[%d] {SND}  %s",d->descriptor,binary_to_ascii((char *) str,len,htmlbuffer));
 
     if(!(d->pager && !d->pager->prompt)) {
 
@@ -1700,8 +1550,8 @@ int server_queue_output(struct descriptor_data *d,const char *str,int len)
        } else d->output.start = d->output.end = new;
 
        /* ---->  Flush output, if output size exceeds OUTPUT_MAX  <---- */
-       if((d->output.size > (IsHtml(d) ? (OUTPUT_MAX * OUTPUT_HTML):OUTPUT_MAX)) && !(command_type & HTML_ACCESS) && !(command_type & NO_FLUSH_OUTPUT)) {
-          while(d->output.start && ((d->output.size + (IsHtml(d) ? sizeof(OUTPUT_FLUSHED_HTML):sizeof(OUTPUT_FLUSHED))) > (IsHtml(d) ? (OUTPUT_MAX * OUTPUT_HTML):OUTPUT_MAX))) {
+       if((d->output.size > OUTPUT_MAX)) {
+          while(d->output.start && ((d->output.size + (sizeof(OUTPUT_FLUSHED))) > (OUTPUT_MAX))) {
                 new = d->output.start;
                 d->output.start = d->output.start->next;
                 d->output.size -= new->len;
@@ -1710,9 +1560,9 @@ int server_queue_output(struct descriptor_data *d,const char *str,int len)
 	  }
 
           MALLOC(new,struct text_data);
-          new->len = (IsHtml(d) ? sizeof(OUTPUT_FLUSHED_HTML):sizeof(OUTPUT_FLUSHED));
+          new->len = sizeof(OUTPUT_FLUSHED);
           NMALLOC(new->text,char,new->len);
-          memcpy(new->text,IsHtml(d) ? OUTPUT_FLUSHED_HTML:OUTPUT_FLUSHED,new->len);
+          memcpy(new->text, OUTPUT_FLUSHED, new->len);
           new->next       = d->output.start;
           d->output.start = new;
           d->output.size += new->len;
@@ -1743,24 +1593,24 @@ void server_shutdown_sock(struct descriptor_data *d,unsigned char boot,unsigned 
            if(Validchar(d->player)) {
               if(d->edit)   exit_editor(d,0);                     /*  Exit editor, executing .EDITFAIL if set  */
               if(d->prompt) prompt_interactive_input(d,"ABORT");  /*  Abort interactive '@prompt' session             */
-              output_listen(d,(boot || (server_count_connections(d->player,1) > 1)) ? 3:0);
+              output_listen(d,(boot || (server_count_connections(d->player) > 1)) ? 3:0);
               tcz_disconnect_character(d);
-              writelog(CONNECT_LOG,1,"DISCONNECT","%s (%s descriptor %d) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->descriptor,d->hostname);
-              writelog(UserLog(d->player),1,"DISCONNECT","%s (%s) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->hostname);
+              writelog(CONNECT_LOG, 1, "DISCONNECT", "%s (Telnet descriptor %d) from %s.", unparse_object(ROOT, d->player, 0), d->descriptor,d->hostname);
+              writelog(UserLog(d->player), 1, "DISCONNECT", "%s (Telnet) from %s.", unparse_object(ROOT, d->player, 0), d->hostname);
 	   }
-	} else if(!IsHtml(d)) writelog(CONNECT_LOG,1,"DISCONNECT","(%s descriptor %d)  No character connected or created.",IsHtml(d) ? "HTML":"Telnet",d->descriptor);
+	} else writelog(CONNECT_LOG, 1, "DISCONNECT", "(Telnet descriptor %d)  No character connected or created.", d->descriptor);
 
         if(!boot && Validchar(d->player)) {
            if(d->flags & WELCOME) writelog(WELCOME_LOG,1,"WELCOME","%s(#%d) disconnected without being welcomed to %s.",getname(d->player),d->player,tcz_short_name);
               else if(d->flags & ASSIST) writelog(ASSIST_LOG,1,"ASSIST","%s(#%d) asked for assistance and disconnected without being given it.",getname(d->player),d->player);
 	}
      } else {
-        if(!IsHtml(d) && !(d->flags & DISCONNECTED) && (d->flags & CONNECTED) && Validchar(d->player)) output_listen(d,5);
+        if(!(d->flags & DISCONNECTED) && (d->flags & CONNECTED) && Validchar(d->player)) output_listen(d,5);
         d->flags |= DISCONNECTED;
      }
 
      /* ---->  Reset title of Xterm  <---- */
-     if(!IsHtml(d) && !Blank(d->terminal_type) && !strcasecmp(d->terminal_type,"xterm")) {
+     if(!Blank(d->terminal_type) && !strcasecmp(d->terminal_type,"xterm")) {
         strcpy(scratch_return_string,"\033]2;XTerm\007");
         server_queue_output(d,scratch_return_string,strlen(scratch_return_string));
      }
@@ -1769,10 +1619,6 @@ void server_shutdown_sock(struct descriptor_data *d,unsigned char boot,unsigned 
      server_process_output(d);
      *bootmessage = '\0';
      if(!((keepalive == 2) && (d->flags & CLOSING)) && (d->descriptor != -1)) {
-        if(IsHtml(d) && Validchar(d->player)) {
-           for(m = descriptor_list; m && !((m->player == d->player) && (m != d) && IsHtml(m)); m = m->next);
-           if(!m) db[d->player].flags2 &= ~HTML;
-	}
         shutdown(d->descriptor,2);
         close(d->descriptor);
         d->descriptor = NOTHING;
@@ -1825,13 +1671,7 @@ int server_connection_allowed(struct descriptor_data *d,char *buffer,dbref user)
            if(l->flags & CONNECTED) count++;
 
        if(count >= allowed) {
-          if(IsHtml(d)) {
-             char buffer2[TEXT_SIZE],buffer3[TEXT_SIZE];
-
-	     sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-             sprintf(buffer3,"Sorry, there are too many users using %s at the moment (A maximum of %d user%s allowed simultaneously.)  -  Please try again later.",tcz_full_name,allowed,(allowed == 1) ? " is":"s are");
-             html_error(d,1,buffer3,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-	  } else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, there are too many users using %s at the moment (A maximum of %d user%s allowed simultaneously.)  -  Please disconnect (Type "ANSI_LYELLOW"QUIT"ANSI_LRED") and try again later.\n\n",tcz_full_name,allowed,(allowed == 1) ? " is":"s are");
+	  output(d,d->player,2,0,0,ANSI_LRED"\nSorry, there are too many users using %s at the moment (A maximum of %d user%s allowed simultaneously.)  -  Please disconnect (Type "ANSI_LYELLOW"QUIT"ANSI_LRED") and try again later.\n\n",tcz_full_name,allowed,(allowed == 1) ? " is":"s are");
           FREENULL(d->name);
           d->clevel = -1;
           return(0);
@@ -1843,30 +1683,18 @@ int server_connection_allowed(struct descriptor_data *d,char *buffer,dbref user)
        if(!creations || !connections) {
 
           /* ---->  Character creation not allowed  <---- */
-          if(IsHtml(d)) {
-             char buffer2[TEXT_SIZE];
-
-             sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-             html_error(d,1,"Sorry, connection as a Guest character is not allowed  -  Please click on the <B>BACK</B> button of your browser and enter your preferred character name in the '<I>Your preferred name:</I>' box.","CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-	  } else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connection as a Guest character is not allowed  -  Please enter '"ANSI_LYELLOW"NEW"ANSI_LRED"' at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt and then enter your preferred character name and your E-mail address to request a new character.\n\n");
+	  output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connection as a Guest character is not allowed  -  Please enter '"ANSI_LYELLOW"NEW"ANSI_LRED"' at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt and then enter your preferred character name and your E-mail address to request a new character.\n\n");
           FREENULL(d->name);
           d->clevel = -1;
           return(0);
        } else if(d->site && !(d->site->flags & SITE_GUESTS)) {
-          if(IsHtml(d)) {
-             char buffer2[TEXT_SIZE];
-
-             sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-             html_error(d,1,"Sorry, Guest characters may no-longer connect from your site due to excessive abuse  -  Please click on the <B>BACK</B> button of your browser and enter your preferred character name in the '<I>Your preferred name:</I>' box.","CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-	  } else if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, Guest characters may no-longer connect from your site due to excessive abuse  -  Please enter your preferred character name at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt and then enter your E-mail address to request a new character.\n\n");
+	  if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, Guest characters may no-longer connect from your site due to excessive abuse  -  Please enter your preferred character name at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt and then enter your E-mail address to request a new character.\n\n");
              else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, Guest characters may not connect from %s Guest Telnet login service  -  Please enter your preferred character name at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt and then enter your E-mail address to request a new character.\n\n",tcz_full_name);
           FREENULL(d->name);
           d->clevel = -1;
           return(0);
        } else if(strcasecmp("guest",buffer)) {
-          if(IsHtml(d))
-             html_error(d,1,"Please enter your name as <B>GUEST</B> to connect as a Guest character.","CONNECTION REFUSED","Back to the character creation form...",html_server_url(d,0,1,"createform"),HTML_CODE_ERROR);
-	        else output(d,d->player,2,0,0,ANSI_LRED"\nPlease type "ANSI_LYELLOW"GUEST"ANSI_LRED" at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt to connect as a Guest character.\n\n");
+	  output(d,d->player,2,0,0,ANSI_LRED"\nPlease type "ANSI_LYELLOW"GUEST"ANSI_LRED" at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt to connect as a Guest character.\n\n");
           FREENULL(d->name);
           d->clevel = -1;
           return(0);
@@ -1889,13 +1717,7 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 		   if(c->site && (c->site->addr == d->site->addr)) count++;
 
 	       if(count > d->site->max_connections) {
-		  if(IsHtml(d)) {
-		     char buffer2[TEXT_SIZE],buffer3[TEXT_SIZE];
-
-		     sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-		     sprintf(buffer3,"Sorry, there are too many users connected from your site at the moment (A maximum of %d user%s allowed simultaneously)  -  Please try again later.",d->site->max_connections,(d->site->max_connections == 1) ? " is":"s are");
-		     html_error(d,1,buffer3,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-		  } else if(d->address != GUEST_LOGIN_ADDRESS)
+		  if(d->address != GUEST_LOGIN_ADDRESS)
 		     output(d,d->player,2,0,0,ANSI_LRED"\nSorry, there are too many users connected from your site at the moment (A maximum of %d user%s allowed simultaneously)  -  Please disconnect (Type "ANSI_LYELLOW"QUIT"ANSI_LRED") and try again later.\n\n",d->site->max_connections,(d->site->max_connections == 1) ? " is":"s are");
 			else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, there are too many users using %s Guest Telnet login service at the moment (A maximum of %d user%s allowed simultaneously)  -  Please disconnect (Type "ANSI_LYELLOW"QUIT"ANSI_LRED") and try again later, or try opening a Telnet connection to "ANSI_LYELLOW"%s"ANSI_LRED", port "ANSI_LYELLOW"%d"ANSI_LRED".\n\n",tcz_full_name,d->site->max_connections,(d->site->max_connections == 1) ? " is":"s are",tcz_server_name,telnetport);
 
@@ -1909,13 +1731,7 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 
 	 /* ---->  Connections restricted to administrators only  <---- */
 	 if(!connections && (!connect || !(Validchar(user) && (Level4(user) || Root(user))))) {
-	    if(IsHtml(d)) {
-	       char buffer2[TEXT_SIZE],buffer3[TEXT_SIZE];
-
-	       sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-	       sprintf(buffer3,"<CENTER>Sorry, %s is currently closed to non-administrators.<P>Please try again later.</CENTER>",tcz_full_name);
-	       html_error(d,1,buffer3,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-	    } else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, %s is currently closed to non-administrators.\n\nPlease type "ANSI_LYELLOW"QUIT"ANSI_LRED" to disconnect and try again later.\n\n",tcz_full_name);
+	    output(d,d->player,2,0,0,ANSI_LRED"\nSorry, %s is currently closed to non-administrators.\n\nPlease type "ANSI_LYELLOW"QUIT"ANSI_LRED" to disconnect and try again later.\n\n",tcz_full_name);
 
 	    if(connect) writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s(#%d) from %s cannot connect (Connections restricted to Admin. only.)",getname(user),user,ip_to_text(d->address,SITEMASK,buffer));
 	       else writelog(CONNECT_LOG,1,"CONNECTION REFUSED","New user from %s cannot create character (Connections restricted to Admin. only.)",ip_to_text(d->address,SITEMASK,buffer));
@@ -1929,18 +1745,10 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 	    if(!creations) {
 
 	       /* ---->  All creations banned  <---- */
-	       if(IsHtml(d)) {
-		  char buf2[2048];
-		  char buf1[600];
-		  int  copied;
-
-		  sprintf(buf2,"Sorry, character creation is not allowed.  You will need to make a request for a new character to be created for you.<P>To do this, simply enter your preferred character name and your E-mail address in the box below and click on the <B>REQUEST NEW CHARACTER</B> button.  Your request will be placed on a queue and we will be in touch with you shortly.<P><CENTER><FONT SIZE=3><FORM METHOD=GET ACTION=\"%s\"><B>Preferred character name:</B> &nbsp; <INPUT NAME=NAME TYPE=TEXT SIZE=20 MAXLENGTH=20 VALUE=\"%s\"><P><B>E-mail address:</B> &nbsp; <INPUT NAME=EMAIL TYPE=TEXT SIZE=60 MAXLENGTH=128 VALUE=\"%s\"><P><INPUT TYPE=SUBMIT VALUE=\"Request new character...\"><INPUT NAME=DATA TYPE=HIDDEN VALUE=REQUEST><P></FORM></FONT></CENTER>If you experience any difficulties, please send E-mail to <A HREF=\"mailto:%s\">%s</A>.",
-			  html_server_url(d,0,0,NULL),html_encode_basic(name,buf1,&copied,128),html_encode_basic(String(email),buf1 + 256,&copied,256),tcz_admin_email,tcz_admin_email);
-		  html_error(d,1,buf2,"CONNECTION REFUSED","Back to the character creation form...",html_server_url(d,0,1,"createform"),HTML_CODE_ERROR);
-	       } else output(d,d->player,2,0,0,ANSI_LWHITE"\nSorry, character creation is not allowed.\n\n",name);
+	       output(d,d->player,2,0,0,ANSI_LWHITE"\nSorry, character creation is not allowed.\n\n",name);
 
 	       writelog(CONNECT_LOG,1,"CONNECTION REFUSED","New user from %s cannot create character (New character creation not allowed.)",ip_to_text(d->address,SITEMASK,buffer));
-	       d->clevel = IsHtml(d) ? 26:27;
+	       d->clevel = 27;
 	       return(1);
 	    }
 
@@ -1948,12 +1756,7 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 	       if(d->site->flags & SITE_BANNED) {
 
 		  /* ---->  Connections from Internet site banned  <---- */
-		  if(IsHtml(d)) {
-		     char buffer2[TEXT_SIZE];
-
-		     sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-		     html_error(d,1,"Sorry, connections from your site are no-longer accepted due to excessive abuse.","CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-		  } else if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connections from your site are no-longer accepted due to excessive abuse.\n\nPlease type "ANSI_LYELLOW"QUIT"ANSI_LRED" to disconnect.\n\n");
+		  if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connections from your site are no-longer accepted due to excessive abuse.\n\nPlease type "ANSI_LYELLOW"QUIT"ANSI_LRED" to disconnect.\n\n");
 		     else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connections from %s Guest Telnet login service are not allowed at the moment.\n\nPlease disconnect (Type "ANSI_LYELLOW"QUIT"ANSI_LRED") and try opening a Telnet connection to "ANSI_LYELLOW"%s"ANSI_LRED", port "ANSI_LYELLOW"%d"ANSI_LRED".\n\n",tcz_full_name,tcz_server_name,telnetport);
 
 		  if(connect) writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s(#%d) from %s cannot connect (Site is banned.)",getname(user),user,ip_to_text(d->address,SITEMASK,buffer));
@@ -1964,15 +1767,6 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 	       } else if(!(d->site->flags & SITE_CREATE)) {
 
 		  /* ---->  Creation of new characters from Internet site banned  <---- */
-		  if(IsHtml(d)) {
-		     char buf2[2048];
-		     char buf1[600];
-		     int  copied;
-
-		     sprintf(buf2,"Sorry, new characters can no-longer be created from your site due to excessive abuse.  If you would like a character created, please enter your preferred character name and your E-mail address in the box below and click on the <B>REQUEST NEW CHARACTER</B> button.  Your request will be placed on a queue and we will be in touch with you shortly.<P><CENTER><FONT SIZE=3><FORM METHOD=GET ACTION=\"%s\"><B>Preferred character name:</B> &nbsp; <INPUT NAME=NAME TYPE=TEXT SIZE=20 MAXLENGTH=20 NAME=\"%s\"><P><B>E-mail address:</B> &nbsp; <INPUT NAME=EMAIL TYPE=TEXT SIZE=60 MAXLENGTH=128 VALUE=\"%s\"><P><INPUT TYPE=SUBMIT VALUE=\"Request new character...\"><INPUT NAME=DATA TYPE=HIDDEN VALUE=REQUEST><P></FORM></FONT></CENTER>If you experience any difficulties, please send E-mail to <A HREF=\"mailto:%s\">%s</A>.",html_server_url(d,0,0,NULL),html_encode_basic(name,buf1,&copied,128),html_encode_basic(String(email),buf1 + 256,&copied,256),tcz_admin_email,tcz_admin_email);
-		     html_error(d,1,buf2,"CONNECTION REFUSED","Back to the character creation form...",html_server_url(d,0,1,"createform"),HTML_CODE_ERROR);
-		  }
-
 		  if(connect) writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s(#%d) from %s cannot connect (Site is banned from creating new character.)",getname(user),user,ip_to_text(d->address,SITEMASK,buffer));
 		     else writelog(CONNECT_LOG,1,"CONNECTION REFUSED","New user from %s cannot create character (Site is banned from creating new characters.)",ip_to_text(d->address,SITEMASK,buffer));
 		  d->clevel = 26;
@@ -1983,13 +1777,7 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 
 	    /* ---->   Admin connections from Internet site restricted  <---- */
 	    if(d->site && !(d->site->flags & SITE_ADMIN)) {
-	       if(IsHtml(d)) {
-		  char buffer2[TEXT_SIZE],buffer3[TEXT_SIZE];
-
-		  sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-		  sprintf(buffer3,"Sorry, Admin. connections are no-longer accepted from your site  -  Please send E-mail to <A HREF=\"mailto:%s\">%s</A> if this causes a problem.",tcz_admin_email,tcz_admin_email);
-		  html_error(d,1,buffer3,"CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-	       } else if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, Admin. connections are no-longer accepted from your site  -  Please send E-mail to "ANSI_LYELLOW"%s"ANSI_LRED" if this causes a problem.\n\n",tcz_admin_email);
+	       if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, Admin. connections are no-longer accepted from your site  -  Please send E-mail to "ANSI_LYELLOW"%s"ANSI_LRED" if this causes a problem.\n\n",tcz_admin_email);
 		  else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, Admin. connections are no-longer allowed from %s Guest Telnet login service  -  Please send E-mail to "ANSI_LYELLOW"%s"ANSI_LRED" if this causes a problem.\n\n",tcz_full_name,tcz_admin_email);
 
 	       if(connect) writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s(#%d) from %s cannot connect (Admin. connections from site are not allowed.)",getname(user),user,ip_to_text(d->address,SITEMASK,buffer));
@@ -2001,12 +1789,7 @@ unsigned char server_site_banned(dbref user,const char *name,const char *email,s
 	 } else if(d->site && (d->site->flags & SITE_BANNED)) {
 
 	    /* ---->  Connections from Internet site banned  <---- */
-	    if(IsHtml(d)) {
-	       char buffer2[TEXT_SIZE];
-
-	       sprintf(buffer2,"Back to %s web site...",tcz_full_name);
-	       html_error(d,1,"Sorry, connections from your site are no-longer accepted due to excessive abuse.","CONNECTION REFUSED",buffer2,html_home_url,HTML_CODE_ERROR);
-	    } else if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connections from your site are no-longer accepted due to excessive abuse.\n\nPlease type "ANSI_LYELLOW"QUIT"ANSI_LRED" to disconnect.\n\n");
+	    if(d->address != GUEST_LOGIN_ADDRESS) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connections from your site are no-longer accepted due to excessive abuse.\n\nPlease type "ANSI_LYELLOW"QUIT"ANSI_LRED" to disconnect.\n\n");
 	       else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, connections from %s Guest Telnet login service are not allowed at the moment.\n\nPlease disconnect (Type "ANSI_LYELLOW"QUIT"ANSI_LRED") and try opening a Telnet connection to "ANSI_LYELLOW"%s"ANSI_LRED", port "ANSI_LYELLOW"%d"ANSI_LRED".\n\n",tcz_full_name,tcz_server_name,telnetport);
 
 	    if(connect) writelog(CONNECT_LOG,1,"CONNECTION REFUSED","%s(#%d) from %s cannot connect (Site is banned.)",getname(user),user,ip_to_text(d->address,SITEMASK,buffer));
@@ -2088,7 +1871,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
 	     } else {
 
                 /* ---->  Connect existing character:  Ensure character doesn't have more than 5 simultaneous connections  <---- */
-                if(!Level4(user) && (server_count_connections(user,1) >= 5)) {
+                if(!Level4(user) && (server_count_connections(user) >= 5)) {
                    output(d,d->player,2,0,0,ANSI_LRED"\nSorry, your character is currently connected 5 or more times simultaneously  -  If your other connections have stopped responding, please connect as a Guest character (Type "ANSI_LYELLOW"GUEST"ANSI_LRED" at the '"ANSI_LWHITE"Please enter your name:"ANSI_LRED"' prompt) and ask an Apprentice Wizard/Druid or above to boot your 'dead' connections using the '"ANSI_LYELLOW"@bootdead"ANSI_LRED"' command.  "ANSI_LWHITE"PLEASE NOTE:  "ANSI_LRED"Any connections which have stopped responding will idle out and disconnect after 30 minutes of inactivity.\n\n");
                    d->clevel = -1;
 		} else {
@@ -2160,14 +1943,14 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                 d->flags  &= ~DISCONNECTED;
 
                 if(created) {
-                   writelog(CREATE_LOG,1,"CREATED","%s (%s descriptor %d) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->descriptor,d->hostname);
+                   writelog(CREATE_LOG, 1, "CREATED", "%s (Telnet descriptor %d) from %s.", unparse_object(ROOT, d->player, 0), d->descriptor, d->hostname);
                    if(d->site) d->site->created++;
                    stats_tcz_update_record(0,0,1,0,0,0,now);
                    output_listen(d,2);
                    tcz_connect_character(d,user,1);
 		} else {
-                   writelog(CONNECT_LOG,1,"CONNECTED","%s (%s descriptor %d) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->descriptor,d->hostname);
-                   writelog(UserLog(d->player),1,"CONNECTED","%s (%s) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->hostname);
+                   writelog(CONNECT_LOG, 1, "CONNECTED", "%s (Telnet descriptor %d) from %s.", unparse_object(ROOT, d->player, 0), d->descriptor, d->hostname);
+                   writelog(UserLog(d->player), 1, "CONNECTED", "%s (Telnet) from %s.", unparse_object(ROOT, d->player, 0), d->hostname);
                    if(d->site) d->site->connected++;
                    stats_tcz_update_record(0,1,0,0,0,0,now);
                    output_listen(d,1);
@@ -2202,11 +1985,10 @@ int server_connect_user(struct descriptor_data *d,const char *input)
 
              /* ---->  Take over existing connection which 'locked-up'?  <---- */
              if(string_prefix("yes",str) || string_prefix("ok",str)) {
-                unsigned char loop,html = 0;
+                unsigned char loop;
 
                 /* ---->  Copy taken over descriptor  <---- */
-                for(c = descriptor_list; c && !((c->player == user) && !IsHtml(c)); c = c->next)
-                    if((c->player == user) && IsHtml(c)) html++;
+                for(c = descriptor_list; c && !((c->player == user)); c = c->next);
 
                 if(c) {
                    struct descriptor_data *m;
@@ -2274,8 +2056,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                    server_sort_descriptor(d);
                    taken = 2;
 		} else {
-                   if(html) output(d,d->player,2,0,0,ANSI_LRED"\nSorry, a World Wide Web Interface connection cannot be taken over from a Telnet connection.  Please type "ANSI_LYELLOW"NO"ANSI_LRED" at the prompt below to connect without taking over your previous connection(s) and then type "ANSI_LWHITE"@BOOTDEAD"ANSI_LRED" once you are connected to %s to boot your 'dead' connections.\n",tcz_short_name);
-                      else output(d,d->player,2,0,0,ANSI_LRED"\nSorry, unable to take over your previous connection.  Please type "ANSI_LYELLOW"NO"ANSI_LRED" at the prompt below to make a new connection and then type "ANSI_LWHITE"@BOOTDEAD"ANSI_LRED" once you are connected to %s to boot your 'dead' connections.\n",tcz_short_name);
+                   output(d,d->player,2,0,0,ANSI_LRED"\nSorry, unable to take over your previous connection.  Please type "ANSI_LYELLOW"NO"ANSI_LRED" at the prompt below to make a new connection and then type "ANSI_LWHITE"@BOOTDEAD"ANSI_LRED" once you are connected to %s to boot your 'dead' connections.\n",tcz_short_name);
                    return(1);
 		}
 	     } else if(!(string_prefix("no",str) || string_prefix("cancel",str))) {
@@ -2299,7 +2080,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                 d->channel++;
                 d->clevel = 1;
 	     }
-	  } else if(taken || !server_count_connections(user,0)) {
+	  } else if(taken || !server_count_connections(user)) {
              struct descriptor_data *m;
 
              if(taken != 2) {
@@ -2339,8 +2120,8 @@ int server_connect_user(struct descriptor_data *d,const char *input)
              if(!(d->flags & UNDERLINE))  d->flags |= (db[user].flags2 & UNDERLINE);
              if(d->terminal_height <= STANDARD_CHARACTER_SCRHEIGHT)
                 d->terminal_height = db[user].data->player.scrheight;
-             writelog(CONNECT_LOG,1,"CONNECTED","%s (%s descriptor %d) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->descriptor,d->hostname);
-             writelog(UserLog(d->player),1,"CONNECTED","%s (%s) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->hostname);
+             writelog(CONNECT_LOG, 1, "CONNECTED", "%s (Telnet descriptor %d) from %s.", unparse_object(ROOT, d->player, 0), d->descriptor, d->hostname);
+             writelog(UserLog(d->player), 1, "CONNECTED", "%s (Telnet) from %s.", unparse_object(ROOT, d->player, 0), d->hostname);
 
              /* ---->  User must re-accept terms and conditions of disclaimer  <---- */
              /* if((d->clevel == 0) && Validchar(d->player) && !option_debug(OPTSTATUS) && (now > (db[d->player].data->player.disclaimertime + (DISCLAIMER_TIME * DAY)))) d->clevel = 29; */
@@ -2447,7 +2228,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
           user = create_new_character(d->name,d->password,1);
           if(user == NOTHING) {
              output(d,d->player,2,0,0,ANSI_LRED"\nSorry, unable to create a new character for you  -  Please send E-mail to "ANSI_LWHITE"%s"ANSI_LRED" and we will be create one for you.\n\n",tcz_admin_email);
-             writelog(CREATE_LOG,1,"FAILED CREATE","%s (%s descriptor %d) from %s (Unable to automatically create new character.)",d->name,IsHtml(d) ? "HTML":"Telnet",d->descriptor,d->hostname);
+             writelog(CREATE_LOG,1,"FAILED CREATE","%s (Telnet descriptor %d) from %s (Unable to automatically create new character.)",d->name,d->descriptor,d->hostname);
              FREENULL(d->password);
              FREENULL(d->name);
              d->clevel  = 1;
@@ -2457,7 +2238,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
              d->clevel  =  16;
              d->flags  |=  CONNECTED;
              d->flags  &= ~DISCONNECTED;
-             writelog(CREATE_LOG,1,"CREATED","%s (%s descriptor %d) from %s.",unparse_object(ROOT,d->player,0),IsHtml(d) ? "HTML":"Telnet",d->descriptor,d->hostname);
+             writelog(CREATE_LOG, 1, "CREATED", "%s (Telnet descriptor %d) from %s.", unparse_object(ROOT, d->player, 0), d->descriptor, d->hostname);
 
              FREENULL(d->name);
              FREENULL(d->password);
@@ -2495,7 +2276,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
    	        look_room(d->player,Location(d->player));
 	     }
 	  } else if(d->clevel == 23) d->clevel = 18;
-                else if(d->clevel == 24) d->clevel = IsHtml(d) ? 8:16;
+                else if(d->clevel == 24) d->clevel = 16;
                    else d->clevel = 4;
        } else output(d,d->player,2,0,0,ANSI_LRED"\nPlease type either "ANSI_LYELLOW"ACCEPT"ANSI_LRED" or "ANSI_LYELLOW"REJECT"ANSI_LRED" in full to accept or reject the terms and conditions of the disclaimer.\n\n");
     } else if(d->clevel == 8) {
@@ -2591,7 +2372,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                  if(ptr->clevel == 14) {
 
                     /* ---->  Welcome user back to TCZ  <---- */
-                    if((ptr->flags & CONNECTED) && (!IsHtml(ptr) || (ptr->html->flags & HTML_OUTPUT))) {
+                    if(ptr->flags & CONNECTED) {
                        output(ptr,d->player,0,1,0,ANSI_LGREEN"\nWelcome back to %s, %s"ANSI_LYELLOW"%s"ANSI_LGREEN"!\n",tcz_full_name,Article(d->player,LOWER,DEFINITE),getcname(NOTHING,d->player,0,0));
                        if(d != ptr) prompt_display(ptr);
                        server_set_echo(ptr,1);
@@ -2621,14 +2402,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
        prefs_timediff(d->player,NULL,str);
        in_command = cached_ic;
        if(command_boolean == COMMAND_SUCC) {
-          if(IsHtml(d)) {
-             d->clevel = 127;
-             look_room(d->player,db[d->player].location);
-#ifdef NOTIFY_WELCOME
-             if(!Level4(d->player) && !Experienced(d->player) && !Assistant(d->player))
-                admin_welcome_message(d,instring("guest",getname(d->player)));
-#endif
-	  } else d->clevel = 19;
+	  d->clevel = 19;
        } else output(d,d->player,2,0,0,"\n");
     } else if((d->clevel == 19) || (d->clevel == 21)) {
 

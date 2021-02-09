@@ -106,7 +106,7 @@ void sanity_general(dbref player,unsigned char log)
 
      /* ---->  Sanitise database objects  <---- */
      gettime(start);
-     if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+     if(!in_command && p && !p->pager && More(player)) pager_init(p);
      writelog(SANITY_LOG,1,"SANITY","General integrity check started on database by %s(#%d)...",getname(player),player);
      if(!log) writelog(ADMIN_LOG,1,"SANITY","General integrity check started on database by %s(#%d).",getname(player),player);
      for(i = 0; i < db_top; i++) {
@@ -436,13 +436,13 @@ void sanity_general(dbref player,unsigned char log)
      if(found > 0) {
         if(!log) {
            if(cr) output(p,player,0,1,0,"");
-	   output(p,player,0,1,10,ANSI_LGREEN"[SANITY] \016&nbsp;\016 "ANSI_LYELLOW"%d"ANSI_LWHITE" corrupted object%s detected in the database ("ANSI_LYELLOW"%d"ANSI_LWHITE" corrected, "ANSI_LYELLOW"%d"ANSI_LWHITE" couldn't be fixed  -  Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",found,Plural(found),found - uncorrectable,uncorrectable,interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
+	   output(p,player,0,1,10,ANSI_LGREEN"[SANITY]  "ANSI_LYELLOW"%d"ANSI_LWHITE" corrupted object%s detected in the database ("ANSI_LYELLOW"%d"ANSI_LWHITE" corrected, "ANSI_LYELLOW"%d"ANSI_LWHITE" couldn't be fixed  -  Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",found,Plural(found),found - uncorrectable,uncorrectable,interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
         } else writelog(SERVER_LOG,0,"RESTART","%d corrupted object%s detected in the database (%d corrected, %d couldn't be fixed  -  Check took %s.)",found,Plural(found),found - uncorrectable,uncorrectable,interval(finish - start,1,ENTITIES,0));
         writelog(SANITY_LOG,0,"SANITY","%d corrupted object%s detected in the database (%d corrected, %d couldn't be fixed  -  Check took %s.)",found,Plural(found),found - uncorrectable,uncorrectable,interval(finish - start,1,ENTITIES,0));
      } else {
         if(!log) {
            if(cr) output(p,player,0,1,0,"");
-           output(p,player,0,1,10,ANSI_LGREEN"[SANITY] \016&nbsp;\016 "ANSI_LWHITE"No corrupted objects detected in the database (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
+           output(p,player,0,1,10,ANSI_LGREEN"[SANITY]  "ANSI_LWHITE"No corrupted objects detected in the database (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
 	}
         writelog(SANITY_LOG,0,"SANITY","No corrupted objects detected in the database (Check took %s.)",interval(finish - start,1,ENTITIES,0));
      }
@@ -458,7 +458,7 @@ int sanity_checklists(dbref player)
     dbref                    ptr,ptr2;
 
     gettime(start);
-    if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+    if(!in_command && p && !p->pager && More(player)) pager_init(p);
     writelog(SANITY_LOG,1,"SANITY","General list check started on database by %s(#%d)...",getname(player),player);
     writelog(ADMIN_LOG,1,"SANITY","General list check started on database by %s(#%d).",getname(player),player);
 
@@ -511,10 +511,10 @@ int sanity_checklists(dbref player)
     gettime(finish);
     if(cr) output(p,player,0,1,0,"");
     if(error_count) {
-       output(p,player,0,1,10,ANSI_LGREEN"[SANITY] \016&nbsp;\016 "ANSI_LYELLOW"%d"ANSI_LWHITE" possibly corrupted list%s detected (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",error_count,Plural(error_count),interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
+       output(p,player,0,1,10,ANSI_LGREEN"[SANITY]  "ANSI_LYELLOW"%d"ANSI_LWHITE" possibly corrupted list%s detected (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",error_count,Plural(error_count),interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
        writelog(SANITY_LOG,0,"SANITY","%d possibly corrupted list%s detected (Check took %s.)",error_count,Plural(error_count),interval(finish - start,1,ENTITIES,0));
     } else {
-       output(p,player,0,1,10,ANSI_LGREEN"[SANITY] \016&nbsp;\016 "ANSI_LWHITE"All lists appear to be intact (No possible corruption detected  -  Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
+       output(p,player,0,1,10,ANSI_LGREEN"[SANITY]  "ANSI_LWHITE"All lists appear to be intact (No possible corruption detected  -  Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)%s",interval(finish - start,1,ENTITIES,0),(cr) ? "\n":"");
        writelog(SANITY_LOG,0,"SANITY","All lists appear to be intact (No possible corruption detected  -  Check took %s.)",interval(finish - start,1,ENTITIES,0));
     }
     return(error_count);
@@ -638,11 +638,11 @@ int sanity_fixlists(dbref player,unsigned char log)
     gettime(finish);
     if(player != NOTHING) {
        if(fixed > 0) {
-          if(!log) output(getdsc(player),player,0,1,10,ANSI_LGREEN"[SANITY] \016&nbsp;\016 "ANSI_LYELLOW"%d"ANSI_LWHITE" possibly corrupted list%s corrected (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)",fixed,Plural(fixed),interval(finish - start,1,ENTITIES,0));
+          if(!log) output(getdsc(player),player,0,1,10,ANSI_LGREEN"[SANITY]  "ANSI_LYELLOW"%d"ANSI_LWHITE" possibly corrupted list%s corrected (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)",fixed,Plural(fixed),interval(finish - start,1,ENTITIES,0));
 	     else writelog(SERVER_LOG,0,"RESTART","%d possibly corrupted list%s corrected (Check took %s.)",fixed,Plural(fixed),interval(finish - start,1,ENTITIES,0));
           writelog(SANITY_LOG,0,"SANITY","%d possibly corrupted list%s corrected (Check took %s.)",fixed,Plural(fixed),interval(finish - start,1,ENTITIES,0));
        } else {
-          if(!log) output(getdsc(player),player,0,1,10,ANSI_LGREEN"[SANITY] \016&nbsp;\016 "ANSI_LWHITE"No corrupted lists were detected (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)",interval(finish - start,1,ENTITIES,0));
+          if(!log) output(getdsc(player),player,0,1,10,ANSI_LGREEN"[SANITY]  "ANSI_LWHITE"No corrupted lists were detected (Check took "ANSI_LCYAN"%s"ANSI_LWHITE".)",interval(finish - start,1,ENTITIES,0));
           writelog(SANITY_LOG,0,"SANITY","No corrupted lists were detected (Check took %s.)",interval(finish - start,1,ENTITIES,0));
        }
     }

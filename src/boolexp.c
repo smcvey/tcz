@@ -230,8 +230,6 @@ int eval_boolexp(dbref player,struct boolexp *b,int level)
                            return(FriendsInform(player));
                       case BOOLFLAG_HAVEN:
                            return(Haven(player));
-                      case BOOLFLAG_HTML:
-                           return(Html(player));
                       case BOOLFLAG_INHERITABLE:
                            return(Inheritable(player));
                       case BOOLFLAG_LFTOCR_CR:

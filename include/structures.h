@@ -918,7 +918,6 @@ struct descriptor_data {
        struct   text_queue_data output;           /*  Queued output from TCZ to user  */
        struct   pager_data      *pager;           /*  Pointer to 'more' paged output  */
        struct   edit_data       *edit;            /*  Editor data  */
-       struct   html_data       *html;            /*  Pointer to HTML connection data  */
        struct   site_data       *site;            /*  Pointer to user's Internet site (In registered Internet site database)  */
        struct   text_queue_data input;            /*  Queued input from user to TCZ  */
        unsigned char            terminal_height;  /*  User's terminal height  */

@@ -42,6 +42,6 @@
 %TITLE %@%n Miscellaneous Commands
 %r%lThere are currently no additional soft-coded commands.
 <-SEPARATOR->
-Also, see '%g%l%<menu%>%x'.
+Also, see '%g%l%uhelp menu%x'.
 
 %COMMENT --------------------------------------------------------------------->

@@ -457,8 +457,8 @@ dbref match_object(dbref owner,dbref start,dbref end,const char *searchstr,unsig
          if(level > MATCH_RECURSION_LIMIT) {
             if((options & MATCH_OPTION_ATTACHED) && (options & MATCH_OPTION_NOTIFY)) {
                if(in_command && Valid(current_command))
-                  output(getdsc(owner),owner,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Maximum match recursion limit of "ANSI_LYELLOW"%d"ANSI_LWHITE" exceeded within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",MATCH_RECURSION_LIMIT,unparse_object(owner,current_command,0));
-                     else output(getdsc(owner),owner,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Maximum match recursion limit of "ANSI_LYELLOW"%d"ANSI_LWHITE" exceeded.",MATCH_RECURSION_LIMIT);
+                  output(getdsc(owner),owner,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Maximum match recursion limit of "ANSI_LYELLOW"%d"ANSI_LWHITE" exceeded within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",MATCH_RECURSION_LIMIT,unparse_object(owner,current_command,0));
+                     else output(getdsc(owner),owner,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Maximum match recursion limit of "ANSI_LYELLOW"%d"ANSI_LWHITE" exceeded.",MATCH_RECURSION_LIMIT);
 	    }
 
             if(in_command && Valid(current_command))

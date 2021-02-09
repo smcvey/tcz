@@ -323,7 +323,7 @@ void channel_output(channel,exact,exception,flags,level,fmt,p0,p1,p2,p3,p4,p5,p6
      struct descriptor_data *d;
 
      if(!channel || !channel->userlist) return;
-     sprintf(fmtbuffer,"%%s"ANSI_LGREEN" \016&nbsp;\016 %s",fmt),
+     sprintf(fmtbuffer,"%%s"ANSI_LGREEN"  %s",fmt),
      cmpptr = chnamebuf, decompress(channel->banner), cmpptr = cmpbuf;
      for(d = descriptor_list; d; d = d->next)
          if(Validchar(d->player) && (d->flags & CONNECTED) && (d->player != exception) && ((exact == NOTHING) || (d->player == exact))) {
@@ -533,19 +533,16 @@ void channel_list(CHANNEL_CONTEXT)
                      else users++;
 
            /* ---->  List channel  <---- */
-           if(IsHtml(p)) {
-	   } else {
 
-              /* ---->  Truncate length of channel title  <---- */
-              ptr = scratch_return_string, loop = titlewidth;
-              while(*ptr && (*ptr != '\n') && (loop > 0))
-                    if(*ptr == '\x1B') {
-                       for(; *ptr && (*ptr != 'm'); ptr++);
-                       if(*ptr) ptr++;
-		    } else ptr++, loop--;
-              if(*ptr) *ptr = '\0';
-              output(p,p->player,0,1,0,ANSI_LWHITE" %-20s  "ANSI_LGREEN"%-9s  "ANSI_LYELLOW"%s\n"ANSI_LCYAN" %20s  "ANSI_LWHITE"%-8d%-8d%-12d"ANSI_LCYAN"%s",grp->cunion->channel.name,access,scratch_return_string,status,users,guests,operators,getcname(0,grp->cunion->channel.owner,0,0));
-	   }
+           /* ---->  Truncate length of channel title  <---- */
+           ptr = scratch_return_string, loop = titlewidth;
+           while(*ptr && (*ptr != '\n') && (loop > 0))
+                 if(*ptr == '\x1B') {
+                    for(; *ptr && (*ptr != 'm'); ptr++);
+                    if(*ptr) ptr++;
+	       } else ptr++, loop--;
+           if(*ptr) *ptr = '\0';
+           output(p,p->player,0,1,0,ANSI_LWHITE" %-20s  "ANSI_LGREEN"%-9s  "ANSI_LYELLOW"%s\n"ANSI_LCYAN" %20s  "ANSI_LWHITE"%-8d%-8d%-12d"ANSI_LCYAN"%s",grp->cunion->channel.name,access,scratch_return_string,status,users,guests,operators,getcname(0,grp->cunion->channel.owner,0,0));
      }
      chfound = 0;
 }

@@ -33,7 +33,7 @@
 
 
   The Chatting Zone is a user-friendly multi-user environment, which is fully
-       user extendable and features integration with the World Wide Web.
+                                user extendable.
 
                      The only limit is your imagination!
 
@@ -47,11 +47,10 @@ The Chatting Zone (TCZ) is an advanced multi-user environment for social
 (Chat) or gaming (Adventure) purposes either privately over any network
 supporting TCP/IP, or publicly over the Internet.
 
-It supports both Telnet and World Wide Web connections and features
-comprehensive communication facilities, ANSI colour, a topic based BBS
-(Bulletin Board) system, a restrictable database extension/building system,
-a sophisticated command language and automatic database self-maintenance
-and integrity checking.
+It supports Telnet connections and features comprehensive communication
+facilities, ANSI colour, a topic based BBS (Bulletin Board) system, a
+restrictable database extension/building system, a sophisticated command
+language and automatic database self-maintenance and integrity checking.
 
 To see TCZ in action, please pay a visit to the original TCZ at
 http://thechattingzone.uk, or see the file SITES for a full list of known
@@ -105,10 +104,6 @@ System requirements:
    object files may be deleted after the source is compiled to save on disk
    space.
 
-*  (If using the World Wide Web Interface)  Access to a standard World Wide
-   Web server, for serving of images used by the interface.  Alternatively,
-   TCZ itself can serve the images, but this is nowhere near as efficient.
-
 
 Features:
 ~~~~~~~~~
@@ -122,21 +117,6 @@ Features:
    *  Telnet negotiation to ensure correctly configured connection.
    *  Optional local echo.
    *  Last command recall ('!!'.)
-
-*  World Wide Web Interface with the following features:
-
-   *  Clickable links and buttons.
-   *  Separate input/output with the need to reload browser.
-   *  ANSI colour simulation.
-   *  JAVA script enhancements (Automatic scrolling and command box refocus.)
-   *  Cascading Style Sheets (CSS) enhancements (Background colours.)
-   *  Easy creation/connection of character using fill-in forms.
-   *  On-line help and tutorials with topic hyperlinks and search facility.
-   *  Scan, profile, etc. accessible as web page without logging in.
-   *  Lists of users with scans, profiles, pictures and web sites.
-   *  SSL (Secure Socket Layer) support for user privacy.
-   *  Graphical map of TCZ.
-   *  Graphical smileys :)
 
 *  Automatic database maintenance, keeping the database free from unused
    characters and their objects, helping to reduce the rate of database
@@ -218,12 +198,6 @@ doc/tcztutorial.txt	More in-depth tutorial for users who are completely
 			new to TCZ (Available on-line as 'tutorial newbie'.)
 
 
-[HTML Interface files (Directory 'tczhtml')...]
-tczhtml/*.gif		Images used by the World Wide Web Interface (Buttons,
-tczhtml/*.jpg           graphics, etc.)  These should be placed on a suitable
-                        public web server.
-
-
 [Run-time files (Directory 'lib')...]
 lib/disclaimer.tcz      Disclaimer (Shown to users when they create a new
                         character.)
@@ -253,42 +227,6 @@ The Chatting Zone Server...
 USAGE:  tcz [<OPTIONS>]
 
 Type 'tcz --help' for a full listing of start-up options.
-
-
-TCZ World Wide Web Interface...
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-http://machine.domain:8080
-
-	Presents user with page containing links to most World Wide Web
-        Interface resources.
-
-http://machine.domain:8080/connectform
-
-	Presents user with a form for connecting their existing character to
-        The Chatting Zone.
-
-http://machine.domain:8080/createform
-
-	Presents user with a form for creating a new character.
-
-http://machine.domain:8080/userlist
-
-	Gives user a list of currently connected users on TCZ, without needing
-        to first connect to TCZ itself.
-
-http://machine.domain:8080/help?TOPIC=INDEX&
-
-	Presents user with TCZ's On-line Help System index.  INDEX can be
-        replaced with the name of a help topic for instant access to a
-        particular topic, e.g:  TOPIC="version info"
-
-
-http://machine.domain:8080/tutorial&TOPIC=INDEX&
-
-	Presents user with TCZ's On-line Tutorial System index.  As above,
-        INDEX can be replaced with the name of a tutorial for instant access
-        to a particular tutorial, e.g:  TOPIC="newbie"
 
 
 Credits and acknowledgements...

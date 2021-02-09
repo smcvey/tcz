@@ -45,7 +45,6 @@
 #include "descriptor_flags.h"
 #include "object_types.h"
 #include "flagset.h"
-#include "html.h"
 
 
 /* ---->  Set whether to use ANSI colour or not  <---- */
@@ -53,7 +52,6 @@ void prefs_ansi(dbref player,struct descriptor_data *d,const char *status)
 {
      setreturn(ERROR,COMMAND_FAIL);
      if(!d) d = getdsc(player);
-     if(d && (!(d->flags & CONNECTED) && IsHtml(d))) return;
 
      if(Blank(status)) {
         if(!in_command && d) {
@@ -104,7 +102,6 @@ void prefs_lftocr(dbref player,struct descriptor_data *d,const char *status)
 {
      setreturn(ERROR,COMMAND_FAIL);
      if(!d) d = getdsc(player);
-     if(d && (!(d->flags & CONNECTED) && IsHtml(d))) return;
 
      if(Blank(status)) {
         if(!in_command && d) {
@@ -172,7 +169,6 @@ void prefs_lftocr(dbref player,struct descriptor_data *d,const char *status)
 void prefs_localecho(dbref player,struct descriptor_data *d,const char *status)
 {
      setreturn(ERROR,COMMAND_FAIL);
-     if(d && (!(d->flags & CONNECTED) && IsHtml(d))) return;
 
      if(Blank(status)) {
         if(!in_command && d) {
@@ -201,7 +197,6 @@ void prefs_localecho(dbref player,struct descriptor_data *d,const char *status)
 void prefs_pagebell(dbref player,struct descriptor_data *d,const char *status)
 {
      setreturn(ERROR,COMMAND_FAIL);
-     if(d && (!(d->flags & CONNECTED) && IsHtml(d))) return;
      if(!d) {
         if(!Blank(status)) {
            if(string_prefix("on",status)) {
@@ -224,7 +219,6 @@ void prefs_prompt(dbref player,struct descriptor_data *d,const char *params)
 {
      setreturn(ERROR,COMMAND_FAIL);
      if(!d) d = getdsc(player);
-     if(!d || (!(d->flags & CONNECTED) && IsHtml(d))) return;
 
      if(d->flags & CONNECTED) {
         if(!d->edit) {
@@ -453,12 +447,7 @@ void prefs_set(dbref player,struct descriptor_data *d,char *arg1,char *arg2)
 
         /* ---->  Display user's current preferences  <---- */
         if(!in_command) {
-           if(IsHtml(d)) {
-              html_anti_reverse(d,1);
-              output(d,player,1,2,0,"<BR><TABLE BORDER WIDTH=100%% CELLPADDING=4>");
-	      output(d,player,2,1,0,"\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_BLUE"><FONT SIZE=4><I>\016"ANSI_LCYAN"Your current preferences are...\016</I></FONT></TH></TR>\016");
-              output(d,player,1,2,0,"<TR><TD BGCOLOR="HTML_TABLE_BLACK">");
-	   } else if(!Validchar(d->player)) output(d,player,0,1,0,"\nYour current preferences are...\n"ANSI_DCYAN"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	   if(!Validchar(d->player)) output(d,player,0,1,0,"\nYour current preferences are...\n"ANSI_DCYAN"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	        else tilde_string(d->player,"Your current preferences are...",ANSI_LCYAN,ANSI_DCYAN,0,1,5);
 
            prefs_wrap(NOTHING,d,"");
@@ -480,15 +469,10 @@ void prefs_set(dbref player,struct descriptor_data *d,char *arg1,char *arg2)
               prefs_timediff(player,NULL,"");
 	   } else {
               output(d,player,0,1,0,"");
-              output(d,player,0,1,14,ANSI_LRED"PLEASE NOTE: \016&nbsp;\016 "ANSI_LWHITE"Most of the above settings will be set automatically when you connect your character.  Further settings will be available once you have connected or created your %s character.",tcz_short_name);
+              output(d,player,0,1,14,ANSI_LRED"PLEASE NOTE:  "ANSI_LWHITE"Most of the above settings will be set automatically when you connect your character.  Further settings will be available once you have connected or created your %s character.",tcz_short_name);
 	   }
 
-           if(IsHtml(d)) {
-              html_anti_reverse(d,0);
-	      output(d,NOTHING,1,0,0,"</TD></TR><TR><TD ALIGN=LEFT BGCOLOR="HTML_TABLE_GREY"><FORM METHOD=POST ACTION=\"%s\">",html_server_url(d,0,0,NULL));
-              html_preferences_form(d,0,1);
-              output(d,NOTHING,1,0,0,"<INPUT NAME=PREFERENCES TYPE=HIDDEN VALUE=SET><INPUT NAME=DATA TYPE=HIDDEN VALUE=OUTPUT><INPUT NAME=CODE TYPE=HIDDEN VALUE=%08X%08X><P><CENTER><INPUT TYPE=SUBMIT VALUE=\"Save and use preferences...\"></CENTER></FORM></TD></TR></TABLE><BR>",d->html->id1,d->html->id2);
-	   } else output(d,player,0,1,0,"");
+	   output(d,player,0,1,0,"");
 	}
         if(ptr) *ptr = c;
         setreturn(OK,COMMAND_SUCC);

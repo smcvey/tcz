@@ -53,7 +53,7 @@
 
 
 /* ---->  Display summary of number of users  <---- */
-const char *userlist_users(dbref player,const char *listed,short deities,short elders,short delders,short wizards,short druids,short apprentices,short dapprentices,short retired,short dretired,short experienced,short assistants,short builders,short mortals,short beings,short puppets,short morons,short idle,unsigned char space,unsigned char html)
+const char *userlist_users(dbref player,const char *listed,short deities,short elders,short delders,short wizards,short druids,short apprentices,short dapprentices,short retired,short dretired,short experienced,short assistants,short builders,short mortals,short beings,short puppets,short morons,short idle,unsigned char space)
 {
       int   total = deities + elders + delders + wizards + druids + apprentices + dapprentices + retired + dretired + assistants + builders + mortals + beings + puppets + morons;
       int   admin = deities + elders + delders + wizards + druids + apprentices + dapprentices;
@@ -61,8 +61,7 @@ const char *userlist_users(dbref player,const char *listed,short deities,short e
       listed_items(scratch_return_string,1);
       wrap_leading = (grp->nogroups > 0) ? (11 + ((space) ? 1:0)):(10 + ((space) ? 1:0)) + digit_wrap(0,grp->totalitems) + (!Blank(listed) ? 1:2);
       
-      if(html) sprintf(scratch_buffer,"\016<TR><TH ALIGN=CENTER WIDTH=15%% BGCOLOR="HTML_TABLE_CYAN">"ANSI_LWHITE"<I><B>Users:</B></I></TH><TD ALIGN=LEFT>\016"ANSI_LYELLOW""ANSI_UNDERLINE"%s"ANSI_LCYAN"%s",scratch_return_string,listed);
-         else sprintf(scratch_buffer," %s"ANSI_LWHITE"Users:  "ANSI_LYELLOW""ANSI_UNDERLINE"%s"ANSI_LCYAN"%s",(space) ? " ":"",scratch_return_string,listed);
+      sprintf(scratch_buffer," %s"ANSI_LWHITE"Users:  "ANSI_LYELLOW""ANSI_UNDERLINE"%s"ANSI_LCYAN"%s",(space) ? " ":"",scratch_return_string,listed);
       *scratch_return_string = '\0';
 
       if(deities      > 0) sprintf(scratch_return_string + strlen(scratch_return_string),ANSI_LWHITE"%d "DEITY_COLOUR"Deit%s"ANSI_DCYAN,deities,(deities == 1) ? "y":"ies");
@@ -90,29 +89,27 @@ const char *userlist_users(dbref player,const char *listed,short deities,short e
          sprintf(scratch_return_string + strlen(scratch_return_string),"%s"ANSI_LWHITE"%.0f%% "ANSI_LCYAN"Admin"ANSI_DCYAN,(*scratch_return_string) ? ", ":"",((double) admin / total) * 100);
       }
 
-      if(*scratch_return_string) sprintf(scratch_buffer + strlen(scratch_buffer),"%s %s "ANSI_DCYAN"(%s.)%s",Blank(listed) ? "":".",(html) ? "\016&nbsp;\016":"",scratch_return_string,(html) ? "\016</TD></TR>\016":"\n");
-         else strcat(scratch_buffer,(html) ? ".\016</TD></TR>\016":".\n");
+      if(*scratch_return_string) sprintf(scratch_buffer + strlen(scratch_buffer), "%s  " ANSI_DCYAN "(%s.)\n", Blank(listed) ? "" : ".", scratch_return_string);
+         else strcat(scratch_buffer,".\n");
       return(scratch_buffer);
 }
 
 /* ---->  Display today's peak and average daily peak  <---- */
-const char *userlist_peak(unsigned char space,unsigned char html)
+const char *userlist_peak(unsigned char space)
 {
       int apptr,apdays = 0,avgpeak = 0;
 
       for(apptr = stat_ptr; (apptr >= 0) && (apdays < 7); avgpeak += stats[apptr].peak, apptr--, apdays++);
       avgpeak /= apdays;
 
-      if(html) sprintf(scratch_return_string,"\016<TR><TH ALIGN=CENTER WIDTH=15%% BGCOLOR="HTML_TABLE_CYAN">"ANSI_LWHITE"<B><I>Peak:</B></I></TH><TD ALIGN=LEFT>\016"ANSI_LCYAN"Today's peak is "ANSI_LWHITE"%d"ANSI_LCYAN" user%s. \016&nbsp;\016 The average daily peak is "ANSI_LWHITE"%d"ANSI_LCYAN" user%s.\016</TD></TR>\016",(int) stats[stat_ptr].peak,Plural(stats[stat_ptr].peak),avgpeak,Plural(avgpeak));
-         else sprintf(scratch_return_string,"  %s"ANSI_LWHITE"Peak:  "ANSI_LCYAN"Today's peak is "ANSI_LWHITE"%d"ANSI_LCYAN" user%s.  The average daily peak is "ANSI_LWHITE"%d"ANSI_LCYAN" user%s.\n",(space) ? " ":"",(int) stats[stat_ptr].peak,Plural(stats[stat_ptr].peak),avgpeak,Plural(avgpeak));
+      sprintf(scratch_return_string,"  %s"ANSI_LWHITE"Peak:  "ANSI_LCYAN"Today's peak is "ANSI_LWHITE"%d"ANSI_LCYAN" user%s.  The average daily peak is "ANSI_LWHITE"%d"ANSI_LCYAN" user%s.\n",(space) ? " ":"",(int) stats[stat_ptr].peak,Plural(stats[stat_ptr].peak),avgpeak,Plural(avgpeak));
       return(scratch_return_string);
 }
 
 /* ---->  Display amount of time TCZ has been running (Up time)  <--- */
-const char *userlist_uptime(long total,unsigned char space,unsigned char html)
+const char *userlist_uptime(long total,unsigned char space)
 {
-      if(html) sprintf(scratch_return_string,"\016<TR><TH ALIGN=CENTER WIDTH=15%% BGCOLOR="HTML_TABLE_CYAN">"ANSI_LWHITE"<B><I>Uptime:</I></B></TH><TD ALIGN=LEFT>\016"ANSI_LYELLOW"%s.\016</TD></TR></TABLE></TD></TR>\016",interval(total - uptime,total - uptime,ENTITIES,0));
-         else sprintf(scratch_return_string,"    %s"ANSI_LWHITE"Up:  "ANSI_LYELLOW"%s.\n\n",(space) ? " ":"",interval(total - uptime,total - uptime,ENTITIES,0));
+      sprintf(scratch_return_string,"    %s"ANSI_LWHITE"Up:  "ANSI_LYELLOW"%s.\n\n",(space) ? " ":"",interval(total - uptime,total - uptime,ENTITIES,0));
       return(scratch_return_string);
 }
 
@@ -146,19 +143,15 @@ void userlist_who(struct descriptor_data *d)
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
      command_type |= COMM_CMD;
      longdate = epoch_to_longdate(now);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           for(length = 0; length < (twidth - 31); scratch_return_string[length] = ' ', length++);
-           scratch_return_string[twidth - 31] = '\0';
-           output(d,d->player,0,1,0,"\n Time:    Name:%sFlags:  Idle:",scratch_return_string);
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Time:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Flags:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Idle:</I></FONT></TH></TR>\016");
+        for(length = 0; length < (twidth - 31); scratch_return_string[length] = ' ', length++);
+        scratch_return_string[twidth - 31] = '\0';
+        output(d,d->player,0,1,0,"\n Time:    Name:%sFlags:  Idle:",scratch_return_string);
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -172,11 +165,11 @@ void userlist_who(struct descriptor_data *d)
            strcpy(scratch_buffer,colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
            if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
 
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016<TR ALIGN=CENTER><TD>\016%s%s":" %s%s  ",IsHtml(d) ? colour:"",(char *) userlist_shorttime(grp->cunion->descriptor.start_time,now,scratch_return_string,1));
+           sprintf(scratch_buffer + strlen(scratch_buffer), " %s  ", (char *) userlist_shorttime(grp->cunion->descriptor.start_time,now,scratch_return_string,1));
            ptr = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(ptr) && ((strlen(ptr) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
-              sprintf(scratch_return_string,"%s%s %s",IsHtml(d) ? colour:"",ptr,getname(grp->cunion->descriptor.player));
-                 else sprintf(scratch_return_string,"%s%s",IsHtml(d) ? colour:"",getname(grp->cunion->descriptor.player));
+              sprintf(scratch_return_string, "%s %s", ptr, getname(grp->cunion->descriptor.player));
+                 else sprintf(scratch_return_string, "%s", getname(grp->cunion->descriptor.player));
 
            /* ---->  Character's title  <---- */
            if(!(hasprofile(db[grp->cunion->descriptor.player].data->player.profile) && ((db[grp->cunion->descriptor.player].data->player.profile->dob & 0xFFFF) == (longdate & 0xFFFF)))) {
@@ -200,50 +193,43 @@ void userlist_who(struct descriptor_data *d)
 	   } else sprintf(scratch_return_string + strlen(scratch_return_string),BIRTHDAY_TITLE,longdate_difference(db[grp->cunion->descriptor.player].data->player.profile->dob,longdate) / 12);
 
            /* ---->  Truncate to correct length  <---- */
-           if(!IsHtml(d)) {
-              length = 0, ptr = scratch_return_string;
-              while(*ptr && (length < (twidth - 28)))
-                    if(*ptr == '\x1B') {
-                       for(; *ptr && (*ptr != 'm'); ptr++);
-                       if(*ptr && (*ptr == 'm')) ptr++;
-		    } else {
-                       if(*ptr >= 32) length++;
-                       ptr++;
-		    }
+           length = 0, ptr = scratch_return_string;
+           while(*ptr && (length < (twidth - 28)))
+              if(*ptr == '\x1B') {
+                 for(; *ptr && (*ptr != 'm'); ptr++);
+                    if(*ptr && (*ptr == 'm')) ptr++;
+              } else {
+                 if(*ptr >= 32) length++;
+                 ptr++;
+              }
               *ptr = '\0';
               sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",scratch_return_string,colour);
               for(ptr = (scratch_buffer + strlen(scratch_buffer)); length < (twidth - 28); *ptr++ = ' ', length++);
               *ptr = '\0';
-	   } else sprintf(scratch_buffer + strlen(scratch_buffer),"\016</TD><TD ALIGN=LEFT>\016%s",scratch_return_string);
 
            /* ---->  Character's flags  <---- */
            if(!friendflags_set(d->player,grp->cunion->descriptor.player,NOTHING,FRIEND_EXCLUDE))
               flags = friend_flags(d->player,grp->cunion->descriptor.player)|friend_flags(grp->cunion->descriptor.player,d->player);
                  else flags = 0;
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016</TD><TD><TT>\016%s[%c%c%c%c]\016</TT><TD>\016":"  %s[%c%c%c%c]  ",IsHtml(d) ? colour:"",Moron(grp->cunion->descriptor.player) ? 'M':Level1(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'd':'D':Level2(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'e':'E':Level3(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'w':'W':Level4(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'a':'A':Retired(grp->cunion->descriptor.player) ? RetiredDruid(grp->cunion->descriptor.player) ? 'r':'R':
-                   Experienced(grp->cunion->descriptor.player) ? 'X':Assistant(grp->cunion->descriptor.player) ? 'x':Builder(grp->cunion->descriptor.player) ? 'B':Being(grp->cunion->descriptor.player) ? 'b':Puppet(grp->cunion->descriptor.player) ? 'p':'-',Quiet(grp->cunion->descriptor.player) ? 'Q':'-',Haven(grp->cunion->descriptor.player) ? 'H':'-',(!flags) ? '-':(flags & FRIEND_ENEMY) ? '!':'F');
+           sprintf(scratch_buffer + strlen(scratch_buffer), "  [%c%c%c%c]  ", Moron(grp->cunion->descriptor.player) ? 'M' : Level1(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'd' : 'D' : Level2(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'e' : 'E' : Level3(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'w' : 'W' : Level4(grp->cunion->descriptor.player) ? Druid(grp->cunion->descriptor.player) ? 'a' : 'A' : Retired(grp->cunion->descriptor.player) ? RetiredDruid(grp->cunion->descriptor.player) ? 'r' : 'R' : Experienced(grp->cunion->descriptor.player) ? 'X' : Assistant(grp->cunion->descriptor.player) ? 'x' : Builder(grp->cunion->descriptor.player) ? 'B' : Being(grp->cunion->descriptor.player) ? 'b' : Puppet(grp->cunion->descriptor.player) ? 'p' : '-', Quiet(grp->cunion->descriptor.player) ? 'Q' : '-', Haven(grp->cunion->descriptor.player) ? 'H' : '-', (!flags) ? '-' : (flags & FRIEND_ENEMY) ? '!' : 'F');
 
            /* ---->  Idle time  <---- */
-           sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",IsHtml(d) ? colour:"",(char *) userlist_shorttime(grp->cunion->descriptor.last_time,now,scratch_return_string,0));
-           strcat(scratch_buffer,IsHtml(d) ? "\016</TD></TR>\016":"\n");
+           sprintf(scratch_buffer + strlen(scratch_buffer), "%s\n", (char *) userlist_shorttime(grp->cunion->descriptor.last_time, now, scratch_return_string, 0));
            output(d,d->player,2,1,0,"%s",scratch_buffer);
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if((grp->condition == 210) && (grp->totalitems == 0)) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO ONE IS CONNECTED AT THE MOMENT &nbsp; ***</I></TD></TR>\016":" ***  NO ONE IS CONNECTED AT THE MOMENT  ***\n");
-        else if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+     if((grp->condition == 210) && (grp->totalitems == 0)) output(d, d->player, 2, 1, 1, " ***  NO ONE IS CONNECTED AT THE MOMENT  ***\n");
+        else if(grp->rangeitems == 0) output(d, d->player, 2, 1, 1, " ***  NO ONE LISTED  ***\n");
      if(!in_command) {
-        if(IsHtml(d)) output(d,d->player,1,2,0,"%s","<TR><TD COLSPAN=4 CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">");
-	   else output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-        output(d,d->player,2,1,0,"%s",userlist_users(d->player,"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,1,IsHtml(d)));
-        output(d,d->player,2,1,10,"%s",userlist_peak(1,IsHtml(d)));
-        output(d,d->player,2,1,10,"%s",userlist_uptime(now,1,IsHtml(d)));
+        output(d, d->player, 0, 1, 0, separator(d->terminal_width, 0, '-', '='));
+        output(d, d->player, 2, 1, 0, "%s", userlist_users(d->player, "", deities, elders, delders, wizards, druids, apprentices, dapprentices, retired, dretired, experienced, assistants, builders, mortals, beings, puppets, morons, idle, 1));
+        output(d, d->player, 2, 1, 10, "%s", userlist_peak(1));
+        output(d, d->player, 2, 1, 10, "%s", userlist_uptime(now, 1));
         wrap_leading = 0;
      }
 
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
      command_type &= ~COMM_CMD;
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Short user list (Multiple columns):  Name only  <---- */
@@ -257,8 +243,7 @@ void userlist_swho(struct descriptor_data *d)
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
      if(grp->condition != 206) {
         if(grp->condition != 204) {
            if(grp->condition != 208) {
@@ -270,17 +255,15 @@ void userlist_swho(struct descriptor_data *d)
                        if(db[operator].flags2 & CHAT_PRIVATE) strcpy(scratch_return_string," (PRIVATE)");
                        sprintf(scratch_return_string + strlen(scratch_return_string)," (Operator:  %s"ANSI_LWHITE"%s"ANSI_LCYAN")",Article(operator,UPPER,INDEFINITE),getcname(NOTHING,operator,0,0));
 		    }
-                    sprintf(scratch_buffer,"%sPeople using chatting channel "ANSI_LWHITE"%s"ANSI_LCYAN"%s...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=4 BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",comms_chat_channelname(grp->object_type),scratch_return_string,IsHtml(d) ? "\016</I></FONT></TH></TR>\016":"\n");
+                    sprintf(scratch_buffer, "\n People using chatting channel "ANSI_LWHITE"%s"ANSI_LCYAN"%s...\n", comms_chat_channelname(grp->object_type), scratch_return_string);
 		 }
                  scrheight_adjust = 10;
-	      } else if(!in_command) sprintf(scratch_buffer,"%sThe following people are connected to %s...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=4 BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",tcz_full_name,IsHtml(d) ? "\016</I></FONT></TH></TR>\016":"\n");
-	   } else if(!in_command) sprintf(scratch_buffer,"%sThe following people need welcoming to %s...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=4 BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",tcz_full_name,IsHtml(d) ? "\016</I></FONT></TH></TR>\016":"\n");
-        } else if(!in_command) sprintf(scratch_buffer,"%sThe following friends of yours are currently connected...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=4 BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",IsHtml(d) ? "\016</I></FONT></TH></TR>\016":"\n");
+	      } else if (!in_command) sprintf(scratch_buffer, "\n The following people are connected to %s...\n", tcz_full_name);
+	   } else if (!in_command) sprintf(scratch_buffer, "\n The following people need welcoming to %s...\n", tcz_full_name);
+        } else if (!in_command) sprintf(scratch_buffer, "\n The following friends of yours are currently connected...\n");
      }
 
-     if(IsHtml(d)) {
-        width = 4;
-     } else if(d->terminal_width > 1) {
+     if(d->terminal_width > 1) {
         width = (d->terminal_width - 1) / ((grp->condition == 204) ? 25:23);
      } else width = 3;
 
@@ -314,23 +297,18 @@ void userlist_swho(struct descriptor_data *d)
         scrheight_adjust = 10;
      }
 
-     if(IsHtml(d))
-        output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-
      if(!in_command) {
         output(d,d->player,2,1,0,"%s",scratch_buffer);
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
-     if(IsHtml(d)) strcpy(scratch_buffer,"\016<TR ALIGN=LEFT>\016");
-        else *scratch_buffer = '\0';
+     *scratch_buffer = '\0';
 
      while(union_grouprange()) {
            if(++counter > width) {
-              strcat(scratch_buffer,IsHtml(d) ? "\016</TR>\016":"\n");
+              strcat(scratch_buffer,"\n");
               output(d,d->player,2,1,0,"%s",scratch_buffer);
-              if(IsHtml(d)) strcpy(scratch_buffer,"\016<TR ALIGN=LEFT>\016");
-                 else *scratch_buffer = '\0';
+              *scratch_buffer = '\0';
               counter = 1;
 	   }
 
@@ -345,7 +323,7 @@ void userlist_swho(struct descriptor_data *d)
          	                   else wchar = ' ';
 	   }
 
-           sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",IsHtml(d) ? "\016<TD WIDTH=25%>\016":"",(char *) privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
+           sprintf(scratch_buffer + strlen(scratch_buffer),"%s",(char *) privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
            if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            if(grp->condition == 204) {
               if(!(flags = friend_flags(grp->player,grp->cunion->descriptor.player))) {
@@ -358,66 +336,57 @@ void userlist_swho(struct descriptor_data *d)
                  sprintf(scratch_return_string,"%s %s",p1,getname(grp->cunion->descriptor.player));
                     else strcpy(scratch_return_string,getname(grp->cunion->descriptor.player));
 
-              sprintf(buffer,"%s%c%s%s%s",IsHtml(d) ? "":" ",wchar,((flags|flags2) & FRIEND_ENEMY) ? "{":(!(flags & FRIEND_FCHAT) || !(flags2 & FRIEND_FCHAT) || !(db[grp->cunion->descriptor.player].flags2 & FRIENDS_CHAT)) ? "<":(fother) ? "[":"",scratch_return_string,((flags|flags2) & FRIEND_ENEMY) ? "}":(!(flags & FRIEND_FCHAT) || !(flags2 & FRIEND_FCHAT) || !(db[grp->cunion->descriptor.player].flags2 & FRIENDS_CHAT)) ? ">":(fother) ? "]":"");
-              sprintf(scratch_return_string,IsHtml(d) ? "%s\016</TD>\016":"%-25s",buffer);
+              sprintf(buffer," %c%s%s%s",wchar,((flags|flags2) & FRIEND_ENEMY) ? "{":(!(flags & FRIEND_FCHAT) || !(flags2 & FRIEND_FCHAT) || !(db[grp->cunion->descriptor.player].flags2 & FRIENDS_CHAT)) ? "<":(fother) ? "[":"",scratch_return_string,((flags|flags2) & FRIEND_ENEMY) ? "}":(!(flags & FRIEND_FCHAT) || !(flags2 & FRIEND_FCHAT) || !(db[grp->cunion->descriptor.player].flags2 & FRIENDS_CHAT)) ? ">":(fother) ? "]":"");
+              sprintf(scratch_return_string,"%-25s",buffer);
 	   } else {
               p1 = getfield(grp->cunion->descriptor.player,PREFIX);
               if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
                  sprintf(buffer,"%s %s",p1,getname(grp->cunion->descriptor.player));
                     else strcpy(buffer,getname(grp->cunion->descriptor.player));
-              sprintf(scratch_return_string,IsHtml(d) ? "%s%c%s\016</TD>\016":"%s%c%-21s",(!IsHtml(d) && (grp->condition == 208)) ? "":" ",wchar,buffer);
+              sprintf(scratch_return_string,"%s%c%-21s",(grp->condition == 208) ? "":" ",wchar,buffer);
 	   }
            strcat(scratch_buffer,scratch_return_string);
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
      if(counter != 0) {
-        if(IsHtml(d)) while(++counter <= width) strcat(scratch_buffer,"\016<TD WIDTH=25%>&nbsp;</TD>\016");
-        strcat(scratch_buffer,IsHtml(d) ? "\016</TR>\016":"\n");
+        strcat(scratch_buffer,"\n");
         output(d,d->player,2,1,0,"%s",scratch_buffer);
      }
 
      if(grp->rangeitems == 0)
-        output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+        output(d,d->player,2,1,1," ***  NO ONE LISTED  ***\n");
 
      if(!in_command) {
         if(grp->condition == 208) {
-           if(!IsHtml(d)) output(d,d->player,2,1,0,separator(d->terminal_width,1,'-','-'));
-           output(d,d->player,2,1,1,"%sTo welcome one of the above users, simply type '"ANSI_LGREEN"welcome <NAME>"ANSI_LWHITE"'.%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4 BGCOLOR="HTML_TABLE_GREY">"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",IsHtml(d) ? "\016</I></TD></TR>\016":"\n");
-           if(!IsHtml(d)) output(d,d->player,2,1,0,separator(d->terminal_width,1,'-','='));
-           output(d,d->player,2,1,1,"%sUsers who need to be welcomed: %s "ANSI_DWHITE"%s%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4 BGCOLOR="HTML_TABLE_MGREY">"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(d) ? "\016&nbsp;\016":"",listed_items(scratch_return_string,1),IsHtml(d) ? "\016</B></TD></TR>\016":"\n\n");
+           output(d, d->player, 2, 1, 0, separator(d->terminal_width, 1, '-', '-'));
+           output(d, d->player, 2, 1, 1, ANSI_LWHITE " To welcome one of the above users, simply type '" ANSI_LGREEN "welcome <NAME>" ANSI_LWHITE "'.\n");
+           output(d, d->player, 2, 1, 0, separator(d->terminal_width, 1, '-', '='));
+           output(d, d->player, 2, 1, 1, ANSI_LWHITE " Users who need to be welcomed:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
 	} else {
-           if(IsHtml(d)) output(d,d->player,1,2,0,"<TR><TD COLSPAN=4 CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">");
-	      else output(d,d->player,2,1,0,separator(d->terminal_width,1,'-','='));
-           output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player,((grp->condition == 204) || (grp->condition == 206)) ? " listed":"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0,IsHtml(d)));
-           output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0,IsHtml(d)));
-           output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0,IsHtml(d)));
+	   output(d,d->player,2,1,0,separator(d->terminal_width,1,'-','='));
+           output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player,((grp->condition == 204) || (grp->condition == 206)) ? " listed":"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0));
+           output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0));
+           output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0));
 	}
      }
-
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Host list (Single column):  Login time, name & host logged in from  <---- */
 void userlist_hosts(struct descriptor_data *d)
 {
-     int           local = 0,remote = 0,telnet = 0,html = 0,length;
+     int           local = 0,remote = 0,telnet = 0,length;
      unsigned char cached_scrheight;
      const    char *colour;
      char          *p1,*p2;
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command){
-        if(!IsHtml(d)) {
-           output(d,d->player,0,1,0,"\n Time:    Name:                 Host:");
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=15%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Time:</I></FONT></TH><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Host:</I></FONT></TH></TR>\016");
+        output(d,d->player,0,1,0,"\n Time:    Name:                 Host:");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -429,42 +398,35 @@ void userlist_hosts(struct descriptor_data *d)
      while(union_grouprange()) {
 
            /* ---->  Connect time and character's name  <---- */
-           sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD ALIGN=CENTER WIDTH=15%>\016":"",colour = privilege_colour(grp->cunion->descriptor.player));
-           sprintf(p2 = (scratch_buffer + strlen(scratch_buffer)),IsHtml(d) ? "%s\016</TD><TD WIDTH=25%%>\016%s":" %s%s  ",(char *) userlist_shorttime(grp->cunion->descriptor.start_time,now,scratch_return_string,1),IsHtml(d) ? colour:"");
+           sprintf(scratch_buffer, "%s", colour = privilege_colour(grp->cunion->descriptor.player));
+           sprintf(p2 = (scratch_buffer + strlen(scratch_buffer)), " %s  ", (char *) userlist_shorttime(grp->cunion->descriptor.start_time, now, scratch_return_string, 1));
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(scratch_buffer + strlen(scratch_buffer),"%s %s",p1,getname(grp->cunion->descriptor.player));
                  else strcat(scratch_buffer,getname(grp->cunion->descriptor.player));
 
-           if(!IsHtml(d)) {
-              if((length = strlen(p2)) <= 30) {
-                 for(p1 = p2 + length; length < 30; *p1++ = ' ', length++);
-                 *p1 = '\0';
-	      } else p2[30] = '\0';
-	   }
+           if((length = strlen(p2)) <= 30) {
+              for(p1 = p2 + length; length < 30; *p1++ = ' ', length++);
+              *p1 = '\0';
+	   } else p2[30] = '\0';
 	    
            /* ---->  Host character's currently connected from  <---- */
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016</TD><TD>\016%s%s%s\016</TD></TR>\016":"  %s%s%s\n",colour,(grp->cunion->descriptor.html) ? (IsHtml(d) ? "\016<I>(HTML)</I> &nbsp; \016":"(HTML)  "):(IsHtml(d) ? "\016<I>(TELNET)</I> &nbsp; \016":"(TELNET)  "),(!Blank(grp->cunion->descriptor.hostname)) ? grp->cunion->descriptor.hostname:"<Unknown>");
+           sprintf(scratch_buffer + strlen(scratch_buffer), "  %s(TELNET) %s\n",colour, (!Blank(grp->cunion->descriptor.hostname)) ? grp->cunion->descriptor.hostname:"<Unknown>");
            if(((grp->cunion->descriptor.address & tcz_server_netmask) == tcz_server_network) || (grp->cunion->descriptor.address == 0x7F000001)) local++;
               else remote++;
-           if(grp->cunion->descriptor.html) html++;
-              else telnet++;
+           telnet++;
            output(d,d->player,2,1,32,"%s",scratch_buffer);
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=3>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO ONE LISTED  ***\n");
      if(!in_command) {
-        if(IsHtml(d)) output(d,d->player,1,2,0,"<TR><TD COLSPAN=3 CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">");
-	   else output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+	output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
         listed_items(scratch_return_string,1);
-        output(d,d->player,2,1,10,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"%s"ANSI_DCYAN" %s ("ANSI_LWHITE"%d "ANSI_LCYAN"local"ANSI_DCYAN", "ANSI_LWHITE"%d "ANSI_LCYAN"remote"ANSI_DCYAN", "ANSI_LWHITE"%d "ANSI_LCYAN"Telnet, "ANSI_LWHITE"%d "ANSI_LCYAN"HTML.)%s",IsHtml(d) ? "\016<TR><TH ALIGN=CENTER WIDTH=15% BGCOLOR="HTML_TABLE_CYAN">"ANSI_LWHITE"<B><I>Users:</I></B></TH><TD ALIGN=LEFT>\016":ANSI_LWHITE"  Users:  ",scratch_return_string,IsHtml(d) ? "\016&nbsp;\016":"",local,remote,telnet,html,IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        output(d,d->player,2,1,10,"%s",(char *) userlist_peak(1,IsHtml(d)));
-        output(d,d->player,2,1,10,"%s",(char *) userlist_uptime(now,1,IsHtml(d)));
+        output(d, d->player, 2, 1, 10, ANSI_LWHITE "  Users:  " ANSI_LYELLOW "" ANSI_UNDERLINE "%s" ANSI_DCYAN "  (" ANSI_LWHITE "%d " ANSI_LCYAN "local" ANSI_DCYAN ", " ANSI_LWHITE "%d " ANSI_LCYAN "remote" ANSI_DCYAN ", " ANSI_LWHITE "%d " ANSI_LCYAN "Telnet.)\n", scratch_return_string, local, remote, telnet);
+        output(d,d->player,2,1,10,"%s",(char *) userlist_peak(1));
+        output(d,d->player,2,1,10,"%s",(char *) userlist_uptime(now,1));
      }
-
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Where list (Single column):  Name & current location.  <---- */
@@ -479,9 +441,7 @@ void userlist_where(struct descriptor_data *d,int lwho)
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(lwho) {
         if(!in_command) {
@@ -490,19 +450,17 @@ void userlist_where(struct descriptor_data *d,int lwho)
               sprintf(scratch_return_string," in "ANSI_LWHITE"%s"ANSI_LGREEN,getfield(area,AREANAME));
               aname = 1;
 	   } else *scratch_return_string = '\0';
-           output(d,d->player,2,1,0,"%sPeople in locations%s owned by %s"ANSI_LWHITE"%s"ANSI_LGREEN"...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=2 BGCOLOR="HTML_TABLE_GREEN"><FONT COLOR="HTML_LGREEN" SIZE=4>\016":"\n"ANSI_LGREEN,scratch_return_string,Article(db[db[d->player].location].owner,LOWER,DEFINITE),getcname(d->player,db[db[d->player].location].owner,1,0),IsHtml(d) ? "\016</FONT></TH></TR>\016":"\n");
+           output(d, d->player, 2, 1, 0, "\n" ANSI_LGREEN "People in locations%s owned by %s" ANSI_LWHITE "%s" ANSI_LGREEN "...\n", scratch_return_string, Article(db[db[d->player].location].owner, LOWER, DEFINITE), getcname(d->player,db[db[d->player].location].owner, 1, 0));
 	}
         scrheight_adjust = 12;
      } else if(grp->condition == 204) {
-        if(!in_command) output(d,d->player,2,1,0,ANSI_LGREEN"%sYour friends are in the following locations...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=2 BGCOLOR="HTML_TABLE_GREEN"><FONT COLOR="HTML_LGREEN" SIZE=4>\016":"\n",IsHtml(d) ? "\016</FONT></TH></TR>\016":"\n");
+        if(!in_command) output(d, d->player, 2, 1, 0, ANSI_LGREEN "\nYour friends are in the following locations...\n");
         scrheight_adjust = 11;
      }
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           output(d,d->player,0,1,0,"\n Name:                 %sLocation:",(grp->condition == 204) ? "  ":"");
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Location:</I></FONT></TH></TR>\016");
+        output(d,d->player,0,1,0,"\n Name:                 %sLocation:",(grp->condition == 204) ? "  ":"");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -514,7 +472,7 @@ void userlist_where(struct descriptor_data *d,int lwho)
      while(union_grouprange()) {
 
            /* ---->  Character's name  <---- */
-           sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD WIDTH=25%>\016":"",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
+           sprintf(scratch_buffer,"%s",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
            if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            if(grp->condition == 204) {
               if(!(flags = friend_flags(grp->player,grp->cunion->descriptor.player))) {
@@ -534,13 +492,11 @@ void userlist_where(struct descriptor_data *d,int lwho)
                     else sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s",getname(grp->cunion->descriptor.player));
 	   }
 
-           if(!IsHtml(d)) {
-              if((length = strlen(p2)) <= ((grp->condition == 204) ? 23:21)) {
-                 for(ptr = p2 + length; length < ((grp->condition == 204) ? 23:21); *ptr++ = ' ', length++);
-                 *ptr = '\0';
-	      } else p2[(grp->condition == 204) ? 23:21] = '\0';
-              strcat(scratch_buffer,"  ");
-	   }
+           if((length = strlen(p2)) <= ((grp->condition == 204) ? 23:21)) {
+              for(ptr = p2 + length; length < ((grp->condition == 204) ? 23:21); *ptr++ = ' ', length++);
+              *ptr = '\0';
+           } else p2[(grp->condition == 204) ? 23:21] = '\0';
+           strcat(scratch_buffer,"  ");
 
            /* ---->  Location  <---- */
            if(!((Secret(grp->cunion->descriptor.player) || Secret(db[grp->cunion->descriptor.player].location)) && !can_write_to(d->player,db[grp->cunion->descriptor.player].location,1) && !can_write_to(d->player,grp->cunion->descriptor.player,1))) {
@@ -555,25 +511,21 @@ void userlist_where(struct descriptor_data *d,int lwho)
 		 }
 	      } else strcpy(scratch_return_string,"Unknown");
               ptr = punctuate(scratch_return_string,1,'.');
-              sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s%s%s",IsHtml(d) ? "\016</TD><TD>\016":"",colour,ptr,IsHtml(d) ? "\016</TD></TR>\016":"\n");
-	   } else sprintf(scratch_buffer + strlen(scratch_buffer),"%s%sHiding in a secret location.%s",IsHtml(d) ? "\016</TD><TD>\016":"",colour,IsHtml(d) ? "\016</TD></TR>\016":"\n");
+              sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s\n",colour,ptr);
+	   } else sprintf(scratch_buffer + strlen(scratch_buffer), "%sHiding in a secret location.\n", colour);
            output(d,d->player,2,1,(grp->condition == 204) ? 25:23,"%s",scratch_buffer);
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO ONE LISTED  ***\n");
      if(!in_command) {
-        if(IsHtml(d)) output(d,d->player,1,2,0,"<TR><TD COLSPAN=2 CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">");
-	   else output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
 
-        if(grp->condition == 204) output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player," listed",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0,IsHtml(d)));
-           else output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player,(lwho) ? " found":"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0,IsHtml(d)));
-        output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0,IsHtml(d)));
-        output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0,IsHtml(d)));
+        if(grp->condition == 204) output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player," listed",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0));
+           else output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player,(lwho) ? " found":"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0));
      }
-
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
 }
 
 /* ---->  E-mail addresses list (Single column):  Name & E-mail address (Admin only)  <---- */
@@ -587,15 +539,11 @@ void userlist_email(struct descriptor_data *d,int number)
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           output(d,d->player,0,1,0,"\n Name:                 %s (%s) E-mail address:",rank(number),(number == 2) ? "Private":"Public");
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>E-mail address:</I></FONT></TH></TR>\016");
+        output(d,d->player,0,1,0,"\n Name:                 %s (%s) E-mail address:",rank(number),(number == 2) ? "Private":"Public");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -606,37 +554,31 @@ void userlist_email(struct descriptor_data *d,int number)
      while(union_grouprange()) {
 
            /* ---->  Character's name  <---- */
-           sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD WIDTH=25%%>\016":"",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
+           sprintf(scratch_buffer,"%s",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
            if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cunion->descriptor.player));
                  else sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s",getname(grp->cunion->descriptor.player));
 
-           if(!IsHtml(d)) {
-              if((length = strlen(p2)) <= 21) {
-                 for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
-                 *p1 = '\0';
-	      } else p2[21] = '\0';
-	   }
+           if((length = strlen(p2)) <= 21) {
+              for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
+              *p1 = '\0';
+           } else p2[21] = '\0';
 
            /* ---->  Character's E-mail address  <---- */
-           output(d,d->player,2,1,23,"%s%s%s%s%s",scratch_buffer,IsHtml(d) ? "\016</TD><TD>\016":"  ",IsHtml(d) ? colour:"",(ptr = gettextfield(number,'\n',getfield(grp->cunion->descriptor.player,EMAIL),0,scratch_return_string)) ? ptr:"E-mail address not set.",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+           output(d, d->player, 2, 1, 23, "%s  %s\n", scratch_buffer,(ptr = gettextfield(number,'\n',getfield(grp->cunion->descriptor.player,EMAIL),0,scratch_return_string)) ? ptr:"E-mail address not set.","\n");
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO ONE LISTED  ***\n");
      if(!in_command) {
-        if(IsHtml(d)) output(d,d->player,1,2,0,"<TR><TD COLSPAN=2 CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">");
-	   else output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
 
-        output(d,d->player,2,1,9,"%s",(char *) userlist_users(d->player," listed",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0,IsHtml(d)));
-        output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0,IsHtml(d)));
-        output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0,IsHtml(d)));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_users(d->player," listed",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0));
      }
-
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Last commands list (Single column):  Name & last command typed (Admin only)  <---- */
@@ -650,15 +592,11 @@ void userlist_last(struct descriptor_data *d)
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           output(d,d->player,0,1,0,"\n Name:                 Last command:");
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Last command:</I></FONT></TH></TR>\016");
+        output(d,d->player,0,1,0,"\n Name:                 Last command:");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -669,24 +607,22 @@ void userlist_last(struct descriptor_data *d)
      while(union_grouprange()) {
 
            /* ---->  Character's name  <---- */
-           sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR><TD ALIGN=LEFT WIDTH=25%>\016":"",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
+           sprintf(scratch_buffer,"%s",colour = privilege_countcolour(grp->cunion->descriptor.player,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
            if((now - grp->cunion->descriptor.last_time) >= IDLE_TIME * MINUTE) idle++;
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cunion->descriptor.player));
                  else sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s",getname(grp->cunion->descriptor.player));
 
-           if(!IsHtml(d)) {
-              if((length = strlen(p2)) <= 21) {
-                 for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
-                 *p1 = '\0';
-	      } else p2[21] = '\0';
-	   }
+            if((length = strlen(p2)) <= 21) {
+               for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
+               *p1 = '\0';
+            } else p2[21] = '\0';
 
            /* ---->  Last command typed by character  <---- */
-           sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",IsHtml(d) ? "\016</TD><TD>\016":"  ",IsHtml(d) ? colour:"");
-           if(grp->cunion->descriptor.prompt) strcat(scratch_buffer,IsHtml(d) ? "\016<I>(@prompt)</I> &nbsp;\016":"(@prompt) ");
-              else if(grp->cunion->descriptor.edit) strcat(scratch_buffer,IsHtml(d) ? "\016<I>(Editor)</I> &nbsp; \016":"(Editor) ");
+           sprintf(scratch_buffer + strlen(scratch_buffer),"  ");
+           if(grp->cunion->descriptor.prompt) strcat(scratch_buffer,"(@prompt) ");
+              else if(grp->cunion->descriptor.edit) strcat(scratch_buffer,"(Editor) ");
 
            if((grp->player == grp->cunion->descriptor.player) || grp->cunion->descriptor.monitor || (Validchar(grp->cunion->descriptor.player) && (grp->player == Controller(grp->cunion->descriptor.player))) || !((grp->cunion->descriptor.flags & SPOKEN_TEXT) || ((grp->cunion->descriptor.flags & ABSOLUTE) && !(grp->cunion->descriptor.flags2 & ABSOLUTE_OVERRIDE)))) {
               if(strlen(decompress(grp->cunion->descriptor.last_command)) > 512) {
@@ -694,24 +630,20 @@ void userlist_last(struct descriptor_data *d)
                  strcat(scratch_buffer,ANSI_DCYAN"...");
 	      } else strcat(scratch_buffer,decompress(grp->cunion->descriptor.last_command));
 	   } else strcat(scratch_buffer,ANSI_DRED"("ANSI_LRED"Privacy Upheld"ANSI_DRED")");
-           output(d,d->player,2,1,23,"%s%s%s",scratch_buffer,(grp->cunion->descriptor.monitor && Validchar(grp->cunion->descriptor.monitor->player) && Level4(d->player) && (d->player != grp->cunion->descriptor.player)) ? " \016&nbsp;\016 "ANSI_DBLUE"("ANSI_LBLUE"Monitored"ANSI_DBLUE")":"",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+           output(d,d->player,2,1,23,"%s%s\n",scratch_buffer,(grp->cunion->descriptor.monitor && Validchar(grp->cunion->descriptor.monitor->player) && Level4(d->player) && (d->player != grp->cunion->descriptor.player)) ? "  "ANSI_DBLUE"("ANSI_LBLUE"Monitored"ANSI_DBLUE")":"");
      }
 
      if(Validchar(d->player))
         db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; NO ONE OF A LOWER LEVEL THAN YOU LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE OF A LOWER LEVEL THAN YOU LISTED  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO ONE OF A LOWER LEVEL THAN YOU LISTED  ***\n");
      if(!in_command) {
-        if(IsHtml(d)) output(d,d->player,1,2,0,"<TR><TD COLSPAN=2 CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">");
-	   else output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
 
-        output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player," listed",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0,IsHtml(d)));
-        output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0,IsHtml(d)));
-        output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0,IsHtml(d)));
+        output(d,d->player,2,1,0,"%s",(char *) userlist_users(d->player," listed",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,0));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_peak(0));
+        output(d,d->player,2,1,9,"%s",(char *) userlist_uptime(now,0));
      }
-
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Chatting channel list (Single column):  Channel, operator, users & public/private/subject  <---- */
@@ -723,15 +655,11 @@ void userlist_channels(struct descriptor_data *d)
      char                     buffer[32];
      struct   descriptor_data *c;
 
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           output(d,d->player,0,1,0,"\n Channel:     Operator:             Users:  Public/Private/Subject:");
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Channel:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Operator:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Users:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Public/Private/Subject:</I></FONT></TH></TR>\016");
+        output(d,d->player,0,1,0,"\n Channel:     Operator:             Users:  Public/Private/Subject:");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -763,21 +691,19 @@ void userlist_channels(struct descriptor_data *d)
                  else strcpy(buffer,getname(grp->cunion->descriptor.player));
 
            colour = privilege_colour(grp->cunion->descriptor.player);
-           output(d,d->player,2,1,0,IsHtml(d) ? "%s%s%d%s%s%s%s%s%d%s%s%s%s":"%s%s%-13d%s%s%-22s%s%s%-8d%s%s%s%s",IsHtml(d) ? "\016<TR><TD ALIGN=CENTER>\016":" ",colour,grp->cunion->descriptor.channel,IsHtml(d) ? "\016</TD><TD ALIGN=LEFT>\016":"",IsHtml(d) ? colour:"",buffer,IsHtml(d) ? "\016</TD><TD ALIGN=CENTER>\016":"",IsHtml(d) ? colour:"",count,IsHtml(d) ? "\016</TD><TD ALIGN=LEFT>\016":"",IsHtml(d) ? colour:"",scratch_return_string,IsHtml(d) ? "\016</TD></TR>\016":"\n");
+           output(d,d->player,2,1,0," %s%-13d%-22s%-8d%s\n",colour,grp->cunion->descriptor.channel,buffer,count,scratch_return_string);
            users += count, channels++;
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO CHATTING CHANNELS IN USE &nbsp; ***</I></TD></TR>\016":" ***  NO CHATTING CHANNELS IN USE  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO CHATTING CHANNELS IN USE  ***\n");
      if(!in_command) {
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
         listed_items(scratch_return_string,1);
-        if(!IsHtml(d)) strcat(scratch_return_string,"  ");
-        output(d,d->player,2,1,1,"%sChannels: %s "ANSI_DWHITE"%-10s%sTotal users: %s "ANSI_DWHITE"%d%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2 BGCOLOR="HTML_TABLE_GREY">"ANSI_LWHITE"<B>\016":" "ANSI_LWHITE,IsHtml(d) ? "\016&nbsp;\016":"",scratch_return_string,IsHtml(d) ? "\016</B></TD><TD COLSPAN=2 BGCOLOR="HTML_TABLE_MGREY">"ANSI_LWHITE"<B>\016":ANSI_LWHITE,IsHtml(d) ? "\016&nbsp;\016":"",users,IsHtml(d) ? "\016</B></TD></TR>\016":"\n\n");
+        strcat(scratch_return_string,"  ");
+        output(d, d->player, 2, 1, 1, " " ANSI_LWHITE "Channels:  " ANSI_DWHITE "%-10s" ANSI_LWHITE "Total users:  " ANSI_DWHITE "%d\n\n%s", scratch_return_string, users);
      }
 
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -795,14 +721,12 @@ void userlist_session(struct descriptor_data *d)
      int           length;
 
      /* ---->  Session title  <---- */
-     html_anti_reverse(d,1);
      command_type |= COMM_CMD;
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
-     if(!in_command && !IsHtml(d)) output(d,d->player,0,1,0,"\n%s",separator(d->terminal_width,0,'-','='));
-     output(d,d->player,2,1,1,"%s%s%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TH COLSPAN=2 BGCOLOR="HTML_TABLE_CYAN"><FONT COLOR="HTML_LCYAN" SIZE=4><I>":" ",substitute(session_who,scratch_return_string,decompress(session_title),0,ANSI_LCYAN,NULL,0),IsHtml(d) ? "</I></FONT></TH></TR>\016":"\n");
-     if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
+     if(!in_command) output(d,d->player,0,1,0,"\n%s",separator(d->terminal_width,0,'-','='));
+     output(d,d->player,2,1,1," %s\n",substitute(session_who,scratch_return_string,decompress(session_title),0,ANSI_LCYAN,NULL,0));
+     output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
 
      /* ---->  Session comments  <---- */
      if(Validchar(d->player)) {
@@ -813,34 +737,30 @@ void userlist_session(struct descriptor_data *d)
      while(union_grouprange()) {
 
            /* ---->  Character's name  <---- */
-           sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD WIDTH=25%>\016":"",colour = privilege_colour(grp->cunion->descriptor.player));
+           sprintf(scratch_buffer,"%s",colour = privilege_colour(grp->cunion->descriptor.player));
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cunion->descriptor.player));
                  else sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s",getname(grp->cunion->descriptor.player));
 
-           if(!IsHtml(d)) {
-              if((length = strlen(p2)) <= 21) {
-                 for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
-                 *p1 = '\0';
-	      } else p2[21] = '\0';
-	   }
+           if((length = strlen(p2)) <= 21) {
+              for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
+              *p1 = '\0';
+	   } else p2[21] = '\0';
 
            /* ---->  Character's session comment  <---- */
-           output(d,d->player,2,1,23,"%s%s%s%s%s",scratch_buffer,IsHtml(d) ? "\016</TD><TD>\016":"  ",IsHtml(d) ? colour:"",(grp->cunion->descriptor.comment) ? substitute(grp->cunion->descriptor.player,scratch_return_string,decompress(grp->cunion->descriptor.comment),0,colour,NULL,0):"No comment.",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+           output(d, d->player, 2, 1, 23, "%s  %s\n",scratch_buffer,(grp->cunion->descriptor.comment) ? substitute(grp->cunion->descriptor.player,scratch_return_string,decompress(grp->cunion->descriptor.comment),0,colour,NULL,0):"No comment.");
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=2>"ANSI_LCYAN"<I>*** &nbsp; NO ONE HAS ANY OPINION ON THIS SESSION YET &nbsp; ***</I></TD></TR>\016":" ***  NO ONE HAS ANY OPINION ON THIS SESSION YET  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO ONE HAS ANY OPINION ON THIS SESSION YET  ***\n");
      if(!in_command) {
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
         listed_items(scratch_return_string,1);
-        output(d,d->player,2,1,((grp->nogroups > 0) ? 17:21) + digit_wrap(0,grp->totalitems),"%sUsers listed:%s"ANSI_LYELLOW"%s %s "ANSI_DCYAN"- %s "ANSI_LWHITE"Type '"ANSI_LGREEN"session comment <COMMENT>"ANSI_LWHITE"' to set your comment, or '"ANSI_LGREEN"session title <TITLE>"ANSI_LWHITE"' to change the session title.%s",IsHtml(d) ? "\016<TR><TH ALIGN=CENTER WIDTH=25% BGCOLOR="HTML_TABLE_CYAN">"ANSI_LCYAN"<B><I>\016":" "ANSI_LCYAN,IsHtml(d) ? "\016</I></B></TH><TD ALIGN=LEFT BGCOLOR="HTML_TABLE_GREY">\016":"  ",scratch_return_string,IsHtml(d) ? "\016&nbsp;\016":"",IsHtml(d) ? "\016&nbsp;\016":"",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,1,'-','='));
+        output(d, d->player, 2, 1, ((grp->nogroups > 0) ? 17 : 21) + digit_wrap(0, grp->totalitems), ANSI_LCYAN" Users listed:  " ANSI_LYELLOW "%s  " ANSI_DCYAN "-  " ANSI_LWHITE "Type '" ANSI_LGREEN "session comment <COMMENT>" ANSI_LWHITE "' to set your comment, or '" ANSI_LGREEN "session title <TITLE>" ANSI_LWHITE "' to change the session title.\n", scratch_return_string);
+        output(d,d->player,0,1,0,separator(d->terminal_width,1,'-','='));
      }
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
      command_type &= ~COMM_CMD;
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Assist list (Single column):  Assist time, name and reason  <---- */
@@ -853,16 +773,12 @@ void userlist_assist(struct descriptor_data *d)
      time_t        now;
 
      gettime(now);
-     html_anti_reverse(d,1);
      command_type |= COMM_CMD;
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           output(d,d->player,0,1,0,"\n Time:    Name:                 Reason:");
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Time:</I></FONT></TH><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Reason:</I></FONT></TH></TR>\016");
+        output(d,d->player,0,1,0,"\n Time:    Name:                 Reason:");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -873,37 +789,33 @@ void userlist_assist(struct descriptor_data *d)
      while(union_grouprange()) {
 
            /* ---->  Character's assist time and name  <---- */
-           sprintf(scratch_buffer,"%s%s",IsHtml(d) ? "\016<TR ALIGN=LEFT><TD ALIGN=CENTER WIDTH=10%>\016":"",colour = privilege_colour(grp->cunion->descriptor.player));
-           sprintf(p2 = (scratch_buffer + strlen(scratch_buffer)),IsHtml(d) ? "%s%s":" %s%s  ",userlist_shorttime(grp->cunion->descriptor.assist_time - (ASSIST_TIME * MINUTE),now,scratch_return_string,1),IsHtml(d) ? "\016</TD><TD WIDTH=25%>\016":"");
+           sprintf(scratch_buffer,"%s",colour = privilege_colour(grp->cunion->descriptor.player));
+           sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s  ",userlist_shorttime(grp->cunion->descriptor.assist_time - (ASSIST_TIME * MINUTE),now,scratch_return_string,1));
            p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
            if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
               sprintf(scratch_buffer + strlen(scratch_buffer),"%s %s",p1,getname(grp->cunion->descriptor.player));
                  else strcat(scratch_buffer,getname(grp->cunion->descriptor.player));
 
-           if(!IsHtml(d)) {
-              if((length = strlen(p2)) <= 30) {
-                 for(p1 = p2 + length; length < 30; *p1++ = ' ', length++);
-                 *p1 = '\0';
-	      } else p2[30] = '\0';
-	   }
+           if((length = strlen(p2)) <= 30) {
+              for(p1 = p2 + length; length < 30; *p1++ = ' ', length++);
+              *p1 = '\0';
+           } else p2[30] = '\0';
 
            /* ---->  Assist reason  <---- */
            if(grp->cunion->descriptor.assist) substitute(grp->cunion->descriptor.player,scratch_return_string,decompress(grp->cunion->descriptor.assist),0,colour,NULL,0);
               else strcpy(scratch_return_string,"A new user who needs assistance.");
-           output(d,d->player,2,1,32,IsHtml(d) ? "%s%s%s%s%s":"%s  %s%s%s%s",scratch_buffer,IsHtml(d) ? "\016</TD><TD>\016":"",colour,scratch_return_string,IsHtml(d) ? "\016</TD></TR>\016":"\n");
+           output(d,d->player,2,1,32,"%s  %s%s\n",scratch_buffer,colour,scratch_return_string);
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
-     if(grp->rangeitems == 0) output(d,d->player,2,1,0,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=3>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,0," ***  NO ONE LISTED  ***\n");
      if(!in_command) {
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
-        output(d,d->player,2,1,1,"%sTo assist one of the above users, simply type '"ANSI_LGREEN"assist <NAME>"ANSI_LWHITE"' to teleport to their present location and let them know that you're available to help them.%s",IsHtml(d) ? "\016<TR><TD ALIGN=CENTER COLSPAN=3 BGCOLOR="HTML_TABLE_GREY">"ANSI_LWHITE"<I>\016":ANSI_LWHITE" ",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-        output(d,d->player,2,1,1,"%sUsers who need assistance: %s "ANSI_DWHITE"%s%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=3 BGCOLOR="HTML_TABLE_MGREY">"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(d) ? "\016&nbsp;\016":"",listed_items(scratch_return_string,1),IsHtml(d) ? "\016</B></TD></TR>\016":"\n\n");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
+        output(d,d->player,2,1,1,ANSI_LWHITE" To assist one of the above users, simply type '"ANSI_LGREEN"assist <NAME>"ANSI_LWHITE"' to teleport to their present location and let them know that you're available to help them.\n");
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+        output(d,d->player,2,1,1,ANSI_LWHITE" Users who need assistance:  "ANSI_DWHITE"%s\n\n",listed_items(scratch_return_string,1));
      }
 
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
      command_type &= ~COMM_CMD;
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Admin list (Single column):  Login time, idle, name, rank, Haven & Quiet  <---- */
@@ -918,17 +830,12 @@ void userlist_admin(struct descriptor_data *d,unsigned char dsc)
      time_t                   now;
 
      gettime(now);
-     html_anti_reverse(d,1);
-     if(!d->pager && !IsHtml(d) && Validchar(d->player) && More(d->player)) pager_init(d);
-     if(IsHtml(d)) output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
 
      if(!in_command) {
-        if(!IsHtml(d)) {
-           if(dsc) output(d,d->player,0,1,0,"\n Time:    Idle:    Name:                 Rank:                Haven:  Quiet:",scratch_return_string);
-              else output(d,d->player,0,1,0,"\n Time:    Idle:    Name:                 Connected:  Idling:  Haven:  Quiet:",scratch_return_string);
-           output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
-	} else if(dsc) output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Time:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Idle:</I></FONT></TH><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH WIDTH=20%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Rank:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Haven:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Quiet:</I></FONT></TH></TR>\016");
-           else output(d,d->player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Time:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Idle:</I></FONT></TH><TH WIDTH=25%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Connected:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Idling:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Haven:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Quiet:</I></FONT></TH></TR>\016");
+        if(dsc) output(d,d->player,0,1,0,"\n Time:    Idle:    Name:                 Rank:                Haven:  Quiet:",scratch_return_string);
+           else output(d,d->player,0,1,0,"\n Time:    Idle:    Name:                 Connected:  Idling:  Haven:  Quiet:",scratch_return_string);
+        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
      }
 
      if(Validchar(d->player)) {
@@ -950,15 +857,15 @@ void userlist_admin(struct descriptor_data *d,unsigned char dsc)
            /* ---->  Character's login time and idle time  <---- */
            strcpy(scratch_buffer,colour = privilege_countcolour(object,&deities,&elders,&delders,&wizards,&druids,&apprentices,&dapprentices,&retired,&dretired,&experienced,&assistants,&builders,&mortals,&beings,&puppets,&morons));
            if(descriptor && ((now - descriptor->last_time) >= IDLE_TIME * MINUTE)) idle++;
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016<TR ALIGN=CENTER><TD>\016%s%s":" %s%s  ",IsHtml(d) ? colour:"",(descriptor) ? (char *) userlist_shorttime(descriptor->start_time,now,scratch_return_string,1):IsHtml(d) ? "\016&nbsp;\016":"       ");
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016</TD><TD>\016%s%s":"%s%-9s",IsHtml(d) ? colour:"",(descriptor) ? (char *) userlist_shorttime(descriptor->last_time,now,scratch_return_string,0):IsHtml(d) ? "\016&nbsp;\016":"       ");
+           sprintf(scratch_buffer + strlen(scratch_buffer)," %s  ",(descriptor) ? (char *) userlist_shorttime(descriptor->start_time,now,scratch_return_string,1):"       ");
+           sprintf(scratch_buffer + strlen(scratch_buffer),"%-9s",(descriptor) ? (char *) userlist_shorttime(descriptor->last_time,now,scratch_return_string,0):"       ");
 
            /* ---->  Character's name  <---- */
            ptr = (char *) getfield(object,PREFIX);
            if(!Blank(ptr) && ((strlen(ptr) + 1 + strlen(getname(object))) <= 20))
-              sprintf(scratch_return_string,"%s%s %s",IsHtml(d) ? colour:"",ptr,getname(object));
-                 else sprintf(scratch_return_string,"%s%s",IsHtml(d) ? colour:"",getname(object));
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(d) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%%>\016%s%s":"%s%-22s",IsHtml(d) ? colour:"",scratch_return_string);
+              sprintf(scratch_return_string,"%s %s",ptr,getname(object));
+                 else sprintf(scratch_return_string,"%s",getname(object));
+           sprintf(scratch_buffer + strlen(scratch_buffer),"%-22s",scratch_return_string);
 
            /* ---->  Character's rank/connected & idling, Haven & Quiet  <---- */
            if(dsc) {
@@ -992,23 +899,19 @@ void userlist_admin(struct descriptor_data *d,unsigned char dsc)
                 ptr = "Puppet";
 	      } else ptr = "Mortal";
 
-              output(d,d->player,2,1,0,IsHtml(d) ? "%s\016</TD><TD ALIGN=LEFT WIDTH=20%%>\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD></TR>\016":"%s%s%-21s%s%-8s%s%s\n",scratch_buffer,IsHtml(d) ? colour:"",ptr,IsHtml(d) ? colour:"",Haven(object) ? "Yes":"No",IsHtml(d) ? colour:"",Quiet(object) ? "Yes":"No");
-	   } else output(d,d->player,2,1,0,IsHtml(d) ? "%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD></TR>\016":"%s%s%-12s%s%-9s%s%-8s%s%s\n",scratch_buffer,IsHtml(d) ? colour:"",Connected(object) ? "Yes":"No",IsHtml(d) ? colour:"",(descriptor && ((now - descriptor->last_time) >= MINUTE)) ? "Yes":"No",IsHtml(d) ? colour:"",Haven(object) ? "Yes":"No",IsHtml(d) ? colour:"",Quiet(object) ? "Yes":"No");
+              output(d,d->player,2,1,0,"%s%-21s%-8s%s\n",scratch_buffer,ptr,Haven(object) ? "Yes":"No",Quiet(object) ? "Yes":"No");
+	   } else output(d,d->player,2,1,0,"%s%-12s%-9s%-8s%s\n",scratch_buffer,Connected(object) ? "Yes":"No",(descriptor && ((now - descriptor->last_time) >= MINUTE)) ? "Yes":"No",Haven(object) ? "Yes":"No",Quiet(object) ? "Yes":"No");
      }
      if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(d,d->player,2,1,0,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO ONE LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO ONE LISTED  ***\n");
+     if(grp->rangeitems == 0) output(d,d->player,2,1,0," ***  NO ONE LISTED  ***\n");
      if(!in_command) {
-        if(IsHtml(d)) output(d,d->player,1,2,0,"<TR><TD COLSPAN=%d CELLPADDING=0 BGCOLOR="HTML_TABLE_GREY"><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_MGREY">",(dsc) ? 6:7);
-	   else output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
+	output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
 
-        output(d,d->player,2,1,0,"%s",userlist_users(d->player,"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,1,IsHtml(d)));
-        output(d,d->player,2,1,10,"%s",userlist_peak(1,IsHtml(d)));
-        output(d,d->player,2,1,10,"%s",userlist_uptime(now,1,IsHtml(d)));
+        output(d,d->player,2,1,0,"%s",userlist_users(d->player,"",deities,elders,delders,wizards,druids,apprentices,dapprentices,retired,dretired,experienced,assistants,builders,mortals,beings,puppets,morons,idle,1));
+        output(d,d->player,2,1,10,"%s",userlist_peak(1));
+        output(d,d->player,2,1,10,"%s",userlist_uptime(now,1));
      }
-
-     if(IsHtml(d)) output(d,d->player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(d,0);
 }
 
 /* ---->  Return character's title  <---- */
@@ -1247,27 +1150,25 @@ void userlist_set_title(CONTEXT)
            if(!Readonly(character)) {
               if(Blank(arg2) || !strchr(arg2,'\n')) {
                  if(Blank(arg2) || !instring("%{",arg2)) {
-                    if(Blank(arg2) || !instring("%h",arg2)) {
-                       if(Blank(arg2) || Level2(db[player].owner) || (*arg2 != '.')) {
-                          if(strlen_subs(arg2) <= 100) {
-		   	     ansi_code_filter((char *) arg2,arg2,0);
-                             setfield(character,TITLE,arg2,0);
-                             if(!in_command) {
-                                substitute(player,scratch_return_string,arg2,0,ANSI_LYELLOW,NULL,0);
-                                if(character != player) {
-                                   if(Controller(character) != player) {
-                                      if(!in_command) writelog(ADMIN_LOG,1,"TITLE CHANGE","%s(#%d) changed %s(#%d)'s title to '%s'.",getname(player),player,getname(character),character,arg2);
-                                         else if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","%s(#%d) changed %s(#%d)'s title to '%s' within compound command %s(#%d).",getname(player),player,getname(character),character,arg2,getname(current_command),current_command);
-				   }
+                    if(Blank(arg2) || Level2(db[player].owner) || (*arg2 != '.')) {
+                       if(strlen_subs(arg2) <= 100) {
+                          ansi_code_filter((char *) arg2,arg2,0);
+                          setfield(character,TITLE,arg2,0);
+                          if(!in_command) {
+                             substitute(player,scratch_return_string,arg2,0,ANSI_LYELLOW,NULL,0);
+                             if(character != player) {
+                                if(Controller(character) != player) {
+                                   if(!in_command) writelog(ADMIN_LOG,1,"TITLE CHANGE","%s(#%d) changed %s(#%d)'s title to '%s'.",getname(player),player,getname(character),character,arg2);
+                                      else if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","%s(#%d) changed %s(#%d)'s title to '%s' within compound command %s(#%d).",getname(player),player,getname(character),character,arg2,getname(current_command),current_command);
+                                }
 
-                                   if(!in_command) output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your title to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
-                                   output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s title is now '"ANSI_LYELLOW"%s"ANSI_LGREEN"'.",Article(character,UPPER,DEFINITE),getcname(NOTHING,character,0,0),scratch_return_string);
-				} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Your title is now '"ANSI_LYELLOW"%s"ANSI_LGREEN"'.",scratch_return_string);
-			     }
-                             setreturn(OK,COMMAND_SUCC);
-			  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a title is 100 characters.");
-		       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a title mustn't begin with a '"ANSI_LWHITE"."ANSI_LGREEN"'.");
-		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a title can't contain embedded HTML tags.");
+                                if(!in_command) output(getdsc(character),character,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has changed your title to '"ANSI_LYELLOW"%s"ANSI_LWHITE"'.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_return_string);
+                                output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s title is now '"ANSI_LYELLOW"%s"ANSI_LGREEN"'.",Article(character,UPPER,DEFINITE),getcname(NOTHING,character,0,0),scratch_return_string);
+                             } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Your title is now '"ANSI_LYELLOW"%s"ANSI_LGREEN"'.",scratch_return_string);
+			  }
+                          setreturn(OK,COMMAND_SUCC);
+                       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a title is 100 characters.");
+                    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a title mustn't begin with a '"ANSI_LWHITE"."ANSI_LGREEN"'.");
 		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a title can't contain query command substitutions ('"ANSI_LWHITE"%{<QUERY COMMAND>}"ANSI_LGREEN"'.)");
 	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a title can't contain embedded NEWLINE's.");
 	   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is Read-Only  -  You can't change their title.",Article(character,LOWER,DEFINITE),getcname(player,character,1,0));

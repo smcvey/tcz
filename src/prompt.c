@@ -67,7 +67,7 @@ void prompt_display(struct descriptor_data *d)
      gettime(now);
      if((d->next_time - now) > 5) {
         output(d,d->player,0,1,0,"");
-        output(d,d->player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"The last command which you executed took %s some time to complete, possibly causing 'lag' and inconveniencing other users.  You will not be able to execute further commands for another "ANSI_LYELLOW"%s"ANSI_LWHITE".\n",tcz_short_name,interval(d->next_time - now,0,ENTITIES,0));
+        output(d,d->player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"The last command which you executed took %s some time to complete, possibly causing 'lag' and inconveniencing other users.  You will not be able to execute further commands for another "ANSI_LYELLOW"%s"ANSI_LWHITE".\n",tcz_short_name,interval(d->next_time - now,0,ENTITIES,0));
      }
 
      d->flags &= ~PROMPT;
@@ -146,19 +146,10 @@ void prompt_display(struct descriptor_data *d)
                    if(d->page != NOTHING) {
                       termflags = 0, add_cr = cached_addcr;
                       if(!Blank(disclaimer)) {
-   	 	         const char *ptr = decompress(disclaimer);
-
 #ifdef PAGE_DISCLAIMER
-                         if(!d->html) {
-                            d->page_clevel = d->clevel;
-                            d->clevel = 30;
-                            d->page = 1;
-			 } else {
-#endif
-   		            if(d->clevel == 29) for(; *ptr && (*ptr == '\n'); ptr++);
-		            output(d,d->player,2,1,0,"%s%s%s",IsHtml(d) ? "\016<TABLE BORDER=5 CELLPADDING=4 BGCOLOR=#FFFFDD><TR><TD><FONT COLOR="HTML_DRED"><TT><B>\016":ANSI_LRED,ptr,IsHtml(d) ? "\016</B></TT></TD></TR></TABLE>\016":"");
-#ifdef PAGE_DISCLAIMER
-			 }
+                         d->page_clevel = d->clevel;
+                         d->clevel = 30;
+                         d->page = 1;
 #endif
 		      } else output(d,d->player,0,1,0,ANSI_LRED"\nSorry, the disclaimer isn't available at the moment.");
 
@@ -273,11 +264,6 @@ void prompt_display(struct descriptor_data *d)
                       termflags = TXT_NORMAL, d->flags = cached_flags;
 		   }
                    break;
-              case 26:
-
-                   /* ---->  Enter E-mail address (Request for new character via HTML Interface)  <---- */
-                   output(d,d->player,2,0,0,HTML_REQUEST_EMAIL_PROMPT""ANSI_DWHITE" ",tcz_admin_email);
-                   break;
               case 27:
 
                    /* ---->  Enter E-mail address (Request for new character via Telnet)  <---- */
@@ -343,7 +329,7 @@ void prompt_display(struct descriptor_data *d)
 		       pageadjust = 0;
 	   }
 
-	   if(ptr && (d->page != NOTHING) && !d->html) {
+	   if(ptr && (d->page != NOTHING)) {
 
 	      /* ---->  Seek start of page  <---- */
 	      dest = buffer;

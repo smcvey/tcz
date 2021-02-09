@@ -71,7 +71,7 @@ struct author_details authors[] = {
        {NULL, NULL, NULL, 0, 0,
 	  "RH",  "Robin Heydon",       NULL,        NULL},
        {NULL, NULL, NULL, 0, 0,
-	  "SM",  "Shaun McVey",        "Monster",   "shaun.mcvey@gmail.com"},
+	  "SMc",  "Shaun McVey",        "Monster",   "shaun.mcvey@gmail.com"},
        {NULL, NULL, NULL, 0, 0,
 	  "SAB", "Simon Boggis",       "Badpenny",  NULL},
        {NULL, NULL, NULL, 0, 0,

@@ -81,8 +81,6 @@ static struct option options[] = {
    {"current",        0, 0, 'O'},  /*  Display current options  */
    {"database",       1, 0, 'd'},  /*  Database name  */
    {"databasecheck",  2, 0, 'C'},  /*  Force full database consistency check  */
-   {"data",           1, 0, 'D'},  /*  HTML Interface data URL  */
-   {"dataurl",        1, 0, 'D'},  /*  HTML Interface data URL  */
    {"debug",          2, 0, 'G'},  /*  Run in debugging/development mode  */
    {"debugging",      2, 0, 'G'},  /*  Run in debugging/development mode  */
    {"develop",        2, 0, 'G'},  /*  Run in debugging/development mode  */
@@ -98,14 +96,10 @@ static struct option options[] = {
    {"emailforward",   1, 0, 'e'},  /*  E-mail forwarding domain name  */
    {"emergency",      2, 0, 'P'},  /*  Emergency database dump  */
    {"emergencydump",  2, 0, 'P'},  /*  Emergency database dump  */
-   {"encryption",     2, 0, 'S'},  /*  SSL (Secure Sockets Layer) connections  */
    {"guardian",       2, 0, 'x'},  /*  Guardian alarm  */
    {"guardianalarm",  2, 0, 'x'},  /*  Guardian alarm  */
    {"generate",       1, 0, 'g'},  /*  Generate new empty database  */
    {"help",           0, 0, 'h'},  /*  Display help  */
-   {"html",           1, 0, 'w'},  /*  HTML port  */
-   {"htmlport",       1, 0, 'w'},  /*  HTML port  */
-   {"HTML",           1, 0, 'w'},  /*  HTML port  */
    {"home",           1, 0, 'W'},  /*  Web site URL  */
    {"homeurl",        1, 0, 'W'},  /*  Web site URL  */
    {"homepage",       1, 0, 'W'},  /*  Web site URL  */
@@ -117,12 +111,8 @@ static struct option options[] = {
    {"forwarding",     1, 0, 'e'},  /*  E-mail forwarding name  */
    {"full",           1, 0, 'y'},  /*  Full name of server  */
    {"fullname",       1, 0, 'y'},  /*  Full name of server  */
-   {"images",         2, 0, 'i'},  /*  Serve HTML images internally  */
-   {"image",          2, 0, 'i'},  /*  Serve HTML images internally  */
    {"information",    0, 0, 'v'},  /*  Display TCZ version number  */
    {"info",           0, 0, 'v'},  /*  Display TCZ version number  */
-   {"internal",       2, 0, 'i'},  /*  Serve HTML images internally  */
-   {"internally",     2, 0, 'i'},  /*  Serve HTML images internally  */
    {"kill",           0, 0, 'k'},  /*  Signal handling behaviour  */
    {"local",          2, 0, 'l'},  /*  Run locally (127.0.0.1)  */
    {"localhost",      2, 0, 'l'},  /*  Run locally (127.0.0.1)  */
@@ -145,8 +135,6 @@ static struct option options[] = {
    {"quit",           2, 0, 'Q'},  /*  Exit after processing options  */
    {"telnet",         1, 0, 't'},  /*  Telnet port  */
    {"telnetport",     1, 0, 't'},  /*  Telnet port  */
-   {"secure",         2, 0, 'S'},  /*  SSL (Secure Sockets Layer) connections  */
-   {"securesockets",  2, 0, 'S'},  /*  SSL (Secure Sockets Layer) connections  */
    {"server",         1, 0, 's'},  /*  Server address  */
    {"serverinfo",     2, 0, 'I'},  /*  Automatically lookup server info  */
    {"signals",        0, 0, 'k'},  /*  Signal handling behaviour  */
@@ -154,12 +142,10 @@ static struct option options[] = {
    {"short",          1, 0, 'Y'},  /*  Short abbreviated name of server  */
    {"shortname",      1, 0, 'Y'},  /*  Short abbreviated name of server  */
    {"shutdown",       2, 0, 'X'},  /*  Immediate shutdown (After start-up)  */
-   {"ssl",            2, 0, 'S'},  /*  SSL (Secure Sockets Layer) connections  */
    {"tczfull",        1, 0, 'y'},  /*  Full name  */
    {"tczfullname",    1, 0, 'y'},  /*  Full name  */
    {"tczshort",       1, 0, 'Y'},  /*  Short abbreviated name of server  */
    {"tczshortname",   1, 0, 'Y'},  /*  Short abbreviated name of server  */
-   {"url",            1, 0, 'D'},  /*  HTML Interface data URL  */
    {"user",           2, 0, 'U'},  /*  User log files  */
    {"userlog",        2, 0, 'U'},  /*  User log files  */
    {"userlogs",       2, 0, 'U'},  /*  User log files  */
@@ -168,8 +154,6 @@ static struct option options[] = {
    {"userlogin",      2, 0, 'u'},  /*  User logins  */
    {"userlogins",     2, 0, 'u'},  /*  User logins  */
    {"version",        0, 0, 'v'},  /*  Display TCZ version number  */
-   {"web",            1, 0, 'w'},  /*  HTML port  */
-   {"webport",        1, 0, 'w'},  /*  HTML port  */
    {"website",        1, 0, 'W'},  /*  Web site URL  */
    {"working",        1, 0, 'p'},  /*  Path  */
    {0,                0, 0, 0}
@@ -184,7 +168,7 @@ static const char *loglevels[]={
    "Low Debug (Top-level commands logged, user privacy breeched)",
    "Medium Debug (Sub-commands in compound commands logged)",
    "High Debug (Fuse and alarm execution logged)",
-   "IO Debug (Telnet/HTML descriptor input/output logged)",
+   "IO Debug (Telnet descriptor input/output logged)",
 };
 
 static struct option_list_data *option_list = NULL;
@@ -412,45 +396,6 @@ const char *option_database(OPTCONTEXT)
 
       (*error)++, (*critical)++;
       return(database);
-}
-
-/* ---->  {J.P.Boggis 27/02/2000}  HTML Interface data URL  <---- */
-const char *option_dataurl(OPTCONTEXT)
-{
-      if(status) return(html_data_url);
-
-#ifdef HTML_INTERFACE
-      if(!Blank(value)) {
-         if(strlen(value) <= 512) {
-	    if(value[strlen(value) - 1] != '/')
-	       sprintf(scratch_return_string,"%s/",value);
-		  else strcpy(scratch_return_string,value);
-
-	    if(strcasecmp(scratch_return_string,html_data_url))
-	       writelog(OPTIONS_LOG,0,title,"HTML Interface data URL changed to '%s'.",scratch_return_string);
-
-            if(Validchar(player)) {
-               if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"HTML Interface data URL changed to '"ANSI_LWHITE"%s"ANSI_LGREEN"'.",scratch_return_string);
-               writelog(ADMIN_LOG,0,title,"%s(#%d) changed the HTML Interface data URL option to '%s'.",getname(player),player,scratch_return_string);
-	    }
-      
-	    FREENULL(html_data_url);
-	    html_data_url = alloc_string(scratch_return_string);
-            return(html_data_url);
-	 } else if(Validchar(player)) {
-            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, HTML Interface data URL is too long (Limit is 512 characters.)");
-	 } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML Interface data URL is too long (Limit is 512 characters.)");
-      } else if(Validchar(player)) {
-         output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, HTML Interface data URL cannot be blank.");
-      } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML Interface data URL cannot be blank.");
-#else
-      if(Validchar(player)) {
-         output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, HTML Interface data URL option is not supported.");
-      } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML Interface data URL option is not supported (#define HTML_INTERFACE)");
-#endif
-
-      (*error)++, (*critical)++;
-      return(html_data_url);
 }
 
 /* ---->  {J.P.Boggis 19/03/2000}  DNS Lookups  <---- */
@@ -731,80 +676,6 @@ const char *option_generate(OPTCONTEXT)
       return(generate);
 }
 
-/* ---->  {J.P.Boggis 28/02/2000}  HTML port  <---- */
-int option_htmlport(OPTCONTEXT)
-{
-    if(status) return(htmlport);
-
-#ifdef HTML_INTERFACE
-    if(!Blank(value)) {
-       if(isdigit(*value) || (*value == '-')) { 
-	  int port = atoi(value);
-	  if(port >= 0) {
-	     if(port) {
-		if(port != htmlport)
-		   writelog(OPTIONS_LOG,0,title,"HTML port changed to %d.",port);
-	     } else writelog(OPTIONS_LOG,0,title,"HTML port disabled.");
-	     htmlport = port;
-	     return(htmlport);
-	  } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML port cannot be negative.");
-       } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML port must be numeric.");
-    } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML port cannot be blank.");
-#else
-    if(Validchar(player)) {
-       output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, HTML port option is not supported.");
-    } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML port option is not supported (#define HTML_INTERFACE)");
-#endif
-
-    (*error)++, (*critical)++;
-    return(htmlport);
-}
-
-
-extern struct html_image_data *html_images;
-
-
-/* ---->  {J.P.Boggis 11/05/2000}  Serve HTML images internally  <---- */
-int option_images(OPTCONTEXT)
-{
-    int new;
-
-    if(status) return(html_internal_images);
-
-#ifdef HTML_INTERFACE
-    if(Validchar(player) && Blank(value)) {
-       output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify the new setting for '"ANSI_LWHITE"Serve HTML images internally"ANSI_LGREEN"'.");
-       (*error)++, (*critical)++;
-       return(html_internal_images);
-    }
-
-    new = option_boolean(value,1);
-
-    if((player == NOTHING) || !new || html_images) {
-       if(new != html_internal_images) writelog(OPTIONS_LOG,0,title,"HTML Interface images will%s be served internally.",(new) ? "":" not");
-       html_internal_images = new;
-
-       if(Validchar(player)) {
-          html_init_smileys();
-          if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"HTML Interface images "ANSI_LWHITE"will%s"ANSI_LGREEN" be served internally.",(new) ? "":" not");
-          writelog(ADMIN_LOG,0,title,"%s(#%d) changed the HTML images option to %s.",getname(player),player,(new) ? "ON":"OFF");
-       }
-    } else {
-       if(Validchar(player)) {
-          output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, no HTML images have been loaded at start-up  -  Unable to serve HTML images internally.");
-       } else writelog(OPTIONS_LOG,0,title,"Sorry, no HTML images have been loaded at start-up  -  Unable to serve HTML images internally.");
-       (*error)++, (*critical)++;
-    }
-#else
-    if(Validchar(player)) {
-       output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, HTML Interface images option is not supported.");
-    } else writelog(OPTIONS_LOG,0,title,"Sorry, HTML Interface images option is not supported (#define HTML_INTERFACE)");
-    (*error)++, (*critical)++;
-#endif
-
-    return(html_internal_images);
-}
-
 /* ---->  {J.P.Boggis 27/02/2000}  Run locally (127.0.0.1, localhost)  <---- */
 int option_local(OPTCONTEXT)
 {
@@ -819,21 +690,17 @@ int option_local(OPTCONTEXT)
        /* ---->  Change local settings  <---- */
        runlocal = new;
        FREENULL(tcz_server_name);
-       FREENULL(html_data_url);
        FREENULL(html_home_url);
 
-       html_internal_images = 1;
        tcz_server_netmask   = IPADDR(255,0,0,0);
        tcz_server_network   = IPADDR(127,0,0,0);
        tcz_server_name      = alloc_string("localhost");
        tcz_server_ip        = IPADDR(127,0,0,1);
-       html_data_url        = alloc_string("http://localhost/tczhtml/");
        html_home_url        = alloc_string("http://localhost/");
 
        /* ---->  Display settings  <---- */
        writelog(OPTIONS_LOG,0,title,"Server will%s run locally.",(runlocal) ? "":" not");
        writelog(OPTIONS_LOG,0,title,"Server name:  %s (%s)",tcz_server_name,ip_to_text(tcz_server_ip,SITEMASK,scratch_return_string));
-       writelog(OPTIONS_LOG,0,title,"HTML Interface data URL:  %s",html_data_url);
        writelog(OPTIONS_LOG,0,title,"Web Site URL:  %s",html_home_url);
     }
     return(runlocal);
@@ -1146,29 +1013,6 @@ int option_shutdown(OPTCONTEXT)
     return(ishutdown);
 }
 
-/* ---->  {J.P.Boggis 26/03/2000}  SSL (Secure Sockets Layer) connections  <---- */
-int option_ssl(OPTCONTEXT)
-{
-#ifdef SSL_SOCKETS
-    static int ssl = 1;
-    int    new;
-#else
-    static int ssl = 0;
-#endif
-
-    if(status) return(ssl);
-
-#ifdef SSL_SOCKETS
-    new = option_boolean(value,1);
-    if(new != ssl) writelog(OPTIONS_LOG,0,title,"SSL (Secure Sockets Layer) connections will%s be allowed.",(new) ? "":" not");
-    ssl = new;
-#else
-    writelog(OPTIONS_LOG,0,title,"Sorry, SSL (Secure Sockets Layer) connections option is not supported (#define SSL)");
-    (*error)++, (*critical)++;
-#endif
-    return(ssl);
-}
-
 /* ---->  {J.P.Boggis 28/02/2000}  Telnet port  <---- */
 int option_telnetport(OPTCONTEXT)
 {
@@ -1265,77 +1109,71 @@ void option_options(struct descriptor_data *d,unsigned char options)
 
      if(d) {
         if(options) {
-           if(IsHtml(d)) {
-              html_anti_reverse(d,1);
-	      output(d,d->player,1,2,0,"<BR><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-	      output(d,d->player,1,2,0,"<TR BGCOLOR="HTML_TABLE_CYAN"><TH COLSPAN=2><FONT SIZE=4 COLOR="HTML_LCYAN"><I>Current %s Server Options (Set at start-up):</I></FONT></TH></TR>",tcz_short_name);
-	   } else {
-              if(Validchar(d->player) && !in_command && d && !d->pager && !IsHtml(d) && More(d->player)) pager_init(d);
-	      output(d,d->player,0,1,0,ANSI_LCYAN"\n Current %s Server Options (Set at start-up):",tcz_short_name);
-	      output(d,d->player,0,1,0,separator(twidth,0,'-','='));
-	   }
+           if(Validchar(d->player) && !in_command && d && !d->pager && More(d->player)) pager_init(d);
+	   output(d,d->player,0,1,0,ANSI_LCYAN"\n Current %s Server Options (Set at start-up):",tcz_short_name);
+	   output(d,d->player,0,1,0,separator(twidth,0,'-','='));
 	} else return;
      } else fputs("\n          Current Option Settings:\n          ~~~~~~~~~~~~~~~~~~~~~~~~\n",stderr);
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Admin. "ANSI_LGREEN"E-mail address:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"             ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_adminemail(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "             " ANSI_LYELLOW ANSI_UNDERLINE "Admin. " ANSI_LGREEN "E-mail address:  " ANSI_LWHITE "%s\n", option_adminemail(OPTSTATUS));
         else fprintf(stderr,"            Admin. E-mail address (E):  %s\n",option_adminemail(OPTSTATUS));
 
 #ifdef SERVERINFO
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Auto lookup server information:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"    ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_serverinfo(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, ANSI_LGREEN "    Auto lookup server information:  " ANSI_LWHITE "%sabled.\n", option_serverinfo(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"   Auto lookup server information (I):  %sabled.\n",option_serverinfo(OPTSTATUS) ? "En":"Dis");
 #endif
 
 #ifdef DATABASE_DUMP
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Automatically "ANSI_LYELLOW""ANSI_UNDERLINE"dump"ANSI_LGREEN" database:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"       ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_dumping(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"      Automatically dump database (A):  %sabled.\n",option_dumping(OPTSTATUS) ? "En":"Dis");
+     if(d) output(d, d->player, 2, 1, 37, ANSI_LGREEN "       Automatically " ANSI_LYELLOW ANSI_UNDERLINE "dump" ANSI_LGREEN " database:  " ANSI_LWHITE "%sabled.\n", option_dumping(OPTSTATUS) ? "En" : "Dis");
+        else fprintf(stderr,"      Automatically dump database (A):  %sabled.\n",option_dumping(OPTSTATUS) ? "En" : "Dis");
 #endif
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Backdoor password:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                 ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_backdoor(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"                Backdoor password (B):  %sabled.\n",option_backdoor(OPTSTATUS) ? "En":"Dis");
+     if(d) output(d, d->player, 2, 1, 37, ANSI_LGREEN "                 Backdoor password:  " ANSI_LWHITE "%sabled.\n", option_backdoor(OPTSTATUS) ? "En" : "Dis");
+        else fprintf(stderr,"                Backdoor password (B):  %sabled.\n",option_backdoor(OPTSTATUS) ? "En" : "Dis");
 
 #ifdef DB_COMPRESSION
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Compress database on disk:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"         ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_compress_disk(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"        Compress database on disk (Z):  %sabled.\n",option_compress_disk(OPTSTATUS) ? "En":"Dis");
+     if(d) output(d, d->player, 2, 1, 37, ANSI_LGREEN "         Compress database on disk:  " ANSI_LWHITE "%sabled.\n", option_compress_disk(OPTSTATUS) ? "En" : "Dis");
+        else fprintf(stderr,"        Compress database on disk (Z):  %sabled.\n",option_compress_disk(OPTSTATUS) ? "En" : "Dis");
 #endif
 
 #ifdef EXTRA_COMPRESSION
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Compress database in memory:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"       ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_compress_memory(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, ANSI_LGREEN "       Compress database in memory:  " ANSI_LWHITE "%sabled.\n", option_compress_memory(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"      Compress database in memory (z):  %sabled.\n",option_compress_memory(OPTSTATUS) ? "En":"Dis");
 #endif
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Core"ANSI_LGREEN" dump on crash:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_coredump(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                " ANSI_LYELLOW ANSI_UNDERLINE "Core" ANSI_LGREEN " dump on crash:  " ANSI_LWHITE "%sabled.\n", option_coredump(OPTSTATUS) ? "En" :"Dis");
         else fprintf(stderr,"               Core dump on crash (K):  %sabled.\n",option_coredump(OPTSTATUS) ? "En":"Dis");
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Database name:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                     ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_database(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                     " ANSI_LGREEN "Database name:  " ANSI_LWHITE "%s\n", option_database(OPTSTATUS));
         else fprintf(stderr,"                    Database name (d):  %s\n",option_database(OPTSTATUS));
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"DNS"ANSI_LGREEN" lookups:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                       ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_dns(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                       " ANSI_LYELLOW ANSI_UNDERLINE "DNS" ANSI_LGREEN " lookups:  " ANSI_LWHITE "%sabled.\n", option_dns(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"                      DNS lookups (n):  %sabled.\n",option_dns(OPTSTATUS) ? "En":"Dis");
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN" Display log entries on "ANSI_LYELLOW""ANSI_UNDERLINE"console"ANSI_LGREEN":%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"   ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_console(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "   " ANSI_LGREEN " Display log entries on " ANSI_LYELLOW ANSI_UNDERLINE "console" ANSI_LGREEN ":  " ANSI_LWHITE "%sabled.\n", option_console(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"   Display log entries on console (V):  %sabled.\n",option_console(OPTSTATUS) ? "En":"Dis");
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Emergency"ANSI_LGREEN" database dump on crash:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"  ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_emergency(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "  " ANSI_LYELLOW ANSI_UNDERLINE "Emergency" ANSI_LGREEN " database dump on crash:  " ANSI_LWHITE "%sabled.\n", option_emergency(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr," Emergency database dump on crash (P):  %sabled.\n",option_emergency(OPTSTATUS) ? "En":"Dis");
 
 #ifdef EMAIL_FORWARDING
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"E-mail "ANSI_LYELLOW""ANSI_UNDERLINE"forwarding"ANSI_LGREEN" domain name:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"     ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_emailforward(OPTSTATUS) ? option_emailforward(OPTSTATUS):"Disabled.",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "     " ANSI_LGREEN "E-mail " ANSI_LYELLOW ANSI_UNDERLINE "forwarding" ANSI_LGREEN " domain name:  " ANSI_LWHITE "%s\n", option_emailforward(OPTSTATUS) ? option_emailforward(OPTSTATUS) : "Disabled.");
         else fprintf(stderr,"    E-mail forwarding domain name (e):  %s\n",option_emailforward(OPTSTATUS) ? option_emailforward(OPTSTATUS):"Disabled.");
 #endif
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Forced database consistency check:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":" ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_check(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, " " ANSI_LGREEN "Forced database consistency check:  " ANSI_LWHITE "%sabled.\n", option_check(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"Forced database consistency check (C):  %sabled.\n",option_check(OPTSTATUS) ? "En":"Dis");
 
 #ifdef DB_FORK
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Forked"ANSI_LGREEN" database dump:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"              ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_forkdump(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "              " ANSI_LYELLOW ANSI_UNDERLINE "Forked" ANSI_LGREEN " database dump:  " ANSI_LWHITE "%sabled.\n", option_forkdump(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"             Forked database dump (F):  %sabled.\n",option_forkdump(OPTSTATUS) ? "En":"Dis");
 #endif
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Full"ANSI_LGREEN" name of server:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"               ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_fullname(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d,d->player, 2, 1, 37, "               " ANSI_LYELLOW ANSI_UNDERLINE "Full" ANSI_LGREEN " name of server:  " ANSI_LWHITE "%s\n", option_fullname(OPTSTATUS));
         else fprintf(stderr,"              Full name of server (y):  %s\n",option_fullname(OPTSTATUS));
 
 #ifdef GUARDIAN_ALARM
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Guardian"ANSI_LGREEN" alarm:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                    ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_guardian(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                    " ANSI_LYELLOW ANSI_UNDERLINE "Guardian" ANSI_LGREEN " alarm:  " ANSI_LWHITE "%sabled.\n", option_guardian(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"                   Guardian alarm (x):  %sabled.\n",option_guardian(OPTSTATUS) ? "En":"Dis");
 #endif
 
@@ -1345,81 +1183,58 @@ void option_options(struct descriptor_data *d,unsigned char options)
            fprintf(stderr,"          Generated database name (g):  %s\n",option_generate(OPTSTATUS));
      }
 
-#ifdef HTML_INTERFACE
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"HTML Interface "ANSI_LYELLOW""ANSI_UNDERLINE"data"ANSI_LGREEN" URL:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"           ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_dataurl(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"          HTML Interface data URL (D):  %s\n",option_dataurl(OPTSTATUS));
-#endif
-
-#ifdef HTML_INTERFACE
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"HTML port:%s"ANSI_LWHITE"%d.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                         ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_htmlport(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"                        HTML port (w):  %d.\n",option_htmlport(OPTSTATUS));
-#endif
-
      if(!d) fprintf(stderr,"Immediate shutdown after start-up (X):  %sabled.\n",option_shutdown(OPTSTATUS) ? "En":"Dis");
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Location"ANSI_LGREEN" of server:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_location(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                " ANSI_LYELLOW ANSI_UNDERLINE "Location" ANSI_LGREEN " of server:  " ANSI_LWHITE "%s\n", option_location(OPTSTATUS));
         else fprintf(stderr,"               Location of server (H):  %s\n",option_location(OPTSTATUS));
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Logging"ANSI_LGREEN" level:%s"ANSI_LWHITE"%d \016&nbsp;\016 (%s)%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                     ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_loglevel(OPTSTATUS),loglevels[option_loglevel(OPTSTATUS)],IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                     " ANSI_LYELLOW ANSI_UNDERLINE "Logging" ANSI_LGREEN " level:  " ANSI_LWHITE "%d  (%s)\n", option_loglevel(OPTSTATUS), loglevels[option_loglevel(OPTSTATUS)]);
         else fprintf(stderr,"                    Logging level (L):  %d (%s)\n",option_loglevel(OPTSTATUS),loglevels[option_loglevel(OPTSTATUS)]);
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"MOTD"ANSI_LGREEN" login message:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",!Blank(option_motd(OPTSTATUS)) ? option_motd(OPTSTATUS):"Disabled.",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                " ANSI_LYELLOW ANSI_UNDERLINE "MOTD" ANSI_LGREEN " login message:  " ANSI_LWHITE "%s\n", !Blank(option_motd(OPTSTATUS)) ? option_motd(OPTSTATUS) : "Disabled.");
         else fprintf(stderr,"               MOTD login message (m):  %s\n",!Blank(option_motd(OPTSTATUS)) ? option_motd(OPTSTATUS):"Disabled.");
 
      if(!d) fprintf(stderr,"    Quit after processing options (Q):  %sabled.\n",option_quit(OPTSTATUS) ? "En":"Dis");
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Run at nice level:%s"ANSI_LWHITE"%d.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                 ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_nice(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                 " ANSI_LGREEN "Run at nice level:  " ANSI_LWHITE "%d.\n", option_nice(OPTSTATUS));
         else fprintf(stderr,"                Run at nice level (N):  %d.\n",option_nice(OPTSTATUS));
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Run in "ANSI_LYELLOW""ANSI_UNDERLINE"debug"ANSI_LGREEN"ging/developer mode:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"   ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_debug(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "   " ANSI_LGREEN "Run in " ANSI_LYELLOW ANSI_UNDERLINE "debug" ANSI_LGREEN "ging/developer mode:  " ANSI_LWHITE "%sabled.\n", option_debug(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"  Run in debugging/developer mode (G):  %sabled.\n",option_debug(OPTSTATUS) ? "En":"Dis");
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Run locally:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                       ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_local(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                       " ANSI_LGREEN "Run locally:  " ANSI_LWHITE "%sabled.\n", option_local(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"                      Run locally (l):  %sabled.\n",option_local(OPTSTATUS) ? "En":"Dis");
 
-#ifdef HTML_INTERFACE
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Serve HTML images "ANSI_LYELLOW""ANSI_UNDERLINE"internal"ANSI_LGREEN"ly:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"      ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_images(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"     Serve HTML images internally (i):  %sabled.\n",option_images(OPTSTATUS) ? "En":"Dis");
-#endif
-
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Server"ANSI_LGREEN" address:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                    ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_server(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                    " ANSI_LYELLOW ANSI_UNDERLINE "Server" ANSI_LGREEN " address:  " ANSI_LWHITE "%s\n", option_server(OPTSTATUS));
         else fprintf(stderr,"                   Server address (s):  %s\n",option_server(OPTSTATUS));
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"Short"ANSI_LGREEN" name of server:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"              ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_shortname(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "              " ANSI_LYELLOW ANSI_UNDERLINE "Short" ANSI_LGREEN " name of server:  " ANSI_LWHITE "%s\n", option_shortname(OPTSTATUS));
         else fprintf(stderr,"             Short name of server (Y):  %s\n",option_shortname(OPTSTATUS));
 
-#ifdef SSL_SOCKETS
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"SSL (Secure Sockets Layer):%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"        ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_ssl(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
-        else fprintf(stderr,"       SSL (Secure Sockets Layer) (S):  %sabled.\n",option_ssl(OPTSTATUS) ? "En":"Dis");
-#endif
-
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Telnet port:%s"ANSI_LWHITE"%d.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                       ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_telnetport(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                       " ANSI_LGREEN "Telnet port:  " ANSI_LWHITE "%d.\n", option_telnetport(OPTSTATUS));
         else fprintf(stderr,"                      Telnet port (t):  %d.\n",option_telnetport(OPTSTATUS));
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"User logins:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                       ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_logins(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                       " ANSI_LGREEN "User logins:  " ANSI_LWHITE "%sabled.\n", option_logins(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"                      User logins (u):  %sabled.\n",option_logins(OPTSTATUS) ? "En":"Dis");
 
 #ifdef USER_LOG_FILES
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LYELLOW""ANSI_UNDERLINE"User"ANSI_LGREEN" log files:%s"ANSI_LWHITE"%sabled.%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                    ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_userlogs(OPTSTATUS) ? "En":"Dis",IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                    " ANSI_LYELLOW ANSI_UNDERLINE "User" ANSI_LGREEN " log files:  " ANSI_LWHITE "%sabled.\n", option_userlogs(OPTSTATUS) ? "En" : "Dis");
         else fprintf(stderr,"                   User log files (U):  %sabled.\n",option_userlogs(OPTSTATUS) ? "En":"Dis");
 #endif
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Web "ANSI_LYELLOW""ANSI_UNDERLINE"Site"ANSI_LGREEN" URL:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"                      ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_website(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "                      " ANSI_LGREEN "Web " ANSI_LYELLOW ANSI_UNDERLINE "Site" ANSI_LGREEN " URL:  " ANSI_LWHITE "%s\n", option_website(OPTSTATUS));
         else fprintf(stderr,"                     Web Site URL (W):  %s\n",option_website(OPTSTATUS));
 
-     if(d) output(d,d->player,2,1,37,"%s"ANSI_LGREEN"Working directory path:%s"ANSI_LWHITE"%s%s",IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN">\016":"            ",IsHtml(d) ? "\016</TH><TD ALIGN=LEFT>\016":"  ",option_path(OPTSTATUS),IsHtml(d) ? "\016</TD></TR>\016":"\n");
+     if(d) output(d, d->player, 2, 1, 37, "            " ANSI_LGREEN "Working directory path:  " ANSI_LWHITE "%s\n", option_path(OPTSTATUS));
         else fprintf(stderr,"           Working directory path (p):  %s\n",option_path(OPTSTATUS));
  
      if(d) {
-        if(!IsHtml(d)) output(d,d->player,0,1,0,separator(twidth,0,'-','-'));
-        if(d) output(d,d->player,2,1,1,"%s"ANSI_LWHITE"To change the settings of the above server options, type '"ANSI_LGREEN"@admin options <OPTION> = <SETTING>"ANSI_LWHITE"' \016&nbsp;\016 ("ANSI_LCYAN"NOTE: \016&nbsp;\016 "ANSI_LWHITE"Some options cannot be changed.)%s",IsHtml(d) ? "\016<TR><TH COLSPAN=2 ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><I>\016":" ",IsHtml(d) ? "\016</I></TH></TR>\016":"\n");
+        output(d,d->player,0,1,0,separator(twidth,0,'-','-'));
+        if(d) output(d, d->player, 2, 1, 1, ANSI_LWHITE " To change the settings of the above server options, type '" ANSI_LGREEN "@admin options <OPTION> = <SETTING>" ANSI_LWHITE "'  (" ANSI_LCYAN "NOTE:  " ANSI_LWHITE "Some options cannot be changed.)\n");
      }
 
      if(d) {
-        if(IsHtml(d)) {
-           output(d,d->player,1,2,0,"</TABLE><BR>");
-           html_anti_reverse(d,0);
-	} else output(d,d->player,0,1,0,separator(twidth,1,'-','='));
+	output(d,d->player,0,1,0,separator(twidth,1,'-','='));
         setreturn(OK,COMMAND_SUCC);
      } else fputs("\n",stderr);
 }
@@ -1506,11 +1321,6 @@ int option_option(dbref player,struct option_list_data *opt,const char *title,co
                    if(Validchar(player)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the database name cannot be changed using '"ANSI_LYELLOW"@admin options"ANSI_LGREEN"'.");
 		} else option_database(player,title,opt->optarg,0,error,critical);
 		break;
-	   case 'D':
-
-		/* ---->  HTML Interface data URL  <---- */
-		option_dataurl(player,title,opt->optarg,0,error,critical);
-		break;
 	   case 'e':
 
 		/* ---->  E-mail forwarding domain name  <---- */
@@ -1550,11 +1360,6 @@ int option_option(dbref player,struct option_list_data *opt,const char *title,co
 
 		/* ---->  Location of server  <---- */
 		option_location(player,title,opt->optarg,0,error,critical);
-		break;
-	   case 'i':
-
-		/* ---->  Serve HTML images internally  <---- */
-		option_images(player,title,opt->optarg,0,error,critical);
 		break;
 	   case 'I':
 
@@ -1645,13 +1450,6 @@ int option_option(dbref player,struct option_list_data *opt,const char *title,co
 		/* ---->  Server address  <---- */
 		option_server(player,title,opt->optarg,0,error,critical);
 		break;
-	   case 'S':
-
-		/* ---->  SSL (Secure Sockets Layer)  <---- */
-		if(instance == OPTION_ADMINOPTIONS) {
-                   if(Validchar(player)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, SSL (Secure Sockets Layer) connections cannot be changed using '"ANSI_LYELLOW"@admin options"ANSI_LGREEN"'.");
-		} else option_ssl(player,title,opt->optarg,0,error,critical);
-		break;
 	   case 't':
 
 		/* ---->  Telnet port  <---- */
@@ -1683,13 +1481,6 @@ int option_option(dbref player,struct option_list_data *opt,const char *title,co
 
 		/* ---->  Display log file entries on console  <---- */
 		option_console(player,title,opt->optarg,0,error,critical);
-		break;
-	   case 'w':
-
-		/* ---->  HTML port  <---- */
-		if(instance == OPTION_ADMINOPTIONS) {
-                   if(Validchar(player)) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the HTML Interface port cannot be changed using '"ANSI_LYELLOW"@admin options"ANSI_LGREEN"'.");
-		} else option_htmlport(player,title,opt->optarg,0,error,critical);
 		break;
 	   case 'W':
 
@@ -1896,9 +1687,6 @@ int option_helpoptions(const char *pname)
 #endif
 		    fputs("-b  --backdoor      (T)  Backdoor password (USE WITH CARE.)\n",stderr);
 		    fputs("-C  --check         (B)  Force full database consistency check.\n",stderr);
-#ifdef HTML_INTERFACE
-		    fputs("-D  --dataurl       (T)  HTML Interface data URL.\n",stderr);
-#endif
 #ifdef EMAIL_FORWARDING
 		    fputs("-e  --email       (T/B)  E-mail forwarding domain name ('Off' to disable.)\n",stderr);
 #endif
@@ -1908,9 +1696,6 @@ int option_helpoptions(const char *pname)
 #endif
 		    fputs("-G  --debug         (B)  Run in debugging/developer mode.\n",stderr);
 		    fputs("-H  --location      (T)  Location of server.\n",stderr);
-#ifdef HTML_INTERFACE
-		    fputs("-i  --images        (B)  Serve HTML Interface images internally.\n",stderr);
-#endif
 #ifdef SERVERINFO
 		    fputs("-I  --serverinfo    (B)  Automatically lookup server information at start-up.\n",stderr);
 #endif
@@ -1922,9 +1707,6 @@ int option_helpoptions(const char *pname)
 		    fputs("-O  --current            Display current settings for all options.\n",stderr);
 		    fputs("-P  --panic         (B)  Emergency database dump on crash.\n",stderr);
 		    fputs("-Q  --quit          (B)  Exit after processing options.\n",stderr);
-#ifdef SSL_SOCKETS
-		    fputs("-S  --SSL           (B)  SSL (Secure Sockets Layer) connections.\n",stderr);
-#endif
 #ifdef USER_LOG_FILES
 		    fputs("-U  --userlogs      (B)  User log files.\n",stderr);
 #endif
@@ -1990,10 +1772,7 @@ int option_helpoptions(const char *pname)
 		    fputs("-s  --server        (T)  Server address.\n",stderr);
 		    fputs("-u  --logins        (B)  User logins.\n",stderr);
 		    fputs("-v  --version            Display TCZ version number and exit.\n",stderr);
-#ifdef HTML_INTERFACE
-		    fputs("-w  --html          (N)  HTML (Web Interface) port.\n",stderr);
-#endif
-		    fprintf(stderr,"\nDEFAULT OPTIONS:  -t%d -w%d -d%s\n",TELNETPORT,HTMLPORT,DATABASE);
+		    fprintf(stderr,"\nDEFAULT OPTIONS:  -t%d -d%s\n",TELNETPORT,DATABASE);
 		    fputs("\n",stderr);
                     return(1);
                     break;

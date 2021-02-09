@@ -52,12 +52,10 @@
 #include "object_types.h"
 #include "flagset.h"
 #include "fields.h"
-#include "html.h"
 
 
 /* ---->  Buffers used by word wrapping code  <---- */
 static   char textbuf[BUFFER_LEN * 2];
-static   char htmlbuf[BUFFER_LEN];
 
 int           wrap_leading = 0;  /*  Number of lead-in blanks in wrapped text  */
 int           termflags    = 0;  /*  Terminal display flags  */
@@ -251,10 +249,6 @@ int output_queue_nonwrapped(struct descriptor_data *d,char *src)
        d->flags &= ~PROMPT, d->terminal_xpos = 0;
     }
 
-    /* ---->  Convert HTML tags to plain text  <---- */
-    if(!html_to_text(d,src,htmlbuf,sizeof(htmlbuf))) return(0);
-    src = htmlbuf;
-
     /* ---->  Standard ANSI colour (ANSI_LCYAN) or current terminal style  <---- */
     if(!(!(d->flags & ANSI_MASK) && termflags)) {
        if(!(*src && (*src == '\x1B'))) {
@@ -346,10 +340,6 @@ int output_queue_wrapped(struct descriptor_data *d,char *src)
        output_terminate(&dest,d->flags & TERMINATOR_MASK,&length,&overflow);
        d->flags &= ~PROMPT, d->terminal_xpos = 0;
     }
-
-    /* ---->  Convert HTML tags to plain text  <---- */
-    if(!html_to_text(d,src,htmlbuf,sizeof(htmlbuf))) return(0);
-    src = htmlbuf;
 
     /* ---->  Standard ANSI colour (ANSI_LCYAN) or current terminal style  <---- */
     if(!(!(d->flags & ANSI_MASK) && termflags)) {
@@ -659,8 +649,6 @@ int output_queue_wrapped(struct descriptor_data *d,char *src)
 /* ---->  Add string to output queue  <---- */
 int output_queue_string(struct descriptor_data *d,const char *str,unsigned char redirect)
 {
-    static int length;
-
     if(!d) {
        writelog(BUG_LOG,1,"BUG","(output_queue_string() in output.c)  String '%s' queued with NULL descriptor_data.",str);
        return(0);
@@ -669,27 +657,9 @@ int output_queue_string(struct descriptor_data *d,const char *str,unsigned char 
     if(redirect && d->monitor && (d->flags & MONITOR_OUTPUT))
        output_queue_string(d->monitor,str,0);
 
-    if(IsHtml(d)) {
-       if(*str) {
-          text_to_html(d,str,textbuf,&length,sizeof(textbuf) - 1);
-          if(length > 0) server_queue_output(d,textbuf,length);
-       }
-       if(!(command_type & LARGE_SUBSTITUTION)) {
-          while(d->html->tag) {
-                text_to_html_close_tags(d,textbuf,&length,sizeof(textbuf) - 1);
-                if(length > 0) server_queue_output(d,textbuf,length);
-	  }
-          text_to_html_reset(d,textbuf,&length);
-          if(length > 0) server_queue_output(d,textbuf,length);
-       }
-       return(1);
-    } else {
-       if(*str || add_cr) {
-          if(d->terminal_width) return(output_queue_wrapped(d,(char *) str));
-             else return(output_queue_nonwrapped(d,(char *) str));
-       }
-       if(!(command_type & LARGE_SUBSTITUTION))
-          d->flags2 &= ~HTML_TAG;
+    if(*str || add_cr) {
+       if(d->terminal_width) return(output_queue_wrapped(d,(char *) str));
+          else return(output_queue_nonwrapped(d,(char *) str));
     }
     return(0);
 }
@@ -701,14 +671,14 @@ struct descriptor_data *getdsc(dbref player)
 
        if(!Validchar(player)) return(NULL);
        for(d = descriptor_list; d; d = d->next)
-           if((d->player == player) && (!IsHtml(d) || (d->html->flags & HTML_OUTPUT)) && (!recent || (d->last_time >= recent->last_time)))
+           if((d->player == player) && (!recent || (d->last_time >= recent->last_time)))
               recent = d;
        return(recent);
 }
 
 /* ---->  Format and queue string for output to descriptor  <---- */
 /*        (RAW:       0 = output_queue_string() + ADD_CR, 1 = server_queue_output(), 2 = output_queue_string() only)  */
-/*        (REDIRECT:  0 = No redirection, 1 = Redirect, 2 = Redirect HTML only.)  */
+/*        (REDIRECT:  0 = No redirection, 1 = Redirect.)  */
 /*        (WRAP:      > 0 = Adjust WRAP_LEADING to given value.)  */
 void output(struct descriptor_data *d,dbref player,unsigned char raw,unsigned char redirect,unsigned char wrap,char *fmt, ...)
 {
@@ -725,7 +695,7 @@ void output(struct descriptor_data *d,dbref player,unsigned char raw,unsigned ch
         if(Validchar(player) && redirect && (player == redirect_src) && (redirect_src != redirect_dest)) {
            struct descriptor_data *r = getdsc(redirect_dest);
 
-           if(r && ((redirect != 2) || IsHtml(r))) {
+           if(r) {
               if(fmt) output_fmt = &fmt;
               output(r,NOTHING,raw,0,wrap,NULL);
 	   }
@@ -757,13 +727,13 @@ void output(struct descriptor_data *d,dbref player,unsigned char raw,unsigned ch
         if((d->player == redirect_src) && (redirect_src != redirect_dest) && !(d->monitor && (d->flags & MONITOR_OUTPUT) && (redirect_dest == d->monitor->player))) {
            struct descriptor_data *r = getdsc(redirect_dest);
 
-           if(r && ((redirect != 2) || IsHtml(r))) {
+           if(r) {
               if(fmt) output_fmt = &fmt;
               output(r,NOTHING,raw,0,wrap,NULL);
 	   }
 	}
 
-        if(d->monitor && (d->flags & MONITOR_OUTPUT) && ((redirect != 2) || d->monitor->html)) {
+        if(d->monitor && (d->flags & MONITOR_OUTPUT)) {
            if(fmt) output_fmt = &fmt;
            output(d->monitor,NOTHING,raw,0,wrap,NULL);
 	}
@@ -819,7 +789,6 @@ unsigned char output_trace(dbref player,dbref command,unsigned char raw,unsigned
 
 	 va_start(output_ap,fmt);
 	 output_fmt = &fmt;
-	 command_type |= NO_AUTO_FORMAT;
 
 	 if(!(in_command && Valid(command) && (Typeof(command) == TYPE_COMMAND) && Validchar(db[command].owner))) command = player;
 	 for(d = descriptor_list; d; d = d->next)
@@ -831,7 +800,7 @@ unsigned char output_trace(dbref player,dbref command,unsigned char raw,unsigned
 		}
 		suppress = ((d->flags2 & OUTPUT_SUPPRESS) != 0);
 		d->flags2 &= ~OUTPUT_SUPPRESS;
-		if(!d->pager && !IsHtml(d) && More(d->player)) pager_init(d);
+		if(!d->pager && More(d->player)) pager_init(d);
 		output(d,d->player,raw,redirect,wrap,NULL);
 		if(suppress) d->flags2 |= OUTPUT_SUPPRESS;
 		delivered = 1;
@@ -876,10 +845,8 @@ void output_columns(struct descriptor_data *p,dbref player,const char *text,cons
      unsigned          char loop;
      char                   *ptr;
 
-     html_anti_reverse(p,1);
      switch(option) {
             case FIRST:
-                 if(IsHtml(p)) leading = 0, padding = 0;
                  lines     = setlines;
                  width     = setwidth;
                  table     = settable;
@@ -896,26 +863,16 @@ void output_columns(struct descriptor_data *p,dbref player,const char *text,cons
                     scrheight = db[player].data->player.scrheight;
                     db[player].data->player.scrheight = ((db[player].data->player.scrheight - lines) * columns) * 2;
 		 } else scrheight = 0;
-                 if(!IsHtml(p)) {
-                    for(loop = 0, ptr = buffer; loop < leading; *ptr++ = ' ', loop++);
-                    *ptr = '\0';
-		 } else {
-                    output(p,player,1,0,2,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(table) ? "<TR><TD ALIGN=CENTER VALIGN=CENTER>":"");
-		    sprintf(buffer,"\016<TR ALIGN=%s>\016",(alignleft) ? "LEFT":"CENTER");
-		 }
+                 for(loop = 0, ptr = buffer; loop < leading; *ptr++ = ' ', loop++);
+                 *ptr = '\0';
                  break;
             case LAST:
                  if(column != 0) {
-                   if(IsHtml(p)) {
-                      while(++column <= columns) sprintf(buffer + strlen(buffer),"\016<TD WIDTH=%d%%>&nbsp;</TD>\016",percent);
-                      sprintf(buffer + strlen(buffer),"\016</TR></TABLE>%s\016",(table) ? "</TD></TR>":"");
-		   } else strcat(buffer,"\n");
+		   strcat(buffer,"\n");
                    output(p,player,2,1,0,"%s",buffer);
 		 } else if(!itemcount && nonefound) {
-                   if(IsHtml(p)) {
-                      output(p,player,2,1,0,"\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_BLACK">"ANSI_LRED"<FONT SIZE=+1><B><I>\016%s\016</I></B></FONT></TH></TR></TABLE>%s\016",nonefound,(table) ? "</TD></TR>":"");
-		   } else output(p,player,0,leading,0,"%s"ANSI_LRED"%s",strpad(' ',leading,buffer),nonefound);
-		 } else if(IsHtml(p)) output(p,player,2,1,0,"\016<TD>&nbsp;</TD></TR></TABLE>%s",(table) ? "</TD></TR>":"");
+		   output(p,player,0,leading,0,"%s"ANSI_LRED"%s",strpad(' ',leading,buffer),nonefound);
+		 }
                  if(scrheight) db[player].data->player.scrheight = scrheight;
                  break;
             default:
@@ -923,42 +880,35 @@ void output_columns(struct descriptor_data *p,dbref player,const char *text,cons
                  /* ---->  Output row, if columns/row reached  <---- */
                  itemcount++;
                  if(++column > columns) {
-                    strcat(buffer,IsHtml(p) ? "\016</TR>\016":"\n");
+                    strcat(buffer, "\n");
 		    output(p,player,2,1,0,"%s",buffer);
-                    if(!IsHtml(p)) {
-                       for(loop = 0, ptr = buffer; loop < leading; *ptr++ = ' ', loop++);
-                       *ptr = '\0';
-		    } else sprintf(buffer,"\016<TR ALIGN=%s>\016",(alignleft) ? "LEFT":"CENTER");
+                    for(loop = 0, ptr = buffer; loop < leading; *ptr++ = ' ', loop++);
+                    *ptr = '\0';
                     column = 1;
 		 }
 
                  /* ---->  Copy item text (Truncate, if too large)  <---- */
-                 if(IsHtml(p)) sprintf(buffer + strlen(buffer),"\016<TD WIDTH=%d%%>\016%s",percent,!Blank(colour) ? colour:"");
-                    else if(!Blank(colour)) strcat(buffer,colour);
+                 if(!Blank(colour)) strcat(buffer,colour);
                  loop = 0, ptr = buffer + strlen(buffer);
 
-                 if(!IsHtml(p)) {
-
-                    /* ---->  Copy item (Truncate if neccessary)  <---- */
-                    if(!Blank(text)) {
-                       while(*text && (loop < itemlen)) {
-                             if(*text == '\x1B') {
-                                while(*text && (*text != 'm')) *ptr++ = *text++;
-                                if(*text && (*text == 'm')) *ptr++ = *text++;
-			     } else {
-                                *ptr++ = *text++;
-                                loop++;
-			     }
-		       }
-		    }
+                 /* ---->  Copy item (Truncate if neccessary)  <---- */
+                 if(!Blank(text)) {
+                    while(*text && (loop < itemlen)) {
+                       if(*text == '\x1B') {
+                          while(*text && (*text != 'm')) *ptr++ = *text++;
+                          if(*text && (*text == 'm')) *ptr++ = *text++;
+                       } else {
+                          *ptr++ = *text++;
+                          loop++;
+                       }
+                    }
+                 }
  
-                    /* ---->  Pad text with spaces  <---- */
-                    if(!IsHtml(p) && (column < columns))
-                       for(; loop < (itemlen + padding); *ptr++ = ' ', loop++);
-                    *ptr = '\0';
-		 } else sprintf(buffer + strlen(buffer),"%s\016</TD>\016",Blank(text) ? "\016&nbsp;\016":text);
+                 /* ---->  Pad text with spaces  <---- */
+                 if(column < columns)
+                    for(; loop < (itemlen + padding); *ptr++ = ' ', loop++);
+                 *ptr = '\0';
      }
-     html_anti_reverse(p,0);
 }
 
 /* ---->  Output connect/disconnect messages to connected characters set LISTEN  <---- */

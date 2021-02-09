@@ -269,7 +269,7 @@ void pager_more(CONTEXT)
 	   } else if(!val1) {
               if(p) {
 	         if(in_command || (command_type & QUERY_SUBSTITUTION) || !Blank(params)) {
-                    if(!(in_command || (command_type & QUERY_SUBSTITUTION)) || (!IsHtml(p) && More(player))) pager_init(p);
+                    if(!(in_command || (command_type & QUERY_SUBSTITUTION)) || More(player)) pager_init(p);
                     if(!Blank(params)) process_basic_command(player,params,0);
                        else setreturn((command_type & QUERY_SUBSTITUTION) ? "":OK,COMMAND_SUCC);
 		 } else output(p,player,0,1,0,ANSI_LGREEN"Please specify which %s command you would like to execute and page the output of.",tcz_short_name);

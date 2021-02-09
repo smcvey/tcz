@@ -61,12 +61,6 @@ void tilde_string(dbref player,const char *str,const char *ansi1,const char *ans
      wrap_leading = spaces;
      p1           = scratch_return_string;
 
-     /* ---->  HTML font size  <---- */
-     if(IsHtml(p) || (!p && Html(player))) {
-        sprintf(p1,"\016<FONT SIZE=%d>\016",fsize);
-        p1 += 15;
-     }
-
      /* ---->  Leading spaces  <---- */
      if(cr & 0x1) *p1++ = '\n';
      for(count = 0; count < spaces; count++) *p1++ = ' ';
@@ -111,12 +105,6 @@ void tilde_string(dbref player,const char *str,const char *ansi1,const char *ans
         for(; count > 0; count--) *p1++ = '~';
         *p1 = '\0';
      } else *p1 = '\0';
-
-     /* ---->  HTML font size  <---- */
-     if(IsHtml(p) || (!p && Html(player))) {
-        strcpy(p1,"\016</FONT>\016");
-        p1 += 9;
-     }
 
      output(p,player,0,1,0,"%s",scratch_return_string);
      wrap_leading = cached_wl, termflags = cached_tf;
@@ -384,9 +372,7 @@ const char *filter_substitutions(const char *ptr,char *buffer)
                                 if(*(++ptr)) ptr++;
                                 break;
                         case '\x06':
-                        case '\x0E':
-
-                                /* ---->  Skip rest of line/Toggle evaluation of HTML <---- */
+                                /* ---->  Skip rest of line  <---- */
                                 ptr++;
                                 break;
                         case '\x1B':
@@ -581,7 +567,7 @@ const char *skip_article(const char *str,unsigned char article_setting,unsigned 
 /* ---->  Automatically punctuate and format given string  <---- */
 char *punctuate(char *message,int no_quotes,char punctuation)
 {
-     int    length = 0,lf_count = 0,html = 0,capitalise = no_quotes;
+     int    length = 0,lf_count = 0,capitalise = no_quotes;
      static char buffer[BUFFER_LEN];
      char   *p1,*p2,*p3;
 
@@ -629,11 +615,6 @@ char *punctuate(char *message,int no_quotes,char punctuation)
                       /* ---->  Linefeed:  Filter trailing/leading spaces  <---- */
                       *p2++ = *p1++, length++;
                       if(no_quotes != 3) while(*p1 && (*p1 == ' ')) p1++;
-                      break;
-                 case '\x0E':
-
-                      /* ---->  Toggle evaluation of HTML tags  <---- */
-                      html = !html, *p2++ = *p1++, length++;
                       break;
                  case '\x1B':  
 
@@ -735,25 +716,9 @@ char *punctuate(char *message,int no_quotes,char punctuation)
                          for(p1 += 5; *p1; *p2++ = *p1++);
                          *p2 = '\0';
                          return(buffer);
-		      } else if(*(p1 + 1) && ((*(p1 + 1) == 'h') || (*(p1 + 1) == 'H'))) html = !html;
+		      }
                       *p2++ = *p1++, length++;
                       if(*p1 && (length < MAX_LENGTH)) *p2++ = *p1++, length++;
-                      break;
-                 case '<':
-
-                      /* ---->  HTML tag  <---- */
-                      if(html) {
-                         for(; *p1 && (*p1 != '>'); *p2++ = *p1++, length++);
-                         if(*p1 && (*p1 == '>')) *p2++ = *p1++, length++;
-		      } else *p2++ = *p1++, length++;
-                      break;
-                 case '&':
-
-                      /* ---->  HTML character entity  <---- */
-                      if(html) {
-                         for(; *p1 && (*p1 != ';'); *p2++ = *p1++, length++);
-                         if(*p1 && (*p1 == ';')) *p2++ = *p1++, length++;
-		      } else *p2++ = *p1++, length++;
                       break;
                  case '(':
 
@@ -961,9 +926,7 @@ const char *truncatestr(char *dest,const char *str,unsigned char nonansi,int len
 			} else if(*(++str)) str++;
                         break;
                    case '\x06':
-                   case '\x0E':
-
-                        /* ---->  Skip rest of line/Toggle evaluation of HTML tags  <---- */
+                        /* ---->  Skip rest of line  <---- */
                         if(nonansi) *dest++ = *str++;
                            else str++;
                         break;
@@ -1000,9 +963,7 @@ const char *ansi_code_filter(char *dest,const char *src,unsigned char ansi)
                         if(*(++src)) src++;
                         break;
                    case '\x06':
-                   case '\x0E':
-
-                        /* ---->  Skip rest of line/Toggle evaluation of HTML tags  <---- */
+                        /* ---->  Skip rest of line  <---- */
                         src++;
                         break;
                    case '\x1B':

@@ -526,12 +526,10 @@ extern  struct          helptopic               *localhelp;
 extern  char                                    *disclaimer;
 
 extern  char            *help_topic_filter      (char *topicname);
-extern  void            help_search             (struct descriptor_data *d,char *topic,int page,int help);
 extern  struct helptopic *help_add_topic        (struct helptopic **topics,const char *name,int reloading,int help,int local);
 extern  void            help_register_topic     (struct helptopic **topics,char *topicnames,struct helppage *page,const char *title,unsigned char tutorial,int reloading,int help,int local);
 extern  int             help_register_topics    (struct helptopic **topics,char *filename,const char *wildspec,int reloading,int help,int local);
 extern  void            help_status             (void);
-extern  const char      *help_buttons           (struct descriptor_data *d,struct helptopic *topic,unsigned char page,unsigned char connected,int help,char *buffer);
 extern  int             help_display_topic      (struct descriptor_data *d,struct helptopic *topic,unsigned char page,const char *topicname,int help);
 extern  struct helptopic *help_match_topic      (const char *topic,int help);
 extern  const char      *help_get_titlescreen   (int titlescreenno);
@@ -539,42 +537,6 @@ extern  char            *help_reload_text       (const char *filename,unsigned c
 extern  unsigned char   help_reload_titles      (void);
 extern  void            help_reload             (CONTEXT);
 extern  void            help_main               (CONTEXT);
-
-
-/* ---->  From html.c  <---- */
-extern  const char      *http_content_type      [];
-extern  int             html_internal_images;
-
-extern  const char      *http_header            (struct descriptor_data *d,int output,int code,const char *codestr,const char *contenttype,time_t modified,time_t expires,int cache,int contentlen);
-extern  const char      *html_header            (struct descriptor_data *d,int output,const char *title,int refresh,const char *background,const char *fg,const char *bg,const char *link,const char *alink,const char *vlink,const char *body,int java,int logo);
-extern  const char      *html_error             (struct descriptor_data *d,int output,const char *message,const char *title,const char *back,const char *backurl,int flags);
-extern  const char      *html_server_url        (struct descriptor_data *d,int code,int params,const char *resource);
-extern  const char      *html_image_url         (const char *image);
-extern  void            html_init_smileys       (void);
-extern  short           html_sort_tags          (void);
-extern  short           html_sort_entities      (void);
-extern  void            html_free_images        (void);
-extern  void            html_init_images        (int count);
-extern  struct html_image_data *html_search_images(const char *filename);
-extern  int             html_load_images        (void);
-extern  void            html_free               (void);
-extern  unsigned char   html_init               (char *src,int len);
-extern  const char      *html_lookup            (const char *name,unsigned char leading,unsigned char trailing,unsigned char excess,unsigned char invalid,unsigned char truncate);
-extern  const char      *text_to_html           (struct descriptor_data *d,const char *text,char *buffer,int *length,int limit);
-extern  const char      *text_to_html_close_tags(struct descriptor_data *d,char *buffer,int *length,int limit);
-extern  const char      *text_to_html_reset     (struct descriptor_data *d,char *buffer,int *length);
-extern  const char      *html_encode            (const char *text,char *buffer,int *copied,int limit);
-extern  const char      *html_encode_basic      (const char *text,char *buffer,int *copied,int limit);
-extern  const char      *html_get_preferences   (struct descriptor_data *d);
-extern  unsigned char   html_set_preferences    (struct descriptor_data *d,const char *prefs);
-extern  void            html_preferences_form   (struct descriptor_data *d,unsigned char saved,unsigned char set);
-extern  const char      *html_to_text           (struct descriptor_data *d,char *html,char *buffer,int limit);
-extern  void            html_process_input      (struct descriptor_data *d,unsigned char *buffer,int length);
-extern  unsigned char   html_process_data       (struct descriptor_data *d);
-extern  void            html_anti_reverse       (struct descriptor_data *d,unsigned char reverse);
-extern  void            html_query_link         (CONTEXT);
-extern  void            html_query_tczlink      (CONTEXT);
-extern  void            html_query_image        (CONTEXT);
 
 
 /* ---->  From interface.c  <---- */
@@ -666,7 +628,6 @@ extern  void            mail_main               (CONTEXT);
 
 /* ---->  From map.c  <---- */
 extern  int             map_reload              (dbref player,int reload);
-extern  void            map_html                (struct descriptor_data *p);
 extern  void            map_query_colourmap     (CONTEXT);
 extern  void            map_main                (CONTEXT);
 
@@ -736,7 +697,6 @@ extern  int             option_compress_memory  (OPTCONTEXT);
 extern  int             option_console          (OPTCONTEXT);
 extern  int             option_coredump         (OPTCONTEXT);
 extern  const char      *option_database        (OPTCONTEXT);
-extern  const char      *option_dataurl         (OPTCONTEXT);
 extern  int             option_debug            (OPTCONTEXT);
 extern  int             option_dns              (OPTCONTEXT);
 extern  int             option_dumping          (OPTCONTEXT);
@@ -746,8 +706,6 @@ extern  int             option_forkdump         (OPTCONTEXT);
 extern  const char      *option_fullname        (OPTCONTEXT);
 extern  int	        option_guardian         (OPTCONTEXT);
 extern  const char      *option_generate        (OPTCONTEXT);
-extern  int             option_htmlport         (OPTCONTEXT);
-extern  int             option_images           (OPTCONTEXT);
 extern  int             option_local            (OPTCONTEXT);
 extern  const char      *option_location        (OPTCONTEXT);
 extern  int             option_logins           (OPTCONTEXT);
@@ -760,7 +718,6 @@ extern  const char      *option_server          (OPTCONTEXT);
 extern  int             option_serverinfo       (OPTCONTEXT);
 extern  const char      *option_shortname       (OPTCONTEXT);
 extern  int             option_shutdown         (OPTCONTEXT);
-extern  int             option_ssl              (OPTCONTEXT);
 extern  int             option_telnetport       (OPTCONTEXT);
 extern  int             option_userlogs         (OPTCONTEXT);
 extern  const char      *option_website         (OPTCONTEXT);
@@ -1072,7 +1029,7 @@ extern  unsigned char   auto_time_adjust;
 extern  time_t          server_gettime          (time_t *tm,int check_tz);
 extern  void            server_log_commands     (void);
 extern  void 		server_connect_peaktotal(void);
-extern  int             server_count_connections(dbref player,unsigned char html);
+extern  int             server_count_connections(dbref player);
 extern  void            server_sort_descriptor  (struct descriptor_data *d);
 #ifdef GUARDIAN_ALARM
 extern  void            server_SIGALRM_handler  (int sig);
@@ -1084,20 +1041,20 @@ extern  void            server_SIGUSR2_handler  (int sig);
 extern  void            server_SIGPWR_handler   (int sig);
 extern  void            server_SIGCHLD_handler  (int sig);
 extern  int             server_process_output   (struct descriptor_data *d);
-extern  int             server_process_input    (struct descriptor_data *d,unsigned char html);
+extern  int             server_process_input    (struct descriptor_data *d);
 extern  void            server_close_sockets    (void);
 extern  void            server_emergency_exception(int sig);
 extern  void            server_emergency_dump   (const char *message,int sig);
 extern  void            server_signal_handler   (int sig);
 extern  void            server_set_signals      (void);
 extern  void            server_initialise_telnet(int descriptor);
-extern  int             server_open_socket      (int port,unsigned char restart,unsigned char refresh,unsigned char html,unsigned char logtime);
+extern  int             server_open_socket      (int port,unsigned char restart,unsigned char refresh,unsigned char logtime);
 extern  void            server_process_commands (void);
 extern  void            server_mainloop         (void);
 extern  void            server_set_echo         (struct descriptor_data *d,int echo);
-extern  int             server_unconditionally_banned(struct site_data *site,int sock,char *buffer,unsigned char ctype);
-extern  struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,struct site_data *site,unsigned char ctype);
-extern  struct descriptor_data *server_new_connection(int sock,unsigned char ctype);
+extern  int             server_unconditionally_banned(struct site_data *site,int sock,char *buffer);
+extern  struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,struct site_data *site);
+extern  struct descriptor_data *server_new_connection(int sock);
 extern  void            server_clear_textqueue  (struct text_queue_data *queue);
 extern  void            server_clear_strings    (struct descriptor_data *d);
 extern  unsigned char   server_queue_input      (struct descriptor_data *d,const char *str,int len);
@@ -1182,7 +1139,6 @@ extern  void            stats_others            (dbref player,const char *name);
 extern  void            stats_bandwidth         (dbref player);
 extern  void            stats_command           (dbref player);
 extern  void            stats_resource          (dbref player);
-extern  void            stats_connections       (dbref player);
 extern  void            stats_statistics        (CONTEXT);
 extern  void            stats_quota             (CONTEXT);
 extern  void            stats_size              (CONTEXT);
@@ -1304,9 +1260,9 @@ extern  const char      *getexitname            (dbref player,dbref exit);
 
 
 /* ---->  From userlist.c  <---- */
-extern  const char      *userlist_users         (dbref player,const char *listed,short deities,short elders,short delders,short wizards,short druids,short apprentices,short dapprentices,short retired,short dretired,short experienced,short assistants,short builders,short mortals,short beings,short puppets,short morons,short idle,unsigned char space,unsigned char html);
-extern  const char      *userlist_peak          (unsigned char space,unsigned char html);
-extern  const char      *userlist_uptime        (long total,unsigned char space,unsigned char html);
+extern  const char      *userlist_users         (dbref player,const char *listed,short deities,short elders,short delders,short wizards,short druids,short apprentices,short dapprentices,short retired,short dretired,short experienced,short assistants,short builders,short mortals,short beings,short puppets,short morons,short idle,unsigned char space);
+extern  const char      *userlist_peak          (unsigned char space);
+extern  const char      *userlist_uptime        (long total,unsigned char space);
 extern  const char      *userlist_shorttime     (time_t time,time_t now,char *buffer,unsigned char spod);
 extern  void            userlist_who            (struct descriptor_data *d);
 extern  void 		userlist_swho		(struct descriptor_data *d);

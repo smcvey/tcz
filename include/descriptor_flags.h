@@ -5,8 +5,8 @@
 | ~~~~~~~~~~~~~~~~~~~~~~~                            ~~~~~~~~~~~~~~~~~~~~~~~~ |
 |-----------------------------------------------------------------------------|
 | DESCRIPTOR_FLAGS.H  -  Flags used by descriptor of character's connection   |
-|                        (Telnet/HTML.)  Most of these are temporary and are  |
-| 			 not saved when the user disconnects.		      |
+|                        Most of these are temporary and are not saved when   |
+|                        the user disconnects.		                      |
 |--------------------------[ Copyright Information ]--------------------------|
 | This program is free software; you can redistribute it and/or modify        |
 | it under the terms of the GNU General Public License as published by        |
@@ -43,7 +43,7 @@
 #define INITIALISE         0x00000020  /*  Connection is in initialise state:  First input will be checked for external database dumping process/port concentrator identification code  */
 /*      CONNECTED          0x00000040      Character is currently connected to TCZ (Already defined elsewhere)  */
 /*      ANSI8              0x00000080      Character's ANSI colour preference (8 colour) (Already defined elsewhere)  */
-#define SSL                0x00000100  /*  SSL (Secure Socket Layer) connection  */
+/* #define SSL                0x00000100  Unused  */
 #define DISCONNECTED       0x00000200  /*  User's connection lost  -  Connection kept open for 5 mins to allow for reconnection  */
 #define PROMPT             0x00000400  /*  User prompt previously displayed  */
 /*      UNDERLINE          0x00000800      Character's underline preference (Already defined elsewhere)  */

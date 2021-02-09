@@ -337,7 +337,6 @@
  *  When there was a code update almost every day to fix major bugs and
     implement new features?
  *  When an uptime of more than 1 day was extremely rare?
- *  When there was no World Wide Web Interface?
  *  When TCZ ran on a 386 PC with 8Mb RAM?
  *  When you had to use '@desc' and lots of protecting backslashes to write
     compound commands (Before the editor was implemented.)

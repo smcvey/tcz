@@ -66,7 +66,6 @@ struct log_data logfs[] = {
        {"log/flags.log",         "Flags",         2000,  1000, 0, 4, NULL},
        {"log/force.log",         "Force",         2000,  1000, 0, 4, NULL},
        {"log/hack.log",          "Hack",          5000,  1000, 0, 4, NULL},
-       {"log/html.log",          "HTML",          5000,  1000, 1, 4, NULL},
        {"log/logentry.log",      "LogEntry",      2000,  1000, 0, 4, NULL},
        {"log/maintenance.log",   "Maintenance",   2000,  1000, 0, 4, NULL},
        {"log/miscellaneous.log", "Miscellaneous", 2000,  1000, 0, 4, NULL},

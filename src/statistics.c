@@ -216,44 +216,30 @@ void stats_tcz(dbref player)
      struct tm *ctime;
      int    loop;
 
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
      if(!in_command) {
-        if(IsHtml(p)) {
-           html_anti_reverse(p,1);
-           output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TD ROWSPAN=2>"ANSI_LCYAN"<I><B>Days logged:</B></I><P>"ANSI_LYELLOW"%dy %dw %dd</TD><TH COLSPAN=3><FONT SIZE=4>"ANSI_LWHITE"<I>Characters</I></FONT></TH><TH COLSPAN=2><FONT SIZE=4>"ANSI_LWHITE"<I>Objects</I></FONT></TH><TH ROWSPAN=2>"ANSI_LCYAN"<I>Crashes/<BR>Shutdowns:</I></TH></TR>",stat_days / 364,(stat_days % 364) / 7,(stat_days % 364) % 7);
-           output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH>"ANSI_LCYAN"<I>Peak:</I></TH><TH>"ANSI_LCYAN"<I>Connected:</I></TH><TH>"ANSI_LCYAN"<I>Created:</I></TH><TH>"ANSI_LCYAN"<I>Created:</I></TH><TH>"ANSI_LCYAN"<I>Destroyed:</I></TH></TR>");
-	} else {
-           output(p,player,0,1,0,"\n Days logged:   "ANSI_DCYAN"<-----  "ANSI_LWHITE"Characters  "ANSI_DCYAN"------>  <----  "ANSI_LWHITE"Objects  "ANSI_DCYAN"---->   "ANSI_LCYAN"Crashes/");
-           output(p,player,0,1,0,ANSI_LYELLOW" %2dy %2dw %2dd    "ANSI_LCYAN"Peak:  Connected:  Created:  Created:   Destroyed:  Shutdowns:\n"ANSI_DCYAN"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-",stat_days / 364,(stat_days % 364) / 7,(stat_days % 364) % 7);
-	}
+        output(p,player,0,1,0,"\n Days logged:   "ANSI_DCYAN"<-----  "ANSI_LWHITE"Characters  "ANSI_DCYAN"------>  <----  "ANSI_LWHITE"Objects  "ANSI_DCYAN"---->   "ANSI_LCYAN"Crashes/");
+        output(p,player,0,1,0,ANSI_LYELLOW" %2dy %2dw %2dd    "ANSI_LCYAN"Peak:  Connected:  Created:  Created:   Destroyed:  Shutdowns:\n"ANSI_DCYAN"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-",stat_days / 364,(stat_days % 364) / 7,(stat_days % 364) % 7);
      }
 
      /* ---->  Display statistic entries  <---- */
      for(loop = 0; loop <= stat_ptr; loop++) {
          ctime = localtime(&(stats[loop].time));
-         if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_GREEN"><I>"ANSI_LGREEN"\016%s %02d/%02d/%02d"ANSI_DGREEN":\016</I></TH><TD>\016"ANSI_LWHITE"%d\016</TD><TD>\016"ANSI_LWHITE"%d\016</TD><TD>\016"ANSI_LWHITE"%d\016</TD><TD BGCOLOR="HTML_TABLE_DGREY">\016"ANSI_LWHITE"%d\016</TD><TD BGCOLOR="HTML_TABLE_DGREY">\016"ANSI_LWHITE"%d\016</TD><TD>\016"ANSI_LWHITE"%d\016</TD></TR>",dayabbr[ctime->tm_wday],ctime->tm_mday,ctime->tm_mon + 1,(ctime->tm_year + 1900) % 100,stats[loop].peak,stats[loop].charconnected,stats[loop].charcreated,stats[loop].objcreated,stats[loop].objdestroyed,stats[loop].shutdowns);
-            else output(p,player,0,1,0,ANSI_LGREEN" %s %02d/%02d/%02d"ANSI_DGREEN":  "ANSI_LWHITE"%-7d%-12d%-10d%-11d%-12d%d",dayabbr[ctime->tm_wday],ctime->tm_mday,ctime->tm_mon + 1,(ctime->tm_year + 1900) % 100,stats[loop].peak,stats[loop].charconnected,stats[loop].charcreated,stats[loop].objcreated,stats[loop].objdestroyed,stats[loop].shutdowns);
+            output(p,player,0,1,0,ANSI_LGREEN" %s %02d/%02d/%02d"ANSI_DGREEN":  "ANSI_LWHITE"%-7d%-12d%-10d%-11d%-12d%d",dayabbr[ctime->tm_wday],ctime->tm_mday,ctime->tm_mon + 1,(ctime->tm_year + 1900) % 100,stats[loop].peak,stats[loop].charconnected,stats[loop].charcreated,stats[loop].objcreated,stats[loop].objdestroyed,stats[loop].shutdowns);
      }
 
      /* ---->  Display averages  <---- */
-     if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DCYAN"-------------------------------------------------------------------------------");
+     output(p,player,0,1,0,ANSI_DCYAN"-------------------------------------------------------------------------------");
      if(stat_days > 0) {
-        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_CYAN"><I>"ANSI_LCYAN"Daily average:</I></TH><TH>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH>"ANSI_LWHITE"<I>%d</I></TH></TR>",(stats[STAT_TOTAL].peak + stats[stat_ptr].peak) / stat_days,(stats[STAT_TOTAL].charconnected / stat_days),(stats[STAT_TOTAL].charcreated / stat_days),(stats[STAT_TOTAL].objcreated / stat_days),(stats[STAT_TOTAL].objdestroyed / stat_days),(stats[STAT_TOTAL].shutdowns / stat_days));
-           else output(p,player,0,1,0,"Daily average:  "ANSI_LWHITE"%-7d%-12d%-10d%-11d%-12d%d",(stats[STAT_TOTAL].peak + stats[stat_ptr].peak) / stat_days,(stats[STAT_TOTAL].charconnected / stat_days),(stats[STAT_TOTAL].charcreated / stat_days),(stats[STAT_TOTAL].objcreated / stat_days),(stats[STAT_TOTAL].objdestroyed / stat_days),(stats[STAT_TOTAL].shutdowns / stat_days));
+        output(p,player,0,1,0,"Daily average:  "ANSI_LWHITE"%-7d%-12d%-10d%-11d%-12d%d",(stats[STAT_TOTAL].peak + stats[stat_ptr].peak) / stat_days,(stats[STAT_TOTAL].charconnected / stat_days),(stats[STAT_TOTAL].charcreated / stat_days),(stats[STAT_TOTAL].objcreated / stat_days),(stats[STAT_TOTAL].objdestroyed / stat_days),(stats[STAT_TOTAL].shutdowns / stat_days));
      }
 
      /* ---->  Display maximum  <---- */
-     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_CYAN"><I>"ANSI_LCYAN"Maximum:</I></TH><TH>"ANSI_LWHITE"<I>%d</I></TH><TH>"ANSI_LWHITE"<I>%d</I></TH><TH>"ANSI_LWHITE"<I>%d</I></TH><TH>"ANSI_LWHITE"<I>%d</I></TH><TH>"ANSI_LWHITE"<I>%d</I></TH><TH>"ANSI_LWHITE"<I>%d</I></TH></TR>",stats[STAT_MAX].peak,stats[STAT_MAX].charconnected,stats[STAT_MAX].charcreated,stats[STAT_MAX].objcreated,stats[STAT_MAX].objdestroyed,stats[STAT_MAX].shutdowns);
-        else output(p,player,0,1,0,"      Maximum:  "ANSI_LWHITE"%-7d%-12d%-10d%-11d%-12d%d",stats[STAT_MAX].peak,stats[STAT_MAX].charconnected,stats[STAT_MAX].charcreated,stats[STAT_MAX].objcreated,stats[STAT_MAX].objdestroyed,stats[STAT_MAX].shutdowns);
+     output(p,player,0,1,0,"      Maximum:  "ANSI_LWHITE"%-7d%-12d%-10d%-11d%-12d%d",stats[STAT_MAX].peak,stats[STAT_MAX].charconnected,stats[STAT_MAX].charcreated,stats[STAT_MAX].objcreated,stats[STAT_MAX].objdestroyed,stats[STAT_MAX].shutdowns);
 
      /* ---->  Display totals  <---- */
-     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_BLUE"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>"ANSI_LCYAN"Total:</I></FONT></TH><TH><FONT SIZE=4>"ANSI_DCYAN"<I>N/A</I></FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>%d</I></FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>%d</I></FONT></TH></TR>",stats[STAT_TOTAL].charconnected,stats[STAT_TOTAL].charcreated,stats[STAT_TOTAL].objcreated,stats[STAT_TOTAL].objdestroyed,stats[STAT_TOTAL].shutdowns);
-        else output(p,player,0,1,0,"        Total:  "ANSI_DCYAN"N/A    "ANSI_LWHITE"%-12d%-10d%-11d%-12d%d",stats[STAT_TOTAL].charconnected,stats[STAT_TOTAL].charcreated,stats[STAT_TOTAL].objcreated,stats[STAT_TOTAL].objdestroyed,stats[STAT_TOTAL].shutdowns);
+     output(p,player,0,1,0,"        Total:  "ANSI_DCYAN"N/A    "ANSI_LWHITE"%-12d%-10d%-11d%-12d%d",stats[STAT_TOTAL].charconnected,stats[STAT_TOTAL].charcreated,stats[STAT_TOTAL].objcreated,stats[STAT_TOTAL].objdestroyed,stats[STAT_TOTAL].shutdowns);
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,ANSI_DCYAN"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+     if(!in_command) output(p,player,0,1,0,ANSI_DCYAN"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -303,36 +289,30 @@ void stats_character(dbref player)
 	 }
 
      /* ---->  Display character statistics  <---- */
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(!in_command) {
+        output(p, player, 2, 1, 0, "\n There %s " ANSI_LWHITE "%d" ANSI_LCYAN " character%s (" ANSI_LWHITE "%d" ANSI_LCYAN " %s, " ANSI_LWHITE "%d" ANSI_LCYAN " %s)...\n", (total == 1) ? "is" : "are", total, Plural(total), puppets, (puppets == 1) ? "is a Puppet" : "are Puppets", beings, (beings == 1) ? "is a Being" : "are Beings");
+        output(p,player,0,1,0,separator(79,0,'-','='));
      }
 
+     output(p, player, 2, 1, 0, DEITY_COLOUR "              Deities:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-13s\n", deities, stats_percent(deities, total));
+     output(p, player, 2, 1, 0, ELDER_COLOUR "        Elder Wizards:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", elders, stats_percent(elders, total));
+     output(p, player, 2, 1, 0, ELDER_DRUID_COLOUR "         Elder Druids:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", delders, stats_percent(delders, total));
+     output(p, player, 2, 1, 0, WIZARD_COLOUR "              Wizards:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", wizards, stats_percent(wizards, total));
+     output(p, player, 2, 1, 0, DRUID_COLOUR "               Druids:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", druids, stats_percent(druids, total));
+     output(p, player, 2, 1, 0, APPRENTICE_COLOUR "   Apprentice Wizards:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", apprentices, stats_percent(apprentices, total));
+     output(p, player, 2, 1, 0, APPRENTICE_DRUID_COLOUR "    Apprentice Druids:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", dapprentices, stats_percent(dapprentices, total));
+     output(p, player, 2, 1, 0, RETIRED_COLOUR "      Retired Wizards:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", retired, stats_percent(retired, total));
+     output(p, player, 2, 1, 0, RETIRED_DRUID_COLOUR "       Retired Druids:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", dretired, stats_percent(dretired, total));
+     output(p, player, 2, 1, 0, EXPERIENCED_COLOUR " Experienced Builders:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", experienced, stats_percent(experienced, total));
+     output(p, player, 2, 1, 0, ASSISTANT_COLOUR "           Assistants:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", assistants, stats_percent(assistants, total));
+     output(p, player, 2, 1, 0, BUILDER_COLOUR "             Builders:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", builders, stats_percent(builders, total));
+     output(p, player, 2, 1, 0, MORTAL_COLOUR "              Mortals:  %-10d" ANSI_DWHITE "%s\n", mortals, stats_percent(mortals, total));
+     output(p, player, 2, 1, 0, MORON_COLOUR"               Morons:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%s\n", morons, stats_percent(morons, total));
+
      if(!in_command) {
-        output(p,player,2,1,0,"%sThere %s "ANSI_LWHITE"%d"ANSI_LCYAN" character%s ("ANSI_LWHITE"%d"ANSI_LCYAN" %s, "ANSI_LWHITE"%d"ANSI_LCYAN" %s)...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=3><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",(total == 1) ? "is":"are",total,Plural(total),puppets,(puppets == 1) ? "is a Puppet":"are Puppets",beings,(beings == 1) ? "is a Being":"are Beings",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','='));
+        output(p,player,0,1,0,separator(79,0,'-','='));
+        output(p, player, 2, 1, 0, ANSI_DWHITE" An average of "ANSI_LWHITE"%d"ANSI_DWHITE" user%s connect per day and "ANSI_LWHITE"%d"ANSI_DWHITE" new user%s created.\n\n", (stats[STAT_TOTAL].charconnected / stat_days), Plural(stats[STAT_TOTAL].charconnected / stat_days), (stats[STAT_TOTAL].charcreated / stat_days), ((stats[STAT_TOTAL].charcreated / stat_days) == 1) ? " is":"s are");
      }
-
-     output(p,player,2,1,0,"%sDeities:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-13s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_MAGENTA"><I>\016"DEITY_COLOUR:DEITY_COLOUR"              ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",deities,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(deities,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sElder Wizards:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ELDER_COLOUR:ELDER_COLOUR"        ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",elders,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(elders,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sElder Druids:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ELDER_DRUID_COLOUR:ELDER_DRUID_COLOUR"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",delders,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(delders,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sWizards:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_CYAN"><I>\016"WIZARD_COLOUR:WIZARD_COLOUR"              ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",wizards,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(wizards,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sDruids:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_CYAN"><I>\016"DRUID_COLOUR:DRUID_COLOUR"               ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",druids,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(druids,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sApprentice Wizards:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"APPRENTICE_COLOUR:APPRENTICE_COLOUR"   ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",apprentices,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(apprentices,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sApprentice Druids:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"APPRENTICE_DRUID_COLOUR:APPRENTICE_DRUID_COLOUR"    ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",dapprentices,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(dapprentices,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sRetired Wizards:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_RED"><I>\016"RETIRED_COLOUR:RETIRED_COLOUR"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",retired,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(retired,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sRetired Druids:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_RED"><I>\016"RETIRED_DRUID_COLOUR:RETIRED_DRUID_COLOUR"       ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",dretired,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(dretired,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sExperienced Builders:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_RED"><I>\016"EXPERIENCED_COLOUR:EXPERIENCED_COLOUR" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",experienced,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(experienced,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sAssistants:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_RED"><I>\016"ASSISTANT_COLOUR:ASSISTANT_COLOUR"           ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",assistants,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(assistants,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sBuilders:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_LGREY"><I>\016"BUILDER_COLOUR:BUILDER_COLOUR"             ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",builders,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(builders,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sMortals:%s%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_LGREY"><I>\016"MORTAL_COLOUR:MORTAL_COLOUR"              ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",mortals,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(mortals,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sMorons:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_BLUE"><I>\016"MORON_COLOUR:MORON_COLOUR"               ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",morons,IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"",stats_percent(morons,total),IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-
-     if(!in_command) {
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','='));
-        output(p,player,2,1,0,"%sAn average of "ANSI_LWHITE"%d"ANSI_DWHITE" user%s connect per day and "ANSI_LWHITE"%d"ANSI_DWHITE" new user%s created.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=3>"ANSI_DWHITE"<B>\016":ANSI_DWHITE" ",(stats[STAT_TOTAL].charconnected / stat_days),Plural(stats[STAT_TOTAL].charconnected / stat_days),(stats[STAT_TOTAL].charcreated / stat_days),((stats[STAT_TOTAL].charcreated / stat_days) == 1) ? " is":"s are",IsHtml(p) ? "\016</B></TD></TR></TABLE><BR>\016":"\n\n");
-     } else if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>");
-     if(IsHtml(p)) html_anti_reverse(p,1);
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -431,41 +411,33 @@ void stats_others(dbref player,const char *name)
 	 }
 
      /* ---->  Display other DB statistics  <---- */
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
-        if(owner != player) output(p,player,2,1,1,"%sOther (Miscellaneous) statistics for %s"ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? (Level4(db[player].owner) || Experienced(db[player].owner)) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016"ANSI_LCYAN:"\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=3><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(owner,LOWER,DEFINITE),getcname(NOTHING,owner,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           else output(p,player,2,1,1,"%sOther (Miscellaneous) statistics for yourself...%s",IsHtml(p) ? (Level4(db[player].owner) || Experienced(db[player].owner)) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016"ANSI_LCYAN:"\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=3><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+        if(owner != player) output(p, player, 2, 1, 1, "\n Other (Miscellaneous) statistics for %s"ANSI_LWHITE"%s"ANSI_LCYAN"...\n", Article(owner, LOWER,DEFINITE), getcname(NOTHING,owner,0,0));
+           else output(p, player, 2, 1, 1, "\n Other (Miscellaneous) statistics for yourself...\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      if(Level4(db[player].owner) || Experienced(db[player].owner)) {
-        output(p,player,2,1,19,"%sFriends/enemies:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",friends,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(friends,tfriends),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tfriends,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sArray elements:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",elements,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(elements,telements),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",telements,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS sub-topics:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",subtopics,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(subtopics,tsubtopics),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tsubtopics,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS messages:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"    ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",messages,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(messages,tmessages),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tmessages,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS readers:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",readers,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(readers,treaders),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",treaders,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS topics:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",topics,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(topics,ttopics),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",ttopics,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sMail items:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",mail,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(mail,tmail),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tmail,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sAliases:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",aliases,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(aliases,taliases),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",taliases,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+        output(p, player, 2, 1, 19, ANSI_LYELLOW " Friends/enemies:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", friends, stats_percent(friends, tfriends), tfriends);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "  Array elements:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s "ANSI_LWHITE "...out of a total of %d.\n", elements, stats_percent(elements, telements), telements);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "  BBS sub-topics:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", subtopics, stats_percent(subtopics, tsubtopics), tsubtopics);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "    BBS messages:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", messages, stats_percent(messages, tmessages), tmessages);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "     BBS readers:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", readers, stats_percent(readers, treaders), treaders);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "      BBS topics:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", topics, stats_percent(topics, ttopics), ttopics);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "      Mail items:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", mail, stats_percent(mail, tmail), tmail);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "         Aliases:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", aliases, stats_percent(aliases, taliases), taliases);
      } else {
-        output(p,player,2,1,19,"%sFriends/enemies:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",friends,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(friends,tfriends),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sArray elements:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",elements,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(elements,telements),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS sub-topics:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",subtopics,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(subtopics,tsubtopics),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS messages:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"    ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",messages,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(messages,tmessages),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS readers:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",readers,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(readers,treaders),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sBBS topics:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",topics,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(topics,ttopics),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sMail items:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",mail,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(mail,tmail),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-        output(p,player,2,1,19,"%sAliases:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",aliases,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(aliases,taliases),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+        output(p, player, 2, 1, 19, ANSI_LYELLOW " Friends/enemies:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", friends, stats_percent(friends, tfriends));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "  Array elements:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", elements, stats_percent(elements, telements));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "  BBS sub-topics:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", subtopics, stats_percent(subtopics, tsubtopics));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "    BBS messages:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", messages, stats_percent(messages, tmessages));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "     BBS readers:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", readers, stats_percent(readers, treaders));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "      BBS topics:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", topics, stats_percent(topics, ttopics));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "      Mail items:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", mail, stats_percent(mail, tmail));
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "         Aliases:%s" ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", aliases, stats_percent(aliases, taliases));
      }
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -477,14 +449,10 @@ void stats_bandwidth(dbref player)
 
      gettime(avg);
      avg -= uptime;
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
 
      if(!in_command) {
-        output(p,player,2,1,12,"%sTotal (Kb):%sAvg. Kb/day:%sAvg. Kb/hour:%sAvg. bytes/second:%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH>&nbsp;</TH><TH><FONT SIZE=4><I>\016"ANSI_LCYAN:ANSI_LCYAN"\n            ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4><I>\016"ANSI_LCYAN:ANSI_LCYAN"    ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4><I>\016"ANSI_LCYAN:ANSI_LCYAN"   ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4><I>\016"ANSI_LCYAN:ANSI_LCYAN"  ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','='));
+        output(p, player, 2, 1, 12, ANSI_LCYAN "\n            Total (Kb):" ANSI_LCYAN "    Avg. Kb/day:" ANSI_LCYAN "   Avg. Kb/hour:" ANSI_LCYAN "  Avg. bytes/second:\n");
+        output(p,player,0,1,0,separator(79,0,'-','='));
      }
 
      /* ---->  Incoming (User input)  <---- */
@@ -492,20 +460,19 @@ void stats_bandwidth(dbref player)
      sprintf(scratch_return_string + 100,"%.2f",(avg >= DAY) ? ((double) upper_bytes_in / (avg / DAY)):((double) upper_bytes_in + ((double) lower_bytes_in / KB)));
      sprintf(scratch_return_string + 200,"%.2f",(avg >= HOUR)  ? ((double) upper_bytes_in / (avg / HOUR)):((double) upper_bytes_in + ((double) lower_bytes_in / KB)));
      sprintf(scratch_return_string + 300,"%.0f",((double) upper_bytes_in / avg) * KB);
-     output(p,player,2,1,0,"%sIncoming:%s"ANSI_LWHITE"%-15s%s"ANSI_LWHITE"%-15s%s"ANSI_LWHITE"%-15s%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TH WIDTH=20%><I>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",scratch_return_string + 200,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",scratch_return_string + 300,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Incoming:  " ANSI_LWHITE "%-15s" ANSI_LWHITE "%-15s" ANSI_LWHITE "%-15s" ANSI_LWHITE "%s\n", scratch_return_string, scratch_return_string + 100, scratch_return_string + 200, scratch_return_string + 300);
 
      /* ---->  Outgoing (Output)  <---- */
      sprintf(scratch_return_string,"%.2f",((double) upper_bytes_out + ((double) lower_bytes_out / KB)));
      sprintf(scratch_return_string + 100,"%.2f",(avg >= DAY) ? ((double) upper_bytes_out / (avg / DAY)):((double) upper_bytes_out + ((double) lower_bytes_out / KB)));
      sprintf(scratch_return_string + 200,"%.2f",(avg >= HOUR)  ? ((double) upper_bytes_out / (avg / HOUR)):((double) upper_bytes_out + ((double) lower_bytes_out / KB)));
      sprintf(scratch_return_string + 300,"%.0f",((double) upper_bytes_out / avg) * KB);
-     output(p,player,2,1,0,"%sOutgoing:%s"ANSI_LWHITE"%-15s%s"ANSI_LWHITE"%-15s%s"ANSI_LWHITE"%-15s%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TH WIDTH=20%><I>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",scratch_return_string + 200,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",scratch_return_string + 300,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Outgoing:  " ANSI_LWHITE "%-15s" ANSI_LWHITE "%-15s" ANSI_LWHITE "%-15s" ANSI_LWHITE "%s\n", scratch_return_string, scratch_return_string + 100, scratch_return_string + 200, scratch_return_string + 300);
 
      if(!in_command) {
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','='));
-        output(p,player,2,1,18,"%sServer up-time: \016&nbsp;\016 "ANSI_DWHITE"%s.%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=5>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",interval(avg,avg,ENTITIES,0),IsHtml(p) ? "\016</B></TD></TR></TABLE><BR>\016":"\n\n");
-     } else if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>");
-     if(IsHtml(p)) html_anti_reverse(p,0);
+        output(p,player,0,1,0,separator(79,0,'-','='));
+        output(p, player, 2, 1, 18, ANSI_LWHITE " Server up-time:  " ANSI_DWHITE "%s.\n\n", interval(avg, avg, ENTITIES, 0));
+     }
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -517,29 +484,22 @@ void stats_command(dbref player)
 
      gettime(avg);
      avg -= uptime;
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
 
      if(!in_command) {
-        if(!IsHtml(p)) {
-           output(p,player,0,1,0,ANSI_LGREEN"\n                           Average number of commands executed (Since %s\n                           server was restarted) per...\n\n"ANSI_LCYAN"              Total:       Second:      Minute:      Hour:        Day:",tcz_short_name);
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','='));
-	} else output(p,player,2,1,0,"\016<TR><TH COLSPAN=2 BGCOLOR="HTML_TABLE_DGREY">&nbsp;</TH><TH ALIGN=CENTER COLSPAN=4 BGCOLOR="HTML_TABLE_GREEN"><FONT SIZE=4><I>"ANSI_LGREEN"Average number of commands executed (Since %s server was restarted) per...</I></FONT></TH></TR><TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH>&nbsp;</TH><TH><FONT SIZE=4><I>"ANSI_LCYAN"Total:</I></FONT></TH><TH><FONT SIZE=4><I>"ANSI_LCYAN"Second:</I></FONT></TH><TH><FONT SIZE=4><I>"ANSI_LCYAN"Minute:</I></FONT></TH><TH><FONT SIZE=4><I>"ANSI_LCYAN"Hour:</I></FONT></TH><TH><FONT SIZE=4><I>"ANSI_LCYAN"Day:</I></FONT></TH></TR>",tcz_short_name);
+        output(p,player,0,1,0,ANSI_LGREEN"\n                           Average number of commands executed (Since %s\n                           server was restarted) per...\n\n"ANSI_LCYAN"              Total:       Second:      Minute:      Hour:        Day:",tcz_short_name);
+        output(p,player,0,1,0,separator(79,0,'-','='));
      }
 
-     output(p,player,2,1,1,"%sUser typed:%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TH WIDTH=20%><I>\016":"  ",toplevel_commands,IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"",(avg > 0) ? (toplevel_commands / avg):toplevel_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / MINUTE) > 0) ? (toplevel_commands / (avg / MINUTE)):toplevel_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / HOUR) > 0) ? (toplevel_commands / (avg / HOUR)):toplevel_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / DAY) > 0) ? (toplevel_commands / (avg / DAY)):toplevel_commands,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','-'));
-     output(p,player,2,1,1,"%sStandard:%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"   ",IsHtml(p) ? "\016</I></TH><TH WIDTH=20%><I>\016":"  ",standard_commands,IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"",(avg > 0) ? (standard_commands / avg):standard_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / MINUTE) > 0) ? (standard_commands / (avg / MINUTE)):standard_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / HOUR) > 0) ? (standard_commands / (avg / HOUR)):standard_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / DAY) > 0) ? (standard_commands / (avg / DAY)):standard_commands,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,1,"%sEditor:%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TH WIDTH=20%><I>\016":"  ",editor_commands,IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"",(avg > 0) ? (editor_commands / avg):editor_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / MINUTE) > 0) ? (editor_commands / (avg / MINUTE)):editor_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / HOUR) > 0) ? (editor_commands / (avg / HOUR)):editor_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / DAY) > 0) ? (editor_commands / (avg / DAY)):editor_commands,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,1,"%sCompound:%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%-13d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=20% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"   ",IsHtml(p) ? "\016</I></TH><TH WIDTH=20%><I>\016":"  ",compound_commands,IsHtml(p) ? "\016</I></TH><TD WIDTH=20%>\016":"",(avg > 0) ? (compound_commands / avg):compound_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / MINUTE) > 0) ? (compound_commands / (avg / MINUTE)):compound_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / HOUR) > 0) ? (compound_commands / (avg / HOUR)):compound_commands,IsHtml(p) ? "\016</TD><TD WIDTH=20%>\016":"",((avg / DAY) > 0) ? (compound_commands / (avg / DAY)):compound_commands,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 1, ANSI_LYELLOW " User typed:  " ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%d\n", toplevel_commands, (avg > 0) ? (toplevel_commands / avg) : toplevel_commands, ((avg / MINUTE) > 0) ? (toplevel_commands / (avg / MINUTE)) : toplevel_commands, ((avg / HOUR) > 0) ? (toplevel_commands / (avg / HOUR)) : toplevel_commands, ((avg / DAY) > 0) ? (toplevel_commands / (avg / DAY)) : toplevel_commands);
+     output(p,player,0,1,0,separator(79,0,'-','-'));
+     output(p, player, 2, 1, 1, ANSI_LYELLOW"   Standard:  " ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%d\n", standard_commands, (avg > 0) ? (standard_commands / avg) : standard_commands, ((avg / MINUTE) > 0) ? (standard_commands / (avg / MINUTE)) : standard_commands, ((avg / HOUR) > 0) ? (standard_commands / (avg / HOUR)) : standard_commands, ((avg / DAY) > 0) ? (standard_commands / (avg / DAY)) : standard_commands);
+     output(p, player, 2, 1, 1, ANSI_LYELLOW"     Editor:  " ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%d\n", editor_commands, (avg > 0) ? (editor_commands / avg) : editor_commands, ((avg / MINUTE) > 0) ? (editor_commands / (avg / MINUTE)) : editor_commands, ((avg / HOUR) > 0) ? (editor_commands / (avg / HOUR)) : editor_commands, ((avg / DAY) > 0) ? (editor_commands / (avg / DAY)) : editor_commands);
+     output(p, player, 2, 1, 1, ANSI_LYELLOW"   Compound:  " ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%-13d" ANSI_LWHITE "%d\n", compound_commands, (avg > 0) ? (compound_commands / avg) : compound_commands, ((avg / MINUTE) > 0) ? (compound_commands / (avg / MINUTE)) : compound_commands, ((avg / HOUR) > 0) ? (compound_commands / (avg / HOUR)) : compound_commands, ((avg / DAY) > 0) ? (compound_commands / (avg / DAY)) : compound_commands);
 
      if(!in_command) {
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','='));
-        output(p,player,2,1,18,"%sServer up-time: \016&nbsp;\016 "ANSI_DWHITE"%s.%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREY"><TD ALIGN=CENTER COLSPAN=6>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",interval(avg,avg,ENTITIES,0),IsHtml(p) ? "\016</B></TD></TR></TABLE><BR>\016":"\n\n");
-     } else if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>");
-     if(IsHtml(p)) html_anti_reverse(p,0);
+        output(p,player,0,1,0,separator(79,0,'-','='));
+        output(p, player, 2, 1, 18, ANSI_LWHITE " Server up-time:  " ANSI_DWHITE "%s.\n\n", interval(avg,avg,ENTITIES,0));
+     }
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -613,200 +573,66 @@ void stats_resource(dbref player)
          if(d->descriptor >= 0) inuse++;
      }
 
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_GREY">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
-        output(p,player,2,1,1,"%sCurrent Resource Usages of %s Server...%s",IsHtml(p) ? "\016<TR><TH ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:ANSI_LCYAN"\n ",tcz_full_name,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DCYAN"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=("ANSI_LRED"CPU Usage"ANSI_DCYAN")=-");
+        output(p, player, 2, 1, 1, ANSI_LCYAN "\n Current Resource Usages of %s Server...\n", tcz_full_name);
+        output(p,player,0,1,0,ANSI_DCYAN"-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=("ANSI_LRED"CPU Usage"ANSI_DCYAN")=-");
      }
 
 #ifdef USE_PROC
-     output(p,player,2,1,0,"%sCPU time used:%s"ANSI_LWHITE"%dd \016&nbsp;\016%dh \016&nbsp;\016%dm \016&nbsp;\016%ds \016&nbsp;\016%dms%sSystem CPU usage:%s"ANSI_LWHITE"%.2f%%%s",IsHtml(p) ? "\016<TR><TD ALIGN=LEFT CELLPADDING=0><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK"><TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016"ANSI_LRED:ANSI_LRED"           ",
-           IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((((utime + stime + cutime + cstime) / 100) / 60) / 60) / 24,((((utime + stime + cutime + cstime) / 100) / 60) / 60) % 24,(((utime + stime + cutime + cstime) / 100) / 60) % 60,((utime + stime + cutime + cstime) / 100) % 60,((utime + stime + cutime + cstime) % 100) * 10,IsHtml(p) ? "\016</TD></TR><TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_RED"><I>\016"ANSI_LRED:"\n"ANSI_LRED"        ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",(((float) utime + stime + cutime + cstime) / ((systemuptime * 100) - starttime)) * 100,IsHtml(p) ? "\016</TD></TR></TABLE></TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LRED "           CPU time used:  " ANSI_LWHITE "%dd %dh %dm %ds %dms\n" ANSI_LRED "        System CPU usage:  " ANSI_LWHITE "%.2f%%\n", ((((utime + stime + cutime + cstime) / 100) / 60) / 60) / 24, ((((utime + stime + cutime + cstime) / 100) / 60) / 60) % 24, (((utime + stime + cutime + cstime) / 100) / 60) % 60, ((utime + stime + cutime + cstime) / 100) % 60, ((utime + stime + cutime + cstime) % 100) * 10, (((float) utime + stime + cutime + cstime) / ((systemuptime * 100) - starttime)) * 100);
 #else
-     output(p,player,2,1,0,"%sUser CPU time used:%s"ANSI_LWHITE"%2dd \016&nbsp;\016%2dh \016&nbsp;\016%2dm \016&nbsp;\016%02ds \016&nbsp;\016%dms%sSystem CPU time used:%s"ANSI_LWHITE"%2dd \016&nbsp;\016%2dh \016&nbsp;\016%2dm \016&nbsp;\016%02ds \016&nbsp;\016%dms%s",
-           IsHtml(p) ? "\016<TR><TD ALIGN=LEFT CELLPADDING=0><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK"><TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_RED"><I>\016"ANSI_LRED:ANSI_LRED"              ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((usage.ru_utime.tv_sec / 60) / 60) / 24,((usage.ru_utime.tv_sec / 60) / 60) % 24,(usage.ru_utime.tv_sec / 60) % 60,usage.ru_utime.tv_sec % 60,usage.ru_utime.tv_usec / 1000,IsHtml(p) ? "\016</TD></TR><TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_RED"><I>\016"ANSI_LRED:"\n"ANSI_LRED"            ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((usage.ru_stime.tv_sec / 60) / 60) / 24,((usage.ru_stime.tv_sec / 60) / 60) % 24,(usage.ru_stime.tv_sec / 60) % 60,usage.ru_stime.tv_sec % 60,usage.ru_stime.tv_usec / 1000,IsHtml(p) ? "\016</TD></TR></TABLE></TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LRED "              User CPU time used:  " ANSI_LWHITE "%2dd %2dh %2dm %02ds %dms\n" ANSI_LRED "            System CPU time used:  "ANSI_LWHITE"%2dd %2dh %2dm %02ds 6%dms\n", ((usage.ru_utime.tv_sec / 60) / 60) / 24, ((usage.ru_utime.tv_sec / 60) / 60) % 24, (usage.ru_utime.tv_sec / 60) % 60, usage.ru_utime.tv_sec % 60, usage.ru_utime.tv_usec / 1000, ((usage.ru_stime.tv_sec / 60) / 60) / 24, ((usage.ru_stime.tv_sec / 60) / 60) % 24, (usage.ru_stime.tv_sec / 60) % 60, usage.ru_stime.tv_sec % 60,usage.ru_stime.tv_usec / 1000);
 #endif
-     if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DCYAN"---------------------------------------------------------------("ANSI_LYELLOW"Memory Usage"ANSI_DCYAN")--");
+     output(p,player,0,1,0,ANSI_DCYAN"---------------------------------------------------------------("ANSI_LYELLOW"Memory Usage"ANSI_DCYAN")--");
 
-     if(IsHtml(p)) output(p,player,1,2,0,"<TR BGCOLOR="HTML_TABLE_DGREY"><TD ALIGN=LEFT CELLPADDING=0><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
      *scratch_return_string = '\0';
 #ifdef RESTRICT_MEMORY
-     if(memory_restriction > 0) sprintf(scratch_return_string," \016&nbsp;\016 "ANSI_LRED"("ANSI_LWHITE"%.2fMb"ANSI_LRED" maximum.)",(float) memory_restriction / MB);
+     if(memory_restriction > 0) sprintf(scratch_return_string,"  "ANSI_LRED"("ANSI_LWHITE"%.2fMb"ANSI_LRED" maximum.)",(float) memory_restriction / MB);
 #endif
 
 #ifdef USE_PROC
-     output(p,player,2,1,0,"%sProgram data size (DRS):%s"ANSI_LWHITE"%.2fMb \016&nbsp;\016(%d byte%s)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (drs * psize)) / MB,drs * psize,Plural(drs * psize),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sProgram code size (TRS):%s"ANSI_LWHITE"%.2fMb \016&nbsp;\016(%d byte%s)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (trs * psize)) / MB,trs * psize,Plural(trs * psize),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sTotal program size:%s"ANSI_LWHITE"%.2fMb \016&nbsp;\016(%d byte%s)%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (size * psize)) / MB,size * psize,Plural(size * psize),scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sSwap space in use:%s"ANSI_LWHITE"%.2fMb \016&nbsp;\016(%d byte%s)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) ((size - rss) * psize)) / MB,(size - rss) * psize,Plural((size - rss) * psize),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sResident size (RSS):%s"ANSI_LWHITE"%.2fMb \016&nbsp;\016(%d byte%s)%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (rss * psize)) / MB,rss * psize,Plural(rss * psize),scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sSystem memory usage:%s"ANSI_LWHITE"%.2f%%%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",(((float) rss * psize) / mtotal) * 100,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sDescriptors in use:%s"ANSI_LWHITE"%d/%d \016&nbsp;\016(%d connection%s pending)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"      ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",inuse + RESERVED_DESCRIPTORS,max_descriptors + RESERVED_DESCRIPTORS,pending,Plural(pending),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Program data size (DRS):  " ANSI_LWHITE "%.2fMb (%d byte%s)\n", ((float) (drs * psize)) / MB, drs * psize, Plural(drs * psize));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Program code size (TRS):  " ANSI_LWHITE "%.2fMb (%d byte%s)\n", ((float) (trs * psize)) / MB, trs * psize, Plural(trs * psize));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "      Total program size:  " ANSI_LWHITE "%.2fMb (%d byte%s)%s\n", ((float) (size * psize)) / MB, size * psize, Plural(size * psize), scratch_return_string);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "       Swap space in use:  " ANSI_LWHITE "%.2fMb (%d byte%s)\n", ((float) ((size - rss) * psize)) / MB, (size - rss) * psize, Plural((size - rss) * psize));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Resident size (RSS):  " ANSI_LWHITE "%.2fMb (%d byte%s)%s\n", ((float) (rss * psize)) / MB,rss * psize,Plural(rss * psize), scratch_return_string);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     System memory usage:  " ANSI_LWHITE "%.2f%%\n", (((float) rss * psize) / mtotal) * 100);
+     output(p, player, 2, 1, 0, ANSI_LGREEN "      Descriptors in use:  " ANSI_LWHITE "%d/%d (%d connection%s pending)\n", inuse + RESERVED_DESCRIPTORS,max_descriptors + RESERVED_DESCRIPTORS, pending, Plural(pending));
 #else
-     output(p,player,2,1,0,"%sMaximum Resident Set Size (RSS):%s"ANSI_LWHITE"%.2f \016&nbsp;\016(%d byte%s)%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (usage.ru_maxrss * psize)) / MB,usage.ru_maxrss * psize,Plural(usage.ru_maxrss * psize),scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sIntegral shared memory size:%s"ANSI_LWHITE"%.2f \016&nbsp;\016(%d byte%s)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (usage.ru_ixrss * psize)) / MB,usage.ru_ixrss * psize,Plural(usage.ru_ixrss * psize),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sIntegral unshared data size:%s"ANSI_LWHITE"%.2f \016&nbsp;\016(%d byte%s)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (usage.ru_idrss * psize)) / MB,usage.ru_idrss * psize,Plural(usage.ru_idrss * psize),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sIntegral unshared stack size:%s"ANSI_LWHITE"%.2f \016&nbsp;\016(%d byte%s)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"    ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",((float) (usage.ru_isrss * psize)) / MB,usage.ru_isrss * psize,Plural(usage.ru_isrss * psize),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Maximum Resident Set Size (RSS):  " ANSI_LWHITE "%.2f (%d byte%s)%s\n", ((float) (usage.ru_maxrss * psize)) / MB,usage.ru_maxrss * psize, Plural(usage.ru_maxrss * psize), scratch_return_string);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Integral shared memory size:  " ANSI_LWHITE "%.2f (%d byte%s)\n", ((float) (usage.ru_ixrss * psize)) / MB, usage.ru_ixrss * psize, Plural(usage.ru_ixrss * psize));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Integral unshared data size:  " ANSI_LWHITE "%.2f (%d byte%s)\n", ((float) (usage.ru_idrss * psize)) / MB, usage.ru_idrss * psize, Plural(usage.ru_idrss * psize));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "    Integral unshared stack size:  " ANSI_LWHITE "%.2f (%d byte%s)\n", ((float) (usage.ru_isrss * psize)) / MB, usage.ru_isrss * psize, Plural(usage.ru_isrss * psize));
 #endif
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE></TD></TR>");
 
 #ifdef USE_PROC
-     if(!IsHtml(p)) {
-        output(p,player,0,1,0,separator(79,0,'=','='));
-        output(p,player,0,1,0,ANSI_LCYAN"                      Total:     Used:      Free:      Shared:    Cache:");
-        output(p,player,0,1,0,separator(79,0,'-','-'));
-     } else {
-        output(p,player,1,2,0,"<TR><TD ALIGN=LEFT CELLPADDING=0><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-        output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH>&nbsp;</TH><TH>"ANSI_LCYAN"<I>Total:</I></TH><TH>"ANSI_LCYAN"<I>Used:</I></TH><TH>"ANSI_LCYAN"<I>Free:</I></TH><TH>"ANSI_LCYAN"<I>Shared:</I></TH><TH>"ANSI_LCYAN"<I>Cache:</I></TH></TR>");
-     }
+     output(p,player,0,1,0,separator(79,0,'=','='));
+     output(p,player,0,1,0,ANSI_LCYAN"                      Total:     Used:      Free:      Shared:    Cache:");
+     output(p,player,0,1,0,separator(79,0,'-','-'));
 
-     output(p,player,2,1,0,"%sSystem memory (Kb):%s"ANSI_LYELLOW"%-11d%s"ANSI_LWHITE"%-11d%s"ANSI_LWHITE"%-11d%s"ANSI_LGREEN"%-11d%s"ANSI_LGREEN"%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_CYAN"><I>\016"ANSI_LCYAN:ANSI_LCYAN" ",IsHtml(p) ? "\016</I></TH><TH WIDTH=14%><I>\016":"  ",mtotal / KB,IsHtml(p) ? "\016</I></TH><TD WIDTH=14%>\016":"",mused / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14%>\016":"",mfree / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14% BGCOLOR="HTML_TABLE_DGREY">\016":"",mshared / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14% BGCOLOR="HTML_TABLE_DGREY">\016":"",(mbuffers + mcached) / KB,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%s+/- Cache (Kb):%s"ANSI_DCYAN"N/A%s"ANSI_LWHITE"%-11d%s"ANSI_LWHITE"%-11d%s"ANSI_DCYAN"N/A%s"ANSI_DCYAN"N/A%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_CYAN"><I>\016"ANSI_LCYAN:ANSI_LCYAN"     ",IsHtml(p) ? "\016</I></TH><TH WIDTH=14%><I>\016":"  ",IsHtml(p) ? "\016</I></TH><TD WIDTH=14%>\016":"        ",(mused - (mbuffers + mcached)) / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14%>\016":"",(mfree + mbuffers + mcached) / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14% BGCOLOR="HTML_TABLE_DGREY">\016":"",IsHtml(p) ? "\016</TD><TD WIDTH=14% BGCOLOR="HTML_TABLE_DGREY">\016":"        ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sSystem swap (Kb):%s"ANSI_LYELLOW"%-11d%s"ANSI_LWHITE"%-11d%s"ANSI_LWHITE"%-11d%s"ANSI_DCYAN"N/A%s"ANSI_DCYAN"N/A%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_CYAN"><I>\016"ANSI_LCYAN:ANSI_LCYAN"   ",IsHtml(p) ? "\016</I></TH><TH WIDTH=14%><I>\016":"  ",stotal / KB,IsHtml(p) ? "\016</I></TH><TD WIDTH=14%>\016":"",sused / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14%>\016":"",sfree / KB,IsHtml(p) ? "\016</TD><TD WIDTH=14% BGCOLOR="HTML_TABLE_DGREY">\016":"",IsHtml(p) ? "\016</TD><TD WIDTH=14% BGCOLOR="HTML_TABLE_DGREY">\016":"        ",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(!IsHtml(p) && !in_command) output(p,player,0,1,0,separator(79,0,'-','-'));
-     output(p,player,2,1,0,"%sTotal (Kb):%s"ANSI_LYELLOW"%-11d%s"ANSI_LWHITE"%-11d%s%-11d%s"ANSI_DCYAN"N/A%s"ANSI_DCYAN"N/A%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_BLUE"><TH ALIGN=RIGHT WIDTH=30% BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:ANSI_LCYAN"         ",IsHtml(p) ? "\016</I></FONT></TH><TH WIDTH=14%><FONT SIZE=4><I>\016":"  ",(mtotal + stotal) / KB,IsHtml(p) ? "\016</I></FONT></TH><TD WIDTH=14%><FONT SIZE=4><I>\016":"",(mused + sused) / KB,IsHtml(p) ? "\016</I></FONT></TD><TD WIDTH=14%><FONT SIZE=4><I>\016":"",(mfree + sfree) / KB,IsHtml(p) ? "\016</I></FONT></TD><TD WIDTH=14%><FONT SIZE=4><I>\016":"",IsHtml(p) ? "\016</I></FONT></TD><TD WIDTH=14%><FONT SIZE=4><I>\016":"        ",IsHtml(p) ? "\016</I></FONT></TD></TR>\016":"\n");
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE></TD></TR>");
+     output(p, player, 2, 1, 0, ANSI_LCYAN " System memory (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_LGREEN "%-11d "ANSI_LGREEN "%-11d\n", mtotal / KB, mused / KB, mfree / KB, mshared / KB, (mbuffers + mcached) / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "     +/- Cache (Kb):  " ANSI_DCYAN "N/A        " ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A        " ANSI_DCYAN "N/A\n", (mused - (mbuffers + mcached)) / KB, (mfree + mbuffers + mcached) / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "   System swap (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A        " ANSI_DCYAN "N/A\n", stotal / KB, sused / KB, sfree / KB);
+     if(!in_command) output(p,player,0,1,0,separator(79,0,'-','-'));
+     output(p, player, 2, 1, 0, ANSI_LCYAN "         Total (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d%-11d" ANSI_DCYAN "N/A        " ANSI_DCYAN "N/A\n", (mtotal + stotal) / KB, (mused + sused) / KB, (mfree + sfree) / KB);
 #else
-     if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DCYAN"----------------------------------------------------("ANSI_LMAGENTA"Swapping "ANSI_DCYAN"& "ANSI_LBLUE"Input/Output"ANSI_DCYAN")--");
-        else output(p,player,1,2,0,"<TR><TD ALIGN=LEFT CELLPADDING=0><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-     output(p,player,2,1,0,"%sNumber of swaps:%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_MAGENTA"><I>\016"ANSI_LMAGENTA:ANSI_LMAGENTA"                 ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT COLSPAN=2>\016":"  ",usage.ru_nswap,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(IsHtml(p)) {
-        output(p,player,2,1,0,"\016<TR><TH ALIGN=RIGHT WIDTH=40%% BGCOLOR="HTML_TABLE_MAGENTA">"ANSI_LMAGENTA"<I>\016Page faults:\016</I></TH><TD ALIGN=LEFT>\016"ANSI_LWHITE"%d "ANSI_LMAGENTA"major\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%d "ANSI_LMAGENTA"minor\016</TD></TR>\016",usage.ru_majflt,usage.ru_minflt);
-        output(p,player,2,1,0,"\016<TR><TH ALIGN=RIGHT WIDTH=40%% BGCOLOR="HTML_TABLE_BLUE">"ANSI_LBLUE"<I>\016Block operations:\016</I></TH><TD ALIGN=LEFT>\016"ANSI_LWHITE"%d "ANSI_LBLUE"input\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%d "ANSI_LBLUE"output\016</TD></TR>\016",usage.ru_inblock,usage.ru_oublock);
-        output(p,player,2,1,0,"\016<TR><TH ALIGN=RIGHT WIDTH=40%% BGCOLOR="HTML_TABLE_BLUE">"ANSI_LBLUE"<I>\016Messages:\016</I></TH><TD ALIGN=LEFT>\016"ANSI_LWHITE"%d "ANSI_LBLUE"received\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%d "ANSI_LBLUE"sent\016</TD></TR>\016",usage.ru_msgrcv,usage.ru_msgsnd);
-        output(p,player,1,2,0,"</TABLE></TD></TR>");
-     } else {
-        sprintf(scratch_return_string,"%ld "ANSI_LMAGENTA"major",usage.ru_majflt);
-        output(p,player,0,1,0,ANSI_LMAGENTA"                     Page faults:  "ANSI_LWHITE"%-34s"ANSI_LWHITE"%d "ANSI_LMAGENTA"minor",scratch_return_string,usage.ru_minflt);
-        sprintf(scratch_return_string,"%ld "ANSI_LBLUE"input",usage.ru_inblock);
-        output(p,player,0,1,0,ANSI_LBLUE"                Block operations:  "ANSI_LWHITE"%-34s"ANSI_LWHITE"%d "ANSI_LBLUE"output",scratch_return_string,usage.ru_oublock);
-        sprintf(scratch_return_string,"%ld "ANSI_LBLUE"received",usage.ru_msgrcv);
-        output(p,player,0,1,0,ANSI_LBLUE"                        Messages:  "ANSI_LWHITE"%-34s"ANSI_LWHITE"%d "ANSI_LBLUE"sent",scratch_return_string,usage.ru_msgsnd);
-     }
+     output(p,player,0,1,0,ANSI_DCYAN"----------------------------------------------------("ANSI_LMAGENTA"Swapping "ANSI_DCYAN"& "ANSI_LBLUE"Input/Output"ANSI_DCYAN")--");
+     output(p, player, 2, 1, 0, ANSI_LMAGENTA "                 Number of swaps:  "ANSI_LWHITE"%d\n", usage.ru_nswap);
+     sprintf(scratch_return_string,"%ld "ANSI_LMAGENTA"major",usage.ru_majflt);
+     output(p,player,0,1,0,ANSI_LMAGENTA"                     Page faults:  "ANSI_LWHITE"%-34s"ANSI_LWHITE"%d "ANSI_LMAGENTA"minor",scratch_return_string,usage.ru_minflt);
+     sprintf(scratch_return_string,"%ld "ANSI_LBLUE"input",usage.ru_inblock);
+     output(p,player,0,1,0,ANSI_LBLUE"                Block operations:  "ANSI_LWHITE"%-34s"ANSI_LWHITE"%d "ANSI_LBLUE"output",scratch_return_string,usage.ru_oublock);
+     sprintf(scratch_return_string,"%ld "ANSI_LBLUE"received",usage.ru_msgrcv);
+     output(p,player,0,1,0,ANSI_LBLUE"                        Messages:  "ANSI_LWHITE"%-34s"ANSI_LWHITE"%d "ANSI_LBLUE"sent",scratch_return_string,usage.ru_msgsnd);
 #endif
 
 #ifndef USE_PROC
-     if(!IsHtml(p)) output(p,player,0,1,0,ANSI_DCYAN"---------------------------------------------------------------("ANSI_LGREEN"Miscellanous"ANSI_DCYAN")--");
-        else output(p,player,1,2,0,"<TR><TD ALIGN=LEFT CELLPADDING=0><TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">");
-     output(p,player,2,1,0,"%sVoluntarily context switches:%s"ANSI_LWHITE"%d%sInvoluntarily context switches:%s"ANSI_LWHITE"%d%sSignals received:%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"    ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",usage.ru_nvcsw,IsHtml(p) ? "\016</TD></TR><TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:"\n"ANSI_LGREEN"  ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",usage.ru_nivcsw,IsHtml(p) ? "\016</TD></TR><TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:"\n"ANSI_LGREEN"                ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",usage.ru_nsignals,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,0,"%sDescriptors in use:%s"ANSI_LWHITE"%d/%d \016&nbsp;\016(%d connection%s pending)%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=40% BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"              ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",inuse + RESERVED_DESCRIPTORS,max_descriptors + RESERVED_DESCRIPTORS,pending,Plural(pending),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE></TD></TR>");
+     output(p,player,0,1,0,ANSI_DCYAN"---------------------------------------------------------------("ANSI_LGREEN"Miscellanous"ANSI_DCYAN")--");
+     output(p, player, 2, 1, 0, ANSI_LGREEN "    Voluntarily context switches:  " ANSI_LWHITE "%d\n" ANSI_LGREEN "  Involuntarily context switches:  " ANSI_LWHITE "%d\n" ANSI_LGREEN "                Signals received:  " ANSI_LWHITE "%d\n", usage.ru_nvcsw, usage.ru_nivcsw, usage.ru_nsignals);
+     output(p, player, 2, 1, 0, ANSI_LGREEN "              Descriptors in use:  " ANSI_LWHITE "%d/%d (%d connection%s pending)\n", inuse + RESERVED_DESCRIPTORS, max_descriptors + RESERVED_DESCRIPTORS, pending, Plural(pending));
 #endif
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(79,1,'-','='));
-     setreturn(OK,COMMAND_SUCC);
-}
-
-/* ---->  Display summary of Telnet and HTML connections  <---- */
-void stats_connections(dbref player)
-{
-     int    ssl_telnet_disconnected = 0, ssl_html_disconnected = 0;
-     int    telnet_disconnected     = 0, html_disconnected     = 0;
-     int    ssl_telnet_delayed      = 0, ssl_html_delayed      = 0;
-     int    telnet_delayed          = 0, html_delayed          = 0;
-     int    ssl_telnet_pending      = 0, ssl_html_pending      = 0;
-     int    telnet_pending          = 0, html_pending          = 0;
-     int    ssl_telnet_active       = 0, ssl_html_active       = 0;
-     int    telnet_active           = 0, html_active           = 0;
-     int    ssl_telnet_output       = 0, ssl_html_output       = 0;
-     int    telnet_output           = 0, html_output           = 0;
-     int    ssl_telnet_input        = 0, ssl_html_input        = 0;
-     int    telnet_input            = 0, html_input            = 0;
-     int    ssl_telnet_total        = 0, ssl_html_total        = 0;
-     int    telnet_total            = 0, html_total            = 0;
-
-     struct descriptor_data *d,*p = getdsc(player);
-     int    ssl_ok = option_ssl(OPTSTATUS);
-     time_t now;
-
-     gettime(now);
-     for(d = descriptor_list; d; d = d->next)
-         if(IsHtml(d)) {
-            if((d->flags & SSL) && ssl_ok) {
-#ifdef SSL_SOCKETS
-	       if(d->descriptor == NOTHING) ssl_html_disconnected++;
-		  else if(!(d->flags & CONNECTED)) ssl_html_pending++;
-		     else if((d->next_time > now) && ((d->next_time - now) > 3)) ssl_html_delayed++;
-			else ssl_html_active++;
-	       if(d->input.start || d->raw_input || d->negbuf) ssl_html_input++;
-	       if(d->output.start) ssl_html_output++;
-	       ssl_html_total++;
-#endif
-	    } else {
-	       if(d->descriptor == NOTHING) html_disconnected++;
-		  else if(!(d->flags & CONNECTED)) html_pending++;
-		     else if((d->next_time > now) && ((d->next_time - now) > 3)) html_delayed++;
-			else html_active++;
-	       if(d->input.start || d->raw_input || d->negbuf) html_input++;
-	       if(d->output.start) html_output++;
-	       html_total++;
-	    }
-	 } else {
-	    if((d->flags & SSL) && ssl_ok) {
-#ifdef SSL_SOCKETS
-	       if(d->descriptor == NOTHING) ssl_telnet_disconnected++;
-		  else if(!(d->flags & CONNECTED)) ssl_telnet_pending++;
-		     else if((d->next_time > now) && ((d->next_time - now) > 3)) ssl_telnet_delayed++;
-			else ssl_telnet_active++;
-	       if(d->input.start || d->raw_input || d->negbuf) ssl_telnet_input++;
-	       if(d->output.start) ssl_telnet_output++;
-	       ssl_telnet_total++;
-#endif
-	    } else {
-	       if(d->descriptor == NOTHING) telnet_disconnected++;
-		  else if(!(d->flags & CONNECTED)) telnet_pending++;
-		     else if((d->next_time > now) && ((d->next_time - now) > 3)) telnet_delayed++;
-			else telnet_active++;
-	       if(d->input.start || d->raw_input || d->negbuf) telnet_input++;
-	       if(d->output.start) telnet_output++;
-	       telnet_total++;
-	    }
-	 }
-
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
-     if(!in_command) {
-        output(p,player,2,1,1,"%sSummary of current Telnet and HTML connections...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_GREEN"><TH ALIGN=CENTER COLSPAN=8><FONT SIZE=5><I>\016"ANSI_LGREEN:ANSI_LGREEN"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n\n");
-        if(!IsHtml(p)) {
-           output(p,player,0,1,0,separator(79,0,'-','='));
-           output(p,player,0,1,0,ANSI_LYELLOW"              Total:  Pending:  Active:  Delayed:  Disconnct:  "ANSI_LCYAN"Input:  Output:");
-           output(p,player,0,1,0,separator(79,0,'-','-'));
-	} else output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><TH>&nbsp;</TH><TH><I>"ANSI_LYELLOW"Total:</I></TH><TH><I>"ANSI_LYELLOW"Pending:</I></TH><TH><I>"ANSI_LYELLOW"Active:</I></TH><TH><I>"ANSI_LYELLOW"Delayed:</I></TH><TH><I>"ANSI_LYELLOW"Disconnected:</I></TH><TH BGCOLOR="HTML_TABLE_CYAN"><I>"ANSI_LCYAN"Input:</I></TH><TH BGCOLOR="HTML_TABLE_CYAN"><I>"ANSI_LCYAN"Output:</I></TH></TR>\016");
-     }
-
-     output(p,player,2,1,0,"%sTelnet:%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-9d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-12d%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD><I>\016":"  ",telnet_total,IsHtml(p) ? "\016</I></TD><TD>\016":"",telnet_pending,IsHtml(p) ? "\016</TD><TD>\016":"",telnet_active,IsHtml(p) ? "\016</TD><TD>\016":"",telnet_delayed,IsHtml(p) ? "\016</TD><TD>\016":"",telnet_disconnected,IsHtml(p) ? "\016</TD><TD><I>\016":"",telnet_input,IsHtml(p) ? "\016</I></TD><TD><I>\016":"",telnet_output,IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-#ifdef SSL_SOCKETS
-     if(ssl_ok) output(p,player,2,1,0,"%sSSL Telnet:%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-9d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-12d%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD><I>\016":"  ",ssl_telnet_total,IsHtml(p) ? "\016</I></TD><TD>\016":"",ssl_telnet_pending,IsHtml(p) ? "\016</TD><TD>\016":"",ssl_telnet_active,IsHtml(p) ? "\016</TD><TD>\016":"",ssl_telnet_delayed,IsHtml(p) ? "\016</TD><TD>\016":"",ssl_telnet_disconnected,IsHtml(p) ? "\016</TD><TD><I>\016":"",ssl_telnet_input,IsHtml(p) ? "\016</I></TD><TD><I>\016":"",ssl_telnet_output,IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-#endif
-     output(p,player,2,1,0,"%sHTML:%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-9d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-12d%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD><I>\016":"  ",html_total,IsHtml(p) ? "\016</I></TD><TD>\016":"",html_pending,IsHtml(p) ? "\016</TD><TD>\016":"",html_active,IsHtml(p) ? "\016</TD><TD>\016":"",html_delayed,IsHtml(p) ? "\016</TD><TD>\016":"",html_disconnected,IsHtml(p) ? "\016</TD><TD><I>\016":"",html_input,IsHtml(p) ? "\016</I></TD><TD><I>\016":"",html_output,IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-#ifdef SSL_SOCKETS
-     if(ssl_ok) output(p,player,2,1,0,"%sSSL HTML:%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-9d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-12d%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"   ",IsHtml(p) ? "\016</I></TH><TD><I>\016":"  ",ssl_html_total,IsHtml(p) ? "\016</I></TD><TD>\016":"",ssl_html_pending,IsHtml(p) ? "\016</TD><TD>\016":"",ssl_html_active,IsHtml(p) ? "\016</TD><TD>\016":"",ssl_html_delayed,IsHtml(p) ? "\016</TD><TD>\016":"",ssl_html_disconnected,IsHtml(p) ? "\016</TD><TD><I>\016":"",ssl_html_input,IsHtml(p) ? "\016</I></TD><TD><I>\016":"",ssl_html_output,IsHtml(p) ? "\016</I></TD></TR>\016":"\n");
-#endif
-
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(79,0,'-','-'));
-     output(p,player,2,1,0,"%sTotal:%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-9d%s"ANSI_LWHITE"%-10d%s"ANSI_LWHITE"%-12d%s"ANSI_LWHITE"%-8d%s"ANSI_LWHITE"%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4><I>\016":"  ",
-           telnet_total + html_total + ssl_telnet_total + ssl_html_total,IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4>\016":"",
-           telnet_pending + html_pending + ssl_telnet_pending + ssl_html_pending,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016":"",
-           telnet_active + html_active + ssl_telnet_active + ssl_html_active,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016":"",
-           telnet_delayed + html_delayed + ssl_telnet_delayed + ssl_html_delayed,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016":"",
-           telnet_disconnected + html_disconnected + ssl_telnet_disconnected + ssl_html_disconnected,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4><I>\016":"",
-           telnet_input + html_input + ssl_telnet_input + ssl_html_input,IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4><I>\016":"",
-           telnet_output + html_output + ssl_telnet_output + ssl_html_output,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(79,1,'-','='));
+     if(!in_command) output(p,player,0,1,0,separator(79,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -852,12 +678,6 @@ void stats_statistics(CONTEXT)
         /* ---->  Current resource usages of TCZ server ('@stats resource')  <---- */
         if(Level4(db[player].owner)) stats_resource(player);
            else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may see the current resource usages of %s server.",tcz_full_name);
-        return;
-     } else if(!strcasecmp(params,"connections") || !strcasecmp(params,"connection") || !strcasecmp(params,"connect") || !strcasecmp(params,"conn") || !strcasecmp(params,"con") || !strcasecmp(params,"telnet") || !strcasecmp(params,"html") || !strcasecmp(params,"ssl")) {
-        
-        /* ---->  Summary of current Telnet and HTML connections ('@stats connections')  <---- */
-        if(Level4(db[player].owner)) stats_connections(player);
-           else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may see a summary of current Telnet and HTML connections.");
         return;
      } else {
 
@@ -952,53 +772,44 @@ void stats_statistics(CONTEXT)
 	}
 
         /* ---->  Display DB object statistics  <---- */
-        if(IsHtml(p)) {
-           html_anti_reverse(p,1);
-           output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-	}
-
         if(!in_command) {
-           if(owner != player) output(p,player,2,1,1,"%sThe database consists of "ANSI_LWHITE"%d"ANSI_LCYAN" objects, of which %s"ANSI_LWHITE"%s"ANSI_LCYAN" owns "ANSI_LWHITE"%d "ANSI_LYELLOW"%s"ANSI_LCYAN"...%s",IsHtml(p) ? (Level4(db[player].owner) || Experienced(db[player].owner)) ? "\016<TR><TH ALIGN=CENTER COLSPAN=4 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\016<TR><TH ALIGN=CENTER COLSPAN=3 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",ttotal,Article(owner,LOWER,DEFINITE),getcname(NOTHING,owner,0,0),total,stats_percent(total,ttotal),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-              else output(p,player,2,1,1,"%sThe database consists of "ANSI_LWHITE"%d"ANSI_LCYAN" objects, of which you own "ANSI_LWHITE"%d "ANSI_LYELLOW"%s"ANSI_LCYAN"...%s",IsHtml(p) ? (Level4(db[player].owner) || Experienced(db[player].owner)) ? "\016<TR><TH ALIGN=CENTER COLSPAN=4 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\016<TR><TH ALIGN=CENTER COLSPAN=3 BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",ttotal,total,stats_percent(total,ttotal),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
+           if(owner != player) output(p, player, 2, 1, 1, "\n The database consists of " ANSI_LWHITE "%d" ANSI_LCYAN " objects, of which %s" ANSI_LWHITE "%s" ANSI_LCYAN " owns " ANSI_LWHITE "%d " ANSI_LYELLOW "%s" ANSI_LCYAN "...\n", ttotal, Article(owner, LOWER, DEFINITE), getcname(NOTHING, owner, 0, 0), total, stats_percent(total, ttotal));
+              else output(p, player, 2, 1, 1, "\n The database consists of " ANSI_LWHITE "%d" ANSI_LCYAN " objects, of which you own " ANSI_LWHITE "%d " ANSI_LYELLOW "%s" ANSI_LCYAN"...\n", ttotal, total, stats_percent(total, ttotal));
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
 	}
 
         if(Level4(db[player].owner) || Experienced(db[player].owner)) {
-           output(p,player,2,1,19,"%sDynamic arrays:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",arrays,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(arrays,tarrays),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tarrays,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sCharacters:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",players,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(players,tplayers),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tplayers,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sProperties:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",properties,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(properties,tproperties),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tproperties,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sVariables:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",variables,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(variables,tvariables),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tvariables,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sCommands:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",commands,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(commands,tcommands),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tcommands,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sPuppets:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"        ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",puppets,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(puppets,tpuppets),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tpuppets,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sAlarms:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",alarms,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(alarms,talarms),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",talarms,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sThings:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",things,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(things,tthings),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tthings,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sExits:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",exits,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(exits,texits),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",texits,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sFuses:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",fuses,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(fuses,tfuses),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",tfuses,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sRooms:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s"ANSI_LWHITE"...out of a total of %d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD WIDTH=25%>\016":"  ",rooms,IsHtml(p) ? "\016</TD><TD WIDTH=25%>\016":"",stats_percent(rooms,trooms),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT WIDTH=25%>\016":"",trooms,IsHtml(p) ? "\016</TD></TR>\016":"\n");
+           output(p, player, 2, 1, 19, ANSI_LYELLOW " Dynamic arrays:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", arrays, stats_percent(arrays,tarrays), tarrays);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "     Characters:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", players, stats_percent(players,tplayers), tplayers);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "     Properties:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", properties, stats_percent(properties,tproperties), tproperties);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "      Variables:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", variables, stats_percent(variables,tvariables), tvariables);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "       Commands:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", commands, stats_percent(commands,tcommands), tcommands);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "        Puppets:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", puppets, stats_percent(puppets,tpuppets), tpuppets);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "         Alarms:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", alarms, stats_percent(alarms,talarms), talarms);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "         Things:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", things, stats_percent(things,tthings), tthings);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "          Exits:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", exits, stats_percent(exits,texits), texits);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "          Fuses:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", fuses, stats_percent(fuses,tfuses), tfuses);
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "          Rooms:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", rooms, stats_percent(rooms,trooms), trooms);
 	} else {
-           output(p,player,2,1,19,"%sDynamic arrays:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",arrays,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(arrays,tarrays),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sCharacters:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",players,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(players,tplayers),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sProperties:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",properties,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(properties,tproperties),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sVariables:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",variables,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(variables,tvariables),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sCommands:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",commands,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(commands,tcommands),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sPuppets:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"        ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",puppets,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(puppets,tpuppets),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sAlarms:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",alarms,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(alarms,talarms),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sThings:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",things,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(things,tthings),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sExits:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",exits,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(exits,texits),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sFuses:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",fuses,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(fuses,tfuses),IsHtml(p) ? "\016</TD></TR>\016":"\n");
-           output(p,player,2,1,19,"%sRooms:%s"ANSI_LWHITE"%-10d%s"ANSI_DWHITE"%-11s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT WIDTH=33% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD WIDTH=33%>\016":"  ",rooms,IsHtml(p) ? "\016</TD><TD WIDTH=33%>\016":"",stats_percent(rooms,trooms),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+           output(p, player, 2, 1, 19, ANSI_LYELLOW " Dynamic arrays:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", arrays, stats_percent(arrays, tarrays));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "     Characters:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", players, stats_percent(players, tplayers));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "     Properties:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", properties, stats_percent(properties, tproperties));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "      Variables:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", variables, stats_percent(variables, tvariables));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "       Commands:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", commands, stats_percent(commands, tcommands));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "        Puppets:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", puppets, stats_percent(puppets, tpuppets));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "         Alarms:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", alarms, stats_percent(alarms, talarms));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "         Things:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", things, stats_percent(things, tthings));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "          Exits:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", exits, stats_percent(exits, texits));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "          Fuses:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", fuses, stats_percent(fuses, tfuses));
+           output(p, player, 2, 1, 19, ANSI_LYELLOW "          Rooms:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s\n", rooms, stats_percent(rooms, trooms));
 	}
 
         if(!in_command) {
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,(Level4(db[player].owner) || Experienced(db[player].owner)) ? 0:1,'-','='));
+           output(p,player,0,1,0,separator(twidth,(Level4(db[player].owner) || Experienced(db[player].owner)) ? 0:1,'-','='));
            if(Level4(db[player].owner) || Experienced(db[player].owner))
-              output(p,player,2,1,1,"%sCurrent size of database: \016&nbsp;\016 "ANSI_DWHITE"%d (%d unused object%s.)%s",IsHtml(p) ? "\016<TR><TD ALIGN=CENTER COLSPAN=4 BGCOLOR="HTML_TABLE_GREY">"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",db_top,dbfree,Plural(dbfree),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+              output(p, player, 2, 1, 1, ANSI_LWHITE " Current size of database:  " ANSI_DWHITE "%d (%d unused object%s.)\n\n", db_top, dbfree, Plural(dbfree));
 	}
 
-        if(IsHtml(p)) {
-           output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-           html_anti_reverse(p,0);
-	}
         setreturn(OK,COMMAND_SUCC);
      }
 }
@@ -1090,45 +901,37 @@ void stats_quota(CONTEXT)
                         break;
 	    }
 
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
         if(subject == player) {
            if(!Level4(subject) && (db[subject].data->player.quota > db[subject].data->player.quotalimit))
               sprintf(scratch_return_string," (You've exceeded your quota limit of "ANSI_LWHITE"%d"ANSI_LCYAN")",db[subject].data->player.quota);
                  else *scratch_return_string = '\0';
-           output(p,player,2,1,1,"%sBuilding Quota summary for yourself%s...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",scratch_return_string,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	} else output(p,player,2,1,1,"%sBuilding Quota summary for %s"ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(subject,LOWER,DEFINITE),getcname(NOTHING,subject,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-        output(p,player,2,1,1,"%sOwned:%sQuota per object:%sTotal quota used:%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><TD>&nbsp;</TD><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":ANSI_LYELLOW"                  ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"             ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"   ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+           output(p, player, 2, 1, 1, "\n Building Quota summary for yourself%s...\n", scratch_return_string);
+	} else output(p, player, 2, 1, 1, "\n Building Quota summary for %s" ANSI_LWHITE "%s" ANSI_LCYAN "...\n", Article(subject, LOWER, DEFINITE), getcname(NOTHING, subject, 0, 0));
+	output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 1, ANSI_LYELLOW "                  Owned:             Quota per object:   Total quota used:\n");
+	output(p,player,0,1,0,separator(twidth,0,'-','-'));
      }
 
-     output(p,player,2,1,0,"%sDynamic arrays:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",arrays,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",ARRAY_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qarrays,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sArray elements:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",elements,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",ELEMENT_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qelements,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sProperties:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",properties,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",PROPERTY_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qproperties,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sVariables:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",variables,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",VARIABLE_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qvariables,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sCommands:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",commands,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",COMMAND_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qcommands,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sAlarms:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",alarms,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",ALARM_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qalarms,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sThings:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",things,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",THING_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qthings,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sExits:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",exits,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",EXIT_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qexits,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sFuses:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",fuses,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",FUSE_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qfuses,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sRooms:%s"ANSI_LWHITE"%-19d%s%-20d%s%d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",rooms,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",ROOM_QUOTA,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"",qrooms,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Dynamic arrays:  " ANSI_LWHITE "%-19d%-20d%d\n", arrays, ARRAY_QUOTA, qarrays);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Array elements:  " ANSI_LWHITE "%-19d%-20d%d\n", elements, ELEMENT_QUOTA, qelements);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Properties:  " ANSI_LWHITE "%-19d%-20d%d\n", properties, PROPERTY_QUOTA, qproperties);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "      Variables:  " ANSI_LWHITE "%-19d%-20d%d\n", variables, VARIABLE_QUOTA, qvariables);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "       Commands:  " ANSI_LWHITE "%-19d%-20d%d\n", commands, COMMAND_QUOTA, qcommands);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "         Alarms:  " ANSI_LWHITE "%-19d%-20d%d\n", alarms, ALARM_QUOTA, qalarms);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "         Things:  " ANSI_LWHITE "%-19d%-20d%d\n", things, THING_QUOTA, qthings);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Exits:  " ANSI_LWHITE "%-19d%-20d%d\n", exits, EXIT_QUOTA, qexits);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Fuses:  " ANSI_LWHITE "%-19d%-20d%d\n", fuses, FUSE_QUOTA, qfuses);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Rooms:  " ANSI_LWHITE "%-19d%-20d%d\n", rooms, ROOM_QUOTA, qrooms);
 
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+     output(p,player,0,1,0,separator(twidth,0,'-','-'));
      temp = qarrays + qelements + qproperties + qvariables + qcommands + qalarms + qthings + qexits + qfuses + qrooms;
      if(!Level4(subject)) sprintf(scratch_return_string,"%s%d/%ld",(temp > db[subject].data->player.quotalimit) ? ANSI_LRED:ANSI_LWHITE,temp,db[subject].data->player.quotalimit);
         else sprintf(scratch_return_string,ANSI_LWHITE"%d/UNLIMITED",temp);
      temp = (arrays + properties + variables + commands + alarms + things + exits + fuses + rooms);
-     output(p,player,2,1,0,"%sTotal objects:%s"ANSI_LWHITE"%-19d%sN/A%s%s%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"  ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4>\016":"  ",temp,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016"ANSI_DCYAN:ANSI_DCYAN,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>\016":"                 "ANSI_LWHITE,scratch_return_string,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "  Total objects:  " ANSI_LWHITE "%-19d" ANSI_DCYAN "N/A                 " ANSI_LWHITE "%s\n", temp, scratch_return_string);
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -1237,74 +1040,66 @@ void stats_size(CONTEXT)
      stotal = sfuses + sexits + srooms + sarrays + salarms + sthings + spuppets + scommands + svariables + scharacters + sproperties;
      ctotal = cfuses + cexits + crooms + carrays + calarms + cthings + cpuppets + ccommands + cvariables + ccharacters + cproperties;
 
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
         if(!all) {
-           if(subject != player) output(p,player,2,1,1,"%sDatabase memory usage summary for %s"ANSI_LWHITE"%s"ANSI_LCYAN"...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=5><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",Article(subject,LOWER,DEFINITE),getcname(NOTHING,subject,0,0),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	      else output(p,player,2,1,1,"%sDatabase memory usage summary for yourself...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=5><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-	} else output(p,player,2,1,1,"%sDatabase memory usage summary for the entire database...%s",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=5><FONT SIZE=4><I>\016"ANSI_LCYAN:"\n ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-        output(p,player,2,1,1,"%sOwned:%sSize:%sCompressed size:%sRatio:%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><TD>&nbsp;</TD><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":ANSI_LYELLOW"                  ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"      ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"            ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"  ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+           if(subject != player) output(p, player, 2, 1, 1, "\n Database memory usage summary for %s" ANSI_LWHITE "%s" ANSI_LCYAN "...%\n", Article(subject, LOWER, DEFINITE), getcname(NOTHING, subject, 0, 0));
+	      else output(p, player, 2, 1, 1, "\nDatabase memory usage summary for yourself...\n");
+	} else output(p, player, 2, 1, 1, "\n Database memory usage summary for the entire database...\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
+        output(p, player, 2, 1, 1, ANSI_LYELLOW "                  Owned:      Size:            Compressed size:  Ratio:\n");
+        output(p,player,0,1,0,separator(twidth,0,'-','-'));
      }
 
      sprintf(scratch_return_string,"%.2fKb",(double) sarrays / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) carrays / KB);
-     output(p,player,2,1,0,"%sDynamic arrays:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",arrays,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(sarrays < 1) ? 0:100 - (((double) carrays / sarrays) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW " Dynamic arrays:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", arrays, scratch_return_string, scratch_return_string + 100, (sarrays < 1) ? 0:100 - (((double) carrays / sarrays) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) scharacters / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) ccharacters / KB);
-     output(p,player,2,1,0,"%sCharacters:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",characters,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(scharacters < 1) ? 0:100 - (((double) ccharacters / scharacters) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Characters:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", characters, scratch_return_string, scratch_return_string + 100, (scharacters < 1) ? 0:100 - (((double) ccharacters / scharacters) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) sproperties / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) cproperties / KB);
-     output(p,player,2,1,0,"%sProperties:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",properties,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(sproperties < 1) ? 0:100 - (((double) cproperties / sproperties) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Properties:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", properties, scratch_return_string, scratch_return_string + 100, (sproperties < 1) ? 0:100 - (((double) cproperties / sproperties) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) svariables / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) cvariables / KB);
-     output(p,player,2,1,0,"%sVariables:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"      ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",variables,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(svariables < 1) ? 0:100 - (((double) cvariables / svariables) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "      Variables:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", variables, scratch_return_string, scratch_return_string + 100, (svariables < 1) ? 0:100 - (((double) cvariables / svariables) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) scommands / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) ccommands / KB);
-     output(p,player,2,1,0,"%sCommands:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",commands,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(scommands < 1) ? 0:100 - (((double) ccommands / scommands) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "       Commands:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", commands, scratch_return_string, scratch_return_string + 100, (scommands < 1) ? 0:100 - (((double) ccommands / scommands) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) spuppets / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) cpuppets / KB);
-     output(p,player,2,1,0,"%sPuppets:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"        ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",puppets,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(spuppets < 1) ? 0:100 - (((double) cpuppets / spuppets) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "        Puppets:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", puppets, scratch_return_string, scratch_return_string + 100, (spuppets < 1) ? 0:100 - (((double) cpuppets / spuppets) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) salarms / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) calarms / KB);
-     output(p,player,2,1,0,"%sAlarms:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",alarms,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(salarms < 1) ? 0:100 - (((double) calarms / salarms) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "         Alarms:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", alarms, scratch_return_string, scratch_return_string + 100, (salarms < 1) ? 0:100 - (((double) calarms / salarms) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) sthings / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) cthings / KB);
-     output(p,player,2,1,0,"%sThings:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"         ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",things,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(sthings < 1) ? 0:100 - (((double) cthings / sthings) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "         Things:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", things, scratch_return_string, scratch_return_string + 100, (sthings < 1) ? 0:100 - (((double) cthings / sthings) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) sexits / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) cexits / KB);
-     output(p,player,2,1,0,"%sExits:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",exits,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(sexits < 1) ? 0:100 - (((double) cexits / sexits) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Exits:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", exits, scratch_return_string, scratch_return_string + 100, (sexits < 1) ? 0:100 - (((double) cexits / sexits) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) sfuses / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) cfuses / KB);
-     output(p,player,2,1,0,"%sFuses:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",fuses,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(sfuses < 1) ? 0:100 - (((double) cfuses / sfuses) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Fuses:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", fuses, scratch_return_string, scratch_return_string + 100, (sfuses < 1) ? 0:100 - (((double) cfuses / sfuses) * 100));
 
      sprintf(scratch_return_string,"%.2fKb",(double) srooms / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) crooms / KB);
-     output(p,player,2,1,0,"%sRooms:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",rooms,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"",(srooms < 1) ? 0:100 - (((double) crooms / srooms) * 100),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Rooms:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", rooms, scratch_return_string, scratch_return_string + 100, (srooms < 1) ? 0:100 - (((double) crooms / srooms) * 100));
 
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+     output(p,player,0,1,0,separator(twidth,0,'-','-'));
      sprintf(scratch_return_string,"%.2fKb",(double) stotal / KB);
      sprintf(scratch_return_string + 100,"%.2fKb",(double) ctotal / KB);
-     output(p,player,2,1,0,"%sTotal:%s"ANSI_LWHITE"%-12d%s%-17s%s%-18s%s%.1f%%%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"          ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4>\016":"  ",total,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016"ANSI_LWHITE:"",scratch_return_string,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016"ANSI_LWHITE:"",scratch_return_string + 100,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016"ANSI_LWHITE:"",(stotal < 1) ? 0:100 - (((double) ctotal / stotal) * 100),IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "          Total:  " ANSI_LWHITE "%-12d%-17s%-18s%.1f%%\n", total, scratch_return_string, scratch_return_string + 100, (stotal < 1) ? 0:100 - (((double) ctotal / stotal) * 100));
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -1404,53 +1199,45 @@ void stats_contents(CONTEXT)
      ototal = oconnchars + oinactchars + ocommands + ovariables + othings + oalarms + orooms + oexits + oproperties + ofuses + oarrays;
 
      /* ---->  List contents totals of given object  <---- */     
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
-        sprintf(scratch_buffer,"%s%s"ANSI_LWHITE"%s"ANSI_LCYAN" ",IsHtml(p) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=4><FONT SIZE=4><I>\016":"\n ",Article(object,UPPER,DEFINITE),getcname(player,object,1,0));
+        sprintf(scratch_buffer, "\n %s" ANSI_LWHITE "%s" ANSI_LCYAN " ", Article(object, UPPER, DEFINITE), getcname(player, object, 1, 0));
         if((db[object].owner != player) && (db[object].owner != object))
            sprintf(scratch_buffer + strlen(scratch_buffer),"owned by %s"ANSI_LWHITE"%s"ANSI_LCYAN" ",Article(db[object].owner,LOWER,INDEFINITE),getcname(player,db[object].owner,0,0));
         sprintf(scratch_buffer + strlen(scratch_buffer),"contains "ANSI_LWHITE"%d"ANSI_LCYAN" object%s, of which ",total + ototal,Plural(total + ototal));
         if(owner != player) sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LCYAN"%s"ANSI_LWHITE"%s"ANSI_LCYAN" owns ",Article(owner,LOWER,DEFINITE),getcname(NOTHING,owner,0,0));
            else strcat(scratch_buffer,"you own ");
-        output(p,player,2,1,1,"%s"ANSI_LWHITE"%d"ANSI_LCYAN"...%s",scratch_buffer,total,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
+        output(p,player,2,1,1,"%s"ANSI_LWHITE"%d"ANSI_LCYAN"...\n",scratch_buffer,total);
+        output(p,player,0,1,0,(char *) separator(twidth,0,'-','='));
 
         if(owner != player) {
            int count,length;
            char *ptr;
 
            for(ptr = scratch_return_string, count = 0, length = (22 - strlen(getname(owner))); count < length; *ptr++ = ' ', count++);
-	   *ptr = '\0', sprintf(scratch_buffer,"%sOwned by "ANSI_LWHITE"%s"ANSI_LYELLOW":%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><TD>&nbsp;</TD><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":ANSI_LYELLOW"                      ",getname(owner),IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":scratch_return_string);
-	} else sprintf(scratch_buffer,"%sOwned by you:%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_YELLOW"><TD>&nbsp;</TD><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":ANSI_LYELLOW"                               ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"          ");
-        output(p,player,2,1,0,"%s%sOthers:%sTotal:%s",scratch_buffer,IsHtml(p) ? "":ANSI_LYELLOW,IsHtml(p) ? "\016</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I>\016":"      ",IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(p)) output(p,player,0,1,0,(char *) separator(twidth,0,'-','-'));
+	   *ptr = '\0', sprintf(scratch_buffer, ANSI_LYELLOW "                      Owned by " ANSI_LWHITE "%s" ANSI_LYELLOW ":%s", getname(owner), scratch_return_string);
+	} else sprintf(scratch_buffer, ANSI_LYELLOW "                               Owned by you:          ");
+        output(p, player, 2, 1, 0, "%s" ANSI_LYELLOW "Others:      Total:\n", scratch_buffer);
+        output(p,player,0,1,0,(char *) separator(twidth,0,'-','-'));
      }
 
-     output(p,player,2,1,0,"%sConnected characters:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_GREEN"><I>\016"ANSI_LGREEN:ANSI_LGREEN"        ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",connchars,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",oconnchars,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",connchars + oconnchars,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sInactive characters:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_RED"><I>\016"ANSI_LRED:ANSI_LRED"         ",IsHtml(p) ? "\016</I></TH><TD>\016"ANSI_LWHITE:"  ",inactchars,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",oinactchars,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",inactchars + oinactchars,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LGREEN "        Connected characters:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", connchars, oconnchars, connchars + oconnchars);
+     output(p, player, 2, 1, 0, ANSI_LRED "         Inactive characters:  " ANSI_LWHITE "%-21d  %-11d  %-11d%\n", inactchars, oinactchars, inactchars + oinactchars);
 
-     if(!IsHtml(p)) output(p,player,0,1,0,(char *) separator(twidth,0,'-','-'));
-     output(p,player,2,1,0,"%sCompound commands:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"           ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",commands,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",ocommands,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",commands + ocommands,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sDynamic arrays:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"              ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",arrays,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",oarrays,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",arrays + oarrays,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sProperties:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                  ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",properties,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",oproperties,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",properties + oproperties,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sVariables:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                   ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",variables,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",ovariables,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",variables + ovariables,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sAlarms:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                      ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",alarms,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",oalarms,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",alarms + oalarms,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sThings:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                      ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",things,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",othings,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",things + othings,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sExits:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",exits,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",oexits,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",exits + oexits,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sFuses:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",fuses,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",ofuses,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",fuses + ofuses,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
-     output(p,player,2,1,0,"%sRooms:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                       ",IsHtml(p) ? "\016</I></TH><TD>\016":"  ",rooms,IsHtml(p) ? "\016</TD><TD>\016"ANSI_LWHITE:"  ",orooms,IsHtml(p) ? "\016</TD><TH BGCOLOR="HTML_TABLE_DGREY">"ANSI_LWHITE"<I>\016":"  ",rooms + orooms,IsHtml(p) ? "\016</I></TH></TR>\016":"\n");
+     output(p,player,0,1,0,(char *) separator(twidth,0,'-','-'));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "           Compound commands:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", commands, ocommands, commands + ocommands);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "              Dynamic arrays:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", arrays, oarrays, arrays + oarrays);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                  Properties:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", properties, oproperties, properties + oproperties);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                   Variables:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", variables, ovariables, variables + ovariables);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                      Alarms:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", alarms, oalarms, alarms + oalarms);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                      Things:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", things, othings, things + othings);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                       Exits:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", exits, oexits, exits + oexits);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                       Fuses:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", fuses, ofuses, fuses + ofuses);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                       Rooms:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", rooms, orooms, rooms + orooms);
 
-     if(!IsHtml(p)) output(p,player,2,1,0,(char *) separator(twidth,0,'-','-'));
-     output(p,player,2,1,0,"%sTotal:%s"ANSI_LWHITE"%-21d%s%-11d%s%-11d%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY"><TH ALIGN=RIGHT BGCOLOR="HTML_TABLE_YELLOW"><FONT SIZE=4><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"                       ",IsHtml(p) ? "\016</I></FONT></TH><TH><FONT SIZE=4>\016":"  ",total,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>\016"ANSI_LWHITE:"  ",ototal,IsHtml(p) ? "\016</FONT></TH><TH><FONT SIZE=4>"ANSI_LWHITE"<I>\016":"  ",total + ototal,IsHtml(p) ? "\016</I></FONT></TH></TR>\016":"\n");
+     output(p,player,2,1,0,(char *) separator(twidth,0,'-','-'));
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "                       Total:  " ANSI_LWHITE "%-21d  %-11d  %-11d\n", total, ototal, total + ototal);
 
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
-     } else if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -2173,11 +1960,8 @@ void stats_rank(CONTEXT)
      union_initgrouprange((union group_data *) rootnode);
 
      /* ---->  Display sorted linked list  <---- */
-     entities = IsHtml(p) ? ENTITIES:(((twidth - 33) / 11) - ((order == RANK_LAST) ? 1:0));
-     if(IsHtml(p)) {
-        html_anti_reverse(p,1);
-        output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     } else if(!in_command && p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
+     entities = ((twidth - 33) / 11) - ((order == RANK_LAST) ? 1:0);
+     if(!in_command && p && !p->pager && More(player)) pager_init(p);
 
      if(!in_command) {
         switch(order) {
@@ -2209,15 +1993,13 @@ void stats_rank(CONTEXT)
                case RANK_BALANCE:
 
                     /* ---->  Bank balance  <---- */
-                    if(IsHtml(p)) rtitle= "</I></FONT><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Bank balance:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Credit in pocket";
-                       else rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"Bank balance:"ANSI_LCYAN"  Credit in pocket";
+                    rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"Bank balance:"ANSI_LCYAN"  Credit in pocket";
                     colspan = 1;
                     break;
                case RANK_BATTLES:
 
                     /* ---->  Total number of battles fought  <---- */
-                    if(IsHtml(p)) rtitle= "Won:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Lost:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Battles:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Performance";
-                       else rtitle = "Won:       Lost:      "ANSI_LYELLOW""ANSI_UNDERLINE"Battles:"ANSI_LCYAN"   Performance";
+                    rtitle = "Won:       Lost:      "ANSI_LYELLOW""ANSI_UNDERLINE"Battles:"ANSI_LCYAN"   Performance";
                     colspan = 3;
                     break;
                case RANK_CREATED:
@@ -2229,8 +2011,7 @@ void stats_rank(CONTEXT)
 
                     /* ---->  Credit in pocket  <---- */
                     if(!types) {
-                       if(IsHtml(p)) rtitle= "Bank balance:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Credit in pocket</U>";
-                          else rtitle = "Bank balance:  "ANSI_LYELLOW""ANSI_UNDERLINE"Credit in pocket";
+                       rtitle = "Bank balance:  "ANSI_LYELLOW""ANSI_UNDERLINE"Credit in pocket";
                        colspan = 1;
                     } else rtitle = "Credits";
                     break;
@@ -2242,8 +2023,7 @@ void stats_rank(CONTEXT)
                case RANK_EXPENDITURE:
 
                     /* ---->  Expenditure  <---- */
-                    if(IsHtml(p)) rtitle= "Income:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Expenditure:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Profit";
-                       else  rtitle= "Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit";
+                    rtitle= "Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit";
                     colspan = 2;
                     break;
                case RANK_IDLE:
@@ -2254,8 +2034,7 @@ void stats_rank(CONTEXT)
                case RANK_INCOME:
 
                     /* ---->  Income  <---- */
-                    if(IsHtml(p)) rtitle= "<FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Income:</U></I></FONT></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Expenditure:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Profit";
-                       else  rtitle= ANSI_LYELLOW""ANSI_UNDERLINE"Income:"ANSI_LCYAN"         Expenditure:    Profit";
+                    rtitle= ANSI_LYELLOW""ANSI_UNDERLINE"Income:"ANSI_LCYAN"         Expenditure:    Profit";
                     colspan = 2;
                     break;
                case RANK_LAST:
@@ -2268,19 +2047,18 @@ void stats_rank(CONTEXT)
                     /* ---->  Date/time last used  <---- */
 
 		    /* SAB 19 Nov 2003:
-		     * this seems to be broken and (multi-line string)
-		     * and makes no sense since it talks about
-		     * Income/Expenditure in the RANK_LASTUSED section:
-		     * I'm commenting it out.
-		     */ 
+ * 		     * this seems to be broken and (multi-line string)
+ * 		     		     * and makes no sense since it talks about
+ * 		     		     		     * Income/Expenditure in the RANK_LASTUSED section:
+ * 		     		     		     		     * I'm commenting it out.
+ * 		     		     		     		     		     */ 
 		    /*
-                    if(types) {
-                       if(IsHtml(p)) rtitle= "Income:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Expenditure:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Profit";
-                          else  rtitle= " Rank:     ID:          N
-
-Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit";
-		    } else rtitle = "Time/date last used";
-		    */
+ *                     if(types) {
+ *                                                                      else  rtitle= " Rank:     ID:          N
+ *
+ *                                                                      Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit";
+ *                                                                      		    } else rtitle = "Time/date last used";
+ *                                                                      		    		    */
 		    rtitle = "Time/date last used";
                     break;
                case RANK_LOGINS:
@@ -2296,43 +2074,37 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                case RANK_LOST:
 
                     /* ---->  Total number of battles lost  <---- */
-                    if(IsHtml(p)) rtitle= "Won:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Lost:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Battles:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Performance";
-                       else rtitle = "Won:       "ANSI_LYELLOW""ANSI_UNDERLINE"Lost:"ANSI_LCYAN"      Battles:   Performance";
+                    rtitle = "Won:       "ANSI_LYELLOW""ANSI_UNDERLINE"Lost:"ANSI_LCYAN"      Battles:   Performance";
                     colspan = 3;
                     break;
                case RANK_PERFORMANCE:
 
                     /* ---->  Combat performance  <---- */
-                    if(IsHtml(p)) rtitle= "Won:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Lost:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Battles:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Performance</U>";
-                       else rtitle = "Won:       Lost:      Battles:   "ANSI_LYELLOW""ANSI_UNDERLINE"Performance";
+                    rtitle = "Won:       Lost:      Battles:   "ANSI_LYELLOW""ANSI_UNDERLINE"Performance";
                     colspan = 3;
                     break;
                case RANK_PROFIT:
 
                     /* ---->  Profit  <---- */
-                    if(IsHtml(p)) rtitle= "Income:</I></FONT></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Expenditure:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Profit</U>";
-                       else  rtitle= "Income:         Expenditure:    "ANSI_UNDERLINE""ANSI_LYELLOW"Profit";
+                    rtitle= "Income:         Expenditure:    "ANSI_UNDERLINE""ANSI_LYELLOW"Profit";
                     colspan = 2;
                     break;
                case RANK_QUOTA:
 
                     /* ---->  Building Quota currently in use  <---- */
-                    if(IsHtml(p)) rtitle= "</I></FONT><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Building Quota in use:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Building Quota limit:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Excess";
-                       else rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"In use:"ANSI_LCYAN"     Limit:      Excess";
+                    rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"In use:"ANSI_LCYAN"     Limit:      Excess";
                     colspan = 2;
                     break;
                case RANK_QUOTAEXCESS:
 
                     /* ---->  Building Quota excess  <---- */
-                    if(IsHtml(p)) rtitle= "Building Quota in use:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Building Quota limit:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Excess</U>";
-                       else rtitle = "In use:     Limit:      "ANSI_LYELLOW""ANSI_UNDERLINE"Excess";
+                    rtitle = "In use:     Limit:      "ANSI_LYELLOW""ANSI_UNDERLINE"Excess";
                     colspan = 2;
                     break;
                case RANK_QUOTALIMIT:
 
                     /* ---->  Building Quota limit  <---- */
-                    if(IsHtml(p)) rtitle= "Building Quota in use:</I></FONT></TH><TH><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Building Quota limit:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Excess";
-                       else rtitle = "In use:     "ANSI_LYELLOW""ANSI_UNDERLINE"Limit:"ANSI_LCYAN"      Excess";
+                    rtitle = "In use:     "ANSI_LYELLOW""ANSI_UNDERLINE"Limit:"ANSI_LCYAN"      Excess";
                     colspan = 2;
                     break;
                case RANK_SCORE:
@@ -2348,8 +2120,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                case RANK_WON:
 
                     /* ---->  Total number of battles won  <---- */
-                    if(IsHtml(p)) rtitle= "</I></FONT><FONT COLOR="HTML_LYELLOW" SIZE=4><I><U>Won:</U></I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Lost:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Battles:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Performance";
-                       else rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"Won:"ANSI_LCYAN"       Lost:      Battles:   Performance";
+                    rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"Won:"ANSI_LCYAN"       Lost:      Battles:   Performance";
                     colspan = 3;
                     break;
                case RANK_TOTAL:
@@ -2360,40 +2131,32 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                     break;
 	}
 
-        if(!IsHtml(p)) {
-           if(types) {
-              int tlwidth,rwidth,width;
+        if(types) {
+           int tlwidth,rwidth,width;
 
-              if(!((order == RANK_CREATED) || (order == RANK_LASTUSED))) {
-		 if(stitle) {
-		    int slen = strlen(stitle);
+           if(!((order == RANK_CREATED) || (order == RANK_LASTUSED))) {
+	      if(stitle) {
+	         int slen = strlen(stitle);
 
-		    for(tmp = scratch_return_string, loop = 0; loop < (twidth - slen); *tmp++ = ' ', loop++);
-		    *tmp = '\0';
-		    output(p,player,0,1,0,"\n%s%s",scratch_return_string,stitle);
-		 }
+	         for(tmp = scratch_return_string, loop = 0; loop < (twidth - slen); *tmp++ = ' ', loop++);
+	         *tmp = '\0';
+	         output(p,player,0,1,0,"\n%s%s",scratch_return_string,stitle);
+	      }
 
-		 rwidth = (order == RANK_CREDIT) ? 14:16;
-		 width   = twidth - 29 - rwidth;
-		 tlwidth = (strlen(rtitle) + 1);
-		 for(; (29 + width + tlwidth) >= twidth; width--);
-		 for(tmp = scratch_return_string, loop = 0; loop < width; *tmp++ = ' ', loop++);
-		 *tmp = '\0';
+              rwidth = (order == RANK_CREDIT) ? 14:16;
+              width   = twidth - 29 - rwidth;
+              tlwidth = (strlen(rtitle) + 1);
+              for(; (29 + width + tlwidth) >= twidth; width--);
+              for(tmp = scratch_return_string, loop = 0; loop < width; *tmp++ = ' ', loop++);
+              *tmp = '\0';
 
-                 output(p,player,0,1,0,"%s Rank:     ID:          Name:%s%s:",(stitle) ? "":"\n",scratch_return_string,rtitle);
-	      } else output(p,player,0,1,0,"%s Rank:     ID:          Date:       Time:        Name:",(stitle) ? "":"\n");
-           } else {
-              if(stitle) output(p,player,0,1,0,"\n                                 %s:",stitle);
-              output(p,player,0,1,0,"%s Rank:     Name:                 %s:",(stitle) ? "":"\n",rtitle);
-           }
-           output(p,player,0,1,0,separator(twidth,0,'-','='));
+              output(p,player,0,1,0,"%s Rank:     ID:          Name:%s%s:",(stitle) ? "":"\n",scratch_return_string,rtitle);
+           } else output(p,player,0,1,0,"%s Rank:     ID:          Date:       Time:        Name:",(stitle) ? "":"\n");
         } else {
-           if(!(types && ((order == RANK_CREATED) || (order == RANK_LASTUSED)))) {
-              if(stitle) output(p,player,2,1,0,"\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=RIGHT COLSPAN=%d><FONT COLOR="HTML_LCYAN" SIZE=3><I>%s</I></FONT></TH></TR>\016",((types) ? 4:3) + colspan,rtitle);
-              if(types) output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Rank:</I></FONT></TH><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>ID:</I></FONT></TH><TH WIDTH=65%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH WIDTH=15%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>%s:</I></FONT></TH></TR>\016",rtitle);
-                 else output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Rank:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>%s:</I></FONT></TH></TR>\016",rtitle);
-	   } else output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Rank:</I></FONT></TH><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>ID:</I></FONT></TH><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Date:</I></FONT></TH><TH WIDTH=10%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Time:</I></FONT></TH><TH WIDTH=65%%><FONT COLOR="HTML_LCYAN" SIZE=4><I>Name:</I></FONT></TH></TR>\016",rtitle);
+           if(stitle) output(p,player,0,1,0,"\n                                 %s:",stitle);
+           output(p,player,0,1,0,"%s Rank:     Name:                 %s:",(stitle) ? "":"\n",rtitle);
         }
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
      loop = 0;
@@ -2414,8 +2177,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
 			     if(Connected(grp->cunion->list.player) && (w = getdsc(grp->cunion->list.player)))
 				curtime -= (now - w->last_time);
 
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
 			case RANK_AVGACTIVE:
 
@@ -2430,8 +2192,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
 
                              curtime /= ((db[grp->cunion->list.player].data->player.logins > 1) ? db[grp->cunion->list.player].data->player.logins:1);
 
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
                         case RANK_AVGIDLE:
 
@@ -2442,15 +2203,13 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
 
                              curtime /= ((db[grp->cunion->list.player].data->player.logins > 1) ? db[grp->cunion->list.player].data->player.logins:1);
 
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
                         case RANK_AVGLOGINS:
 
                              /* ---->  Average time between logins  <---- */
                              curtime = ((now - db[grp->cunion->list.player].created) / ((db[grp->cunion->list.player].data->player.logins > 1) ? db[grp->cunion->list.player].data->player.logins:1));
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
                         case RANK_AVGTOTAL:
 
@@ -2459,8 +2218,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                              if(Connected(grp->cunion->list.player)) curtime += (now - db[grp->cunion->list.player].data->player.lasttime);
                              curtime /= ((db[grp->cunion->list.player].data->player.logins > 1) ? db[grp->cunion->list.player].data->player.logins:1);
 
-                             if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
                         case RANK_BALANCE:
                         case RANK_CREDIT:
@@ -2479,19 +2237,16 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                                             break;
                                 }
 
-			        if(!IsHtml(p)) {
-                                   sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
-                                   loop2 = strlen(scratch_return_string);
-                                   if(loop2 > (twidth - 40)) loop2 = (twidth - 40);
-                                   tmp = scratch_return_string + loop2;
-                                   for(; loop2 < (twidth - 40); *tmp++ = ' ', loop2++);
-                                   *tmp = '\0';
-                                   output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LWHITE"%s  "ANSI_LYELLOW"%.2f",rank(grp->before + loop),grp->cunion->list.player,scratch_return_string,cmp);
-                                } else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD WIDTH=10%% BGCOLOR="HTML_TABLE_RED">\016"ANSI_LRED"%s\016</TD><TD WIDTH=10%% BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN"#%d\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%s%s\016</TD><TD WIDTH=15%% BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW"%.2f\016</TD></TR>\016",rank(grp->before + loop),grp->cunion->list.player,Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player),cmp);
+                                sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
+                                loop2 = strlen(scratch_return_string);
+                                if(loop2 > (twidth - 40)) loop2 = (twidth - 40);
+                                tmp = scratch_return_string + loop2;
+                                for(; loop2 < (twidth - 40); *tmp++ = ' ', loop2++);
+                                *tmp = '\0';
+                                output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LWHITE"%s  "ANSI_LYELLOW"%.2f",rank(grp->before + loop),grp->cunion->list.player,scratch_return_string,cmp);
                              } else  {
                                 sprintf(scratch_return_string,"%.2f",currency_to_double(&(db[grp->cunion->list.player].data->player.balance)));
-                                if(!IsHtml(p)) output(p,player,0,1,33," %s%-10s%-22s%-15s%.2f",colour,rank(grp->before + loop),getname(grp->cunion->list.player),scratch_return_string,currency_to_double(&(db[grp->cunion->list.player].data->player.credit)));
-                                   else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%.2f\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,scratch_return_string,colour,currency_to_double(&(db[grp->cunion->list.player].data->player.credit)));
+                                output(p,player,0,1,33," %s%-10s%-22s%-15s%.2f",colour,rank(grp->before + loop),getname(grp->cunion->list.player),scratch_return_string,currency_to_double(&(db[grp->cunion->list.player].data->player.credit)));
                              }
                              break;
 		        case RANK_CREATED:
@@ -2506,33 +2261,23 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                                 if(rtime->tm_hour > 12) rtime->tm_hour -= 12;
                                    else if(rtime->tm_hour == 0) rtime->tm_hour = 12;
 
-			        if(!IsHtml(p)) {
-                                   sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
-                                   loop2 = strlen(scratch_return_string);
-                                   if(loop2 > (twidth - 50)) loop2 = (twidth - 50);
-                                   tmp = scratch_return_string + loop2;
-                                   *tmp = '\0';
+                                sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
+                                loop2 = strlen(scratch_return_string);
+                                if(loop2 > (twidth - 50)) loop2 = (twidth - 50);
+                                tmp = scratch_return_string + loop2;
+                                *tmp = '\0';
 
-                                   strcat(scratch_return_string,".");
-                                   if(strlen(scratch_return_string) > (twidth - 50))
-                                      strcpy(scratch_return_string + (twidth - 50) - 3,ANSI_DCYAN"...");
+                                strcat(scratch_return_string,".");
+                                if(strlen(scratch_return_string) > (twidth - 50))
+                                   strcpy(scratch_return_string + (twidth - 50) - 3,ANSI_DCYAN"...");
 
-                                   output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LYELLOW"%02d/%02d/%04d  %2d:%02d.%02d %s  "ANSI_LWHITE"%s",
-                                          rank(grp->before + loop),grp->cunion->list.player,
-                                          rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900,
-                                          rtime->tm_hour,rtime->tm_min,rtime->tm_sec,(pm) ? "pm":"am",
-                                          scratch_return_string);
-				} else {
-                                   output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_RED">\016"ANSI_LRED"%s\016</TD><TD BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN"#%d\016</TD><TD BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW"%02d/%02d/%04d\016</TD><TD BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW"%d:%02d.%02d %s\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%s%s.\016</TD></TR>\016",
-					  rank(grp->before + loop),grp->cunion->list.player,
-					  rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900,
-					  rtime->tm_hour,rtime->tm_min,rtime->tm_sec,(pm) ? "pm":"am",
-					  Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
-                                   colspan = 1;
-				}
+                                output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LYELLOW"%02d/%02d/%04d  %2d:%02d.%02d %s  "ANSI_LWHITE"%s",
+                                       rank(grp->before + loop),grp->cunion->list.player,
+                                       rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900,
+                                       rtime->tm_hour,rtime->tm_min,rtime->tm_sec,(pm) ? "pm":"am",
+                                       scratch_return_string);
 			     } else {
-   			        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,date_to_string(db[grp->cunion->list.player].created,UNSET_DATE,player,FULLDATEFMT));
-                                   else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(db[grp->cunion->list.player].created,UNSET_DATE,player,FULLDATEFMT));
+                                output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(db[grp->cunion->list.player].created,UNSET_DATE,player,FULLDATEFMT));
 			     }
                              break;
                         case RANK_EXPENDITURE:
@@ -2544,11 +2289,9 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                              pcent2 = currency_to_double(&(db[grp->cunion->list.player].data->player.expenditure)) / rdiv;
                              cmp    = (pcent1 - pcent2) / rdiv;
 
-                             if(!IsHtml(p)) {
-                                sprintf(scratch_return_string,"%.2f",pcent1);
-                                sprintf(scratch_return_string + 1000,"%.2f",pcent2);
-                                output(p,player,0,1,33," %s%-10s%-22s%-16s%-16s%.2f",colour,rank(grp->before + loop),getname(grp->cunion->list.player),scratch_return_string,scratch_return_string + 1000,cmp);
-                             } else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%.2f\016</TD><TD>\016%s%.2f\016</TD><TD>\016%s%.2f\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,pcent1,colour,pcent2,colour,cmp);
+                             sprintf(scratch_return_string,"%.2f",pcent1);
+                             sprintf(scratch_return_string + 1000,"%.2f",pcent2);
+                             output(p,player,0,1,33," %s%-10s%-22s%-16s%-16s%.2f",colour,rank(grp->before + loop),getname(grp->cunion->list.player),scratch_return_string,scratch_return_string + 1000,cmp);
                              break;
                         case RANK_IDLE:
 
@@ -2556,8 +2299,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                              curtime = db[grp->cunion->list.player].data->player.idletime;
                              if(Connected(grp->cunion->list.player) && (w = getdsc(grp->cunion->list.player)))
                                 curtime += (now - w->last_time);
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
                         case RANK_LAST:
 
@@ -2565,10 +2307,8 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                              lasttime = db[grp->cunion->list.player].data->player.lasttime;
                              if(db[player].data->player.timediff) lasttime += (db[player].data->player.timediff * HOUR);
                              if(Connected(grp->cunion->list.player)) {
-                                if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s.\016<BR>\016(Still connected.)\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,date_to_string(lasttime,UNSET_DATE,player,FULLDATEFMT));
-                                   else output(p,player,0,1,33," %s%-10s%-22s%s.\n(Still connected.)",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(lasttime,UNSET_DATE,player,FULLDATEFMT));
-			     } else if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s.\016<BR>\016(%s.)\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,date_to_string(lasttime,UNSET_DATE,player,FULLDATEFMT),interval(0,db[grp->cunion->list.player].data->player.lasttime - now,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.\n(%s.)",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(lasttime,UNSET_DATE,player,FULLDATEFMT),interval(0,db[grp->cunion->list.player].data->player.lasttime - now,entities,0));
+                                output(p,player,0,1,33," %s%-10s%-22s%s.\n(Still connected.)",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(lasttime,UNSET_DATE,player,FULLDATEFMT));
+			     } else output(p,player,0,1,33," %s%-10s%-22s%s.\n(%s.)",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(lasttime,UNSET_DATE,player,FULLDATEFMT),interval(0,db[grp->cunion->list.player].data->player.lasttime - now,entities,0));
                              break;
 		        case RANK_LASTUSED:
 
@@ -2582,82 +2322,64 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                                 if(rtime->tm_hour > 12) rtime->tm_hour -= 12;
                                    else if(rtime->tm_hour == 0) rtime->tm_hour = 12;
 
-			        if(!IsHtml(p)) {
-                                   sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
-                                   loop2 = strlen(scratch_return_string);
-                                   if(loop2 > (twidth - 50)) loop2 = (twidth - 50);
-                                   tmp = scratch_return_string + loop2;
-                                   *tmp = '\0';
+                                sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
+                                loop2 = strlen(scratch_return_string);
+                                if(loop2 > (twidth - 50)) loop2 = (twidth - 50);
+                                tmp = scratch_return_string + loop2;
+                                *tmp = '\0';
 
-                                   strcat(scratch_return_string,".");
-                                   if(strlen(scratch_return_string) > (twidth - 50))
-                                      strcpy(scratch_return_string + (twidth - 50) - 3,ANSI_DCYAN"...");
+                                strcat(scratch_return_string,".");
+                                if(strlen(scratch_return_string) > (twidth - 50))
+                                   strcpy(scratch_return_string + (twidth - 50) - 3,ANSI_DCYAN"...");
 
-                                   output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LYELLOW"%02d/%02d/%04d  %2d:%02d.%02d %s  "ANSI_LWHITE"%s",
-                                          rank(grp->before + loop),grp->cunion->list.player,
-                                          rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900,
-                                          rtime->tm_hour,rtime->tm_min,rtime->tm_sec,(pm) ? "pm":"am",
-                                          scratch_return_string);
-				} else {
-                                   output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_RED">\016"ANSI_LRED"%s\016</TD><TD BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN"#%d\016</TD><TD BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW"%02d/%02d/%04d\016</TD><TD BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW"%d:%02d.%02d %s\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%s%s.\016</TD></TR>\016",
-					  rank(grp->before + loop),grp->cunion->list.player,
-					  rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900,
-					  rtime->tm_hour,rtime->tm_min,rtime->tm_sec,(pm) ? "pm":"am",
-					  Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
-                                   colspan = 1;
-				}
+                                output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LYELLOW"%02d/%02d/%04d  %2d:%02d.%02d %s  "ANSI_LWHITE"%s",
+                                       rank(grp->before + loop),grp->cunion->list.player,
+                                       rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900,
+                                       rtime->tm_hour,rtime->tm_min,rtime->tm_sec,(pm) ? "pm":"am",
+                                       scratch_return_string);
 			     } else {
-   			        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,date_to_string(db[grp->cunion->list.player].lastused,UNSET_DATE,player,FULLDATEFMT));
-                                   else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(db[grp->cunion->list.player].lastused,UNSET_DATE,player,FULLDATEFMT));
+                                output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),date_to_string(db[grp->cunion->list.player].lastused,UNSET_DATE,player,FULLDATEFMT));
 			     }
                              break;
                         case RANK_LOGINS:
 
                              /* ---->  Total number of logins  <---- */
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.logins);
-                                else output(p,player,0,1,33," %s%-10s%-22s%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.logins);
+                             output(p,player,0,1,33," %s%-10s%-22s%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.logins);
                              break;
                         case RANK_LONGEST:
 
                              /* ---->  Longest connect time  <---- */
-                             if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(db[grp->cunion->list.player].data->player.longesttime,0,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(db[grp->cunion->list.player].data->player.longesttime,0,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(db[grp->cunion->list.player].data->player.longesttime,0,entities,0));
                              break;
                         case RANK_QUOTAEXCESS:
                         case RANK_QUOTALIMIT:
                         case RANK_QUOTA:
 
                              /* ---->  Building quota excess/limit/currently in use  <---- */
-                            if Level4(grp->cunion->list.player) {
-                                if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,"UNLIMITED",colour,"n/a");
-                                    else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12s%s",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,"UNLIMITED","n/a");
+                            if (Level4(grp->cunion->list.player)) {
+                               output(p,player,0,1,33," %s%-10s%-22s%-12d%-12s%s",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,"UNLIMITED","N/A");
                             } else {
-                                if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.quota,colour,db[grp->cunion->list.player].data->player.quotalimit,colour,db[grp->cunion->list.player].data->player.quota - db[grp->cunion->list.player].data->player.quotalimit);
-                                    else output(p,player,0,1,33," %s%-10s%-22s%-12d%-12d%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,db[grp->cunion->list.player].data->player.quotalimit,db[grp->cunion->list.player].data->player.quota - db[grp->cunion->list.player].data->player.quotalimit);
+                               output(p,player,0,1,33," %s%-10s%-22s%-12d%-12d%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.quota,db[grp->cunion->list.player].data->player.quotalimit,db[grp->cunion->list.player].data->player.quotalimit - db[grp->cunion->list.player].data->player.quota);
                             }
                              break;
                         case RANK_SCORE:
 
                              /* ---->  Score  <---- */
-			     if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.score);
-                                else output(p,player,0,1,33," %s%-10s%-22s%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.score);
+                             output(p,player,0,1,33," %s%-10s%-22s%d",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.score);
                              break;
                         case RANK_CSIZE:
                         case RANK_SIZE:
 
                              /* ---->  Compressed/uncompressed database memory usage  <---- */
                              if(types) {
-			        if(!IsHtml(p)) {
-                                   sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
-                                   loop2 = strlen(scratch_return_string);
-                                   if(loop2 > (twidth - 42)) loop2 = (twidth - 42);
-                                   tmp = scratch_return_string + loop2;
-                                   for(; loop2 < (twidth - 42); *tmp++ = ' ', loop2++);
-                                   *tmp = '\0';
-				   output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LWHITE"%s  "ANSI_LYELLOW"%.2fKb",rank(grp->before + loop),grp->cunion->list.player,scratch_return_string,(double) usage[grp->cunion->list.player] / KB);
-				} else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD WIDTH=10%% BGCOLOR="HTML_TABLE_RED">\016"ANSI_LRED"%s\016</TD><TD WIDTH=10%% BGCOLOR="HTML_TABLE_GREEN">\016"ANSI_LGREEN"#%d\016</TD><TD ALIGN=LEFT>\016"ANSI_LWHITE"%s%s\016</TD><TD WIDTH=15%% BGCOLOR="HTML_TABLE_YELLOW">\016"ANSI_LYELLOW"%.2fKb\016</TD></TR>\016",rank(grp->before + loop),grp->cunion->list.player,Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player),(double) usage[grp->cunion->list.player] / KB);
-			     } else if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%.2fKb\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,(double) usage[grp->cunion->list.player] / KB);
-                                else output(p,player,0,1,33," %s%-10s%-22s%.2fKb",colour,rank(grp->before + loop),getname(grp->cunion->list.player),(double) usage[grp->cunion->list.player] / KB);
+                                sprintf(scratch_return_string,"%s%s",Article(grp->cunion->list.player,UPPER,INDEFINITE),getname(grp->cunion->list.player));
+                                loop2 = strlen(scratch_return_string);
+                                if(loop2 > (twidth - 42)) loop2 = (twidth - 42);
+                                tmp = scratch_return_string + loop2;
+                                for(; loop2 < (twidth - 42); *tmp++ = ' ', loop2++);
+                                *tmp = '\0';
+			        output(p,player,0,1,33," "ANSI_LRED"%-10s"ANSI_LGREEN"#%-12d"ANSI_LWHITE"%s  "ANSI_LYELLOW"%.2fKb",rank(grp->before + loop),grp->cunion->list.player,scratch_return_string,(double) usage[grp->cunion->list.player] / KB);
+			     } else output(p,player,0,1,33," %s%-10s%-22s%.2fKb",colour,rank(grp->before + loop),getname(grp->cunion->list.player),(double) usage[grp->cunion->list.player] / KB);
                              break;
                         case RANK_BATTLES:
                         case RANK_WON:
@@ -2665,9 +2387,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                         case RANK_PERFORMANCE:
 
                              /* ---->  Total number of battles, battles won/lost and performance  <---- */
-                             if(!IsHtml(p)) {
-                                output(p,player,0,1,33," %s%-10s%-22s%-11d%-11d%-11d%s",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.won,db[grp->cunion->list.player].data->player.lost,db[grp->cunion->list.player].data->player.won + db[grp->cunion->list.player].data->player.lost,combat_percent(db[grp->cunion->list.player].data->player.won,db[grp->cunion->list.player].data->player.won + db[grp->cunion->list.player].data->player.lost));
-                             } else output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD ALIGN=LEFT>\016%s%s\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%d\016</TD><TD>\016%s%s\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,db[grp->cunion->list.player].data->player.won,colour,db[grp->cunion->list.player].data->player.lost,colour,db[grp->cunion->list.player].data->player.won + db[grp->cunion->list.player].data->player.lost,colour,combat_percent(db[grp->cunion->list.player].data->player.won,db[grp->cunion->list.player].data->player.won + db[grp->cunion->list.player].data->player.lost));
+                             output(p,player,0,1,33," %s%-10s%-22s%-11d%-11d%-11d%s",colour,rank(grp->before + loop),getname(grp->cunion->list.player),db[grp->cunion->list.player].data->player.won,db[grp->cunion->list.player].data->player.lost,db[grp->cunion->list.player].data->player.won + db[grp->cunion->list.player].data->player.lost,combat_percent(db[grp->cunion->list.player].data->player.won,db[grp->cunion->list.player].data->player.won + db[grp->cunion->list.player].data->player.lost));
                              break;
                         case RANK_TOTAL:
                         default:
@@ -2675,8 +2395,7 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
                              /* ---->  Total time connected  <---- */
                              curtime = db[grp->cunion->list.player].data->player.totaltime;
                              if(Connected(grp->cunion->list.player)) curtime += (now - db[grp->cunion->list.player].data->player.lasttime);
-                             if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=LEFT><TD ALIGN=CENTER BGCOLOR="HTML_TABLE_DGREY">\016%s%s\016</TD><TD>\016%s%s\016</TD><TD>\016%s%s.\016</TD></TR>\016",colour,rank(grp->before + loop),colour,getname(grp->cunion->list.player),colour,interval(curtime,curtime,entities,0));
-                                else output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
+                             output(p,player,0,1,33," %s%-10s%-22s%s.",colour,rank(grp->before + loop),getname(grp->cunion->list.player),interval(curtime,curtime,entities,0));
                              break;
 		 }
 	      }
@@ -2684,24 +2403,16 @@ Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit
 
         if(!in_command) {
            if(rwho != NOTHING) grp->groupitems = 1;
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-           if(IsHtml(p)) sprintf(scratch_return_string,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=%d>"ANSI_LWHITE"<B>\016",((types) ? 4:3) + colspan);
-           output(p,player,2,1,0,"%s%s listed: \016&nbsp;\016 "ANSI_DWHITE"%s%s",IsHtml(p) ? scratch_return_string:ANSI_LWHITE" ",!((val1 == 1) || (val1 == 3)) ? (types) ? "Objects":"Users":"Spods",listed_items(scratch_buffer,1),IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 0, ANSI_LWHITE " %s listed:  " ANSI_DWHITE "%s\n\n", !((val1 == 1) || (val1 == 3)) ? (types) ? "Objects" :"Users" :"Spods", listed_items(scratch_buffer, 1));
 	}
      } else {
-        if(IsHtml(p)) output(p,player,2,1,0,"\016<TR ALIGN=CENTER><TD COLSPAN=%d>"ANSI_LCYAN"<I>*** &nbsp; NO %s FOUND &nbsp; ***</I></TD></TR>\016",((types) ? 4:3) + colspan,!((val1 == 1) || (val1 == 3)) ? (types) ? "OBJECTS":"USERS":"SPODS");
-           else output(p,player,2,1,0," ***  NO %s FOUND  ***\n",!((val1 == 1) || (val1 == 3)) ? (types) ? "OBJECTS":"USERS":"SPODS");
+        output(p,player,2,1,0," ***  NO %s FOUND  ***\n",!((val1 == 1) || (val1 == 3)) ? (types) ? "OBJECTS":"USERS":"SPODS");
 
         if(!in_command) {
-           if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','='));
-           if(IsHtml(p)) sprintf(scratch_return_string,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=%d>"ANSI_LWHITE"<B>\016",((types) ? 4:3) + colspan);
-           output(p,player,2,1,0,"%s%s listed: \016&nbsp;\016 "ANSI_DWHITE"None.%s",IsHtml(p) ? scratch_return_string:ANSI_LWHITE" ",!((val1 == 1) || (val1 == 3)) ? (types) ? "Objects":"Users":"Spods",IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+           output(p,player,0,1,0,separator(twidth,0,'-','='));
+           output(p, player, 2, 1, 0, ANSI_LWHITE " %s listed:  " ANSI_DWHITE "None.\n\n", !((val1 == 1) || (val1 == 3)) ? (types) ? "Objects" : "Users" : "Spods");
 	}
-     }
-
-     if(IsHtml(p)) {
-        output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(p,0);
      }
 
      /* ---->  Free linked list  <---- */

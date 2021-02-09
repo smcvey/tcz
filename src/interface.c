@@ -224,11 +224,6 @@ int init_tcz(unsigned char load_db,unsigned char compressed)
     count += sort_edit_cmdtable();
     writelog(SERVER_LOG,0,"RESTART","Command tables initialised and sorted (%d entr%s.)",count,(count == 1) ? "y":"ies");
 
-    /* ---->  Initialise HTML tables  <---- */
-    html_sort_tags();
-    html_sort_entities();
-    html_init_smileys();
-
     /* ---->  Initialise module/author tables  <---- */
     modules_sort_modules();
     modules_sort_authors();
@@ -298,7 +293,7 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
      /* ---->  Check command (In {}'s) nesting limit hasn't been exceeded  <---- */
      if((!Level4(db[player].owner) && (nesting_level > MAX_NESTED_MORTAL)) || (Level4(db[player].owner) && (nesting_level > MAX_NESTED_ADMIN))) {
         if(!(command_type & WARNED)) {
-           output(p,player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"You've exceeded the maximum number of nested commands allowed ("ANSI_LYELLOW"%d"ANSI_LWHITE".)",(Level4(db[player].owner)) ? MAX_NESTED_ADMIN:MAX_NESTED_MORTAL);
+           output(p,player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"You've exceeded the maximum number of nested commands allowed ("ANSI_LYELLOW"%d"ANSI_LWHITE".)",(Level4(db[player].owner)) ? MAX_NESTED_ADMIN:MAX_NESTED_MORTAL);
            command_type |= WARNED;
 	}
         current_character = cached_curchar, current_cmdptr = cached_curcmdptr;
@@ -309,7 +304,7 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
      /* ---->  Check compound command nesting level hasn't been exceeded  <---- */
      if(in_command && ((!Level4(db[player].owner) && (command_nesting_level > MAX_CMD_NESTED_MORTAL)) || (Level4(db[player].owner) && (command_nesting_level > MAX_CMD_NESTED_ADMIN)))) {
         if(!(command_type & WARNED)) {
-           output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Maximum compound command nesting level ("ANSI_LYELLOW"%d"ANSI_LWHITE") exceeded within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",(Level4(db[player].owner)) ? MAX_CMD_NESTED_ADMIN:MAX_CMD_NESTED_MORTAL,unparse_object(player,current_command,0));
+           output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Maximum compound command nesting level ("ANSI_LYELLOW"%d"ANSI_LWHITE") exceeded within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",(Level4(db[player].owner)) ? MAX_CMD_NESTED_ADMIN:MAX_CMD_NESTED_MORTAL,unparse_object(player,current_command,0));
            writelog(EXECUTION_LOG,1,"RECURSION","Maximum compound command nesting level (%d) exceeded within compound command %s(#%d) by %s(#%d).",(Level4(db[player].owner)) ? MAX_CMD_NESTED_ADMIN:MAX_CMD_NESTED_MORTAL,getname(current_command),current_command,getname(player),player);
 	}
         command_type |= WARNED, flow_control |= FLOW_RETURN;
@@ -600,8 +595,8 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
                         total = db[player].data->player.totaltime + (now - db[player].data->player.lasttime);
                         if((Start(Location(player)) || (total <= NEWBIE_TIME)) && !Level4(Owner(player)) && !Experienced(Owner(player)) && !Assistant(Owner(player)) && !Retired(Owner(player)))
                            output(p,player,0,1,0,ANSI_LGREEN"\nSorry, the command '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown, %s"ANSI_LYELLOW"%s"ANSI_LGREEN".\n\nPlease type "ANSI_LWHITE""ANSI_UNDERLINE"TUTORIAL NEWBIE"ANSI_LGREEN" to read our tutorial for new users and "ANSI_LWHITE""ANSI_UNDERLINE"HELP CHATTING"ANSI_LGREEN" for a summary of commands used to talk to other users.\n\n"ANSI_LRED"If you're really stuck, type "ANSI_LYELLOW""ANSI_UNDERLINE"ASSIST"ANSI_LRED" and an administrator will be along to help you shortly.\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
-                              else output(p,player,0,1,2,ANSI_LGREEN"Unknown command '"ANSI_LWHITE"%s"ANSI_LGREEN"', %s"ANSI_LYELLOW"%s"ANSI_LGREEN". \016&nbsp;\016 "ANSI_LBLUE"(Type "ANSI_LCYAN""ANSI_UNDERLINE"HELP"ANSI_LBLUE" for help!)\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
-		     } else output(p,player,0,1,2,ANSI_LGREEN"Sorry, the BBS command '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown, %s"ANSI_LYELLOW"%s"ANSI_LGREEN". \016&nbsp;\016 "ANSI_LBLUE"(Type "ANSI_LCYAN""ANSI_UNDERLINE"HELP BBS"ANSI_LBLUE" for help!)\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
+                              else output(p,player,0,1,2,ANSI_LGREEN"Unknown command '"ANSI_LWHITE"%s"ANSI_LGREEN"', %s"ANSI_LYELLOW"%s"ANSI_LGREEN".  "ANSI_LBLUE"(Type "ANSI_LCYAN""ANSI_UNDERLINE"HELP"ANSI_LBLUE" for help!)\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
+		     } else output(p,player,0,1,2,ANSI_LGREEN"Sorry, the BBS command '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unknown, %s"ANSI_LYELLOW"%s"ANSI_LGREEN".  "ANSI_LBLUE"(Type "ANSI_LCYAN""ANSI_UNDERLINE"HELP BBS"ANSI_LBLUE" for help!)\n",arg0,Article(player,LOWER,DEFINITE),getcname(NOTHING,player,0,0));
 		  } else output(p,player,0,1,2,ANSI_LRED"Unknown command '"ANSI_LWHITE"%s%s%s"ANSI_LRED"' in line "ANSI_LWHITE"%d"ANSI_LRED" of "ANSI_LYELLOW"%s"ANSI_LRED" (This was expanded from '"ANSI_LWHITE"%s"ANSI_LRED"'.)\n",command,!BlankContent(params) ? " ":"",params,current_line_number,unparse_object(player,current_command,0),original_command);
 
                   /* ---->  Log failed commands  <---- */
@@ -672,11 +667,11 @@ void tcz_command(struct descriptor_data *d,dbref player,const char *command)
 
      /* ---->  Log top-level commands, breeching user privacy (For debugging use only)  <---- */
      if(!Blank(ptr) && (option_loglevel(OPTSTATUS) >= 3) && !in_command)
-        writelog(COMMAND_LOG,1,"COMMAND","(%s(#%d) (%s) in %s)  >>>>>  %s",getname(player),player,IsHtml(d) ? "HTML":"Telnet",unparse_object(ROOT,Location(player),0),ptr);
+        writelog(COMMAND_LOG, 1, "COMMAND", "(%s(#%d) (Telnet) in %s)  >>>>>  %s", getname(player), player, unparse_object(ROOT, Location(player), 0), ptr);
 
      /* ---->  Emergency command logging on user  <---- */
      if(!Blank(ptr) && (now < d->emergency_time) && !in_command)
-        writelog(EMERGENCY_LOG,1,"EMERGENCY","(%s(#%d) (%s) in %s)  >>>>>  %s",getname(player),player,IsHtml(d) ? "HTML":"Telnet",unparse_object(ROOT,Location(player),0),ptr);
+        writelog(EMERGENCY_LOG, 1, "EMERGENCY", "(%s(#%d) (Telnet) in %s)  >>>>>  %s", getname(player), player, unparse_object(ROOT, Location(player), 0), ptr);
 
      /* ---->  Monitor on user  <---- */
      if(d->monitor && !Blank(ptr))
@@ -685,14 +680,13 @@ void tcz_command(struct descriptor_data *d,dbref player,const char *command)
               int cached_command_type = command_type;
 
               wrap_leading = 11;
-              command_type |= NO_AUTO_FORMAT;
-              sprintf(scratch_return_string,ANSI_LBLUE"[MONITOR] \016&nbsp;\016 "ANSI_DCYAN"(%s"ANSI_LWHITE"%s"ANSI_DCYAN" in ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
-              sprintf(scratch_return_string + strlen(scratch_return_string),"%s"ANSI_LYELLOW"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"%s\n",Article(db[player].location,LOWER,INDEFINITE),unparse_object(d->monitor->player,db[player].location,0),ptr);
+              sprintf(scratch_return_string,ANSI_LBLUE"[MONITOR]  "ANSI_DCYAN"(%s"ANSI_LWHITE"%s"ANSI_DCYAN" in ",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+              sprintf(scratch_return_string + strlen(scratch_return_string),"%s"ANSI_LYELLOW"%s"ANSI_DCYAN")  "ANSI_LGREEN"%s\n",Article(db[player].location,LOWER,INDEFINITE),unparse_object(d->monitor->player,db[player].location,0),ptr);
               output_queue_string(d->monitor,scratch_return_string,0);
               command_type = cached_command_type;
               wrap_leading = 0;
 	   }
-           writelog(MONITOR_LOG,1,"MONITOR","(%s(#%d) (%s) in %s)  >>>>>  %s",getname(player),player,IsHtml(d) ? "HTML":"Telnet",unparse_object(ROOT,Location(player),0),ptr);
+           writelog(MONITOR_LOG, 1, "MONITOR", "(%s(#%d) (Telnet) in %s)  >>>>>  %s", getname(player), player, unparse_object(ROOT, Location(player), 0), ptr);
 	}
 
      /* ---->  Track idle time  <---- */
@@ -748,7 +742,7 @@ void tcz_command(struct descriptor_data *d,dbref player,const char *command)
      if(!Blank(ptr) && (option_loglevel(OPTSTATUS) >= 2) && !in_command)
 	if(!(((d->flags & SPOKEN_TEXT) || ((d->flags & ABSOLUTE) && !(d->flags2 & ABSOLUTE_OVERRIDE)))))
   	   if(option_loglevel(OPTSTATUS) == 2)
-              writelog(COMMAND_LOG,1,"COMMAND","(%s(#%d) (%s) in %s)  >>>>>  %s",getname(player),player,IsHtml(d) ? "HTML":"Telnet",unparse_object(ROOT,Location(player),0),ptr);
+              writelog(COMMAND_LOG, 1, "COMMAND","(%s(#%d) (Telnet) in %s)  >>>>>  %s", getname(player), player, unparse_object(ROOT, Location(player), 0), ptr);
 
      /* ---->  Temporary variables still exist?  <---- */
      if(tempptr) {
@@ -807,9 +801,9 @@ void update_all_lasttotal()
      struct descriptor_data *d;
 
      for(d = descriptor_list; d; d = d->next)
-         if(Validchar(d->player) && (server_count_connections(d->player,1) == 1)) {
+         if(Validchar(d->player) && (server_count_connections(d->player) == 1)) {
             update_lasttotal(d->player,3);
-            db[d->player].flags2 &= ~(CONNECTED|CHAT_OPERATOR|CHAT_PRIVATE|HTML);
+            db[d->player].flags2 &= ~(CONNECTED|CHAT_OPERATOR|CHAT_PRIVATE);
             d->flags &= ~CONNECTED;
 	 } else d->flags &= ~CONNECTED;
 }
@@ -823,7 +817,7 @@ void tcz_connect_character(struct descriptor_data *d,dbref player,int create)
      short    cc;
      time_t   now;
 
-     if(((cc = server_count_connections(player,1)) == 1) || (db[player].data->player.lasttime == 0)) {
+     if(((cc = server_count_connections(player)) == 1) || (db[player].data->player.lasttime == 0)) {
         update_lasttotal(player,1);
         d->start_time = db[player].data->player.lasttime;
      } else gettime(d->start_time);
@@ -889,7 +883,7 @@ void tcz_connect_character(struct descriptor_data *d,dbref player,int create)
 /* ---->  Disconnect character  <---- */
 void tcz_disconnect_character(struct descriptor_data *d)
 {
-     int      connections = server_count_connections(d->player,1);
+     int      connections = server_count_connections(d->player);
      dbref    command,cached_owner,cached_chpid;
      unsigned char number;
 
@@ -939,7 +933,7 @@ void tcz_disconnect_character(struct descriptor_data *d)
 
      if(connections <= 1) {
         update_lasttotal(d->player,3);
-        db[d->player].flags2 &= ~(CONNECTED|CHAT_OPERATOR|CHAT_PRIVATE|HTML);
+        db[d->player].flags2 &= ~(CONNECTED|CHAT_OPERATOR|CHAT_PRIVATE);
         db[d->player].data->player.failedlogins = 0;
      }
 }
@@ -1235,7 +1229,7 @@ void tcz_time_sync(unsigned char init)
                  FREENULL(shutdown_reason);
                  return;
 	      } else if(!shutdown_timing || (shutdown_counter <= 10))
-                 output_all(1,1,0,0,"\007\n\x05\x09\x05\x03"ANSI_LRED"["ANSI_BLINK""ANSI_UNDERLINE"SHUTDOWN"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s will be going down in "ANSI_LYELLOW"%d minute%s"ANSI_LWHITE" %s\n", tcz_full_name, shutdown_counter, Plural(shutdown_counter), !Blank(shutdown_reason) ? shutdown_reason : "");
+                 output_all(1,1,0,0,"\007\n\x05\x09\x05\x03"ANSI_LRED"["ANSI_BLINK""ANSI_UNDERLINE"SHUTDOWN"ANSI_LRED"]  "ANSI_LWHITE"%s will be going down in "ANSI_LYELLOW"%d minute%s"ANSI_LWHITE" %s\n", tcz_full_name, shutdown_counter, Plural(shutdown_counter), !Blank(shutdown_reason) ? shutdown_reason : "");
               shutdown_timing = now;
 	   }
 	} else shutdown_timing = -1;

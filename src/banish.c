@@ -202,16 +202,14 @@ void banish_list(dbref player,struct descriptor_data *d,const char *name)
      if((!strcasecmp("page",name) && (strlen(name) == 4)) || !strncasecmp(name,"page ",5))
         for(name += 4; *name && (*name == ' '); name++);
      name = (char *) parse_grouprange(player,name,FIRST,1);
-     if(d && !d->pager && !IsHtml(d) && Validchar(player) && More(player)) pager_init(d);
+     if(d && !d->pager && Validchar(player) && More(player)) pager_init(d);
 
      /* ---->  Sort banished names into alphabetical order  <---- */
      rootnode = NULL, tail = NULL;
      banish_traverse(banish);
      set_conditions(player,0,0,0,0,name,510);
 
-     if(IsHtml(d)) {
-        width = 4;
-     } else if(d && (twidth > 1)) {
+     if(d && (twidth > 1)) {
         width = (twidth - 1) / 23;
      } else width = 3;
 
@@ -221,50 +219,37 @@ void banish_list(dbref player,struct descriptor_data *d,const char *name)
      }
      union_initgrouprange((union group_data *) rootnode);
 
-     if(IsHtml(d)) {
-        html_anti_reverse(d,1);
-        output(d,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-     }
-
      if(!in_command) {
-        output(d,player,2,1,1,"%sCharacter names beginning with the following are currently banned...%s",IsHtml(d) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH COLSPAN=4><FONT COLOR="HTML_LCYAN" SIZE=4><I>\016":"\n ",IsHtml(d) ? "\016</I></FONT></TH></TR>\016":"\n");
-        if(!IsHtml(d)) output(d,player,0,1,0,separator(twidth,0,'-','='));
+        output(d, player, 2, 1, 1, "\n Character names beginning with the following are currently banned...\n");
+        output(d,player,0,1,0,separator(twidth,0,'-','='));
      }
 
-     strcpy(scratch_buffer,IsHtml(d) ? "\016<TR ALIGN=LEFT>\016":ANSI_LWHITE" ");
+     strcpy(scratch_buffer,ANSI_LWHITE" ");
      while(union_grouprange()) {
            if(++counter > width) {
-              strcat(scratch_buffer,IsHtml(d) ? "\016</TR>\016":"\n");
+              strcat(scratch_buffer,"\n");
               output(d,player,2,1,0,"%s",scratch_buffer);
-              strcpy(scratch_buffer,IsHtml(d) ? "\016<TR ALIGN=LEFT>\016":ANSI_LWHITE" ");
+              strcpy(scratch_buffer,ANSI_LWHITE" ");
               counter = 1;
 	   }
 
-           if(!IsHtml(d)) {
-              for(ptr = scratch_return_string, length = 20 - strlen(grp->cunion->banish.name); length > 0; *ptr++ = ' ', length--);
-              *ptr = '\0';
-	   }
-           sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s%s",IsHtml(d) ? "\016<TD WIDTH=25%>\016":(counter > 1) ? "  ":"",grp->cunion->banish.name,IsHtml(d) ? "":scratch_return_string);
+           for(ptr = scratch_return_string, length = 20 - strlen(grp->cunion->banish.name); length > 0; *ptr++ = ' ', length--);
+           *ptr = '\0';
+           sprintf(scratch_buffer + strlen(scratch_buffer), "%s%s%s", (counter > 1) ? "  " : "", grp->cunion->banish.name, scratch_return_string);
      }
      if(Validchar(player)) db[player].data->player.scrheight = cached_scrheight;
 
      if(counter != 0) {
-        if(IsHtml(d)) while(++counter <= width) strcat(scratch_buffer,"\016<TD WIDTH=25%>&nbsp;</TD>\016");
-        strcat(scratch_buffer,IsHtml(d) ? "\016</TR>\016":"\n");
+        strcat(scratch_buffer,"\n");
         output(d,player,2,1,0,"%s",scratch_buffer);
      }
 
      if(grp->rangeitems == 0)
-        output(d,player,2,1,1,"%s",IsHtml(d) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO BANISHED NAMES LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO BANISHED NAMES LISTED  ***\n");
+        output(d,player,2,1,1,"%s"," ***  NO BANISHED NAMES LISTED  ***\n");
 
      if(!in_command) {
-        if(!IsHtml(d)) output(d,player,2,1,0,separator(twidth,1,'-','='));
-        output(d,player,2,1,1,"%sBanished names listed: %s "ANSI_DWHITE"%s%s",IsHtml(d) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=4>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",IsHtml(d) ? "\016&nbsp;\016":"",listed_items(scratch_return_string,1),IsHtml(d) ? "\016</B></TD></TR>\016":"\n\n");
-     }
-
-     if(IsHtml(d)) {
-        output(d,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-        html_anti_reverse(d,0);
+        output(d,player,2,1,0,separator(twidth,1,'-','='));
+        output(d, player, 2, 1, 1, ANSI_LWHITE " Banished names listed:  " ANSI_DWHITE "%s\n\n", listed_items(scratch_return_string, 1));
      }
 }
 

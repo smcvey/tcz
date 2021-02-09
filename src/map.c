@@ -12,8 +12,6 @@
 |                               for format)  -  Defines ANSI colours for      |
 |                               ASCII map.                                    |
 |                                                                             |
-|           NOTE:  HTML Interface users will see graphical map instead of     |
-|                  text-based map (See TCZMAP_IMG & TCZMAP_PATH in config.h)  |
 |--------------------------[ Copyright Information ]--------------------------|
 | This program is free software; you can redistribute it and/or modify        |
 | it under the terms of the GNU General Public License as published by        |
@@ -180,15 +178,6 @@ int map_reload(dbref player,int reload)
     return(1);
 }
 
-/* ---->  HTML map  <---- */
-void map_html(struct descriptor_data *p)
-{
-     output(p,NOTHING,1,0,0,"<BR><CENTER><TABLE BORDER CELLPADDING=0 BGCOLOR="HTML_TABLE_WHITE">");
-     output(p,NOTHING,1,0,0,"<TR ALIGN=CENTER><TH BGCOLOR="HTML_TABLE_CYAN"><FONT SIZE=6 COLOR=#00DDFF><B><I>%s Map</I></B></FONT></TH></TR>",tcz_full_name);
-     output(p,NOTHING,1,0,0,"<TR ALIGN=CENTER><TD><A HREF=\"%s/"TCZMAP_PATH"\" TARGET=_blank><IMG SRC=\"%s\" BORDER=0 ALT=\"%s Map\"></A></TD></TR></TABLE>",html_home_url,html_image_url(TCZMAP_IMG),tcz_full_name);
-     output(p,NOTHING,1,0,0,"<BR><FONT COLOR=#00FF00><I>Click on map to enlarge...</I></FONT></CENTER><BR>");
-}
-
 /* ---->  {@?colourmap "<MAP>" "<TEXT>"} query command  <---- */
 void map_query_colourmap(CONTEXT)
 {
@@ -209,12 +198,7 @@ void map_main(CONTEXT)
      struct descriptor_data *p = getdsc(player);
 
      setreturn(ERROR,COMMAND_FAIL);
-     if(IsHtml(p) && Blank(params)) {
-
-        /* ---->  Graphical map for HTML Interface users  <---- */
-        map_html(p);
-        setreturn(OK,COMMAND_FAIL);
-     } else if(!Blank(map_text) && Validchar(player)) {
+     if(!Blank(map_text) && Validchar(player)) {
         int   xoffset = 0,yoffset = 0,width = map_width,height = map_height;
         int   theight = db[player].data->player.scrheight - 6;
         char  buffer[TEXT_SIZE + 1],cbuffer[TEXT_SIZE + 1];
@@ -226,119 +210,104 @@ void map_main(CONTEXT)
         int   error = 0,adjust;
         char  *bptr,*cbptr;
 
-        /* ---->  Text-based map (Also available to HTML users if parameters are given to 'map' command.)  <---- */
-        if(!IsHtml(p)) {
-           if(Blank(params) || (count = string_compare("central",params,6)) || (count = string_compare("centre",params,5)) || (count = string_compare("center",params,0)) || (count = string_compare("middle",params,0)) ||
-              string_compare("east",params,0) || string_compare("west",params,0) || string_compare("left",params,0) || string_compare("right",params,0)) {
+        /* ---->  Text-based map  <---- */
+        if(Blank(params) || (count = string_compare("central",params,6)) || (count = string_compare("centre",params,5)) || (count = string_compare("center",params,0)) || (count = string_compare("middle",params,0)) ||
+           string_compare("east",params,0) || string_compare("west",params,0) || string_compare("left",params,0) || string_compare("right",params,0)) {
 
-              /* ---->  Centre / Middle section  <---- */
-              if(*params && !strcasecmp("ce",params)) count = 1;
-              for(; (count > 0) && *params; count--, params++);
-              for(; *params && !isalpha(*params); params++);
-              if(!*params || string_compare("central",params,6) || string_compare("centre",params,5) || string_compare("center",params,0) || string_compare("middle",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"Central"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = ((map_width - MIN(twidth,map_width)) / 2);
-                 yoffset = ((map_height - MIN(theight,map_height)) / 2);
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else if(string_compare("west",params,0) || string_compare("left",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"Central-West"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = 0;
-                 yoffset = ((map_height - MIN(theight,map_height)) / 2);
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else if(string_compare("east",params,0) || string_compare("right",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"Central-East"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = map_width - MIN(twidth,map_width);
-                 yoffset = ((map_height - MIN(theight,map_height)) / 2);
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else error = 1;
-  	   } else if((count = string_compare("north",params,0)) || (count = string_compare("top",params,0))) {
-
-              /* ---->  North / Top section  <---- */
-              for(; (count > 0) && *params; count--, params++);
-              for(; *params && !isalpha(*params); params++);
-              if(!*params || string_compare("central",params,6) || string_compare("centre",params,5) || string_compare("center",params,0) || string_compare("middle",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"North-Central"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = ((map_width - MIN(twidth,map_width)) / 2);
-                 yoffset = 0;
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-  	      } else if(string_compare("west",params,0) || string_compare("left",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"North-West"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = 0;
-                 yoffset = 0;
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else if(string_compare("east",params,0) || string_compare("right",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"North-East"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = map_width - MIN(twidth,map_width);
-                 yoffset = 0;
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else error = 1;
-  	   } else if((count = string_compare("south",params,0)) || (count = string_compare("bottom",params,0))) {
-
-              /* ---->  South / Bottom section  <---- */
-              for(; (count > 0) && *params; count--, params++);
-              for(; *params && !isalpha(*params); params++);
-              if(!*params || string_compare("central",params,6) || string_compare("centre",params,5) || string_compare("center",params,0) || string_compare("middle",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"South-Central"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = ((map_width - MIN(twidth,map_width)) / 2);
-                 yoffset = map_height - MIN(theight,map_width);
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else if(string_compare("west",params,0) || string_compare("left",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"South-West"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = 0;
-                 yoffset = map_height - MIN(theight,map_width);
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else if(string_compare("east",params,0) || string_compare("right",params,0)) {
-                 sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"South-East"ANSI_LYELLOW")",tcz_full_name);
-                 title   = titlebuffer;
-                 xoffset = map_width - MIN(twidth,map_width);
-                 yoffset = map_height - MIN(theight,map_width);
-                 width   = MIN(twidth,map_width);
-                 height  = MIN(theight,map_height);
-	      } else error = 1;
+           /* ---->  Centre / Middle section  <---- */
+           if(*params && !strcasecmp("ce",params)) count = 1;
+           for(; (count > 0) && *params; count--, params++);
+           for(; *params && !isalpha(*params); params++);
+           if(!*params || string_compare("central",params,6) || string_compare("centre",params,5) || string_compare("center",params,0) || string_compare("middle",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"Central"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = ((map_width - MIN(twidth,map_width)) / 2);
+              yoffset = ((map_height - MIN(theight,map_height)) / 2);
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else if(string_compare("west",params,0) || string_compare("left",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"Central-West"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = 0;
+              yoffset = ((map_height - MIN(theight,map_height)) / 2);
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else if(string_compare("east",params,0) || string_compare("right",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"Central-East"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = map_width - MIN(twidth,map_width);
+              yoffset = ((map_height - MIN(theight,map_height)) / 2);
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
 	   } else error = 1;
+  	} else if((count = string_compare("north",params,0)) || (count = string_compare("top",params,0))) {
 
-           if(error) {
-              output(p,player,0,1,0,ANSI_LGREEN"Sorry, the map section '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unrecognised (Try using compass directions.)",origparams);
-              return;
-	   }
-	} else {
-           sprintf(titlebuffer,"%s Map"ANSI_LWHITE""ANSI_LYELLOW,tcz_full_name);
-           title   = titlebuffer;
-           xoffset = 0;
-           yoffset = 0;
-           width   = map_width;
-           height  = map_height;
-           twidth  = map_width;
-           theight = map_height;
+           /* ---->  North / Top section  <---- */
+           for(; (count > 0) && *params; count--, params++);
+           for(; *params && !isalpha(*params); params++);
+           if(!*params || string_compare("central",params,6) || string_compare("centre",params,5) || string_compare("center",params,0) || string_compare("middle",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"North-Central"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = ((map_width - MIN(twidth,map_width)) / 2);
+              yoffset = 0;
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+  	   } else if(string_compare("west",params,0) || string_compare("left",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"North-West"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = 0;
+              yoffset = 0;
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else if(string_compare("east",params,0) || string_compare("right",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"North-East"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = map_width - MIN(twidth,map_width);
+              yoffset = 0;
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else error = 1;
+  	} else if((count = string_compare("south",params,0)) || (count = string_compare("bottom",params,0))) {
+
+           /* ---->  South / Bottom section  <---- */
+           for(; (count > 0) && *params; count--, params++);
+           for(; *params && !isalpha(*params); params++);
+           if(!*params || string_compare("central",params,6) || string_compare("centre",params,5) || string_compare("center",params,0) || string_compare("middle",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"South-Central"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = ((map_width - MIN(twidth,map_width)) / 2);
+              yoffset = map_height - MIN(theight,map_width);
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else if(string_compare("west",params,0) || string_compare("left",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"South-West"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = 0;
+              yoffset = map_height - MIN(theight,map_width);
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else if(string_compare("east",params,0) || string_compare("right",params,0)) {
+              sprintf(titlebuffer,"%s Map ("ANSI_LWHITE"South-East"ANSI_LYELLOW")",tcz_full_name);
+              title   = titlebuffer;
+              xoffset = map_width - MIN(twidth,map_width);
+              yoffset = map_height - MIN(theight,map_width);
+              width   = MIN(twidth,map_width);
+              height  = MIN(theight,map_height);
+	   } else error = 1;
+	} else error = 1;
+
+        if(error) {
+           output(p,player,0,1,0,ANSI_LGREEN"Sorry, the map section '"ANSI_LWHITE"%s"ANSI_LGREEN"' is unrecognised (Try using compass directions.)",origparams);
+           return;
 	}
 
         /* ---->  Map header  <---- */
         adjust = strlen(title) - strlen(ANSI_LWHITE""ANSI_LYELLOW);
         count  = (width - adjust) / 2;
         error  = ((twidth % 2) == 0);
-        if(IsHtml(p)) {
-           html_anti_reverse(p,1);
-           output(p,player,1,1,0,"<P><TABLE BORDER=5 BGCOLOR="HTML_TABLE_BLACK"><TR><TD>");
-	}
-        output(p,player,0,1,0,"%s"ANSI_DCYAN".%s.%s",IsHtml(p) ? "\016<TT>\016":"",strpad('-',width,buffer),IsHtml(p) ? "\016</TT>\016":"");
-        output(p,player,0,1,0,"%s"ANSI_DCYAN"|%s"ANSI_LYELLOW"%s"ANSI_DCYAN"%s%s|%s",IsHtml(p) ? "\016<TT>\016":"",strpad(' ',count,buffer),title,buffer,((adjust % 2) == error) ? " ":"",IsHtml(p) ? "\016</TT>\016":"");
-        output(p,player,0,1,0,"%s"ANSI_DCYAN"|%s|%s",IsHtml(p) ? "\016<TT>\016":"",strpad('-',width,buffer),IsHtml(p) ? "\016</TT>\016":"");
+        output(p, player, 0, 1, 0, ANSI_DCYAN ".%s.", strpad('-', width, buffer));
+        output(p, player, 0, 1, 0, ANSI_DCYAN "|%s" ANSI_LYELLOW "%s" ANSI_DCYAN "%s%s|", strpad(' ',count, buffer), title, buffer, ((adjust % 2) == error) ? " ":"");
+        output(p, player, 0, 1, 0, ANSI_DCYAN "|%s|", strpad('-', width, buffer));
 
         /* ---->  Skip to starting line of map section  <---- */
         for(; (yoffset > 0) && *ptr; yoffset--) {
@@ -373,7 +342,7 @@ void map_main(CONTEXT)
 
             /* ---->  Draw map line  <---- */
             *bptr = '\0', *cbptr = '\0';
-            output(p,player,0,1,0,"%s"ANSI_DCYAN"|"ANSI_DWHITE"%s"ANSI_DCYAN"|%s",IsHtml(p) ? "\016<TT>\016":"",map_colourmap(buffer,cbuffer,0,scratch_return_string,BUFFER_LEN - 1),IsHtml(p) ? "\016</TT>\016":"");
+            output(p, player, 0, 1, 0, ANSI_DCYAN "|" ANSI_DWHITE "%s" ANSI_DCYAN "|", map_colourmap(buffer, cbuffer, 0, scratch_return_string, BUFFER_LEN - 1));
 
             /* ---->  Skip to next line  <---- */
             for(; *cptr && (*cptr != '\n'); cptr++);
@@ -381,12 +350,8 @@ void map_main(CONTEXT)
             if(*cptr) cptr++;
             if(*ptr)  ptr++;
 	}
-        output(p,player,0,1,0,"%s"ANSI_DCYAN"`%s'%s%s",IsHtml(p) ? "\016<TT>\016":"",strpad('-',width,buffer),IsHtml(p) ? "":"\n",IsHtml(p) ? "\016</TT>\016":"");
+        output(p, player, 0, 1, 0, ANSI_DCYAN "`%s'\n", strpad('-', width, buffer));
         
-        if(IsHtml(p)) {
-           output(p,player,1,1,0,"</TD></TR></TABLE><P>");
-           html_anti_reverse(p,0);
-	}
         setreturn(OK,COMMAND_SUCC);
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, "ANSI_LYELLOW"%s"ANSI_LGREEN" map isn't currently available.",tcz_full_name);
 }

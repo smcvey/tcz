@@ -152,7 +152,6 @@ void request_view(dbref player,const char *reference,unsigned short refno)
      unsigned char            twidth = output_terminal_width(player);
      struct   descriptor_data *p = getdsc(player);
      const    char            *email = NULL;
-     int                      copied;
      struct   request_data    *ptr;
      struct   in_addr         addr;
 
@@ -172,32 +171,24 @@ void request_view(dbref player,const char *reference,unsigned short refno)
      }
 
      /* ---->  Display details of request  <---- */
-     html_anti_reverse(p,1);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
      if(!in_command) {
-        if(!IsHtml(p)) {
-           output(p,player,0,1,0,(refno) ? "\n The following new character request has been allocated to you...":"\n Details of request for new character...");
-           output(p,player,0,1,0,separator(twidth,0,'-','='));
-	} else output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH COLSPAN=2><FONT COLOR="HTML_LCYAN" SIZE=4><I>%s</I></FONT></TH></TR>\016",(refno) ? "The following new character request has been allocated to you...":"Details of request for new character...");
+        output(p,player,0,1,0,(refno) ? "\n The following new character request has been allocated to you...":"\n Details of request for new character...");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
 
-     output(p,player,2,1,0,"%sReference number:%s"ANSI_LWHITE"%d.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"     ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",ptr->ref,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,24,"%sTime/date of request:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW" ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",date_to_string(ptr->date,UNSET_DATE,player,FULLDATEFMT),IsHtml(p) ? "\016</TD></TR>\016":"\n");
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     Reference number:  " ANSI_LWHITE "%d.\n", ptr->ref);
+     output(p, player, 2, 1, 24, ANSI_LYELLOW " Time/date of request:  " ANSI_LWHITE "%s.\n", date_to_string(ptr->date, UNSET_DATE, player, FULLDATEFMT));
      addr.s_addr = htonl(ptr->address), lookup_site(&addr,scratch_return_string);
-     output(p,player,2,1,24,"%sRequest made from:%s"ANSI_LWHITE"%s%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"    ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",scratch_return_string,IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,24,"%sE-mail address:%s"ANSI_LWHITE"\016<A HREF=\"mailto:%s\" TARGET=_blank>\016%s\016</A>\016%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"       ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",html_encode((ptr->email && IsHtml(p)) ? ptr->email:"",scratch_return_string,&copied,256),(ptr->email) ? decompress(ptr->email):"<UNKNOWN>",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     output(p,player,2,1,24,"%sPreferred name:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<TR><TH ALIGN=RIGHT WIDTH=25% BGCOLOR="HTML_TABLE_YELLOW"><I>\016"ANSI_LYELLOW:ANSI_LYELLOW"        ",IsHtml(p) ? "\016</I></TH><TD ALIGN=LEFT>\016":"  ",(ptr->name) ? decompress(ptr->name):"<UNKNOWN>",IsHtml(p) ? "\016</TD></TR>\016":"\n");
-     if(!IsHtml(p)) output(p,player,0,1,0,separator(twidth,0,'-','-'));
+     output(p, player, 2, 1, 24, ANSI_LYELLOW "    Request made from:  " ANSI_LWHITE "%s\n", scratch_return_string);
+     output(p, player, 2, 1, 24, ANSI_LYELLOW "       E-mail address:  " ANSI_LWHITE "%s\n", (ptr->email) ? decompress(ptr->email) : "<UNKNOWN>");
+     output(p, player, 2, 1, 24, ANSI_LYELLOW "        Preferred name:  " ANSI_LWHITE "%s.\n", (ptr->name) ? decompress(ptr->name) : "<UNKNOWN>");
+     output(p,player,0,1,0,separator(twidth,0,'-','-'));
 
      if(!Blank(ptr->email)) email = check_duplicates(NOTHING,decompress(ptr->email),0,1);
-     if(IsHtml(p)) output(p,player,1,2,0,"<TR BGCOLOR="HTML_TABLE_DGREY"><TD ALIGN=LEFT COLSPAN=2>");
-     output(p,player,2,1,1,"%sAdministrator currently dealing with request:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<B><I>\016"ANSI_LGREEN:ANSI_LGREEN" ",IsHtml(p) ? "\016</I></B> &nbsp; \016":"  ",Validchar(ptr->user) ? getname(ptr->user):"<AWAITING ATTENTION>",IsHtml(p) ? "\016<P>\016":"\n\n");
-     output(p,player,2,1,1,"%sExisting users with similar E-mail addresses:%s"ANSI_LWHITE"%s.%s",IsHtml(p) ? "\016<B><I>\016"ANSI_LRED:ANSI_LRED" ",IsHtml(p) ? "\016</I></B> &nbsp; \016":"  ",!Blank(email) ? email:"None",IsHtml(p) ? "":"\n");
-     if(IsHtml(p)) output(p,player,1,2,0,"</TD></TR>");
+     output(p, player, 2, 1, 1, ANSI_LGREEN " Administrator currently dealing with request:  " ANSI_LWHITE "%s.\n\n", Validchar(ptr->user) ? getname(ptr->user) : "<AWAITING ATTENTION>");
+     output(p, player, 2, 1, 1, ANSI_LRED " Existing users with similar E-mail addresses:  " ANSI_LWHITE "%s.\n", !Blank(email) ? email:"None");
 
-     if(!IsHtml(p) && !in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(p,0);
+     if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -229,15 +220,11 @@ void request_list(dbref player,const char *email,const char *name)
          if(!Validchar(req->user))
             req->user = NOTHING, waiting++;
 
-     html_anti_reverse(p,1);
-     if(p && !p->pager && !IsHtml(p) && More(player)) pager_init(p);
-     if(IsHtml(p)) output(p,player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
+     if(p && !p->pager && More(player)) pager_init(p);
 
      if(!in_command) {
-        if(!IsHtml(p)) {
-           output(p,player,0,1,0,"\n Number:  Date:       Administrator:        Preferred name and E-mail address:");
-           output(p,player,0,1,0,separator(twidth,0,'-','='));
-	} else output(p,player,2,1,0,"\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_CYAN"><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Number:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Date:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Administrator:</I></FONT></TH><TH><FONT COLOR="HTML_LCYAN" SIZE=4><I>Preferred name and E-mail address:</I></FONT></TH></TR>\016");
+        output(p,player,0,1,0,"\n Number:  Date:       Administrator:        Preferred name and E-mail address:");
+        output(p,player,0,1,0,separator(twidth,0,'-','='));
      }
      cached_scrheight                  = db[player].data->player.scrheight;
      db[player].data->player.scrheight = (db[player].data->player.scrheight - 7) * 2;
@@ -251,7 +238,7 @@ void request_list(dbref player,const char *email,const char *name)
            if(Validchar(grp->cunion->request.user))
               colour = privilege_colour(grp->cunion->request.user);
                  else colour = ANSI_LWHITE;
-           sprintf(scratch_buffer,IsHtml(p) ? "\016<TR ALIGN=CENTER><TD BGCOLOR="HTML_TABLE_RED">\016"ANSI_LRED"%d\016</TD><TD BGCOLOR="HTML_TABLE_MAGENTA">\016"ANSI_LMAGENTA"%02d/%02d/%04d":" "ANSI_LRED"%-9d"ANSI_LMAGENTA"%02d/%02d/%04d  ",grp->cunion->request.ref,rtime->tm_mday,rtime->tm_mon + 1,rtime->tm_year + 1900);
+           sprintf(scratch_buffer, ANSI_LRED " %-9d" ANSI_LMAGENTA "%02d/%02d/%04d  ", grp->cunion->request.ref, rtime->tm_mday, rtime->tm_mon + 1, rtime->tm_year + 1900);
 
            /* ---->  Administrator's name  <---- */
            if(Validchar(grp->cunion->request.user)) {
@@ -260,23 +247,21 @@ void request_list(dbref player,const char *email,const char *name)
                  sprintf(scratch_return_string,"%s %s",ptr,getname(grp->cunion->request.user));
                     else strcpy(scratch_return_string,getname(grp->cunion->request.user));
 	   } else strcpy(scratch_return_string,"<AWAITING ATTENTION>");
-           sprintf(scratch_buffer + strlen(scratch_buffer),IsHtml(p) ? "\016</TD><TD ALIGN=LEFT>\016%s%s":"%s%-22s",colour,scratch_return_string);
+           sprintf(scratch_buffer + strlen(scratch_buffer), "%s%-22s", colour, scratch_return_string);
 
            /* ---->  Preferred name and E-mail address  <---- */
            if((length = (twidth - 45)) < 0) length = 0;
            strcpy(scratch_return_string,(grp->cunion->request.email) ? decompress(grp->cunion->request.email):"<E-MAIL UNKNOWN>");
            scratch_return_string[length] = '\0';
-           output(p,player,2,1,44,IsHtml(p) ? "%s\016</TD><TD ALIGN=LEFT>\016"ANSI_LYELLOW"%s%s"ANSI_LGREEN"%s\016</TD></TR>\016":"%s"ANSI_LYELLOW"%s%s"ANSI_LGREEN"%s\n",scratch_buffer,(grp->cunion->request.name) ? decompress(grp->cunion->request.name):"",(grp->cunion->request.name) ? "\n":"",scratch_return_string);
+           output(p, player, 2, 1, 44, "%s" ANSI_LYELLOW "%s%s" ANSI_LGREEN "%s\n", scratch_buffer, (grp->cunion->request.name) ? decompress(grp->cunion->request.name) : "", (grp->cunion->request.name) ? "\n" : "", scratch_return_string);
      }
      if(Validchar(player)) db[player].data->player.scrheight = cached_scrheight;
 
-     if(grp->rangeitems == 0) output(p,player,2,1,0,"%s",IsHtml(p) ? "\016<TR ALIGN=CENTER><TD COLSPAN=4>"ANSI_LCYAN"<I>*** &nbsp; NO REQUESTS LISTED &nbsp; ***</I></TD></TR>\016":" ***  NO REQUESTS LISTED  ***\n");
+     if(grp->rangeitems == 0) output(p, player, 2, 1, 0, " ***  NO REQUESTS LISTED  ***\n");
      if(!in_command) {
-        if(!IsHtml(p)) output(p,player,2,1,0,separator(twidth,1,'-','='));
-        output(p,player,2,1,1,"%sRequests listed: \016&nbsp;\016 "ANSI_DWHITE"%s\016 &nbsp; &nbsp; \016"ANSI_LWHITE"Awaiting attention: \016&nbsp;\016 "ANSI_DWHITE"%d.%s",IsHtml(p) ? "\016<TR ALIGN=CENTER BGCOLOR="HTML_TABLE_GREY"><TD COLSPAN=4>"ANSI_LWHITE"<B>\016":ANSI_LWHITE" ",listed_items(scratch_return_string,1),waiting,IsHtml(p) ? "\016</B></TD></TR>\016":"\n\n");
+        output(p,player,2,1,0,separator(twidth,1,'-','='));
+        output(p, player, 2, 1, 1, ANSI_LWHITE " Requests listed:  " ANSI_DWHITE "%s   " ANSI_LWHITE "Awaiting attention:  " ANSI_DWHITE "%d.\n\n", listed_items(scratch_return_string, 1), waiting);
      }
-     if(IsHtml(p)) output(p,player,1,2,0,"</TABLE>%s",(!in_command) ? "<BR>":"");
-     html_anti_reverse(p,0);
      setreturn(OK,COMMAND_SUCC);
 }
 

@@ -187,10 +187,6 @@ The Chatting Zone (TCZ)  -  Source code module authors
 ------------------------------------------------------------------------------
  06/07/1994  15/12/2004  JPB  * Jonathan Boggis      JC Digita
 ==============================================================================
- html.c                  21/06/1996   World Wide Web Interface & HTML support.
-------------------------------------------------------------------------------
- 21/06/1996  15/12/2004  JPB  * Jonathan Boggis      JC Digita
-==============================================================================
  interface.c             21/12/1993   Command pre-processing.
 ------------------------------------------------------------------------------
  01/01/1989  21/12/1993  BY   * Bennet Yee           N/A
@@ -318,7 +314,7 @@ The Chatting Zone (TCZ)  -  Source code module authors
 ------------------------------------------------------------------------------
  15/06/1994  15/12/2004  JPB  * Jonathan Boggis      JC Digita
 ==============================================================================
- server.c                21/12/1993   Handling of Telnet/HTML sockets.
+ server.c                21/12/1993   Handling of Telnet sockets.
 ------------------------------------------------------------------------------
  01/01/1989  21/12/1993  BY   * Bennet Yee           N/A
  01/01/1990  21/12/1993  DP     Dave Proctor         N/A
@@ -480,7 +476,7 @@ The Chatting Zone (TCZ)  -  Source code module authors
  01/01/1990  21/12/1993  RH     Robin Heydon         N/A
 ==============================================================================
  descriptor_flags.h      04/12/2003   Flags used by descriptor of character's
- 				      connection (Telnet/HTML.)
+ 				      connection.
 ------------------------------------------------------------------------------
  04/12/2003  16/12/2004  JPB  * Jonathan Boggis      JC Digita
 ==============================================================================
@@ -521,16 +517,6 @@ The Chatting Zone (TCZ)  -  Source code module authors
  general_cmdtable.h      03/06/1999   General command table.
 ------------------------------------------------------------------------------
  03/06/1999  16/12/2004  JPB  * Jonathan Boggis      JC Digita
-==============================================================================
- html_entities.h         21/06/1996   Table of HTML entities recognised by the
- 				      HTML Interface.
-------------------------------------------------------------------------------
- 21/06/1996  16/12/2004  JPB  * Jonathan Boggis      JC Digita
-==============================================================================
- html_tags.h             21/06/1996   Table of HTML tags recognised by the
- 				      HTML Interface.
-------------------------------------------------------------------------------
- 21/06/1996  16/12/2004  JPB  * Jonathan Boggis      JC Digita
 ==============================================================================
  logfile_table.h         11/03/2000   Table of system log files.
 ------------------------------------------------------------------------------
@@ -607,11 +593,6 @@ The Chatting Zone (TCZ)  -  Source code module authors
  signallist.h            26/08/2000   List of signal names/descriptions.
 ------------------------------------------------------------------------------
  26/08/2000  16/12/2004  JPB  * Jonathan Boggis      JC Digita
-==============================================================================
- smileys.h               03/03/2000   Table of graphical smileys for use in
- 				      HTML Interface.
-------------------------------------------------------------------------------
- 03/03/2000  16/12/2004  JPB  * Jonathan Boggis      JC Digita
 ==============================================================================
  structures.h            30/07/2000   Data structures used throughout TCZ.
 ------------------------------------------------------------------------------

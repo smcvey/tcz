@@ -65,16 +65,16 @@ void selection_log_execlimit(dbref player,char *buffer)
 {
      if(!in_command) {
         if(!(command_type & WARNED)) {
-           output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Execution time limit of "ANSI_LCYAN"%d second%s"ANSI_LWHITE" exceeded.",command_timelimit,Plural(command_timelimit));
+           output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Execution time limit of "ANSI_LCYAN"%d second%s"ANSI_LWHITE" exceeded.",command_timelimit,Plural(command_timelimit));
            writelog(EXECUTION_LOG,1,"EXECUTION","Execution time limit of %d second%s exceeded by %s(#%d) (On the command-line) by executing the command '%s'.",command_timelimit,Plural(command_timelimit),getname(player),player,!Blank(current_cmdptr) ? current_cmdptr:"<UNKNOWN>");
 	}
      } else if(!(command_type & WARNED)) {
-        output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Execution time limit of "ANSI_LCYAN"%d second%s"ANSI_LWHITE" exceeded within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",command_timelimit,Plural(command_timelimit),unparse_object(player,current_command,0));
+        output(getdsc(player),player,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Execution time limit of "ANSI_LCYAN"%d second%s"ANSI_LWHITE" exceeded within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",command_timelimit,Plural(command_timelimit),unparse_object(player,current_command,0));
         if(Valid(current_command) && (player != Owner(current_command))) {
            char buffer[BUFFER_LEN];
 
            strcpy(buffer,unparse_object(Owner(current_command),current_command,1));
-           output(getdsc(Owner(current_command)),Owner(current_command),0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Execution time limit of "ANSI_LCYAN"%d second%s"ANSI_LWHITE" exceeded by "ANSI_LYELLOW"%s"ANSI_LWHITE" within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",command_timelimit,Plural(command_timelimit),getcname(Owner(current_command),player,1,0),buffer);
+           output(getdsc(Owner(current_command)),Owner(current_command),0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Execution time limit of "ANSI_LCYAN"%d second%s"ANSI_LWHITE" exceeded by "ANSI_LYELLOW"%s"ANSI_LWHITE" within compound command "ANSI_LYELLOW"%s"ANSI_LWHITE".",command_timelimit,Plural(command_timelimit),getcname(Owner(current_command),player,1,0),buffer);
 	}
         writelog(EXECUTION_LOG,1,"EXECUTION","Execution time limit of %d second%s exceeded by %s(#%d) within compound command %s(#%d) owned by %s(#%d).",command_timelimit,Plural(command_timelimit),getname(player),player,getname(current_command),current_command,getname(Owner(current_command)),Owner(current_command));
      }

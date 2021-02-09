@@ -84,7 +84,7 @@ unsigned char set_terminal_type(struct descriptor_data *d,char *termtype,unsigne
 
 	 /* ---->  Set title of Xterm  <---- */
 	 if(!strcmp(buffer,"xterm")) {
-	    sprintf(buffer,"\033]2;"HTML_TITLE"\007",tcz_full_name,tcz_year);
+	    sprintf(buffer,"\033]2;" "%s (TCZ v" TCZ_VERSION ")  -  (C)Copyright J.P.Boggis 1993 - %d""\007",tcz_full_name,tcz_year);
 	    server_queue_output(d,buffer,strlen(buffer));
 	 }
 	 return(1);

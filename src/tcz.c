@@ -65,8 +65,6 @@ extern char scratch_return_string[];
 extern char scratch_buffer[];
 
 extern int telnet;
-extern int html;
-
 
 /* ---->  {J.P.Boggis}  Display version information  <---- */
 void tcz_version(struct descriptor_data *d,int console)
@@ -76,50 +74,41 @@ void tcz_version(struct descriptor_data *d,int console)
 
      if(!console && d) {
 
-        /* ---->  HTML header  <---- */
-        if(IsHtml(d)) {
-           html_anti_reverse(d,1);
-           output(d,d->player,1,2,0,"%s<TABLE BORDER WIDTH=100%% CELLPADDING=4 BGCOLOR="HTML_TABLE_BLACK">",(in_command) ? "":"<BR>");
-	} else if(!in_command && d->player != NOTHING && !d->pager && More(d->player)) pager_init(d);
+        /* ---->  Header  <---- */
+	if(!in_command && d->player != NOTHING && !d->pager && More(d->player)) pager_init(d);
 
         /* ---->  TCZ version header  <---- */
-        if(!IsHtml(d)) output(d,d->player,0,1,0,"");
-        sprintf(buffer,"%s"ANSI_LCYAN"%s (TCZ v"TCZ_VERSION")  -  (C) J.P.Boggis 1993 - %d.%s",IsHtml(d) ? "\016<TR BGCOLOR="HTML_TABLE_CYAN"><TH ALIGN=CENTER COLSPAN=2><FONT SIZE=5><B><I>\016":"",tcz_full_name,tcz_year,IsHtml(d) ? "\016</I></B></FONT></TH></TR>\016":"");
-        if(!IsHtml(d)) {
-           if(!Validchar(d->player))
-              output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LCYAN),buffer2));
-                 else tilde_string(d->player,buffer,"",ANSI_DCYAN,0,0,5);
-	} else output(d,d->player,2,1,0,"%s",buffer);
+        output(d,d->player,0,1,0,"");
+        sprintf(buffer,ANSI_LCYAN"%s (TCZ v"TCZ_VERSION")  -  (C) J.P.Boggis 1993 - %d.",tcz_full_name,tcz_year);
+        if(!Validchar(d->player))
+           output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LCYAN),buffer2));
+        else tilde_string(d->player,buffer,"",ANSI_DCYAN,0,0,5);
 
-        output(d,d->player,2,1,0,"%s%s%s",IsHtml(d) ? "\016<TR><TD ALIGN=LEFT COLSPAN=2>\016":"",substitute(d->player,buffer,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%<gpl%>%x' in TCZ, or visit %b%l%u%{@?link \"\" \"http://www.gnu.org\" \"Visit the GNU web site...\"}%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%{@?link \"\" \"https://github.com/smcvey/tcz\" \"Visit the TCZ project web site...\"}%x",0,ANSI_LWHITE,NULL,0),IsHtml(d) ? "\016</TD></TR>\016":"\n\n\n");
+        output(d,d->player,2,1,0,"%s\n\n\n",substitute(d->player,buffer,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%ugpl%x' in TCZ, or visit %b%l%u%http://www.gnu.org%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%https://github.com/smcvey/tcz%x",0,ANSI_LWHITE,NULL,0));
      }
 
      /* ---->  Description of TCZ  <---- */
      if(!console && d) {
-        sprintf(buffer,"%s"ANSI_LGREEN"Description%s",IsHtml(d) ? "\016<TR BGCOLOR="HTML_TABLE_GREEN"><TH ALIGN=CENTER COLSPAN=2><FONT SIZE=5><B><I>\016":"",IsHtml(d) ? "\016</I></B></FONT></TH></TR>\016":"");
-        if(!IsHtml(d)) {
-           if(!Validchar(d->player))
-              output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LGREEN),buffer2));
-                 else tilde_string(d->player,buffer,"",ANSI_DGREEN,0,0,5);
-	} else output(d,d->player,2,1,0,"%s",buffer);
+        sprintf(buffer,ANSI_LGREEN"Description");
+        if(!Validchar(d->player))
+           output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LGREEN),buffer2));
+        else tilde_string(d->player,buffer,"",ANSI_DGREEN,0,0,5);
 
-        if(IsHtml(d)) output(d,d->player,1,1,0,"<TR><TD ALIGN=LEFT COLSPAN=2>");
-        output(d,d->player,0,1,0,ANSI_LYELLOW"The Chatting Zone"ANSI_LWHITE" ("ANSI_LYELLOW"TCZ"ANSI_LWHITE") is a user-friendly, advanced multi-user environment for "ANSI_LCYAN"social"ANSI_LWHITE" ("ANSI_LCYAN"Chat"ANSI_LWHITE") or "ANSI_LCYAN"gaming"ANSI_LWHITE" ("ANSI_LCYAN"Adventure"ANSI_LWHITE") purposes either privately over any network supporting TCP/IP, or publicly over the Internet.  It supports both "ANSI_LYELLOW"Telnet"ANSI_LWHITE" ("ANSI_LCYAN"Text-only"ANSI_LWHITE") and "ANSI_LYELLOW"HTML"ANSI_LWHITE" ("ANSI_LCYAN"World Wide Web"ANSI_LWHITE") connections.\n");
+        output(d,d->player,0,1,0,ANSI_LYELLOW"The Chatting Zone"ANSI_LWHITE" ("ANSI_LYELLOW"TCZ"ANSI_LWHITE") is a user-friendly, advanced multi-user environment for "ANSI_LCYAN"social"ANSI_LWHITE" ("ANSI_LCYAN"Chat"ANSI_LWHITE") or "ANSI_LCYAN"gaming"ANSI_LWHITE" ("ANSI_LCYAN"Adventure"ANSI_LWHITE") purposes either privately over any network supporting TCP/IP, or publicly over the Internet.\n");
 	
         output(d,d->player,0,1,0,ANSI_LYELLOW"TCZ"ANSI_LMAGENTA" is based on "ANSI_LYELLOW"TinyMUD "ANSI_LMAGENTA"("ANSI_LWHITE"1989"ANSI_LMAGENTA") and "ANSI_LYELLOW"UglyMUG"ANSI_LMAGENTA" ("ANSI_LWHITE"1990"ANSI_LMAGENTA"-"ANSI_LWHITE"1991"ANSI_LMAGENTA".)  It was designed and developed by "ANSI_LYELLOW"J.P.Boggis"ANSI_LMAGENTA" from "ANSI_LWHITE"21/12/1993"ANSI_LMAGENTA" before release under the GPL license on "ANSI_LWHITE"02/12/2004"ANSI_LMAGENTA".\n");
 	
-        output(d,d->player,2,1,0,ANSI_LCYAN"Please read the file "ANSI_LWHITE"MODULES"ANSI_LCYAN" or type '"ANSI_LYELLOW"\016<A HREF=\"%s\" TARGET=_blank TITLE=\"Click to view list of modules...\">\016modules\016</A>\016"ANSI_LCYAN"' on TCZ for detailed author information.%s",html_server_url(d,0,0,"modules"),IsHtml(d) ? "":"\n\n");
+        output(d,d->player,2,1,0,ANSI_LCYAN"Please read the file "ANSI_LWHITE"MODULES"ANSI_LCYAN" or type '"ANSI_LYELLOW"modules"ANSI_LCYAN"' on TCZ for detailed author information.\n\n");
 	
 #ifdef DEMO
         output(d,d->player,0,1,0,ANSI_LRED"This is a "ANSI_LYELLOW""ANSI_UNDERLINE"demonstration"ANSI_LRED" version of TCZ.\n");
 #endif
 
-        if(IsHtml(d)) output(d,d->player,1,1,0,"</TD></TR>");
-           else output(d,d->player,0,1,0,"");
+        output(d,d->player,0,1,0,"");
      } else {
         fputs("\nDescription:\n~~~~~~~~~~~~\n",stderr);
 	
-        fputs("The Chatting Zone (TCZ) is a user-friendly, advanced multi-user\nenvironment for social (Chat) or gaming (Adventure) purposes\neither privately over any network supporting TCP/IP, or\npublicly over the Internet.  It supports both Telnet\n(Text-only) and HTML (World Wide Web) connections.\n\n",stderr);
+        fputs("The Chatting Zone (TCZ) is a user-friendly, advanced multi-user\nenvironment for social (Chat) or gaming (Adventure) purposes\neither privately over any network supporting TCP/IP, or\npublicly over the Internet.\n\n",stderr);
 	
         fputs("TCZ is based on TinyMUD (1989) and UglyMUG (1990-1991.)  It was\ndesigned and developed by J.P.Boggis from 21/12/1993 before\nrelease under the GPL license on 02/12/2004.\n\n",stderr);
 	
@@ -129,20 +118,18 @@ void tcz_version(struct descriptor_data *d,int console)
 
      /* ---->  Version Information  <---- */
      if(!console && d) {
-        sprintf(buffer,"%s"ANSI_LMAGENTA"Version Information%s",IsHtml(d) ? "\016<TR BGCOLOR="HTML_TABLE_MAGENTA"><TH ALIGN=CENTER COLSPAN=2><FONT SIZE=5><B><I>\016":"",IsHtml(d) ? "\016</I></B></FONT></TH></TR>\016":"");
-        if(!IsHtml(d)) {
-           if(!Validchar(d->player))
-              output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LMAGENTA),buffer2));
-                 else tilde_string(d->player,buffer,"",ANSI_DMAGENTA,0,0,5);
-	} else output(d,d->player,2,1,0,"%s",buffer);
+        sprintf(buffer,ANSI_LMAGENTA"Version Information");
+        if(!Validchar(d->player))
+           output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LMAGENTA),buffer2));
+        else tilde_string(d->player,buffer,"",ANSI_DMAGENTA,0,0,5);
 
 	query_version(NOTHING,NULL,NULL,NULL,NULL,0,0);
-        output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_YELLOW">"ANSI_LYELLOW"Version:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LYELLOW"    Version:  "ANSI_LWHITE"%s\n",command_result);
-        output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Code Base:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LRED"  Code Base:  "ANSI_LWHITE"%s\n",punctuate(CODEBASE,3,'.'));
-        output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Description:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LRED"Description:  "ANSI_LWHITE"%s\n",punctuate(CODEDESC,3,'.'));
-        output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Web Site:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;<A HREF=\"%s\" TARGET=_blank TITLE=\"Click to visit the official web site of this code base...\">\016%s\016</A></TD></TR>\016":ANSI_LRED"   Web Site:  "ANSI_LBLUE""ANSI_UNDERLINE"%s%s\n",IsHtml(d) ? html_encode_basic(CODESITE,buffer,NULL,512):"",CODESITE);
-        output(d,d->player,2,1,14,IsHtml(d) ? "\016<TR><TH ALIGN=RIGHT WIDTH=15%% BGCOLOR="HTML_TABLE_RED">"ANSI_LRED"Code Name:&nbsp;</TH><TD ALIGN=LEFT>&nbsp;"ANSI_LWHITE"\016%s\016</TD></TR>\016":ANSI_LRED"  Code Name:  "ANSI_LWHITE"%s\n",punctuate(CODENAME,3,'.'));
-        if(!IsHtml(d)) output(d,d->player,0,1,0,"\n");
+        output(d,d->player,2,1,14,ANSI_LYELLOW"    Version:  "ANSI_LWHITE"%s\n",command_result);
+        output(d,d->player,2,1,14,ANSI_LRED"  Code Base:  "ANSI_LWHITE"%s\n",punctuate(CODEBASE,3,'.'));
+        output(d,d->player,2,1,14,ANSI_LRED"Description:  "ANSI_LWHITE"%s\n",punctuate(CODEDESC,3,'.'));
+        output(d,d->player,2,1,14,ANSI_LRED"   Web Site:  "ANSI_LBLUE""ANSI_UNDERLINE"%s\n",CODESITE);
+        output(d,d->player,2,1,14,ANSI_LRED"  Code Name:  "ANSI_LWHITE"%s\n",punctuate(CODENAME,3,'.'));
+        output(d,d->player,0,1,0,"\n");
      } else {
 	fputs("Version Information:\n~~~~~~~~~~~~~~~~~~~~\n",stderr);
 	query_version(NOTHING,NULL,NULL,NULL,NULL,0,0);
@@ -155,33 +142,23 @@ void tcz_version(struct descriptor_data *d,int console)
 
      /* ---->  Associated help page links  <---- */
      if(!console && d) {
-        sprintf(buffer,"%s"ANSI_LBLUE"References%s",IsHtml(d) ? "\016<TR BGCOLOR="HTML_TABLE_BLUE"><TH ALIGN=CENTER COLSPAN=2><FONT SIZE=5><B><I>\016":"",IsHtml(d) ? "\016</I></B></FONT></TH></TR>\016":"");
-        if(!IsHtml(d)) {
-           if(!Validchar(d->player))
-              output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LMAGENTA),buffer2));
-                 else tilde_string(d->player,buffer,"",ANSI_DBLUE,0,0,5);
-	} else output(d,d->player,2,1,0,"%s",buffer);
+        sprintf(buffer,ANSI_LBLUE"References");
+        if(!Validchar(d->player))
+           output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LMAGENTA),buffer2));
+              else tilde_string(d->player,buffer,"",ANSI_DBLUE,0,0,5);
 
-        if(IsHtml(d)) output(d,d->player,1,1,0,"<TR><TD ALIGN=LEFT COLSPAN=2>");
-	strcpy(buffer,"%[%9%3%c%lAlso, see:  %g%l%(disclaimer%)             %c-  %xTerms and conditions for using %@%m.\n" \
-	       "            %g%l%(help rules%)             %c-  %xThe official %@%m rules.\n" \
-	       "            %g%l%(help tcz%)               %c-  %xInformation about TCZ.\n" \
-	       "            %g%l%(help history%)           %c-  %xThe history of TCZ.\n" \
-	       "            %g%l%(help version info%)      %c-  %xTCZ version information.\n" \
-	       "            %g%l%(help acknowledgements%)  %c-  %xCredits and acknowledgements.\n" \
-	       "            %g%l%(help bug fixes%)         %c-  %xLatest source code bug fixes.\n" \
-	       "            %g%l%(modules%)                %c-  %xSource code module information.\n" \
-	       "            %g%l%(authors%)                %c-  %xModule author information.\n" \
-	       "            %g%l%(help gpl%)               %c-  %xThe GNU General Public License.");
+	strcpy(buffer,"%9%3%c%lAlso, see:  %g%l%udisclaimer%c             -  %xTerms and conditions for using %@%m.\n" \
+	       "            %g%l%uhelp rules%c             -  %xThe official %@%m rules.\n" \
+	       "            %g%l%uhelp tcz%c               -  %xInformation about TCZ.\n" \
+	       "            %g%l%uhelp history%c           -  %xThe history of TCZ.\n" \
+	       "            %g%l%uhelp version info%c      -  %xTCZ version information.\n" \
+	       "            %g%l%uhelp acknowledgements%c  -  %xCredits and acknowledgements.\n" \
+	       "            %g%l%uhelp bug fixes%c         -  %xLatest source code bug fixes.\n" \
+	       "            %g%l%umodules%c                -  %xSource code module information.\n" \
+	       "            %g%l%uauthors%c                -  %xModule author information.\n" \
+	       "            %g%l%uhelp gpl%c               -  %xThe GNU General Public License.");
 
-        strcat(buffer,"%]");
-        output(d,d->player,2,1,0,"%s%s",substitute(d->player,buffer2,buffer,0,ANSI_LWHITE,NULL,0),IsHtml(d) ? "":"\n\n");
-        if(IsHtml(d)) output(d,d->player,1,1,0,"</TD></TR>");
-
-        if(IsHtml(d)) {
-           output(d,d->player,1,2,0,"</TABLE>%s",(in_command) ? "":"<BR>");
-           html_anti_reverse(d,0);
-	}
+        output(d,d->player,2,1,0,"%s\n\n",substitute(d->player,buffer2,buffer,0,ANSI_LWHITE,NULL,0));
      }
 }
 
@@ -238,17 +215,17 @@ void tcz_exec_copy(const char *execfile)
      int           count;
 
      gettime(start);
-     sprintf(corefile,"%s.%d.%d.core",execfile,(int) telnetport,(int) htmlport);
-     sprintf(destfile,"%s.%d.%d",execfile,(int) telnetport,(int) htmlport);
+     sprintf(corefile,"%s.%d.core",execfile,(int) telnetport);
+     sprintf(destfile,"%s.%d",execfile,(int) telnetport);
 
-     /* ---->  If executable backup already exists, rename to 'bin/<EXEC FILE>.<TELNET PORT>.<HTML PORT>.core'  <---- */
+     /* ---->  If executable backup already exists, rename to 'bin/<EXEC FILE>.<TELNET PORT>.core'  <---- */
      if(!rename(destfile,corefile)) {
         writelog(SERVER_LOG,0,"RESTART","Renaming executable backup '%s' to '%s'.",destfile,corefile);
      } else {
         writelog(SERVER_LOG,0,"RESTART","Unable to rename executable backup '%s' to '%s' (%s.)",destfile,corefile,strerror(errno));
      }
 
-     /* ---->  Backup current executable to 'bin/<EXEC FILE>.<TELNET PORT>.<HTML PORT>'  <---- */
+     /* ---->  Backup current executable to 'bin/<EXEC FILE>.<TELNET PORT>'  <---- */
      if((src = fopen(execfile,"r"))) {
         writelog(SERVER_LOG,0,"RESTART","Backing up executable '%s' to '%s'.",execfile,destfile);
         if((dest = fopen(destfile,"w"))) {
@@ -326,7 +303,7 @@ void tcz_check_lockfile(void)
      } else writelog(RESTART_LOG,0,"RESTART","The 'lib' directory does not exist.");
 
      /* ---->  Check and create TCZ process lock file  <---- */
-     sprintf(scratch_buffer,"%stcz.%d.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport,(int) htmlport);
+     sprintf(scratch_buffer,"%stcz.%d.pid",(lib_dir) ? "lib/":"",(int) telnetport);
      lockfile = (char *) alloc_string(scratch_buffer);
      if(!(lf = fopen(lockfile,"r"))) {
 
@@ -462,7 +439,6 @@ int main(int argc,char **argv)
     tcz_short_name     = alloc_string(TCZ_SHORT_NAME);
     tcz_full_name      = alloc_string(TCZ_FULL_NAME);
     html_home_url      = alloc_string(HTML_HOME_URL);
-    html_data_url      = alloc_string(HTML_DATA_URL);
     tcz_location       = alloc_string(TCZ_LOCATION);
     sprintf(scratch_buffer,TELNET_TCZ_PROMPT,tcz_short_name);
     tcz_prompt         = alloc_string(scratch_buffer);
@@ -657,12 +633,6 @@ int main(int argc,char **argv)
     }
 #endif
 
-    /* ---->  Load HTML Interface images  <---- */
-#ifdef HTML_INTERFACE
-    if(option_images(OPTSTATUS))
-       html_load_images();
-#endif
-
     /* ---->  Load registered Internet sites  <---- */
 #ifndef DEMO
     compressed_sites = register_sites();
@@ -747,23 +717,14 @@ int main(int argc,char **argv)
     /* ---->  Execute '.startup' command in GLOBAL_COMMANDS location  <---- */
     tcz_startup_shutdown(".startup","RESTART");
 
-    /* ---->  Check and open Telnet/HTML sockets  <---- */
+    /* ---->  Check and open Telnet sockets  <---- */
 #ifdef SOCKETS
     if(telnetport > 0) 
-       if((telnet = server_open_socket(telnetport,1,0,0,0)) < 0) {
+       if((telnet = server_open_socket(telnetport,1,0,0)) < 0) {
           logfile_close();
           if(lockfile) unlink(lockfile);
           exit(1);
        }
-
-#ifdef HTML_INTERFACE
-    if(htmlport > 0)
-       if((html = server_open_socket(htmlport,1,0,1,0)) < 0) {
-          logfile_close();
-          if(lockfile) unlink(lockfile);
-          exit(1);
-       }
-#endif
 #endif
 
     /* ---->  Set memory restrictions  <---- */

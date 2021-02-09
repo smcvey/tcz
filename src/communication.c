@@ -135,7 +135,7 @@ void comms_afk(CONTEXT)
               for(d = descriptor_list; d; d = d->next)
                   if((d->player == player) && (d->flags & CONNECTED) && !d->clevel) {
                      output(d,player,0,1,0,ANSI_LGREEN"\nYou are now AFK (Away From Keyboard)  -  To leave AFK mode, simply enter your password.\n");
-                     output(d,player,0,1,14,"PLEASE NOTE: \016&nbsp;\016 "ANSI_LWHITE"If you idle for more than "ANSI_LYELLOW"%d minute%s"ANSI_LWHITE", you'll still get disconnected.\n",MAX_IDLE_TIME,Plural(MAX_IDLE_TIME));
+                     output(d,player,0,1,14,"PLEASE NOTE:  "ANSI_LWHITE"If you idle for more than "ANSI_LYELLOW"%d minute%s"ANSI_LWHITE", you'll still get disconnected.\n",MAX_IDLE_TIME,Plural(MAX_IDLE_TIME));
                      FREENULL(d->afk_message);
                      d->afk_message =  (char *) alloc_string(params);
                      d->afk_time    =  now;
@@ -231,7 +231,7 @@ void comms_chat_check(struct descriptor_data *op,const char *nameptr)
 
      db[op->player].flags2 |=  CHAT_OPERATOR;
      db[op->player].flags2 &= ~CHAT_PRIVATE;
-     output(op,op->player,0,1,8,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"You're now the Channel Operator of this chatting channel.",nameptr,op->channel);
+     output(op,op->player,0,1,8,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"You're now the Channel Operator of this chatting channel.",nameptr,op->channel);
 }
 
 /* ---->  Get name of chatting channel  <---- */
@@ -313,10 +313,10 @@ void comms_chat(CONTEXT)
               if(!(Valid(operator) && (db[operator].flags2 & CHAT_PRIVATE))) {
                  if(d->channel != NOTHING) {
                     nameptr = comms_chat_channelname(d->channel);
-                    output_chat(d->channel,d->player,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has left the channel.",nameptr,Article(d->player,UPPER,DEFINITE),getcname(NOTHING,d->player,0,0));
+                    output_chat(d->channel,d->player,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has left the channel.",nameptr,Article(d->player,UPPER,DEFINITE),getcname(NOTHING,d->player,0,0));
 		 }
                  nameptr = comms_chat_channelname(newchannel);
-                 output_chat(newchannel,d->player,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has joined the channel.",nameptr,Article(d->player,UPPER,INDEFINITE),getcname(NOTHING,d->player,0,0));
+                 output_chat(newchannel,d->player,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has joined the channel.",nameptr,Article(d->player,UPPER,INDEFINITE),getcname(NOTHING,d->player,0,0));
                  output(d,player,0,1,0,ANSI_LGREEN"Welcome to chatting channel "ANSI_LWHITE"%s"ANSI_LGREEN", %s"ANSI_LYELLOW"%s"ANSI_LGREEN".",nameptr,Article(d->player,LOWER,DEFINITE),getcname(NOTHING,d->player,0,0));
                  d->channel = newchannel;
 
@@ -341,7 +341,7 @@ void comms_chat(CONTEXT)
      if(string_prefix("off",params)) {
 
         /* ---->  Leave chatting channel  <---- */   
-        output_chat(d->channel,d->player,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has left the channel.",nameptr,Article(d->player,UPPER,DEFINITE),getcname(NOTHING,d->player,0,0));
+        output_chat(d->channel,d->player,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has left the channel.",nameptr,Article(d->player,UPPER,DEFINITE),getcname(NOTHING,d->player,0,0));
         if(!in_command) output(d,player,0,1,0,ANSI_LGREEN"You're no-longer joined to a chatting channel.");
         db[d->player].flags2 &= ~(CHAT_OPERATOR|CHAT_PRIVATE);
         d->channel = NOTHING;
@@ -352,7 +352,7 @@ void comms_chat(CONTEXT)
         if(!((player != operator) && (level(db[d->player].owner) <= level(db[operator].owner)))) {
 	   if(!(db[operator].flags2 & CHAT_PRIVATE)) {
 	      if(d->channel != 0) {
-                 output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"This chatting channel is now private.",nameptr);
+                 output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"This chatting channel is now private.",nameptr);
                  db[operator].flags2 |= CHAT_PRIVATE;
 	      } else output(d,player,0,1,0,ANSI_LGREEN"Sorry, you can't make the default chatting channel private.");
 	   } else output(d,player,0,1,0,ANSI_LGREEN"Sorry, this chatting channel is already private.");
@@ -363,7 +363,7 @@ void comms_chat(CONTEXT)
         dbref operator = comms_chat_operator(d->channel);
         if(!((player != operator) && (level(db[d->player].owner) <= level(db[operator].owner)))) {
 	   if(db[operator].flags2 & CHAT_PRIVATE) {
-              output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"This chatting channel is now public.",nameptr);
+              output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"This chatting channel is now public.",nameptr);
               db[operator].flags2 &= ~CHAT_PRIVATE;
 	   } else output(d,player,0,1,0,ANSI_LGREEN"This chatting channel is already public.");
 	} else output(d,player,0,1,0,ANSI_LGREEN"Sorry, you aren't the operator of this chatting channel (The operator of a chatting channel is the first person who joined it.)");
@@ -382,9 +382,9 @@ void comms_chat(CONTEXT)
 	            if(victim != player) {
 	               if(ptr->channel == d->channel) {
 	                  if(!(Level4(db[victim].owner) && (level(db[d->player].owner) <= level(db[victim].owner)))) {
-                             sprintf(scratch_buffer,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has been kicked off the channel by ",nameptr,Article(ptr->player,UPPER,DEFINITE),getcname(NOTHING,ptr->player,0,0));
+                             sprintf(scratch_buffer,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has been kicked off the channel by ",nameptr,Article(ptr->player,UPPER,DEFINITE),getcname(NOTHING,ptr->player,0,0));
                              output_chat(d->channel,NOTHING,0,1,"%s%s"ANSI_LWHITE"%s"ANSI_LGREEN".",scratch_buffer,Article(d->player,LOWER,DEFINITE),getcname(NOTHING,d->player,0,0));
-                             output(getdsc(victim),victim,0,1,8,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has kicked you off the channel.",nameptr,Article(d->player,UPPER,DEFINITE),getcname(NOTHING,d->player,0,0));
+                             output(getdsc(victim),victim,0,1,8,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN" has kicked you off the channel.",nameptr,Article(d->player,UPPER,DEFINITE),getcname(NOTHING,d->player,0,0));
 
                              db[victim].flags2 &= ~(CHAT_OPERATOR|CHAT_PRIVATE);
                              ptr->channel = NOTHING;
@@ -423,8 +423,8 @@ void comms_chat(CONTEXT)
                        else strcpy(scratch_return_string,p1);
                     ptr->subject = (char *) alloc_string(scratch_return_string);
                     nameptr = comms_chat_channelname(d->channel);
-                    if(ptr->subject) output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"The subject of this chatting channel is now '"ANSI_LWHITE"%s"ANSI_LGREEN"'.",nameptr,scratch_return_string);
-                       else output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 "ANSI_LGREEN"This chatting channel no-longer has a subject.",nameptr);
+                    if(ptr->subject) output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"The subject of this chatting channel is now '"ANSI_LWHITE"%s"ANSI_LGREEN"'.",nameptr,scratch_return_string);
+                       else output_chat(d->channel,NOTHING,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  "ANSI_LGREEN"This chatting channel no-longer has a subject.",nameptr);
 		 } else output(d,player,0,1,0,ANSI_LGREEN"Sorry, this chatting channel doesn't presently have an operator  -  Its subject can't be changed.");
 	      } else output(d,player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of the subject of a chatting channel is 34 characters.  It also must not contain embedded NEWLINE's.");
 	   } else output(d,player,0,1,0,ANSI_LGREEN"Sorry, you can't change the subject of the default chatting channel.");
@@ -434,9 +434,9 @@ void comms_chat(CONTEXT)
         /* ---->  Say/pose/think something over the current channel  <---- */
         command_type |= COMM_CMD;
         strcpy(scratch_return_string,construct_message(player,ANSI_LWHITE,ANSI_DWHITE,"say",'.',-1,PLAYER,params,0,DEFINITE));
-        output(d,player,0,1,8,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 %s",nameptr,scratch_return_string);
+        output(d,player,0,1,8,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  %s",nameptr,scratch_return_string);
         strcpy(scratch_return_string,construct_message(player,ANSI_LWHITE,ANSI_DWHITE,"says",'.',-1,OTHERS,params,0,INDEFINITE));
-        output_chat(d->channel,d->player,0,1,ANSI_LCYAN"[CHAT] \016&nbsp;\016 "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN") \016&nbsp;\016 %s",nameptr,scratch_return_string);
+        output_chat(d->channel,d->player,0,1,ANSI_LCYAN"[CHAT]  "ANSI_DCYAN"("ANSI_LGREEN"%s"ANSI_DCYAN")  %s",nameptr,scratch_return_string);
         command_type &= ~COMM_CMD;
      } else output(d,player,0,1,0,ANSI_LGREEN"What would you like to say over chatting channel "ANSI_LWHITE"%s"ANSI_LGREEN"?",nameptr);
      setreturn(OK,COMMAND_SUCC);
@@ -479,7 +479,7 @@ void comms_echolist(CONTEXT)
      substitute(player,scratch_return_string,(char *) arg2,0,ANSI_LWHITE,NULL,0);
      if(item < 10000) sprintf(buffer,"(%d)",item);
         else strcpy(buffer,"(10k+)");
-     output(getdsc(player),player,0,1,8,ANSI_LGREEN" %-7s\016&nbsp;\016"ANSI_LWHITE"%s",buffer,scratch_return_string);
+     output(getdsc(player),player,0,1,8,ANSI_LGREEN" %-7s"ANSI_LWHITE"%s",buffer,scratch_return_string);
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -506,7 +506,7 @@ void comms_emergency(CONTEXT)
                                     if(p->player == user)
      			               p->emergency_time = (now + (EMERGENCY_TIME * MINUTE));
 			        sprintf(scratch_buffer,"%s"ANSI_LMAGENTA"%s"ANSI_LWHITE,Article(user,LOWER,INDEFINITE),getcname(NOTHING,user,0,0));
-			        output_admin(0,0,1,13,ANSI_LRED"["ANSI_UNDERLINE"EMERGENCY"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"Emergency command logging started by %s"ANSI_LYELLOW"%s"ANSI_LWHITE" on %s  "ANSI_DRED"-  "ANSI_LRED"REASON:  "ANSI_LCYAN"%s",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_buffer,substitute(player,scratch_return_string,params = punctuate(arg2,1,'.'),0,ANSI_LCYAN,NULL,0));
+			        output_admin(0,0,1,13,ANSI_LRED"["ANSI_UNDERLINE"EMERGENCY"ANSI_LRED"]  "ANSI_LWHITE"Emergency command logging started by %s"ANSI_LYELLOW"%s"ANSI_LWHITE" on %s  "ANSI_DRED"-  "ANSI_LRED"REASON:  "ANSI_LCYAN"%s",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0),scratch_buffer,substitute(player,scratch_return_string,params = punctuate(arg2,1,'.'),0,ANSI_LCYAN,NULL,0));
 			        output(getdsc(player),player,0,1,0,ANSI_LGREEN"Emergency command logging started on %s"ANSI_LWHITE"%s"ANSI_LGREEN"  -  All commands typed by %s will be logged to the '"ANSI_LWHITE"Emergency"ANSI_LGREEN"' log file for the next "ANSI_LYELLOW"%d"ANSI_LGREEN" minutes.",Article(user,LOWER,DEFINITE),getcname(NOTHING,user,0,0),Objective(user,0),EMERGENCY_TIME);
 			        writelog(ADMIN_LOG,1,"EMERGENCY","Emergency command logging started by %s(#%d) on %s(#%d)  -  REASON:  %s",getname(player),player,getname(user),user,arg2);
 			        writelog(EMERGENCY_LOG,1,"EMERGENCY","Emergency command logging started by %s(#%d) on %s(#%d)  -  REASON:  %s",getname(player),player,getname(user),user,arg2);
@@ -548,8 +548,8 @@ void comms_comment(CONTEXT)
               for(tmp = params; *tmp; tmp++)
                   if(*tmp == '\n') *tmp = ' ';
               ansi_code_filter((char *) params,(char *) params,1);
-              sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"%s"ANSI_LRED"] \016&nbsp;\016 "ANSI_LYELLOW"(From %s"ANSI_LWHITE"%s"ANSI_LYELLOW" in ",(val1 == 1) ? "COMMENT":(val1 == 2) ? "SUGGESTION":(val1 == 3) ? "BUG REPORT":"COMPLAINT",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0));
-              sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LWHITE"%s"ANSI_LYELLOW") \016&nbsp;\016 "ANSI_LWHITE,Article(db[player].location,LOWER,INDEFINITE),unparse_object(ROOT,db[player].location,0));
+              sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"%s"ANSI_LRED"]  "ANSI_LYELLOW"(From %s"ANSI_LWHITE"%s"ANSI_LYELLOW" in ",(val1 == 1) ? "COMMENT":(val1 == 2) ? "SUGGESTION":(val1 == 3) ? "BUG REPORT":"COMPLAINT",Article(player,LOWER,INDEFINITE),getcname(NOTHING,player,0,0));
+              sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LWHITE"%s"ANSI_LYELLOW")  "ANSI_LWHITE,Article(db[player].location,LOWER,INDEFINITE),unparse_object(ROOT,db[player].location,0));
               output_admin(0,0,1,(val1 == 1) ? 11:(val1 == 2) ? 14:(val1 == 3) ? 14:13,"%s%s",scratch_buffer,ptr = punctuate((char *) params,2,'.'));
 
 	      switch(val1) {
@@ -748,7 +748,7 @@ void comms_session(CONTEXT)
                     if(Connected(who) && (d = getdsc(who))) {
                        if(!Blank(d->comment)) {
                           output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s session comment has been reset.",Article(who,UPPER,DEFINITE),getcname(NOTHING,who,0,0));
-                          output(d,who,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"] \016&nbsp;\016 "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has reset your session comment.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
+                          output(d,who,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has reset your session comment.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
                           writelog(ADMIN_LOG,1,"SESSION","%s(#%d) reset %s(#%d)'s session comment ('%s')",getname(player),player,getname(who),who,(d->comment) ? decompress(d->comment):""); 
                           for(d = descriptor_list; d; d = d->next)
                               if(d->player == who)
@@ -839,7 +839,7 @@ void comms_wake(CONTEXT)
                                    now += (db[target].data->player.timediff * HOUR);
                                    output(getdsc(player),player,0,1,0,ANSI_LGREEN"You attempt to wake %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(target,LOWER,DEFINITE),getcname(NOTHING,target,0,0));
                                    output(p,target,0,1,0,"");
-                                   sprintf(scratch_buffer,ANSI_LMAGENTA""ANSI_BLINK""ANSI_UNDERLINE"!!! "ANSI_LRED""ANSI_BLINK""ANSI_UNDERLINE"\007WAKE UP"ANSI_LMAGENTA""ANSI_BLINK""ANSI_UNDERLINE" !!!"ANSI_LWHITE" \016&nbsp; &nbsp;\016 %s"ANSI_LYELLOW"%s"ANSI_LWHITE" tried to wake you on ",Article(player,UPPER,(db[player].location == db[target].location) ? DEFINITE:INDEFINITE),getcname(NOTHING,player,0,0));
+                                   sprintf(scratch_buffer,ANSI_LMAGENTA""ANSI_BLINK""ANSI_UNDERLINE"!!! "ANSI_LRED""ANSI_BLINK""ANSI_UNDERLINE"\007WAKE UP"ANSI_LMAGENTA""ANSI_BLINK""ANSI_UNDERLINE" !!!"ANSI_LWHITE"   %s"ANSI_LYELLOW"%s"ANSI_LWHITE" tried to wake you on ",Article(player,UPPER,(db[player].location == db[target].location) ? DEFINITE:INDEFINITE),getcname(NOTHING,player,0,0));
                                    output(p,target,0,1,18,ANSI_LGREEN"%s%s"ANSI_LWHITE".\n",scratch_buffer,date_to_string(now,UNSET_DATE,target,FULLDATEFMT));
                                    setreturn(OK,COMMAND_SUCC);
 				} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please wait "ANSI_LWHITE"%s"ANSI_LGREEN" before attempting to wake that user again.",interval(wake_time - now,wake_time - now,ENTITIES,0));
