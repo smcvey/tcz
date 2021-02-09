@@ -407,9 +407,11 @@ void finance_transaction(CONTEXT)
                                          if((!val1 && ((currency_to_double(&(db[player].data->player.credit)) - amount) >= 0)) ||
                                             (val1  && ((currency_to_double(&(db[player].data->player.balance)) - amount) >= 0))) {
                                                currency_add(&(db[player].data->player.expenditure),amount);
+                                               command_execute_action(player,NOTHING,".pay",NULL,getname(who),arg2,arg2,0);
                                                if(val1) currency_add(&(db[player].data->player.balance),0 - amount);
                                                   else currency_add(&(db[player].data->player.credit),0 - amount);
                                                currency_add(&(db[who].data->player.income),amount);
+                                               command_execute_action(who,NOTHING,".paid",NULL,getname(player),arg2,arg2,0);
                                                if(account) currency_add(&(db[who].data->player.balance),amount);
                                                   else currency_add(&(db[who].data->player.credit),amount);
 

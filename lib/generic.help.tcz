@@ -2823,7 +2823,7 @@ The default restriction is %c%l10 credits%x.  To change this restriction, simply
 %~%r~~~~~~~~~~~~~~~~~~~
 %xPlease don't ask administrators to give you credit.  They %m%lwill not%x be able to do so, except in exceptional circumstances.
 <-SEPARATOR->
-Also, see '%g%l%<pay%>%x', '%g%l%<transfer%>%x', '%g%l%<bankcmds%>%x', '%g%l%<@credit%>%x', '%g%l%<@?credit%>%x', '%g%l%<@?balance%>%x', '%g%l%<@?income%>%x', '%g%l%<@?expenditure%>%x', '%g%l%<@?profit%>%x', '%g%l%<@?quarter%>%x', '%g%l%<@?restriction%>%x', '%g%l%<@?bank%>%x' and '%g%l%<@admin%>%x'.
+Also, see '%g%l%<pay%>%x', '%g%l%<transfer%>%x', '%g%l%<bankcmds%>%x', '%g%l%<@credit%>%x', '%g%l%<@?credit%>%x', '%g%l%<@?balance%>%x', '%g%l%<@?income%>%x', '%g%l%<@?expenditure%>%x', '%g%l%<@?profit%>%x', '%g%l%<@?quarter%>%x', '%g%l%<@?wagetime%>%x', '%g%l%<@?restriction%>%x', '%g%l%<@?bank%>%x' and '%g%l%<@admin%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -2840,7 +2840,7 @@ Also, see '%g%l%<pay%>%x', '%g%l%<transfer%>%x', '%g%l%<bankcmds%>%x', '%g%l%<@c
 %(@credit%)        %(@pay%)           %(@transfer%)
 
 %(@?balance%)      %(@?bank%)         %(@?credit%)       %(@?expenditure%)  %(@?income%)
-%(@?profit%)       %(@?quarter%)%]%x
+%(@?profit%)       %(@?quarter%)      %(@?wagetime%)%]%x
 <-SINGLE->
 %y%lFor help on any of the above commands, please type '%g%lhelp <COMMAND>%y%l', where %w%l<COMMAND>%y%l is the command you'd like help on, e.g:  '%g%lhelp %(bank%)%y%l'.
 
@@ -9343,6 +9343,8 @@ For help on any of the above area compound commands, please type '%g%l%(help%) <
 %g%l%(.logout%)   %xYou disconnect.
 %g%l%(.page%)     %xSomeone pages a message to you (See '%g%l%<page%>%x'.)
 %g%l%(.tell%)     %xSomeone tells a message to you (See '%g%l%<tell%>%x'.)
+%g%l%(.paid%)     %xSomeone paid you credits (See '%g%l%<@pay%>%x'.)
+%g%l%(.pay%)      %xYou pay credits to someone
 %g%l%(.scan%)     %xSomeone scans you (See '%g%l%<scan%>%x'.)    
 %g%l%(.profile%)  %xSomeone views your profile (See '%g%l%<profile%>%x'.)    
 <-SEPARATOR->
@@ -12328,7 +12330,7 @@ You can also pay out money to users from within compound commands by using the '
 
 %c%l%8NOTE:  %xYou can guard against unwanted payments by using the '%g%l%(restrict%)%x' bank command (See '%g%l%<bank%>%x') to restrict the maximum payment you can make from within a compound command.
 <-SEPARATOR->
-Also, see '%g%l%<bank%>%x', '%g%l%<transfer%>%x', '%g%l%<@credit%>%x', '%g%l%<@?credit%>%x' and '%g%l%<@?balance%>%x'.
+Also, see '%g%l%<bank%>%x', '%g%l%<transfer%>%x', '%g%l%<@credit%>%x', '%g%l%<@?credit%>%x', '%g%l%<.pay%>%x', '%g%l%<.paid%>%x', and '%g%l%<@?balance%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -12350,7 +12352,7 @@ You can also pay credit to users from your pocket, by using the '%g%l%(pay%)%x' 
 
 %c%l%8NOTE:  %xYou can guard against unwanted payments by using the '%g%l%(restrict%)%x' bank command (See '%g%l%<bank%>%x') to restrict the maximum payment you can make from within a compound command.
 <-SEPARATOR->
-Also, see '%g%l%<bank%>%x', '%g%l%<pay%>%x', '%g%l%<@credit%>%x', '%g%l%<@?credit%>%x' and '%g%l%<@?balance%>%x'.
+Also, see '%g%l%<bank%>%x', '%g%l%<pay%>%x', '%g%l%<.pay%>%x', '%g%l%<.paid%>%x', '%g%l%<@credit%>%x', '%g%l%<@?credit%>%x', and '%g%l%<@?balance%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -16576,9 +16578,39 @@ If you have a compound command on you called '%y%l.tell%x', it will be executed 
 
 %c%l%$Example:
 %~%c~~~~~~~~
-%[%g%l%(@command%) .tell = |%(tell%) $1 = :acknowledges your message and thanks you for contacting %%o.%]
+%[%g%l%(@command%) .tell = |%(tell%) \$1 = :acknowledges your message and thanks you for contacting %%o.%]
 <-SEPARATOR->
 Also, see '%g%l%<tell%>%x', '%g%l%<recall%>%x', '%g%l%<.page%>%x' and '%g%l%<.message%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC .paid
+%TOPIC .paidcommand
+%TOPIC .paidcompoundcommand
+%TITLE Help on the '%w%l.paid%x' compound command
+If you have a compound command on you called '%y%l.paid%x', it will be executed when someone has succesfully paid you credits.  Within the '%y%l.paid%x' compound command, %y%l$1%x holds the name of the person who paid you, and %y%l$2%x holds the amount of credits.
+
+
+%c%l%$Example:
+%~%c~~~~~~~~
+%[%g%l%(@command%) .paid = |%(tell%) \$1 = :has received your payment. Thank you!%]
+<-SEPARATOR->
+Also, see '%g%l%<@pay%>%x', '%g%l%<@transfer%>%x', and '%g%l%<.pay%>%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC .pay
+%TOPIC .paycommand
+%TOPIC .paycompoundcommand
+%TITLE Help on the '%w%l.pay%x' compound command
+If you have a compound command on you called '%y%l.pay%x', it will be executed when you succesfully pay credits to another character.  Within the '%y%l.pay%x' compound command, %y%l$1%x holds the name of the person who you paid, and %y%l$2%x holds the amount of credits.
+
+
+%c%l%$Example:
+%~%c~~~~~~~~
+%[%g%l%(@command%) .pay = |%(emote%) puts away %%p wallet after paying \$2 credits to \$1.%]
+<-SEPARATOR->
+Also, see '%g%l%<@pay%>%x', '%g%l%<@transfer%>%x', and '%g%l%<.paid%>%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
