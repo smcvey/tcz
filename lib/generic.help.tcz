@@ -929,7 +929,8 @@ Also, see '%g%l%uhelp promotions%x', '%g%l%uhelp admin rules%x', '%g%l%uhelp saf
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M%x source code bug fixes
-%9%9%c%l10/02/2021 %y %lSMc %x Non-connected characters can now run BBS commands using 'first', 'all', 'last', 'end', 'latest', 'ignore', 'ignored', 'new' and 'unread'.
+%9%9%c%l10/02/2021 %y %lNA  %x Implemented '%y%l.pay%x' and '%y%l.paid%x' commands.
+%9%9%c%l10/02/2021 %y %lSMc %x Non-connected characters can now run BBS commands using 'first', 'all', 'last', 'end', 'latest'.
 %9%9%c%l10/02/2021 %y %lSMc %x The obselete HTML interface has been removed.
 %9%9%c%l10/02/2021 %y %lSV  %x '%g%l@rank quota%x' is correctly formatted for Admin.
 %9%9%c%l31/07/2020 %y %lNA  %x '%g%l%u@sort%x' now works with both negative and positive integers.
@@ -8309,8 +8310,6 @@ The above substitutions can be used to substitute the result of a calculation pe
 %g%l%%@%%d           %xThe current date ('%y%l%@%d%x'.)
 %g%l%%@%%c           %x%@%m compile date/time ('%y%l%@%c%x'.)
 %g%l%%@%%e           %x%@%m Admin E-mail address ('%y%l%@%e%x'.)
-%g%l%%@%%f           %x%@%m E-mail forwarding server address ('%y%l%@%f%x'.)
-%g%l%%@%%h           %x%@%m's HTML port number ('%y%l%@%h%x'.)
 %g%l%%@%%l           %x%@%m's location ('%y%l%@%l%x'.)
 %g%l%%@%%m           %xSubstitutes '%y%l%@%m%x'.
 %g%l%%@%%n           %xSubstitutes '%y%l%@%n%x'.

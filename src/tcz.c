@@ -83,13 +83,10 @@ void tcz_version(struct descriptor_data *d,int console)
         if(!Validchar(d->player))
            output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LCYAN),buffer2));
         else tilde_string(d->player,buffer,"",ANSI_DCYAN,0,0,5);
-
-        output(d,d->player,2,1,0,"%s\n\n\n",substitute(d->player,buffer,ANSI_LWHITE"TCZ is free software, which is distributed under %c%lversion 2%x of the %c%lGNU General Public License%x (See '%g%l%ugpl%x' in TCZ, or visit %b%l%u%http://www.gnu.org%x)  For more information about the %y%lTCZ%x, please visit:  %b%l%u%https://github.com/smcvey/tcz%x",0,ANSI_LWHITE,NULL,0));
      }
 
      /* ---->  Description of TCZ  <---- */
      if(!console && d) {
-        sprintf(buffer,ANSI_LGREEN"Description");
         if(!Validchar(d->player))
            output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LGREEN),buffer2));
         else tilde_string(d->player,buffer,"",ANSI_DGREEN,0,0,5);
@@ -127,7 +124,6 @@ void tcz_version(struct descriptor_data *d,int console)
         output(d,d->player,2,1,14,ANSI_LYELLOW"    Version:  "ANSI_LWHITE"%s\n",command_result);
         output(d,d->player,2,1,14,ANSI_LRED"  Code Base:  "ANSI_LWHITE"%s\n",punctuate(CODEBASE,3,'.'));
         output(d,d->player,2,1,14,ANSI_LRED"Description:  "ANSI_LWHITE"%s\n",punctuate(CODEDESC,3,'.'));
-        output(d,d->player,2,1,14,ANSI_LRED"   Web Site:  "ANSI_LBLUE""ANSI_UNDERLINE"%s\n",CODESITE);
         output(d,d->player,2,1,14,ANSI_LRED"  Code Name:  "ANSI_LWHITE"%s\n",punctuate(CODENAME,3,'.'));
         output(d,d->player,0,1,0,"\n");
      } else {
@@ -136,7 +132,6 @@ void tcz_version(struct descriptor_data *d,int console)
 	fprintf(stderr,"    Version:  %s\n",command_result);
 	fprintf(stderr,"  Code Base:  %s\n",punctuate(CODEBASE,3,'.'));
 	fprintf(stderr,"Description:  %s\n",punctuate(CODEDESC,3,'.'));
-	fprintf(stderr,"   Web Site:  %s\n",CODESITE);
 	fprintf(stderr,"  Code Name:  %s\n\n",punctuate(CODENAME,3,'.'));
      }
 
@@ -155,8 +150,7 @@ void tcz_version(struct descriptor_data *d,int console)
 	       "            %g%l%uhelp acknowledgements%c  -  %xCredits and acknowledgements.\n" \
 	       "            %g%l%uhelp bug fixes%c         -  %xLatest source code bug fixes.\n" \
 	       "            %g%l%umodules%c                -  %xSource code module information.\n" \
-	       "            %g%l%uauthors%c                -  %xModule author information.\n" \
-	       "            %g%l%uhelp gpl%c               -  %xThe GNU General Public License.");
+	       "            %g%l%uauthors%c                -  %xModule author information.\n");
 
         output(d,d->player,2,1,0,"%s\n\n",substitute(d->player,buffer2,buffer,0,ANSI_LWHITE,NULL,0));
      }
