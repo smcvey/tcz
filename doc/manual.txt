@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  20/12/2020.
+                     Manual release date:  9/2/2021.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -5271,6 +5271,23 @@ In most cases, things are given priority.
   You can also transfer credit to users directly from your bank account, by
   using the 'transfer' command.
 
+  The '.pay' compound command...
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  If you have a compound command on you called '.pay', it will be executed
+  when you successfully pay credits to another character.  Within the '.pay'
+  compound command, $1 holds the name of the person whom you paid, and $2 
+  holds the amount of credits.  Example:
+
+  @command .paid = |emote puts away %p wallet after paying \$2 credits to \$1.
+
+  The '.paid' compound command...
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  If you have a compound command on you called '.paid', it will be executed
+  someone has successfully paid you credits..  Within the '.pay' compound 
+  command, $1 holds the name of the person who paid you, and $2 holds the
+  amount of credits.  Example:
+
+  @command .pay = |tell $1 = :has received your payment.  Thank you!
 
   Example use of '@pay' within compound commands...
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

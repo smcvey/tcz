@@ -2567,7 +2567,7 @@ The default restriction is %c%l10 credits%x.  To change this restriction, simply
 %~%r~~~~~~~~~~~~~~~~~~~
 %xPlease don't ask administrators to give you credit.  They %m%lwill not%x be able to do so, except in exceptional circumstances.
 <-SEPARATOR->
-Also, see '%g%l%uhelp pay%x', '%g%l%uhelp transfer%x', '%g%l%uhelp bankcmds%x', '%g%l%uhelp @credit%x', '%g%l%uhelp @?credit%x', '%g%l%uhelp @?balance%x', '%g%l%uhelp @?income%x', '%g%l%uhelp @?expenditure%x', '%g%l%uhelp @?profit%x', '%g%l%uhelp @?quarter%x', '%g%l%uhelp @?restriction%x', '%g%l%uhelp @?bank%x' and '%g%l%uhelp @admin%x'.
+Also, see '%g%l%uhelp pay%x', '%g%l%uhelp transfer%x', '%g%l%uhelp bankcmds%x', '%g%l%uhelp @credit%x', '%g%l%uhelp @?credit%x', '%g%l%uhelp @?balance%x', '%g%l%uhelp @?income%x', '%g%l%uhelp @?expenditure%x', '%g%l%uhelp @?profit%x', '%g%l%uhelp @?quarter%x', '%g%l%uhelp @?wagetime%x', '%g%l%uhelp @?restriction%x', '%g%l%uhelp @?bank%x' and '%g%l%uhelp @admin%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -2584,7 +2584,7 @@ transfer       withdraw
 @credit        @pay           @transfer
 
 @?balance      @?bank         @?credit       @?expenditure  @?income
-@?profit       @?quarter%x
+@?profit       @?quarter      @?wagetime%x
 <-SINGLE->
 %y%lFor help on any of the above commands, please type '%g%lhelp <COMMAND>%y%l', where %w%l<COMMAND>%y%l is the command you'd like help on, e.g:  '%g%l%uhelp bank%y%l'.
 
@@ -8397,6 +8397,8 @@ For help on any of the above area compound commands, please type '%g%l%uhelp <NA
 %g%l.logout   %xYou disconnect.
 %g%l.page     %xSomeone pages a message to you (See '%g%l%uhelp page%x'.)
 %g%l.tell     %xSomeone tells a message to you (See '%g%l%uhelp tell%x'.)
+%g%l.paid     %xSomeone paid you credits (See '%g%l%uhelp @pay%x'.)
+%g%l.pay      %xYou pay credits to someone 
 %g%l.scan     %xSomeone scans you (See '%g%l%uhelp scan%x'.)    
 %g%l.profile  %xSomeone views your profile (See '%g%l%uhelp profile%x'.)    
 <-SEPARATOR->
@@ -11365,7 +11367,7 @@ You can also pay out money to users from within compound commands by using the '
 
 %c%l%8NOTE:  %xYou can guard against unwanted payments by using the '%g%l%urestrict%x' bank command (See '%g%l%uhelp bank%x') to restrict the maximum payment you can make from within a compound command.
 <-SEPARATOR->
-Also, see '%g%l%uhelp bank%x', '%g%l%uhelp transfer%x', '%g%l%uhelp @credit%x', '%g%l%uhelp @?credit%x' and '%g%l%uhelp @?balance%x'.
+Also, see '%g%l%uhelp bank%x', '%g%l%uhelp transfer%x', '%g%l%uhelp @credit%x', '%g%l%uhelp @?credit%x', '%g%l%uhelp @?balance%x', '%g%l%uhelp .pay%x', and '%g%l%uhelp .paid%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -11387,7 +11389,7 @@ You can also pay credit to users from your pocket, by using the '%g%l%upay%x' co
 
 %c%l%8NOTE:  %xYou can guard against unwanted payments by using the '%g%l%urestrict%x' bank command (See '%g%l%uhelp bank%x') to restrict the maximum payment you can make from within a compound command.
 <-SEPARATOR->
-Also, see '%g%l%uhelp bank%x', '%g%l%uhelp pay%x', '%g%l%uhelp @credit%x', '%g%l%uhelp @?credit%x' and '%g%l%uhelp @?balance%x'.
+Also, see '%g%l%uhelp bank%x', '%g%l%uhelp pay%x', '%g%l%uhelp @credit%x', '%g%l%uhelp @?credit%x', '%g%l%uhelp @?balance%x', '%g%l%uhelp .pay%x', and '%g%l%uhelp .paid%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -15549,8 +15551,7 @@ If you have a compound command on you called '%y%l.page%x', it will be executed 
 
 %c%l%$Example:
 %~%c~~~~~~~~
-%g%l@command .page = |page $1 = :acknowledges your message and thanks you for
-    paging %%o.
+%g%l@command .page = |page $1 = :acknowledges your message and thanks you for paging %%o.
 <-SEPARATOR->
 Also, see '%g%l%uhelp page%x', '%g%l%uhelp recall%x', '%g%l%uhelp .tell%x' and '%g%l%uhelp .message%x'.
 
@@ -15597,6 +15598,36 @@ If you have a compound command on you called '%y%l.tell%x', it will be executed 
 %g%l@command .tell = |tell $1 = :acknowledges your message and thanks you for contacting %%o.
 <-SEPARATOR->
 Also, see '%g%l%uhelp tell%x', '%g%l%uhelp recall%x', '%g%l%uhelp .page%x' and '%g%l%uhelp .message%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC .paid
+%TOPIC .paidcommand
+%TOPIC .paidcompoundcommand
+%TITLE Help on the '%w%l.paid%x' compound command
+If you have a compound command on you called '%y%l.paid%x', it will be executed when someone has
+successfully paid you credits.  Within the '%y%l.paid%x' compound command, %y%l$1%x holds the name of
+the person who paid you, and %y%l$2%x holds the amount of credits.
+
+%c%l%$Example:
+%~%c~~~~~~~~
+%g%l@command .paid = |tell $1 = :has received your payment.  Thank you!
+<-SEPARATOR->
+Also, see '%g%l%uhelp @pay%x', '%g%l%uhelp @transfer%x', and '%g%l%uhelp .pay%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC .pay
+%TOPIC .paycommand
+%TOPIC .paycompoundcommand
+%TITLE Help on the '%w%l.pay%x' compound command
+If you have a compound command on you called '%y%l.pay%x', it will be executed when you successfully pay credits to another character.  Within the '%y%l.pay%x' compound command, %y%l$1%x holds the name of the person whom you paid, and %y%l$2%x holds the amount of credits.
+
+%c%l%$Example:
+%~%c~~~~~~~~
+%g%l@command .paid = |emote puts away %%p wallet after paying $2 credits to $1.
+<-SEPARATOR->
+Also, see '%g%l%uhelp @pay%x', '%g%l%uhelp @transfer%x', and '%g%l%uhelp .paid%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
@@ -16210,6 +16241,8 @@ These restrictions are for security and to prevent abuse of action compound comm
 %g%ltell      .tell      %y%lC    %x'%g%l%utell%x' message is sent to character.
 %g%lscan      .scan      %y%lC    %xCharacter is scanned.
 %g%luse       .use       %y%l*    %xObject is used with the '%g%l%uuse%x' command.%x
+%g%lpay       .pay       %y%lC    %xCharacter pays credits
+%g%l          .paid      %y%lC    %xCharacter receives credits
 <-SEPARATOR->
 Also, see '%g%l%uhelp @command%x', '%g%l%uhelp @teleport%x' '%g%l%uhelp @fuse%x' and '%g%l%uhelp advanced%x'.
 
