@@ -2496,7 +2496,7 @@ void db_write(struct descriptor_data *p)
 
                     /* ---->  Write header and number of objects in DB  <---- */
                     dump_timedate = dumptiming;
-                    sprintf(tmpfile,"***==--->  (Format %d)  %s (%s) Database (TCZ/%s v"TCZ_VERSION".%d)  <---==***\n",DATABASE_REVISION,tcz_full_name,tcz_short_name,CODENAME,TCZ_REVISION);
+                    sprintf(tmpfile,"***==--->  (Format %d)  %s (%s) Database (TCZ v"TCZ_VERSION".%d)  <---==***\n",DATABASE_REVISION,tcz_full_name,tcz_short_name,TCZ_REVISION);
                     if(fputs(tmpfile,dump) == EOF) dumperror = 1;
                     dumpdata += strlen(tmpfile);
 

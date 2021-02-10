@@ -82,15 +82,12 @@ void tcz_version(struct descriptor_data *d,int console)
         sprintf(buffer,ANSI_LCYAN"%s (TCZ v"TCZ_VERSION")  -  (C) J.P.Boggis 1993 - %d.",tcz_full_name,tcz_year);
         if(!Validchar(d->player))
            output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LCYAN),buffer2));
-        else tilde_string(d->player,buffer,"",ANSI_DCYAN,0,0,5);
+        else
+           tilde_string(d->player,buffer,"",ANSI_DCYAN,0,0,5);
      }
 
      /* ---->  Description of TCZ  <---- */
      if(!console && d) {
-        if(!Validchar(d->player))
-           output(d,d->player,0,1,0,"%s\n%s",buffer,strpad('~',strlen(buffer) - strlen(ANSI_LGREEN),buffer2));
-        else tilde_string(d->player,buffer,"",ANSI_DGREEN,0,0,5);
-
         output(d,d->player,0,1,0,ANSI_LYELLOW"The Chatting Zone"ANSI_LWHITE" ("ANSI_LYELLOW"TCZ"ANSI_LWHITE") is a user-friendly, advanced multi-user environment for "ANSI_LCYAN"social"ANSI_LWHITE" ("ANSI_LCYAN"Chat"ANSI_LWHITE") or "ANSI_LCYAN"gaming"ANSI_LWHITE" ("ANSI_LCYAN"Adventure"ANSI_LWHITE") purposes either privately over any network supporting TCP/IP, or publicly over the Internet.\n");
 	
         output(d,d->player,0,1,0,ANSI_LYELLOW"TCZ"ANSI_LMAGENTA" is based on "ANSI_LYELLOW"TinyMUD "ANSI_LMAGENTA"("ANSI_LWHITE"1989"ANSI_LMAGENTA") and "ANSI_LYELLOW"UglyMUG"ANSI_LMAGENTA" ("ANSI_LWHITE"1990"ANSI_LMAGENTA"-"ANSI_LWHITE"1991"ANSI_LMAGENTA".)  It was designed and developed by "ANSI_LYELLOW"J.P.Boggis"ANSI_LMAGENTA" from "ANSI_LWHITE"21/12/1993"ANSI_LMAGENTA" before release under the GPL license on "ANSI_LWHITE"02/12/2004"ANSI_LMAGENTA".\n");
@@ -124,7 +121,6 @@ void tcz_version(struct descriptor_data *d,int console)
         output(d,d->player,2,1,14,ANSI_LYELLOW"    Version:  "ANSI_LWHITE"%s\n",command_result);
         output(d,d->player,2,1,14,ANSI_LRED"  Code Base:  "ANSI_LWHITE"%s\n",punctuate(CODEBASE,3,'.'));
         output(d,d->player,2,1,14,ANSI_LRED"Description:  "ANSI_LWHITE"%s\n",punctuate(CODEDESC,3,'.'));
-        output(d,d->player,2,1,14,ANSI_LRED"  Code Name:  "ANSI_LWHITE"%s\n",punctuate(CODENAME,3,'.'));
         output(d,d->player,0,1,0,"\n");
      } else {
 	fputs("Version Information:\n~~~~~~~~~~~~~~~~~~~~\n",stderr);
@@ -132,7 +128,6 @@ void tcz_version(struct descriptor_data *d,int console)
 	fprintf(stderr,"    Version:  %s\n",command_result);
 	fprintf(stderr,"  Code Base:  %s\n",punctuate(CODEBASE,3,'.'));
 	fprintf(stderr,"Description:  %s\n",punctuate(CODEDESC,3,'.'));
-	fprintf(stderr,"  Code Name:  %s\n\n",punctuate(CODENAME,3,'.'));
      }
 
      /* ---->  Associated help page links  <---- */

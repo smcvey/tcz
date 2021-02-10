@@ -2694,14 +2694,12 @@ void query_version(CONTEXT)
      if(Blank(params)) {
         char datebuf[128];
 	     
-        sprintf(querybuf,"%s (%s) (TCZ v"TCZ_VERSION".%d) "CODEBASE"/"CODENAME" (%s) %s",tcz_full_name,tcz_short_name,TCZ_REVISION,operatingsystem,filter_spaces(datebuf,__DATE__" "__TIME__,0));
+        sprintf(querybuf,"%s (%s) (TCZ v"TCZ_VERSION".%d) "CODEBASE" (%s) %s",tcz_full_name,tcz_short_name,TCZ_REVISION,operatingsystem,filter_spaces(datebuf,__DATE__" "__TIME__,0));
         setreturn(querybuf,COMMAND_SUCC);
      } else if(string_prefix("codebase",params) || string_prefix("code base",params)) {
         setreturn(CODEBASE,COMMAND_SUCC);
      } else if(string_prefix("codedescription",params) || string_prefix("code description",params)) {
         setreturn(CODEDESC,COMMAND_SUCC);
-     } else if(string_prefix("codename",params) || string_prefix("code name",params)) {
-        setreturn(CODENAME,COMMAND_SUCC);
      } else if(string_prefix("compiledate",params) || string_prefix("compiletime",params) || string_prefix("compileddate",params) || string_prefix("compiledtime",params) || string_prefix("compilationdate",params) || string_prefix("compilationtime",params) || string_prefix("compile date",params) || string_prefix("compile time",params) || string_prefix("compilation date",params) || string_prefix("compilation time",params)) {
         char datebuf[128];
 	
@@ -2711,8 +2709,6 @@ void query_version(CONTEXT)
         setreturn(querybuf,COMMAND_SUCC);
      } else if(string_prefix("os",params) || string_prefix("o/s",params) || string_prefix("system",params) || string_prefix("operating",params) || string_prefix("operating system",params) || string_prefix("operatingsystem",params)) {
         setreturn(operatingsystem,COMMAND_SUCC);
-     } else if(string_prefix("website",params) || string_prefix("web site",params) || string_prefix("www",params)) {
-        setreturn(CODESITE,COMMAND_SUCC);
      }
 }
 

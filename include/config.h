@@ -47,8 +47,6 @@
 /* ---->  Code base  <---- */
 #define CODEBASE  "TCZ"                             /*  Name of code base               */
 #define CODEDESC  "Official"                        /*  Brief description of code base  */
-#define CODESITE  "https://github.com/smcvey/tcz"   /*  Web site of code base           */
-#define CODENAME  "Odyssey"                         /*  Current code base project name  */
 
 
 /* ---->  Operating System  <---- */

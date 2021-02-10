@@ -6918,8 +6918,8 @@ Also, see '%g%l%uhelp @?next%x' and '%g%l%uhelp @variable%x'.
 %TOPIC @?ver
 %TOPIC @?version
 %TITLE Help on '%w%l{@?version}%x'
-%c%lUSAGE:  %g%l{@?version [codebase|codedesc|codename|compiled]}
-        {@?version [version|os|website]}%x
+%c%lUSAGE:  %g%l{@?version [codebase|codedesc|compiled]}
+        {@?version [version|os]}%x
 
 With no parameters, '%g%l{%u@?version%g%l}%x' returns the %c%lname%x and %c%lshort name%x of %@%m, along with the %c%lversion%x, %c%lcode base%x, %c%lproject name%x, %c%loperating system%x and the %c%lsource code compilation date/time%x, e.g:
 
@@ -6930,11 +6930,9 @@ Alternatively, one of the following parameters can be specified to return specif
 %PAGE
 %9%3%g%lCodeBase   %xReturns the code base name (E.g:  '%y%l%{@?version codebase}%x')
 %9%3%g%lCodeDesc   %xReturns the code base description (E.g:  '%y%l%{@?version codedesc}%x')
-%9%3%g%lCodeName   %xReturns the code base project name (E.g:  '%y%l%{@?version codename}%x')
 %9%3%g%lCompiled   %xReturns the source code compilation date and time (E.g:  '%y%l%{@?version compiled}%x')
 %9%3%g%lVersion    %xReturns the code base version number (E.g:  '%y%l%{@?version version}%x')
 %9%3%g%lOS         %xReturns the operating system (E.g:  '%y%l%{@?version os}%x'.)
-%9%3%g%lWebSite    %xReturns the code base web site (E.g:  '%y%l%{@?version website}%x')
 <-SEPARATOR->
 Also, see '%g%l%uhelp version%x', '%g%l%uhelp version info%x' and '%g%l%uhelp bug fixes%x'.
 
