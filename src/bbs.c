@@ -439,7 +439,7 @@ struct bbs_message_data *bbs_search(struct descriptor_data *p,dbref player,const
 struct bbs_message_data *lookup_message(dbref player,struct bbs_topic_data **topic,struct bbs_topic_data **subtopic,const char *messageno,struct bbs_message_data **last,short *no,unsigned char msg)
 {
        struct   bbs_message_data *ptr,*ptr2 = NULL,*last2 = NULL;
-       struct   descriptor_data *d,*POINTER = getdsc(player);
+       struct   descriptor_data *d,*p = getdsc(player);
        unsigned char ignored,unread = 1;
        struct   bbs_topic_data *temp;
        unsigned char wrapped;
@@ -448,24 +448,22 @@ struct bbs_message_data *lookup_message(dbref player,struct bbs_topic_data **top
 
        (*no) = 0, (*last) = NULL;
        if(Blank(messageno)) return(NULL);
-       if(!strcasecmp("FIRST",messageno) || !strcasecmp("ALL",messageno))
+
+       if(p) {
+          if(!strcasecmp("FIRST",messageno) || !strcasecmp("ALL",messageno)) number = FIRST;
+              else if(!strcasecmp("LAST",messageno) || !strcasecmp("END",messageno) || !strcasecmp("LATEST",messageno)) number = LAST;
+                 else if(!strcasecmp("NEXT",messageno)) number = (!p->currentmsg) ? 0:p->currentmsg, dir = 1;
+                    else if(!strcasecmp("PREV",messageno) || !strcasecmp("PREVIOUS",messageno)) number = (!p->currentmsg) ? 0:p->currentmsg, dir = -1;
+		       else if(!strcasecmp("CURRENT",messageno)) number = (!p->currentmsg) ? 0:p->currentmsg;
+                          else if(!strcasecmp("IGNORE",messageno) || !strcasecmp("IGNORED",messageno)) number = 0, unread = 0;
+   		             else if(strcasecmp("NEW",messageno) && strcasecmp("UNREAD",messageno)) {
+                                number = atol(messageno);
+                                if(number < 1) return(NULL);
+			     } else number = 0, unread = 1;
+       } else if(!strcasecmp("FIRST",messageno) || !strcasecmp("ALL",messageno)) {
           number = FIRST;
-       else if(!strcasecmp("LAST",messageno) || !strcasecmp("END",messageno) || !strcasecmp("LATEST",messageno))
+       } else if (!strcasecmp("LAST",messageno) || !strcasecmp("END",messageno) || !strcasecmp("LATEST",messageno)) {
           number = LAST;
-       else if(!strcasecmp("IGNORE",messageno) || !strcasecmp("IGNORED",messageno))
-          number = 0, unread = 0;
-       else if(strcasecmp("NEW",messageno) && strcasecmp("UNREAD",messageno))
-          number = atol(messageno);
-          if(number < 1) return(NULL);
-       else if (POINTER) {
-          if(!strcasecmp("NEXT",messageno))
-             number = (!POINTER->currentmsg) ? 0:POINTER->currentmsg, dir = 1;
-          else if(!strcasecmp("PREV",messageno) || !strcasecmp("PREVIOUS",messageno))
-             number = (!POINTER->currentmsg) ? 0:POINTER->currentmsg, dir = -1;
-          else if(!strcasecmp("CURRENT",messageno))
-             number = (!POINTER->currentmsg) ? 0:POINTER->currentmsg;
-          else
-             number = 0, unread = 1;
        } else {
           number = atol(messageno);
           if(number < 1) return(NULL);
@@ -1255,6 +1253,7 @@ void bbs_query_latest(CONTEXT)
      if((topic = lookup_topic(player,params,&topic,&subtopic))) {
         if(!subtopic || can_access_topic(player,subtopic,NULL,1)) {
            if(can_access_topic(player,topic,subtopic,1)) {
+              message = lookup_message(player,&topic,&subtopic,"LAST",&message,&temp,0);
      	      if((message = lookup_message(player,&topic,&subtopic,"LAST",&message,&temp,0))) {
                  substitute(Validchar(message->owner) ? message->owner:player,querybuf,decompress(message->subject),0,ANSI_LYELLOW,NULL,0);
                  if(topic->flags & TOPIC_CENSOR) bad_language_filter(querybuf,querybuf);
