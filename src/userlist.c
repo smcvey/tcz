@@ -701,7 +701,7 @@ void userlist_channels(struct descriptor_data *d)
         output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
         listed_items(scratch_return_string,1);
         strcat(scratch_return_string,"  ");
-        output(d, d->player, 2, 1, 1, " " ANSI_LWHITE "Channels:  " ANSI_DWHITE "%-10s" ANSI_LWHITE "Total users:  " ANSI_DWHITE "%d\n\n%s", scratch_return_string, users);
+        output(d, d->player, 2, 1, 1, ANSI_LWHITE " Channels:  " ANSI_DWHITE "%-10s%sTotal users:  " ANSI_DWHITE "%d\n\n", scratch_return_string, ANSI_LWHITE, users);
      }
 
      setreturn(OK,COMMAND_SUCC);
