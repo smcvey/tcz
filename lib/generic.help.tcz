@@ -1,4 +1,4 @@
-:COMMENT  TCZ Generic Help Topics
+%COMMENT  TCZ Generic Help Topics
 %COMMENT  ~~~~~~~~~~~~~~~~~~~~~~~
 %COMMENT  If you wish to change the contents of any of these help topics
 %COMMENT  for your TCZ-based MUD, please copy the relevant topic(s) to
@@ -15589,6 +15589,151 @@ Also, see '%g%l%uhelp scan%x'.
 %TOPIC .tellcommand
 %TOPIC .tellcompoundcommand
 %TITLE Help on the '%w%l.tell%x' compound command
+If you have a compound command on you called '%y%l.tell%x', it will be executed when someone successfully tells a message to you.  Within the '%y%l.tell%x' compound command, %y%l$1%x holds the name of the person who told the message to you, and %y%l$2%x holds their message.
+
+%c%l%$Example:
+%~%c~~~~~~~~
+%g%l@command .tell = |tell $1 = :acknowledges your message and thanks you for contacting %%o.
+<-SEPARATOR->
+Also, see '%g%l%uhelp tell%x', '%g%l%uhelp recall%x', '%g%l%uhelp .page%x' and '%g%l%uhelp .message%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC privs
+%TOPIC rights
+%TOPIC privileges
+%TITLE Help on '%w%lprivileges%x' (Or '%w%lprivs%x')
+%c%lUSAGE:  %g%lprivileges [<NAME>]%x
+
+Lists your privileges in the room you're currently in (Or %y%l<NAME>%x's privileges in the room they're currently in, if %y%l<NAME>%x is specified and you're an %y%lApprentice Wizard/%yDruid%x or above.)
+
+You can use this command to find out what you can and can't do in the room you're currently in (E.g:  Whether you can %c%ltalk%x, %c%lyell%x (A localised version of '%g%l%ushout%x' for Mortals), %c%lfight%x and use %c%lbad language%x (Even though you shouldn't anyway.))
+
+%9%6%c%lPLEASE NOTE:  %xYou can %y%lALWAYS%x yell in your own rooms, regardless of %g%l%uYELL%x flag settings (I.e:  You shouldn't use '%g%lprivileges%x' to see if a flag is set on a particular object  -  You should use '%g%lsettings <OBJECT>%x' instead.)
+<-SEPARATOR->
+Also, see '%g%l%uhelp scan%x', '%g%l%uhelp profile%x', '%g%l%uhelp examine%x', '%g%l%uhelp settings%x' and '%g%l%uhelp yell%x'.
+
+%TOPIC quit
+%TOPIC logout
+%TOPIC exiting
+%TOPIC quitting
+%TOPIC loggingout
+%TITLE Help on '%w%lQUIT%x'
+%c%lUSAGE:  %g%lQUIT%x
+
+Makes you log out and leave %@%n.  This command %c%lMUST%x be typed in capitals.
+
+'%g%l%uQUIT%x' can be used at any time, even if you haven't created or connected a character, however, it CAN'T be used from within a compound command.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC x
+%TOPIC xb
+%TOPIC xf
+%TOPIC scan
+%TOPIC xfull
+%TOPIC xbrief
+%TOPIC finger
+%TOPIC scanchar
+%TOPIC scanning
+%TOPIC scanners
+%TOPIC scanfull
+%TOPIC fullscan
+%TOPIC scanbrief
+%TOPIC briefscan
+%TOPIC fingerfull
+%TOPIC fullfinger
+%TOPIC fingerbrief
+%TOPIC brieffinger
+%TUTORIAL
+%TITLE Help on '%w%lscan%x' (Or '%w%lfinger%x')
+%c%lUSAGE:  %g%lfinger[full|brief] [<NAME>] [= secret]
+        scan[full|brief] [<NAME>] [= secret]
+        x[f|b] [<NAME>] [= secret]%x
+
+Displays information about the character %y%l<NAME>%x (Or yourself, if %y%l<NAME>%x isn't specified), such as their description, time they last connected and how long ago that was, race, score, credit, current location, etc.
+
+Two formats of '%g%l%uscan%x' are available (%c%lBrief%x and %c%lfull%x.)  '%g%l%uscan%x', '%g%l%ufinger%x' and '%g%l%ux%x' display the %c%lbrief format%x.
+
+'%g%l%uscanfull%x', '%g%l%ufingerfull%x' and '%g%l%uxf%x' display the %c%lfull format%x.
+
+%PAGE
+Both the brief and full format of '%g%l%uscan%x' show similar information, but the full format goes into more detail, showing average idle/active times, creation date, total number of logins, etc. (This results in more screen output.)
+
+If the second parameter ('%y%l= secret%x') is specified, the scanned user's '%y%l.scan%x' compound command (If they have one (See '%g%l%uhelp .scan%x')) will not be executed.
+<-SEPARATOR->
+Also, see '%g%l%uhelp scan%x', '%g%l%uhelp profile%x', '%g%l%uhelp look%x', '%g%l%uhelp inventory%x', '%g%l%uhelp examine%x', '%g%l%uhelp secret flag%x' and '%g%l%uhelp .scan%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC profile
+%TOPIC profiles
+%TITLE Help on '%w%lprofile%x'
+%c%lUSAGE:  %g%lprofile [<NAME>] [= secret]%x
+
+Every character on %@%n has a profile.  You can use your profile to set detailed information about yourself, which other users can view (By using the '%g%lprofile%x' command) to find out more about you.
+
+The '%g%lprofile%x' command displays detailed information about the character %y%l<NAME>%x (Or yourself, if %y%l<NAME>%x isn't specified.)  You can set your own profile by using the '%g%l%u@profile%x' command (See '%g%l%uhelp @profile%x'.)
+
+If the second parameter ('%y%l= secret%x') is specified, the user's '%y%l.profile%x' compound command (If they have one (See '%g%l%uhelp .profile%x')) will not be executed.
+<-SEPARATOR->
+Also, see '%g%l%uhelp @profile%x', '%g%l%uhelp scan%x', '%g%l%uhelp look%x', '%g%l%uhelp inventory%x', '%g%l%uhelp examine%x' and '%g%l%uhelp .profile%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC scores
+%TOPIC points
+%TOPIC scoring
+%TITLE Help on '%w%lscore%x'
+%c%lUSAGE:  %g%lscore%x
+
+Displays how much Building Quota you have in use and your present Building Quota limit, your current score and how much credit (Money) you have.
+
+You can rank users by typing '%g%l%uhelp @rank%x' (See '%g%l%uhelp @rank%x') followed by one of the following:  %y%lScore%x, %y%lCredit%x, %y%lBalance%x, %y%lQuotalimit%x (Admin. only).
+<-SEPARATOR->
+Also, see '%g%l%uhelp scan%x', '%g%l%uhelp profile%x', '%g%l%uhelp inventory%x' and '%g%l%uhelp @rank%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC screen
+%TOPIC screenconfig
+%TOPIC screensetups
+%TOPIC screensettings
+%TOPIC screenconfigurations
+%TITLE Help on '%w%lscreenconfig%x'
+%c%lUSAGE:  %g%lscreenconfig%x
+
+Asks you a number of questions designed to help you set up %@%n to suit your computer/terminal.  If you connect from a different computer/terminal than the one you used when you first connected, you may find you need to run through the '%g%lscreenconfig%x' questions again.
+
+
+%c%l%$'%w%l%$screenconfig%c%l%$' does the following...%x
+%~%c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%4%r%l*  %xDetermines whether your computer/terminal supports ANSI colour.  (Also determines whether 8 or 16 colour ANSI should be used.)
+%4%y%l*  %xDetermines whether your computer/terminal can display underlined text.
+<-SEPARATOR->
+Also, see '%g%l%uhelp set%x' and '%g%l%uhelp ansi colour%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
+%TOPIC settings
+%TOPIC flagcmds
+%TOPIC flagscmds
+%TOPIC listingflags
+%TOPIC flagscommand
+%TOPIC flaglistings
+%TOPIC flagslistings
+%TOPIC flagscommands
+%TITLE Help on '%g%lsettings%x'
+%c%lUSAGE:  %g%lsettings <OBJECT>%x
+
+Displays brief information about the object %y%l<OBJECT>%x, providing you either own/control it, or you're an %r%lExperienced Builder%x or an %y%lApprentice Wizard/%yDruid%x or above.
+
+The information displayed includes the object's %c%lname%x, %c%lowner%x, %c%lBuilding Quota%x used/in use, %c%lflags%x currently set on object and its %c%llock%x specification (If it has a lock.)
+
+The '%g%lsettings%x' command is useful for finding out what flags are currently set or the lock specification of an object without having to use the '%g%l%uexamine%x' command to examine it (Which can produce a lot of output.)
+
+The '%g%l%uexamine%x' command can be used to obtain more detailed information about a particular object.
+<-SEPARATOR->
 Also, see '%g%l%uhelp examine%x', '%g%l%uhelp flags%x', '%g%l%uhelp locks%x' and '%g%l%uhelp @set%x'.
 
 %COMMENT --------------------------------------------------------------------->
