@@ -125,11 +125,11 @@ Also, see '%g%l%uhelp index%x' and '%g%l%uhelp menu%x'.
 %g%lmap          modules      more          motd         move         news
 %g%lopen         page         privileges    profile      QUIT         read
 %g%lrecall       repeat       reply         ride         rules        say
-%g%lscan         score        screenconfig  session      set          settings
-%g%lspod         suggest      summary       summon       swho         take
-%g%ltell         think        time          title        titles       to
-%g%ltutorial     unlock       uptime        version      wake         warp
-%g%lwhere        whisper      who           use          visit        yell
+%g%lscan         score        screenconfig  set          settings     spod
+%g%lsuggest      summary      summon        swho         take         tell
+%g%lthink        time         title         titles       to           tutorial
+%g%lunlock       uptime       version       wake         warp         where
+%g%lwhisper      who           use          visit        yell
 <-SEPARATOR->
 For further help on any of the above commands, please type '%g%l%uhelp <COMMAND>%x', where %y%l<COMMAND>%x is the command you'd like help on.  %c%lAlso, see '%g%l%uhelp menu%c%l'.
 
@@ -929,6 +929,7 @@ Also, see '%g%l%uhelp promotions%x', '%g%l%uhelp admin rules%x', '%g%l%uhelp saf
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M%x source code bug fixes
+%9%9%c%l??/??/???? %y %lSMc %x Removed '%g%l%usession%x' command.
 %9%9%c%l10/02/2021 %y %lNA  %x Implemented '%y%l.pay%x' and '%y%l.paid%x' commands.
 %9%9%c%l10/02/2021 %y %lSMc %x Non-connected characters can now run BBS commands using 'first', 'all', 'last', 'end', 'latest'.
 %9%9%c%l10/02/2021 %y %lSMc %x The obselete HTML interface has been removed.
@@ -14769,31 +14770,6 @@ Allows you to leave the %c%lcontainer%x or %c%lvehicle%x you're currently inside
 You'll either end up at the location of the container/vehicle or the location of the character currently carrying the container.
 <-SEPARATOR->
 Also, see '%g%l%uhelp enter%x', '%g%l%uhelp open%x', '%g%l%uhelp close%x' and '%g%l%uhelp containers%x'.
-
-%COMMENT --------------------------------------------------------------------->
-
-%TOPIC session
-%TOPIC sessions
-%TITLE Help on '%w%lsession%x'
-%c%lUSAGE:  %g%lsession comment <COMMENT>
-        session reset [<TITLE>]
-        session title <TITLE>
-        session [<PAGE NO>]%x
-
-The '%g%l%usession%x' command allows you to set the current session, give your comment on it and list everyone else's comments.
-
-To set the current session, simply type '%g%lsession title <TITLE>%x', where %y%l<TITLE>%x is the title of session (Up to %c%l155 characters%x in length.)  The session may only be changed once every %c%l15 minutes%x (However, if you make a mistake when setting the session title, you may correct it up to %c%l1 minute%x after you've set it.)
-
-Once the session has been set, you can leave your comment on it by typing '%g%lsession comment <COMMENT>%x' (Up to %c%l55 characters%x in length.)  You can reset your session comment by typing '%g%lsession comment%x'.
-
-%PAGE
-You can list everyone's comments on the current session by typing '%g%l%usession%x'.  This displays a list of everyone who has set a comment, along with the title of the session.
-
-If %y%l<PAGE NO>%x is specified, the list of comments will be split up into pages and the page number specified will be displayed, e.g:  '%g%lsession 1%x', '%g%lsession 2%x', etc.
-
-%y%lApprentice Wizards/%yDruids%x and above may reset unsuitable session titles or change the current session before the %c%l15 minute%x time period by using the '%g%lsession reset [<TITLE>]%x' command.  They may also change unsuitable session comments by typing '%g%lsession reset = <NAME>%x', where %y%l<NAME>%x is the name of the character who has set an unsuitable session comment.
-<-SEPARATOR->
-Also, see '%g%l%uhelp bbs%x'.
 
 %COMMENT --------------------------------------------------------------------->
 

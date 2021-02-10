@@ -269,7 +269,6 @@ struct cmd_table general_cmds[] = {
        {OTHER_COMMAND, "screensetup",            (void *) set_screenconfig,          0, 0, 0},
        {OTHER_COMMAND, "set",                    (void *) set_preferences,           0, 0, 0},
        {OTHER_COMMAND, "settings",               (void *) look_examine,              1, 0, 0},
-       {OTHER_COMMAND, "sessions",               (void *) comms_session,             0, 0, 0},
        {OTHER_COMMAND, "shortwho",               (void *) userlist_view,             2, 0, 0},
        {OTHER_COMMAND|CMD_EXACT, "shout",        (void *) admin_shout,               0, 0, 0},
        {OTHER_COMMAND, "sitelist",               (void *) userlist_view,             3, 0, 0},

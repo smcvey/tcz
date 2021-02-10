@@ -53,10 +53,6 @@
 #include "fields.h"
 
 
-char  *session_title = NULL;
-dbref session_who    = NOTHING;
-
-
 /* ---->  Set SPOKEN_TEXT for appropriate descriptor (To prevent misuse of 'lastcommand')  <---- */
 void comms_spoken(dbref player,int absolute)
 {
@@ -678,120 +674,6 @@ void comms_say(CONTEXT)
 	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"What would you like to say?");
      } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, this is a quiet %s  -  You can't talk in here.",(Typeof(db[player].location) == TYPE_ROOM) ? "room":"container");
      command_type &= ~COMM_CMD;
-}
-
-/* ---->  View session comments or set session comment/title  <---- */
-void comms_session(CONTEXT)
-{
-     static   time_t session_timer = 0;
-     struct   descriptor_data *d;
-     char     *start,*ptr;
-     unsigned char reset = 0;
-     short    count;
-     time_t   now;
-
-     gettime(now);
-     setreturn(ERROR,COMMAND_FAIL);
-     for(; *params && (*params == ' '); params++);
-     for(start = params, ptr = scratch_buffer; *params && (*params != ' '); *ptr++ = *params, params++);
-     for(*ptr = '\0'; *params && (*params == ' '); params++);
-     if(!BlankContent(scratch_buffer) && (string_prefix("title",scratch_buffer) || (string_prefix("reset",scratch_buffer) && (reset = 1)))) {
-
-        /* ---->  Set/reset session title  <---- */
-        if(!reset || Level4(db[player].owner)) {
-           if(!Blank(params) && !(reset && (*params == '='))) {
-              if(reset || (now >= session_timer) || ((player == session_who) && (now <= (session_timer - (SESSION_TIME * MINUTE) + MINUTE)))) {
-                 ptr = punctuate(params,2,'.');
-                 bad_language_filter(ptr,ptr);
-                 if((strlen(ptr) <= 156) && !strchr(ptr,'\n')) {
-                    if(!instring("%{",ptr)) {
-
-                       /* ---->  Tell session users of title change/reset  <---- */
-                       command_type |= COMM_CMD;
-                       substitute(player,scratch_return_string,ptr,0,ANSI_LWHITE,NULL,0);
-                       for(d = descriptor_list; d; d = d->next) {
-                           if(!Blank(d->comment)) {
-                              FREENULL(d->comment);
-                              if(d->player != player) {
-                                 if(reset && Blank(ptr)) output(d,d->player,0,1,0,ANSI_LMAGENTA"[%s"ANSI_LWHITE"%s"ANSI_LMAGENTA" has reset the current session  -  You can set a new session by typing '"ANSI_LYELLOW"session title <TITLE>"ANSI_LMAGENTA"'.]",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
-                                    else output(d,d->player,0,1,0,ANSI_LMAGENTA"[%s"ANSI_LWHITE"%s"ANSI_LMAGENTA" has %sset the current session to '"ANSI_LWHITE"%s"ANSI_LMAGENTA"'  -  Please set an appropriate comment by typing '"ANSI_LYELLOW"session comment <COMMENT>"ANSI_LMAGENTA"' (If you no-longer wish to participate, simply ignore this message.)]",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0),(reset) ? "re":"",scratch_return_string);
-			      }
-			   }
-		       }
-                       command_type &= ~COMM_CMD;
-
-                       /* ---->  Set new title/reset title  <---- */
-                       if(!Blank(ptr)) {
-                          if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"The session is now '"ANSI_LWHITE"%s"ANSI_LGREEN"'  -  Please set your comment by typing '"ANSI_LYELLOW"session comment <COMMENT>"ANSI_LGREEN"'.",scratch_return_string);
-                          if(reset) writelog(ADMIN_LOG,1,"SESSION","%s(#%d) forcefully changed the session title from '%s' to '%s'",getname(player),player,(session_title) ? decompress(session_title):"",ptr);
-                          FREENULL(session_title);
-                          session_title = (char *) alloc_string(compress(ptr,0));
-                          session_timer = now + (SESSION_TIME * MINUTE);
-                          session_who   = player;
-		       } else {
-                          if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"The current session is now reset  -  You can set a new session by typing '"ANSI_LYELLOW"session title <COMMENT>"ANSI_LGREEN"'.");
-                          if(reset) writelog(ADMIN_LOG,1,"SESSION","%s(#%d) reset the session title ('%s')",getname(player),player,(session_title) ? decompress(session_title):"");
-                          FREENULL(session_title);
-                          session_title = NULL;
-                          session_timer = now;
-                          session_who   = player;
-		       }
-		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the session title can't contain query command substitutions ('"ANSI_LWHITE"%%{<QUERY COMMAND>}"ANSI_LGREEN"'.)");
-		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of the session title is 155 characters.  It also must not contain embedded NEWLINE's.");
-	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the session may not be changed for another "ANSI_LWHITE"%s"ANSI_LGREEN".",interval(session_timer - now,session_timer - now,ENTITIES,0));
-	   } else if(!Blank(arg2)) {
-              dbref who;
-
-              /* ---->  Reset unsuitable session comment (Set by given user)  <---- */
-              if((who = lookup_character(player,arg2,1)) != NOTHING) {
-	         if(can_write_to(player,who,1)) {
-                    if(Connected(who) && (d = getdsc(who))) {
-                       if(!Blank(d->comment)) {
-                          output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s"ANSI_LWHITE"%s"ANSI_LGREEN"'s session comment has been reset.",Article(who,UPPER,DEFINITE),getcname(NOTHING,who,0,0));
-                          output(d,who,0,1,11,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"%s"ANSI_LYELLOW"%s"ANSI_LWHITE" has reset your session comment.",Article(player,UPPER,INDEFINITE),getcname(NOTHING,player,0,0));
-                          writelog(ADMIN_LOG,1,"SESSION","%s(#%d) reset %s(#%d)'s session comment ('%s')",getname(player),player,getname(who),who,(d->comment) ? decompress(d->comment):""); 
-                          for(d = descriptor_list; d; d = d->next)
-                              if(d->player == who)
-                                 FREENULL(d->comment);
-		       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" has not made a session comment.",Article(who,LOWER,DEFINITE),getcname(NOTHING,who,0,0));
-		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only reset the session comment of a connected character.");
-		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only reset the session comment of someone who's of a lower level than yourself.");
-	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the character '"ANSI_LWHITE"%s"ANSI_LGREEN"' doesn't exist.",arg2);
-	   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify who's session comment you'd like to reset.");
-	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may reset/change the current session title, or reset the session comment of an individual user.");
-     } else if(!BlankContent(scratch_buffer) && string_prefix("comment",scratch_buffer)) {
-
-        /* ---->  Set your session comment  <---- */
-        if(!Blank(session_title)) {
-           if(!Blank(params)) {
-              ptr = punctuate(params,2,'.');
-              bad_language_filter(ptr,ptr);
-              if((strlen(ptr) <= 56) && !strchr(ptr,'\n')) {
-                 if(!instring("%{",ptr)) {
-                    for(d = descriptor_list, count = 0; d; d = d->next)
-                        if(d->player == player) {
-                           FREENULL(d->comment);
-                           if(!count) d->comment = (char *) alloc_string(compress(ptr,0));
-                           count++;
-			}
-                    if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Your session comment is now '"ANSI_LWHITE"%s"ANSI_LGREEN"'",substitute(player,scratch_return_string,ptr,0,ANSI_LWHITE,NULL,0));
-                    setreturn(OK,COMMAND_SUCC);
-		 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, your session comment can't contain query command substitutions ('"ANSI_LWHITE"%%{<QUERY COMMAND>}"ANSI_LGREEN"'.)");
-	      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of your session comment is 55 characters.  It also must not contain embedded NEWLINE's.");
-	   } else {
-              for(d = descriptor_list, count = 0; d; d = d->next)
-                  if(d->player == player) {
-                     FREENULL(d->comment);
-                     count++;
-		  }
-              output(getdsc(player),player,0,1,0,(count) ? ANSI_LGREEN"Your session comment has been reset.":ANSI_LGREEN"Please specify your session comment.");
-	   }
-	} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the current session hasn't been set yet  -  If you'd like to set it, please type '"ANSI_LWHITE"session title <TITLE>"ANSI_LGREEN"'.");
-     } else if(!Blank(session_title)) {
-
-        /* ---->  List session comments  <---- */
-        userlist_view(player,start,NULL,NULL,NULL,13,0);
-     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the current session hasn't been set yet  -  If you'd like to set it, please type '"ANSI_LWHITE"session title <TITLE>"ANSI_LGREEN"'.");
 }
 
 /* ---->  Think about something  <---- */

@@ -352,7 +352,6 @@ extern  void            comms_oecho             (CONTEXT);
 extern  void            comms_oemote            (CONTEXT);
 extern  void            comms_pose              (CONTEXT);
 extern  void            comms_say               (CONTEXT);
-extern  void            comms_session           (CONTEXT);
 extern  void            comms_think             (CONTEXT);
 extern  void            comms_wake              (CONTEXT);
 extern  void            comms_whisper           (CONTEXT);
@@ -1271,7 +1270,6 @@ extern  void            userlist_where          (struct descriptor_data *d,int l
 extern  void            userlist_email          (struct descriptor_data *d,int number);
 extern  void            userlist_last           (struct descriptor_data *d);
 extern  void            userlist_channels       (struct descriptor_data *d);
-extern  void            userlist_session        (struct descriptor_data *d);
 extern  void            userlist_assist         (struct descriptor_data *d);
 extern  void            userlist_admin          (struct descriptor_data *d,unsigned char dsc);
 extern  void            userlist_query_title    (CONTEXT);

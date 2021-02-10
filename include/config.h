@@ -293,7 +293,7 @@
 #define TCZ_FULL_NAME         "New TCZ-based MUD"              /*  Default TCZ server name  */
 #define TCZ_LOCATION          "Not Specified"                  /*  Default location of TCZ server  */
 #define TCZ_REVISION          1                                /*  Current minor revision number of TCZ server  */
-#define TCZ_VERSION           "4.4"                          /*  TCZ server version number  */
+#define TCZ_VERSION           "4.4"                            /*  TCZ server version number  */
 #define HTML_HOME_URL         "https://github.com/smcvey/tcz"  /*  URL of TCZ home pages  */
 
 
@@ -529,7 +529,6 @@
 #define MAX_IDLE_TIME                  60        /*  Amount of time (In minutes) a connected user may idle before being automatically disconnected  */
 #define WARN_IDLE_TIME                 MAX((MAX_IDLE_TIME) - 15, 5)         /* Amount of time (In minutes) before showing user an idle warning message */
 #define CONNECT_TIME                   30        /*  Amount of time (In seconds) to wait before notifying connected user of failed connection attempts  */
-#define SESSION_TIME                   15        /*  Time (In minutes) between session title changes (Admin may forcefully change or reset the session title using 'session reset [<TITLE>]'.)  */
 #define WHISPER_TIME                   1         /*  Amount of time (In seconds) a user must wait between whispers to a particular user  */
 #define COMMENT_TIME                   60        /*  Amount of time (In seconds) a user must wait before they can make another complaint/comment/suggestion/bug report  */
 #define NEWBIE_TIME                    7200      /*  Amount of total connect time (In seconds) a user is still considered a 'Newbie'.  */

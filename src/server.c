@@ -1315,7 +1315,6 @@ struct descriptor_data *server_initialise_sock(int new,struct sockaddr_in *a,str
        d->helpname       = NULL;
        d->password       = NULL;
        d->afk_time       = now;
-       d->comment        = NULL;
        d->subject        = NULL;
        d->channel        = 1;
        d->monitor        = NULL;
@@ -1459,7 +1458,6 @@ void server_clear_strings(struct descriptor_data *d)
      FREENULL(d->helpname);
      FREENULL(d->hostname);
      FREENULL(d->password);
-     FREENULL(d->comment);
      FREENULL(d->subject);
      FREENULL(d->assist);
      FREENULL(d->negbuf);
@@ -2004,7 +2002,6 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                    FREENULL(d->afk_message);
                    FREENULL(d->lastmessage);
                    FREENULL(d->helpname);
-                   FREENULL(d->comment);
                    FREENULL(d->subject);
                    FREENULL(d->chname);
                    FREENULL(d->assist);
@@ -2028,7 +2025,6 @@ int server_connect_user(struct descriptor_data *d,const char *input)
                    d->helpname       = c->helpname,  c->helpname  = NULL;
                    d->channel        = c->channel;
                    d->monitor        = c->monitor, c->monitor  = NULL;
-                   d->comment        = c->comment, c->comment  = NULL;
                    d->subject        = c->subject, c->subject  = NULL;
                    d->assist         = c->assist,  c->assist   = NULL;
                    d->prompt         = c->prompt,  c->prompt   = NULL;

@@ -948,7 +948,6 @@ struct descriptor_data {
        time_t                   next_time;        /*  Next time user may execute a command  */
        char                     *subject;         /*  Subject of chatting channel user is operator of  */
        time_t                   afk_time;         /*  Time when user went AFK  */
-       char                     *comment;         /*  Session comment  */
        char                     *assist;          /*  Reason for seeking assistance  */
        char                     *chname;          /*  Name of last used channel  */
        unsigned char            *negbuf;          /*  Buffer for 'split' Telnet negotiations  */

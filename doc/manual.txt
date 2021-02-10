@@ -1583,12 +1583,11 @@ In most cases, things are given priority.
   news            open            page            privileges      profile
   QUIT            read            recall          repeat          reply
   ride            say             scan            score           screenconfig
-  session         set             settings        spod            suggest
-  summon          swho            take            tell            think
-  time            title           titles          to              unlock
-  uptime          use             users           version         wake
-  warp            where           whisper         who             visit
-  yell
+  set             settings        spod            suggest         summon
+  swho            take            tell            think           time
+  title           titles          to              unlock          uptime
+  use             users           version         wake            warp
+  where           whisper         who             visit           yell
 
 
   Character Related Commands/Query Commands...
@@ -5548,42 +5547,6 @@ In most cases, things are given priority.
   *  Determines whether your computer/terminal supports ANSI colour.
      (Also determines whether 8 or 16 colour ANSI should be used.)
   *  Determines whether your computer/terminal can display underlined text.
-
--------------------------------------------------------------------------------
-
-  Session
-  ~~~~~~~
-  USAGE:  session comment <COMMENT>
-          session reset [<TITLE>]
-          session title <TITLE>
-          session [<PAGE NO>]
-
-  The 'session' command allows you to set the current session, give your
-  comment on it and list everyone else's comments.
-
-  To set the current session, simply type 'session title <TITLE>', where
-  <TITLE> is the title of session (Upto 155 characters in length.)  The
-  session may only be changed once every 15 minutes (However, if you make
-  a mistake when setting the session title, you may correct it upto 1
-  minute after you've set it.)
-
-  Once the session has been set, you can leave your comment on it by typing
-  'session comment <COMMENT>' (Upto 55 characters in length.)  You can reset
-  your session comment by typing 'session comment'.
-
-  You can list everyone's comments on the current session by typing 'session'.
-  This displays a list of everyone who has set a comment, along with the title
-  of the session.
-
-  If <PAGE NO> is specified, the list of comments will be split up into pages
-  and the page number specified will be displayed, e.g:  'session 1',
-  'session 2', etc.
-
-  Apprentice Wizards/Druids and above may reset unsuitable session titles or
-  change the current session before the 15 minute time period by using the
-  'session reset [<TITLE>]' command.)  They may also change unsuitable session
-  comments by typing 'session reset = <NAME>', where <NAME> is the name of the
-  character who has set an unsuitable session comment.
 
 -------------------------------------------------------------------------------
 

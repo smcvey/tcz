@@ -707,62 +707,6 @@ void userlist_channels(struct descriptor_data *d)
      setreturn(OK,COMMAND_SUCC);
 }
 
-
-extern char  *session_title;
-extern dbref session_who;
-
-
-/* ---->  Session list (Single column):  Name & session comment  <---- */
-void userlist_session(struct descriptor_data *d)
-{
-     unsigned char cached_scrheight;
-     const    char *colour;
-     char          *p1,*p2;
-     int           length;
-
-     /* ---->  Session title  <---- */
-     command_type |= COMM_CMD;
-     if(!d->pager && Validchar(d->player) && More(d->player)) pager_init(d);
-
-     if(!in_command) output(d,d->player,0,1,0,"\n%s",separator(d->terminal_width,0,'-','='));
-     output(d,d->player,2,1,1," %s\n",substitute(session_who,scratch_return_string,decompress(session_title),0,ANSI_LCYAN,NULL,0));
-     output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
-
-     /* ---->  Session comments  <---- */
-     if(Validchar(d->player)) {
-        cached_scrheight                     = db[d->player].data->player.scrheight;
-        db[d->player].data->player.scrheight = (db[d->player].data->player.scrheight - 10) * 2;
-     }
-     union_initgrouprange((union group_data *) descriptor_list);
-     while(union_grouprange()) {
-
-           /* ---->  Character's name  <---- */
-           sprintf(scratch_buffer,"%s",colour = privilege_colour(grp->cunion->descriptor.player));
-           p1 = (char *) getfield(grp->cunion->descriptor.player,PREFIX);
-           if(!Blank(p1) && ((strlen(p1) + 1 + strlen(getname(grp->cunion->descriptor.player))) <= 20))
-              sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s %s",p1,getname(grp->cunion->descriptor.player));
-                 else sprintf(p2 = (scratch_buffer + strlen(scratch_buffer))," %s",getname(grp->cunion->descriptor.player));
-
-           if((length = strlen(p2)) <= 21) {
-              for(p1 = p2 + length; length < 21; *p1++ = ' ', length++);
-              *p1 = '\0';
-	   } else p2[21] = '\0';
-
-           /* ---->  Character's session comment  <---- */
-           output(d, d->player, 2, 1, 23, "%s  %s\n",scratch_buffer,(grp->cunion->descriptor.comment) ? substitute(grp->cunion->descriptor.player,scratch_return_string,decompress(grp->cunion->descriptor.comment),0,colour,NULL,0):"No comment.");
-     }
-     if(Validchar(d->player)) db[d->player].data->player.scrheight = cached_scrheight;
-
-     if(grp->rangeitems == 0) output(d,d->player,2,1,1," ***  NO ONE HAS ANY OPINION ON THIS SESSION YET  ***\n");
-     if(!in_command) {
-        output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','-'));
-        listed_items(scratch_return_string,1);
-        output(d, d->player, 2, 1, ((grp->nogroups > 0) ? 17 : 21) + digit_wrap(0, grp->totalitems), ANSI_LCYAN" Users listed:  " ANSI_LYELLOW "%s  " ANSI_DCYAN "-  " ANSI_LWHITE "Type '" ANSI_LGREEN "session comment <COMMENT>" ANSI_LWHITE "' to set your comment, or '" ANSI_LGREEN "session title <TITLE>" ANSI_LWHITE "' to change the session title.\n", scratch_return_string);
-        output(d,d->player,0,1,0,separator(d->terminal_width,1,'-','='));
-     }
-     command_type &= ~COMM_CMD;
-}
-
 /* ---->  Assist list (Single column):  Assist time, name and reason  <---- */
 void userlist_assist(struct descriptor_data *d)
 {
@@ -945,7 +889,7 @@ void userlist_query_title(CONTEXT)
 /*        (10)   Friends 'who' listing.                       */
 /*        (11)   Friends 'where' listing.                     */
 /*        (12)   'where *<NAME>' list                         */
-/*        (13)   Session listing                              */
+/*        (13)   UNUSED (Was Session listing)                 */
 /*        (14)   Welcome list                                 */
 /*        (15)   Assist list                                  */
 
@@ -1117,8 +1061,7 @@ void userlist_view(CONTEXT)
                  userlist_swho(p);
                  break;
             case 13:
-                 set_conditions_ps(player,flagspec,flagmask,flagspec2,flagmask2,flagexc,NOTHING,character,NULL,207);
-                 userlist_session(p);
+                 /* Was used for old .session. command - no longer needed. */
                  break;
             case 14:
                  set_conditions_ps(player,flagspec,flagmask,flagspec2,flagmask2,flagexc,NOTHING,character,NULL,208);

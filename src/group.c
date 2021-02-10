@@ -443,8 +443,7 @@ int condition_met(dbref object,union group_data *objunion)
                                               break;
                                          case 7:
 
-                                              /* ---->  Extra conditions for 'session' list  <---- */
-                                              if(objunion->descriptor.comment) return(1);
+                                              /* ---->  REMOVED: Extra conditions for 'session' list  <---- */
                                               break;
                                          case 8:
 
