@@ -439,7 +439,7 @@ struct bbs_message_data *bbs_search(struct descriptor_data *p,dbref player,const
 struct bbs_message_data *lookup_message(dbref player,struct bbs_topic_data **topic,struct bbs_topic_data **subtopic,const char *messageno,struct bbs_message_data **last,short *no,unsigned char msg)
 {
        struct   bbs_message_data *ptr,*ptr2 = NULL,*last2 = NULL;
-       struct   descriptor_data *d,*p = getdsc(player);
+       struct   descriptor_data *d,*POINTER = getdsc(player);
        unsigned char ignored,unread = 1;
        struct   bbs_topic_data *temp;
        unsigned char wrapped;
@@ -448,17 +448,24 @@ struct bbs_message_data *lookup_message(dbref player,struct bbs_topic_data **top
 
        (*no) = 0, (*last) = NULL;
        if(Blank(messageno)) return(NULL);
-       if(p) {
-          if(!strcasecmp("FIRST",messageno) || !strcasecmp("ALL",messageno)) number = FIRST;
-              else if(!strcasecmp("LAST",messageno) || !strcasecmp("END",messageno) || !strcasecmp("LATEST",messageno)) number = LAST;
-                 else if(!strcasecmp("NEXT",messageno)) number = (!p->currentmsg) ? 0:p->currentmsg, dir = 1;
-                    else if(!strcasecmp("PREV",messageno) || !strcasecmp("PREVIOUS",messageno)) number = (!p->currentmsg) ? 0:p->currentmsg, dir = -1;
-		       else if(!strcasecmp("CURRENT",messageno)) number = (!p->currentmsg) ? 0:p->currentmsg;
-                          else if(!strcasecmp("IGNORE",messageno) || !strcasecmp("IGNORED",messageno)) number = 0, unread = 0;
-   		             else if(strcasecmp("NEW",messageno) && strcasecmp("UNREAD",messageno)) {
-                                number = atol(messageno);
-                                if(number < 1) return(NULL);
-			     } else number = 0, unread = 1;
+       if(!strcasecmp("FIRST",messageno) || !strcasecmp("ALL",messageno))
+          number = FIRST;
+       else if(!strcasecmp("LAST",messageno) || !strcasecmp("END",messageno) || !strcasecmp("LATEST",messageno))
+          number = LAST;
+       else if(!strcasecmp("IGNORE",messageno) || !strcasecmp("IGNORED",messageno))
+          number = 0, unread = 0;
+       else if(strcasecmp("NEW",messageno) && strcasecmp("UNREAD",messageno))
+          number = atol(messageno);
+          if(number < 1) return(NULL);
+       else if (POINTER) {
+          if(!strcasecmp("NEXT",messageno))
+             number = (!POINTER->currentmsg) ? 0:POINTER->currentmsg, dir = 1;
+          else if(!strcasecmp("PREV",messageno) || !strcasecmp("PREVIOUS",messageno))
+             number = (!POINTER->currentmsg) ? 0:POINTER->currentmsg, dir = -1;
+          else if(!strcasecmp("CURRENT",messageno))
+             number = (!POINTER->currentmsg) ? 0:POINTER->currentmsg;
+          else
+             number = 0, unread = 1;
        } else {
           number = atol(messageno);
           if(number < 1) return(NULL);
@@ -2036,6 +2043,7 @@ void bbs_vote(CONTEXT)
         if((topic = lookup_topic(player,NULL,&topic,&subtopic))) {
            if(!subtopic || can_access_topic(player,subtopic,NULL,1)) {
 	      if(can_access_topic(player,topic,subtopic,1)) {
+		message = lookup_message(player,&topic,&subtopic,arg1,&message,&msgno,0);
                  if((message = lookup_message(player,&topic,&subtopic,arg1,&message,&msgno,0))) {
                     if(!Blank(arg2) && (string_prefix("list",arg2) || string_prefix("summary",arg2) || string_prefix("view",arg2))) {
 
@@ -2151,27 +2159,7 @@ void bbs_vote(CONTEXT)
                           setreturn(OK,COMMAND_SUCC);
 		       } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, the votes of that message are private (Subject to a secret ballot.)");
 		    } else if(!Blank(arg2) && (string_prefix("reset",arg2) || string_prefix("clear",arg2))) {
-
-                       /* ---->  Reset votes for message  <---- */
-                       if(!((db[player].owner != message->owner) && !can_write_to(player,message->owner,0))) {
-	                  if(Bbs(player)) {
-                             if(!message->expiry) {
-                                if(!in_command) {
-                                   substitute(Validchar(message->owner) ? message->owner:player,scratch_return_string,decompress(message->subject),0,ANSI_LYELLOW,NULL,0);
-                                   if(topic->flags & TOPIC_CENSOR) bad_language_filter(scratch_return_string,scratch_return_string);
-                                   if(subtopic) output(p,player,0,1,0,ANSI_LGREEN"Votes of the message '%s"ANSI_LYELLOW"%s"ANSI_LGREEN"' (Message number "ANSI_LWHITE"%d"ANSI_LGREEN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' reset.",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
-                                      else output(p,player,0,1,0,ANSI_LGREEN"Votes of the message '%s"ANSI_LYELLOW"%s"ANSI_LGREEN"' (Message number "ANSI_LWHITE"%d"ANSI_LGREEN") in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"' reset.",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
-				}
-                                for(reader = message->readers; reader; reader = reader->next)
-                                    if(reader->flags & READER_VOTE_MASK)
-                                       reader->flags &= ~READER_VOTE_MASK;
-                                setreturn(OK,COMMAND_SUCC);
-			     } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, an expiry time for voting on that message has been set.  You cannot reset the votes on the message until voting closes.");
-			  } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you have been banned from resetting the votes of messages on %s BBS.",tcz_full_name);
-		       } else if(Level3(db[player].owner)) output(p,player,0,1,0,ANSI_LGREEN"Sorry, you can only reset the votes of a message you own, or a message owned by someone of a lower level than yourself.");
-                          else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you can only reset the votes of your own messages.");
 		    } else if(!Blank(arg2) && ((reset = (string_prefix("off",arg2) || string_prefix("prevent",arg2))) || string_prefix("on",arg2) || string_prefix("allow",arg2))) {
-
                        /* ---->  Allow/prevent voting on message  <---- */
                        if(!((db[player].owner != message->owner) && !can_write_to(player,message->owner,0))) {
 	                  if(Bbs(player)) {
