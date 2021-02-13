@@ -6517,7 +6517,7 @@ Returns a separating line of the width of the current character's screen.  By de
 @echo %%m{@?separator single}
 @echo %%g{@?separator double}%x
 <-SEPARATOR->
-Also, see '%g%l%uhelp @?pad%x', '%g%l%uhelp substitutions%x', '%g%l%uhelp html%x' and '%g%l%uhelp advanced queries%x'.
+Also, see '%g%l%uhelp @?pad%x', '%g%l%uhelp substitutions%x', and '%g%l%uhelp advanced queries%x'.
 
 %COMMENT --------------------------------------------------------------------->
 
