@@ -90,7 +90,7 @@ void tcz_version(struct descriptor_data *d,int console)
      if(!console && d) {
         output(d,d->player,0,1,0,ANSI_LYELLOW"The Chatting Zone"ANSI_LWHITE" ("ANSI_LYELLOW"TCZ"ANSI_LWHITE") is a user-friendly, advanced multi-user environment for "ANSI_LCYAN"social"ANSI_LWHITE" ("ANSI_LCYAN"Chat"ANSI_LWHITE") or "ANSI_LCYAN"gaming"ANSI_LWHITE" ("ANSI_LCYAN"Adventure"ANSI_LWHITE") purposes either privately over any network supporting TCP/IP, or publicly over the Internet.\n");
 	
-        output(d,d->player,0,1,0,ANSI_LYELLOW"TCZ"ANSI_LMAGENTA" is based on "ANSI_LYELLOW"TinyMUD "ANSI_LMAGENTA"("ANSI_LWHITE"1989"ANSI_LMAGENTA") and "ANSI_LYELLOW"UglyMUG"ANSI_LMAGENTA" ("ANSI_LWHITE"1990"ANSI_LMAGENTA"-"ANSI_LWHITE"1991"ANSI_LMAGENTA".)  It was designed and developed by "ANSI_LYELLOW"J.P.Boggis"ANSI_LMAGENTA" from "ANSI_LWHITE"21/12/1993"ANSI_LMAGENTA" before release under the GPL license on "ANSI_LWHITE"02/12/2004"ANSI_LMAGENTA".\n");
+        output(d,d->player,0,1,0,ANSI_LYELLOW"TCZ"ANSI_LMAGENTA" is based on "ANSI_LYELLOW"TinyMUD "ANSI_LMAGENTA"("ANSI_LWHITE"1989"ANSI_LMAGENTA") and "ANSI_LYELLOW"UglyMUG"ANSI_LMAGENTA" ("ANSI_LWHITE"1990"ANSI_LMAGENTA"-"ANSI_LWHITE"1991"ANSI_LMAGENTA".)  It was designed and developed by "ANSI_LYELLOW"J.P.Boggis"ANSI_LMAGENTA" from "ANSI_LWHITE"21/12/1993"ANSI_LMAGENTA".\n");
 	
         output(d,d->player,2,1,0,ANSI_LCYAN"Please read the file "ANSI_LWHITE"MODULES"ANSI_LCYAN" or type '"ANSI_LYELLOW"modules"ANSI_LCYAN"' on TCZ for detailed author information.\n\n");
 	
