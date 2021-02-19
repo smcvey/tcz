@@ -222,7 +222,6 @@ SRC = \
         group.c \
         help.c \
 	interface.c \
-        lists.c \
 	logfiles.c \
 	look.c \
         mail.c \

@@ -294,7 +294,6 @@ struct cmd_table general_cmds[] = {
        {OTHER_COMMAND, "tell",                   (void *) pagetell_send,             1, 0, 0},
        {OTHER_COMMAND, "tellf",                  (void *) pagetell_friends,          1, 0, 0},
        {OTHER_COMMAND, "tellfriends",            (void *) pagetell_friends,          1, 0, 0},
-       {OTHER_COMMAND, "testlists",              (void *) lists_test,                0, 0, 0}, /* REMOVE */
        {OTHER_COMMAND, "tf",                     (void *) pagetell_friends,          1, 0, 0},
        {OTHER_COMMAND, "tfriends",               (void *) pagetell_friends,          1, 0, 0},
        {OTHER_COMMAND, "think",                  (void *) comms_think,               0, 0, 0},
