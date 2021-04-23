@@ -273,11 +273,6 @@
                                  information returned by getrusage() is
                                  not fully implemented.  */
 
-#define USE_PROC2            /*  If USE_PROC is defined, and TCZ server will
-                                 be running on a Linux 2.0.0 or better system,
-                                 you will need to #define this, as they
-                                 changed the format of /proc/meminfo  */
-
 #define WARN_DUPLICATES      /*  When defined, the E-mail addresses of new
                                  characters will be checked against the E-mail
                                  addresses of all other characters in the
@@ -752,7 +747,6 @@
    #define DB_COMPRESSION_GZIP
    #undef  REFRESH_SOCKETS
    #define DB_COMPRESSION
-   #define USE_PROC2
    #define USE_PROC
 #endif 
 
@@ -766,7 +760,6 @@
    #undef  DB_COMPRESSION
    #undef  UPS_SUPPORT
    #undef  SERVERINFO
-   #undef  USE_PROC2
    #undef  USE_PROC
 
    #define srand48(value) srand(value)  /* No srand48()  */

@@ -533,11 +533,9 @@ void stats_resource(dbref player)
      }
      read(fd,scratch_return_string,TEXT_SIZE);
      close(fd);
-#ifdef USE_PROC2
-     sscanf(scratch_return_string," %*s %*s %*s %*s %*s %*s\n%*s %lu %lu %lu %lu %lu %lu\n%*s %lu %lu %lu%*s",&mtotal,&mused,&mfree,&mshared,&mbuffers,&mcached,&stotal,&sused,&sfree);
-#else
-     sscanf(scratch_return_string,"%*s %*s %*s %*s %*s %*s %lu %lu %lu %lu %lu %*s %lu %lu %lu%*s",&mtotal,&mused,&mfree,&mshared,&mbuffers,&stotal,&sused,&sfree);
-#endif
+     sscanf(scratch_return_string, "%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %lu %*s\n%*s %lu %*s\n", &mtotal, &mfree, &mbuffers, &mcached, &stotal, &sfree);
+     mused = mtotal - mfree;
+     sused = stotal - sfree;
 
      /* ---->  TCZ's process statistics  <---- */
      sprintf(scratch_return_string,PROC_STAT,getpid());
@@ -596,7 +594,7 @@ void stats_resource(dbref player)
      output(p, player, 2, 1, 0, ANSI_LYELLOW "      Total program size:  " ANSI_LWHITE "%.2fMb (%d byte%s)%s\n", ((float) (size * psize)) / MB, size * psize, Plural(size * psize), scratch_return_string);
      output(p, player, 2, 1, 0, ANSI_LYELLOW "       Swap space in use:  " ANSI_LWHITE "%.2fMb (%d byte%s)\n", ((float) ((size - rss) * psize)) / MB, (size - rss) * psize, Plural((size - rss) * psize));
      output(p, player, 2, 1, 0, ANSI_LYELLOW "     Resident size (RSS):  " ANSI_LWHITE "%.2fMb (%d byte%s)%s\n", ((float) (rss * psize)) / MB,rss * psize,Plural(rss * psize), scratch_return_string);
-     output(p, player, 2, 1, 0, ANSI_LYELLOW "     System memory usage:  " ANSI_LWHITE "%.2f%%\n", (((float) rss * psize) / mtotal) * 100);
+     output(p, player, 2, 1, 0, ANSI_LYELLOW "     System memory usage:  " ANSI_LWHITE "%.2f%%\n", (((float) rss * psize) / mtotal) / 10);
      output(p, player, 2, 1, 0, ANSI_LGREEN "      Descriptors in use:  " ANSI_LWHITE "%d/%d (%d connection%s pending)\n", inuse + RESERVED_DESCRIPTORS,max_descriptors + RESERVED_DESCRIPTORS, pending, Plural(pending));
 #else
      output(p, player, 2, 1, 0, ANSI_LYELLOW " Maximum Resident Set Size (RSS):  " ANSI_LWHITE "%.2f (%d byte%s)%s\n", ((float) (usage.ru_maxrss * psize)) / MB,usage.ru_maxrss * psize, Plural(usage.ru_maxrss * psize), scratch_return_string);
@@ -607,14 +605,14 @@ void stats_resource(dbref player)
 
 #ifdef USE_PROC
      output(p,player,0,1,0,separator(79,0,'=','='));
-     output(p,player,0,1,0,ANSI_LCYAN"                      Total:     Used:      Free:      Shared:    Cache:");
+     output(p,player,0,1,0,ANSI_LCYAN"                      Total:     Used:      Free:      Shared:     Cache:");
      output(p,player,0,1,0,separator(79,0,'-','-'));
 
-     output(p, player, 2, 1, 0, ANSI_LCYAN " System memory (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_LGREEN "%-11d "ANSI_LGREEN "%-11d\n", mtotal / KB, mused / KB, mfree / KB, mshared / KB, (mbuffers + mcached) / KB);
-     output(p, player, 2, 1, 0, ANSI_LCYAN "     +/- Cache (Kb):  " ANSI_DCYAN "N/A        " ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A        " ANSI_DCYAN "N/A\n", (mused - (mbuffers + mcached)) / KB, (mfree + mbuffers + mcached) / KB);
-     output(p, player, 2, 1, 0, ANSI_LCYAN "   System swap (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A        " ANSI_DCYAN "N/A\n", stotal / KB, sused / KB, sfree / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN " System memory (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_LGREEN "%-11d "ANSI_LGREEN "%d\n", mtotal / KB, mused / KB, mfree / KB, mshared / KB, (mbuffers + mcached) / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "     +/- Cache (Kb):  " ANSI_DCYAN "N/A        " ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A         " ANSI_DCYAN "N/A\n", (mused - (mbuffers + mcached)) / KB, (mfree + mbuffers + mcached) / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "   System swap (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A         " ANSI_DCYAN "N/A\n", stotal / KB, sused / KB, sfree / KB);
      if(!in_command) output(p,player,0,1,0,separator(79,0,'-','-'));
-     output(p, player, 2, 1, 0, ANSI_LCYAN "         Total (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d%-11d" ANSI_DCYAN "N/A        " ANSI_DCYAN "N/A\n", (mtotal + stotal) / KB, (mused + sused) / KB, (mfree + sfree) / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "         Total (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d%-11d" ANSI_DCYAN "N/A         " ANSI_DCYAN "N/A\n", (mtotal + stotal) / KB, (mused + sused) / KB, (mfree + sfree) / KB);
 #else
      output(p,player,0,1,0,ANSI_DCYAN"----------------------------------------------------("ANSI_LMAGENTA"Swapping "ANSI_DCYAN"& "ANSI_LBLUE"Input/Output"ANSI_DCYAN")--");
      output(p, player, 2, 1, 0, ANSI_LMAGENTA "                 Number of swaps:  "ANSI_LWHITE"%d\n", usage.ru_nswap);
