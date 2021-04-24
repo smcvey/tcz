@@ -533,7 +533,7 @@ void stats_resource(dbref player)
      }
      read(fd,scratch_return_string,TEXT_SIZE);
      close(fd);
-     sscanf(scratch_return_string, "%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %*lu %*s\n%*s %lu %*s\n%*s %lu %*s\n", &mtotal, &mfree, &mbuffers, &mcached, &stotal, &sfree);
+     sscanf(scratch_return_string, "%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %lu %*s\n%*s %lu %*s\n", &mtotal, &mfree, &mbuffers, &mcached, &stotal, &sfree);
      mused = mtotal - mfree;
      sused = stotal - sfree;
 
