@@ -601,8 +601,8 @@ void process_basic_command(dbref player,char *original_command,unsigned char con
 
                   /* ---->  Log failed commands  <---- */
                   strcpy(buffer,unparse_object(ROOT,Location(player),0));
-                  if(!can_write_to(player,Owner(Location(player)),0))
-                     writelog(UserLog(Owner(Location(player))),1,"UNKNOWN COMMAND","(%s in %s)  >>>>>  %s%s%s",getcname(ROOT,player,1,0),buffer,command,!BlankContent(params) ? " ":"",params);
+                  /* if(!can_write_to(player,Owner(Location(player)),0))
+                     writelog(UserLog(Owner(Location(player))),1,"UNKNOWN COMMAND","(%s in %s)  >>>>>  %s%s%s",getcname(ROOT,player,1,0),buffer,command,!BlankContent(params) ? " ":"",params); */
 
                   if(option_loglevel(OPTSTATUS) == 1) {
                      sprintf(buffer + strlen(buffer)," owned by %s",getcname(ROOT,Owner(Location(player)),1,0));
