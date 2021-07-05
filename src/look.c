@@ -491,7 +491,7 @@ void look_disclaimer(CONTEXT)
 void look_examine(CONTEXT)
 {
      struct   descriptor_data *d = NULL,*p = getdsc(player);
-     unsigned char            cr,subtable;
+     unsigned char            cr;
      unsigned char            experienced = 0;
      time_t                   last,total,now;
      dbref                    looper,thing;
@@ -762,7 +762,6 @@ void look_examine(CONTEXT)
               output(p,player,2,1,0,ANSI_LRED"Sorry, that element (Or range of elements) is invalid.\n\n");
 	}
 
-        subtable = 0;
         if(d) {
            /* ---->  Terminal dimensions and type  <---- */
            if((d->terminal_width > 0) && (d->terminal_height > 0)) sprintf(scratch_return_string," ("ANSI_LWHITE"%dx%d"ANSI_LCYAN")",d->terminal_width + 1,d->terminal_height);
@@ -805,7 +804,7 @@ void look_examine(CONTEXT)
      }
 
      /* ---->  Location  <---- */
-     cr = 0, subtable = 0;
+     cr = 0;
      if(Valid(db[thing].location)) {
         if(!((Secret(thing) || Secret(db[thing].location)) && !can_write_to(player,db[thing].location,1) && !can_write_to(player,thing,1))) {
            dbref area = get_areaname_loc(db[thing].location);
@@ -814,37 +813,28 @@ void look_examine(CONTEXT)
                  else *scratch_return_string = '\0';
            output(p, player, 2, 1, 11, ANSI_LYELLOW "Location:  " ANSI_LWHITE "%s%s.\n", unparse_object(player, db[thing].location, UPPER|INDEFINITE), scratch_return_string), cr = 1;
 	} else output(p, player, 2, 1, 11, ANSI_LYELLOW "Location:  " ANSI_LWHITE "Secret.\n"), cr = 1;
-        subtable = 1;
      }
 
      /* ---->  Object's parent object  <---- */
-     if(Valid(db[thing].parent)) {
+     if(Valid(db[thing].parent))
         output(p, player, 2, 1, 9, ANSI_LYELLOW "Parent:  " ANSI_LWHITE "%s.\n", unparse_object(player, db[thing].parent, UPPER|INDEFINITE)), cr = 1;
-        subtable = 1;
-     }
 
      switch(Typeof(thing)) {
             case TYPE_ROOM:
                 
                  /* ---->  Drop-to location  <---- */
-                 if(Valid(db[thing].destination)) {
+                 if(Valid(db[thing].destination))
                     output(p, player, 2, 1, 24, ANSI_LYELLOW "Dropped objects go to:  " ANSI_LWHITE "%s.\n", unparse_object(player, db[thing].destination, UPPER|INDEFINITE)), cr = 1;
-                    subtable = 1;
-		 }
 
                  /* ---->  Credits dropped in room  <---- */
-                 if(currency_to_double(&(db[thing].data->room.credit)) != 0) {
+                 if(currency_to_double(&(db[thing].data->room.credit)) != 0)
                     output(p, player, 2, 1, 0, ANSI_LYELLOW "Credit:  " ANSI_LWHITE "%.2f credits.\n", currency_to_double(&(db[thing].data->room.credit))), cr = 1;
-                    subtable = 1;
-		 }
 
                  if(!val1) {
 
                     /* ---->  Area name  <---- */
-                    if(!Blank(getfield(thing,AREANAME))) {
+                    if(!Blank(getfield(thing,AREANAME)))
                        output(p, player, 2, 1, (inherited > 0) ? 22 : 12, ANSI_LYELLOW "%srea name:  " ANSI_LWHITE "%s.\n", (inherited > 0) ? "Inherited a" : "A", getfield(thing, AREANAME)), cr = 1;
-                       subtable = 1;
-		    }
 
                     /* ---->  Weight of contents  <---- */
                     if(cr) output(p,player,0,1,0,"");
@@ -865,45 +855,33 @@ void look_examine(CONTEXT)
             case TYPE_CHARACTER:
 
                  /* ---->  Who character is currently building as  <---- */
-                 if((Uid(thing) != thing) && Validchar(Uid(thing))) {
+                 if((Uid(thing) != thing) && Validchar(Uid(thing)))
                     output(p, player, 2, 1, 24, ANSI_LYELLOW "Currently building as:  " ANSI_LWHITE "%s.\n", getcname(player, Uid(thing), 1, UPPER|INDEFINITE));
-                    subtable = 1;
-		 }
 
                  /* ---->  Mail redirect  <---- */
-                 if(Validchar(db[thing].data->player.redirect)) {
+                 if(Validchar(db[thing].data->player.redirect))
                     output(p, player, 2, 1, 21, ANSI_LYELLOW "Mail redirected to:  " ANSI_LWHITE "%s.\n", getcname(player, db[thing].data->player.redirect, 1, UPPER|INDEFINITE));
-                    subtable = 1;
-		 }
 
                  if(!val1) {
 
                     /* ---->  Time difference  <---- */
-                    if(db[thing].data->player.timediff) {
+                    if(db[thing].data->player.timediff)
                        output(p, player, 2, 1, 0, ANSI_LYELLOW "Time difference:  " ANSI_LWHITE "%d hour%s.\n", db[thing].data->player.timediff, Plural(db[thing].data->player.timediff));
-                       subtable = 1;
-		    }
 
                     /* ---->  Screen height  <---- */
-                    if(db[thing].data->player.scrheight) {
+                    if(db[thing].data->player.scrheight)
                        output(p, player, 2, 1, 0, ANSI_LYELLOW "Screen height:  " ANSI_LWHITE "%d line%s.\n", db[thing].data->player.scrheight, Plural(db[thing].data->player.scrheight));
-                       subtable = 1;
-		    }
  		 }
 
                  /* ---->  Controller  <---- */
-                 if((Controller(thing) != thing) && Validchar(Controller(thing))) {
+                 if((Controller(thing) != thing) && Validchar(Controller(thing)))
                     output(p, player, 2, 1, 13, ANSI_LYELLOW "Controller:  " ANSI_LWHITE "%s.\n", getcname(player, Controller(thing), 1, UPPER|INDEFINITE));
-                    subtable = 1;
-		 }
 
                  if(!val1) {
 
                     /* ---->  Partner (If married/engaged)  <---- */
-                    if(Valid(Partner(thing))) {
+                    if(Valid(Partner(thing)))
                        output(p, player, 2, 1, 13, ANSI_LYELLOW "%s to:  " ANSI_LWHITE "%s.\n", Married(thing) ? "Married" : "Engaged", getcname(player, Partner(thing), 1, UPPER|INDEFINITE));
-                       subtable = 1;
-		    }
 
                     /* ---->  Mail count  <---- */
                     if(db[thing].data->player.mail) {
@@ -913,15 +891,12 @@ void look_examine(CONTEXT)
                        for(ptr = db[thing].data->player.mail; ptr; ptr = ptr->next, count++)
                            if(ptr->flags & MAIL_UNREAD) unread++;
                        output(p, player, 2, 1, 0, ANSI_LYELLOW "Mail items:  " ANSI_LWHITE "%d (%d unread.)\n", count, unread);
-                       subtable = 1;
 		    }
 		 }
 
 		 /* ---->  Mail limit  <---- */
-                 if(!experienced) {
+                 if(!experienced)
                     output(p, player, 2, 1, 0, ANSI_LYELLOW "Mail limit:  " ANSI_LWHITE "%d.\n", db[thing].data->player.maillimit);
-                    subtable = 1;
-		 }
 
                  if(!val1) {
 
@@ -947,7 +922,6 @@ void look_examine(CONTEXT)
                              if(inherited_aliases > 0) output(p, player, 2, 1, 10, ANSI_LYELLOW "Aliases:  " ANSI_LWHITE "%d (%d inherited.)\n", looper + inherited_aliases, inherited_aliases);
                                 else output(p, player, 2, 1, 10, ANSI_LYELLOW "Aliases:  " ANSI_LWHITE "%d.\n", looper);
 		          } else output(p, player, 2, 1, 20, ANSI_LYELLOW "Inherited aliases:  " ANSI_LWHITE "%d.\n", inherited_aliases);
-                          subtable = 1;
 		       }
 		    }
 
@@ -956,10 +930,8 @@ void look_examine(CONTEXT)
                        int loop;
 
                        for(loop = 0; feelinglist[loop].name && (feelinglist[loop].id != db[thing].data->player.feeling); loop++);
-                       if(feelinglist[loop].name) {
+                       if(feelinglist[loop].name)
                           output(p, player, 2, 1, 10, ANSI_LYELLOW "Feeling:  " ANSI_LWHITE "%s.\n", feelinglist[loop].name);
-                          subtable = 1;
-		       }
 		    }
 
                     /* ---->  Friends/enemies  <---- */
@@ -972,42 +944,32 @@ void look_examine(CONTEXT)
                               else if(ptr->flags & FRIEND_ENEMY) enemies++;
                                  else friends++;
 
-                       if(friends > 0) {
+                       if(friends > 0)
                           output(p, player, 2, 1, 0, ANSI_LYELLOW "Friends:  " ANSI_LWHITE "%d.\n", friends);
-                          subtable = 1;
-		       }
 
-                       if(enemies > 0) {
+                       if(enemies > 0)
                           output(p, player, 2, 1, 0, ANSI_LYELLOW "Enemies:  " ANSI_LWHITE "%d.\n", enemies);
-                          subtable = 1;
-		       }
 
-                       if(exclude > 0) {
+                       if(exclude > 0)
                           output(p, player, 2, 1, 0, ANSI_LYELLOW "Excluded:  " ANSI_LWHITE "%d.\n", exclude);
-                          subtable = 1;
-		       }
 		    }
 
                     /* ---->  Credit (Pocket)  <---- */
                     if(currency_to_double(&(db[thing].data->player.credit)) != 0)
                        output(p, player, 2, 1, 0, ANSI_LYELLOW "Credit:  " ANSI_LWHITE "%.2f credits.\n", currency_to_double(&(db[thing].data->player.credit)));
 		          else output(p, player, 2, 1, 0, ANSI_LYELLOW "Credit:  " ANSI_LWHITE "None.\n");
-                    subtable = 1;
 
                     /* ---->  Balance (Bank)  <---- */
                     if(currency_to_double(&(db[thing].data->player.balance)) != 0)
                        output(p, player, 2, 1, 0, ANSI_LYELLOW "Balance:  " ANSI_LWHITE "%.2f credits.\n", currency_to_double(&(db[thing].data->player.balance)));
 		          else output(p, player, 2, 1, 0, ANSI_LYELLOW "Balance:  " ANSI_LWHITE "None.\n");
-                    subtable = 1;
 
                     /* ---->  Score  <---- */
                     output(p, player, 2, 1, 0, ANSI_LYELLOW "Score:  " ANSI_LWHITE "%d point%s.\n", db[thing].data->player.score, Plural(db[thing].data->player.score));
-                    subtable = 1;
 		 }
 
                  /* ---->  Home room  <---- */
                  output(p, player, 2, 1, 7, ANSI_LYELLOW "Home:  " ANSI_LWHITE "%s.\n", unparse_object(player, db[thing].destination,UPPER|INDEFINITE));
-                 subtable = 1;
 
                  if(!val1) {
 
@@ -1029,20 +991,15 @@ void look_examine(CONTEXT)
             case TYPE_THING:
 
                  /* ---->  Area name  <---- */
-                 if(!val1 && !Blank(getfield(thing,AREANAME))) {
+                 if(!val1 && !Blank(getfield(thing,AREANAME)))
                     output(p, player, 2, 1, (inherited > 0) ? 22 : 12, ANSI_LYELLOW "%srea name:  " ANSI_LWHITE "%s.\n", (inherited > 0) ? "Inherited a" : "A", getfield(thing, AREANAME));
-                    subtable = 1;
-		 }
 
                  /* ---->  Credit dropped in thing  <---- */
-                 if(currency_to_double(&(db[thing].data->thing.credit)) != 0) {
+                 if(currency_to_double(&(db[thing].data->thing.credit)) != 0)
                     output(p, player, 2, 1, 0, ANSI_LYELLOW "Credit:  " ANSI_LWHITE "%.2f credits.\n", currency_to_double(&(db[thing].data->thing.credit)));
-                    subtable = 1;
-		 }
 
                  /* ---->  Home location  <---- */
                  output(p, player, 2, 1, 7, ANSI_LYELLOW "Home:  " ANSI_LWHITE "%s.\n\n", unparse_object(player, db[thing].destination, UPPER|INDEFINITE));
-                 subtable = 1;
 
                  if(!val1) {
 
@@ -1064,10 +1021,8 @@ void look_examine(CONTEXT)
             case TYPE_EXIT:
 
                  /* ---->  Destination location  <---- */
-                 if(Valid(db[thing].destination)) {
+                 if(Valid(db[thing].destination))
                     output(p, player, 2, 1, 14, ANSI_LYELLOW "Destination:  " ANSI_LWHITE "%s.\n", unparse_object(player, db[thing].destination, UPPER|INDEFINITE));
-                    subtable = 1;
-		 }
                  break;
             case TYPE_COMMAND:
             case TYPE_FUSE:
@@ -1619,7 +1574,7 @@ void look_profile(CONTEXT)
 /*        (VAL1:  0 = Brief (Normal) scan, 1 = Full scan.)              */
 void look_scan(CONTEXT)
 {
-     unsigned char            twidth = output_terminal_width(player),font = 1,secret = 0;
+     unsigned char            twidth = output_terminal_width(player),secret = 0;
      time_t                   now,last,total,idle,active;
      struct   descriptor_data *w,*d = getdsc(player);
      double                   credit,balance;
@@ -1696,24 +1651,23 @@ void look_scan(CONTEXT)
         if(feelinglist[loop].name) {
            strcpy(scratch_return_string,feelinglist[loop].name);
            *scratch_return_string = tolower(*scratch_return_string);
-           output(d, player, 2, 1, 1, ANSI_LGREEN "\n %s" ANSI_LWHITE "%s" ANSI_LGREEN " is feeling %s.\n", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0), scratch_return_string), font = 0;
+           output(d, player, 2, 1, 1, ANSI_LGREEN "\n %s" ANSI_LWHITE "%s" ANSI_LGREEN " is feeling %s.\n", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0), scratch_return_string);
 	} else db[who].data->player.feeling = 0;
      }
 
      /* ---->  Puppet/Being?  <---- */
      if(Puppet(who)) {
         sprintf(scratch_buffer, ANSI_LGREEN "\n %s" ANSI_LWHITE "%s" ANSI_LGREEN " is a %spuppet of ", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0), Being(who) ? "Being " : "");
-        output(d, player, 2, 1, 1, "%s%s" ANSI_LWHITE "%s" ANSI_LGREEN ".\n", scratch_buffer, Article(Controller(who), LOWER, INDEFINITE), getcname(NOTHING, Controller(who), 0, 0)), font = 0;
-     } else if(Being(who)) output(d, player, 2, 1, 1, ANSI_LGREEN "\n %s" ANSI_LWHITE "%s" ANSI_LGREEN " is a Being.\n", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0)), font = 0;
+        output(d, player, 2, 1, 1, "%s%s" ANSI_LWHITE "%s" ANSI_LGREEN ".\n", scratch_buffer, Article(Controller(who), LOWER, INDEFINITE), getcname(NOTHING, Controller(who), 0, 0));
+     } else if(Being(who)) output(d, player, 2, 1, 1, ANSI_LGREEN "\n %s" ANSI_LWHITE "%s" ANSI_LGREEN " is a Being.\n", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0));
 
      if((Engaged(who) || Married(who)) && Validchar(Partner(who))) {
         sprintf(scratch_buffer, ANSI_LGREEN "\n %s" ANSI_LWHITE "%s" ANSI_LGREEN " is %s to ", Article(who, UPPER, DEFINITE), getcname(NOTHING, who, 0, 0), Married(who) ? "married" : "engaged");
         sprintf(scratch_buffer + strlen(scratch_buffer),"%s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(Partner(who),UPPER,DEFINITE),getcname(NOTHING,Partner(who),0,0));
-        output(d,player,0,1,1,"%s",scratch_buffer), font = 0;
+        output(d,player,0,1,1,"%s",scratch_buffer);
      }
 
      output(d,player,0,1,0,(char *) separator(twidth,0,'-','-'));
-     font = 0;
 
      /* ---->  Longest connect time  <---- */
      items = 0;

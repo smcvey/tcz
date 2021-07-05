@@ -1787,7 +1787,7 @@ void bbs_view(CONTEXT)
                  if(!val1 || Level4(player)) {
                     if(Blank(arg1) || (val2 == 2) || (!strcasecmp("page",arg1) && (strlen(arg1) == 4)) || !strncasecmp(arg1,"page ",5)) {
                        if(!val1) {
-                          short    loop = 0,count,total,vfor,vagainst,vabstain,forscore,againstscore,abstainscore;
+                          short    loop = 0,count,vfor,vagainst,vabstain,forscore,againstscore,abstainscore;
                           struct   bbs_message_data *ptr = NULL;
                           unsigned char cached_scrheight,ignored;
                           short    unread;
@@ -1817,7 +1817,6 @@ void bbs_view(CONTEXT)
                              output(p,player,0,1,0,separator(twidth,0,'-','='));
 			  }
 
-                          total = bbs_messagecount(topic->messages,player,&unread);
                           if(val2) set_conditions(player,0,0,0,(message) ? message->id:0,NULL,(val2 == 2) ? 508:507);
                           union_initgrouprange((union group_data *) topic->messages);
                           while(union_grouprange()) {

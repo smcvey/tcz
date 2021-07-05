@@ -1277,7 +1277,7 @@ void stats_rank(CONTEXT)
 {
      unsigned char            cached_scrheight,twidth = output_terminal_width(player);
      unsigned char            direction = 0,entities,order = 0,rtype = 0,found;
-     unsigned char            puppets = 1, colspan = 0;
+     unsigned char            puppets = 1;
      struct   rank_data       *start = NULL,*current,*last,*new;
      int                      flags,types = 0,loop,loop2,pm;
      time_t                   now,lasttime,curtime,ptrtime;
@@ -1992,13 +1992,11 @@ void stats_rank(CONTEXT)
 
                     /* ---->  Bank balance  <---- */
                     rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"Bank balance:"ANSI_LCYAN"  Credit in pocket";
-                    colspan = 1;
                     break;
                case RANK_BATTLES:
 
                     /* ---->  Total number of battles fought  <---- */
                     rtitle = "Won:       Lost:      "ANSI_LYELLOW""ANSI_UNDERLINE"Battles:"ANSI_LCYAN"   Performance";
-                    colspan = 3;
                     break;
                case RANK_CREATED:
 
@@ -2008,10 +2006,9 @@ void stats_rank(CONTEXT)
                case RANK_CREDIT:
 
                     /* ---->  Credit in pocket  <---- */
-                    if(!types) {
+                    if(!types)
                        rtitle = "Bank balance:  "ANSI_LYELLOW""ANSI_UNDERLINE"Credit in pocket";
-                       colspan = 1;
-                    } else rtitle = "Credits";
+                    else rtitle = "Credits";
                     break;
                case RANK_CSIZE:
 
@@ -2022,7 +2019,6 @@ void stats_rank(CONTEXT)
 
                     /* ---->  Expenditure  <---- */
                     rtitle= "Income:         "ANSI_LYELLOW""ANSI_UNDERLINE"Expenditure:"ANSI_LCYAN"    Profit";
-                    colspan = 2;
                     break;
                case RANK_IDLE:
 
@@ -2033,7 +2029,6 @@ void stats_rank(CONTEXT)
 
                     /* ---->  Income  <---- */
                     rtitle= ANSI_LYELLOW""ANSI_UNDERLINE"Income:"ANSI_LCYAN"         Expenditure:    Profit";
-                    colspan = 2;
                     break;
                case RANK_LAST:
 
@@ -2073,37 +2068,31 @@ void stats_rank(CONTEXT)
 
                     /* ---->  Total number of battles lost  <---- */
                     rtitle = "Won:       "ANSI_LYELLOW""ANSI_UNDERLINE"Lost:"ANSI_LCYAN"      Battles:   Performance";
-                    colspan = 3;
                     break;
                case RANK_PERFORMANCE:
 
                     /* ---->  Combat performance  <---- */
                     rtitle = "Won:       Lost:      Battles:   "ANSI_LYELLOW""ANSI_UNDERLINE"Performance";
-                    colspan = 3;
                     break;
                case RANK_PROFIT:
 
                     /* ---->  Profit  <---- */
                     rtitle= "Income:         Expenditure:    "ANSI_UNDERLINE""ANSI_LYELLOW"Profit";
-                    colspan = 2;
                     break;
                case RANK_QUOTA:
 
                     /* ---->  Building Quota currently in use  <---- */
                     rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"In use:"ANSI_LCYAN"     Limit:      Excess";
-                    colspan = 2;
                     break;
                case RANK_QUOTAEXCESS:
 
                     /* ---->  Building Quota excess  <---- */
                     rtitle = "In use:     Limit:      "ANSI_LYELLOW""ANSI_UNDERLINE"Excess";
-                    colspan = 2;
                     break;
                case RANK_QUOTALIMIT:
 
                     /* ---->  Building Quota limit  <---- */
                     rtitle = "In use:     "ANSI_LYELLOW""ANSI_UNDERLINE"Limit:"ANSI_LCYAN"      Excess";
-                    colspan = 2;
                     break;
                case RANK_SCORE:
 
@@ -2119,7 +2108,6 @@ void stats_rank(CONTEXT)
 
                     /* ---->  Total number of battles won  <---- */
                     rtitle = ANSI_LYELLOW""ANSI_UNDERLINE"Won:"ANSI_LCYAN"       Lost:      Battles:   Performance";
-                    colspan = 3;
                     break;
                case RANK_TOTAL:
                default:

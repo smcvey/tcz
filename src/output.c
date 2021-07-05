@@ -840,7 +840,7 @@ int output_terminal_width(dbref player)
 /* ---->  Output list of items in column format  <---- */
 void output_columns(struct descriptor_data *p,dbref player,const char *text,const char *colour,int setwidth,unsigned char setleading,unsigned char setitemlen,unsigned char setpadding,unsigned char setalignleft,unsigned char settable,char option,int setlines,const char *setnonefound,char *buffer)
 {
-     static   unsigned char leading,itemlen,padding,alignleft,table,percent,scrheight;
+     static   unsigned char leading,itemlen,padding,scrheight;
      static   int           width,column,columns,itemcount,lines;
      static   const    char *nonefound = NULL;
      unsigned          char loop;
@@ -850,14 +850,11 @@ void output_columns(struct descriptor_data *p,dbref player,const char *text,cons
             case FIRST:
                  lines     = setlines;
                  width     = setwidth;
-                 table     = settable;
                  column    = 0;
                  itemlen   = setitemlen;
                  leading   = setleading;
                  padding   = setpadding;
                  columns   = ((width - leading + padding) / (itemlen + padding));
-                 percent   = ((double) 1 / columns) * 100;
-                 alignleft = setalignleft;
                  itemcount = 0;
                  nonefound = setnonefound;
                  if(lines) {
