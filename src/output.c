@@ -744,14 +744,15 @@ void output(struct descriptor_data *d,dbref player,unsigned char raw,unsigned ch
 /* ---->  Output to everyone in AREA, except characters NAME1 and NAME2  <---- */
 void output_except(dbref area,dbref name1,dbref name2,unsigned char raw,unsigned char redirect,unsigned char wrap,char *fmt, ...)
 {
-     struct descriptor_data *d;
+	struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
-     for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player) && (db[d->player].location == area) && (d->player != name1) && (d->player != name2))
-            output(d,d->player,raw,redirect,wrap,NULL);
-     va_end(output_ap);
+	for(d = descriptor_list; d; d = d->next)
+		if((d->flags & CONNECTED) && Validchar(d->player) && (db[d->player].location == area) && (d->player != name1) && (d->player != name2)) {
+			va_start(output_ap,fmt);
+			output_fmt = &fmt;
+			output(d,d->player,raw,redirect,wrap,NULL);
+			va_end(output_ap);
+		}
 }
 
 /* ---->  Output to users of given chatting channel  <---- */
