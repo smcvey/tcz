@@ -11300,7 +11300,7 @@ Also, see '%g%l%uhelp @succ%x', '%g%l%uhelp @ofail%x', '%g%l%uhelp @odrop%x' and
 %TOPIC setpassword
 %TOPIC changingyourpassword
 %TITLE Help on '%w%l@password%x'
-%c%lUSAGE:  %g%l@password%x
+%c%lUSAGE:  %g%l@password [<OLD PASSWORD> = <NEW PASSWORD>]%x
 
 '%g%l%u@password%x' allows you to change your password.
 
