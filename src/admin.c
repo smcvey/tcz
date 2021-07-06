@@ -587,7 +587,7 @@ void admin_options(CONTEXT)
 		    } else errorlevel = 4;
 		 } else errorlevel = 1;
                  if(errorlevel) adminoption = "character maintenance owner";
-	      } else if((string_prefix("morons",arg1)) ? ((mtype = 1) && (mlimit = 7) && (arg1 = "Moron character")):0 || (string_prefix("Newbie character",arg1)) ? ((mtype = 2) && (mlimit = 7) && (arg1 = "newbie")):0 || (string_prefix("mortals",arg1)) ? ((mtype = 3) && (mlimit = 14) && (arg1 = "Mortal character")):0 || (string_prefix("builders",arg1)) ? ((mtype = 4) && (mlimit = 28) && (arg1 = "Builder character")):0 || (string_prefix("objects",arg1)) ? ((mtype = 5) && (mlimit = 28) && (arg1 = "Object")):0 || (string_prefix("junkobjects",arg1) || string_prefix("junkedobjects",arg1)) ? ((mtype = 6) && (mlimit = 7) && (arg1 = "Junk object")):0) {
+	      } else if((string_prefix("morons",arg1)) ? ((mtype = 1) && (mlimit = 7) && (arg1 = "Moron character")):0 || (string_prefix("Newbie character",arg1)) ? ((mtype = 2) && (mlimit = 7) && (arg1 = "newbies")):0 || (string_prefix("mortals",arg1)) ? ((mtype = 3) && (mlimit = 14) && (arg1 = "Mortal character")):0 || (string_prefix("builders",arg1)) ? ((mtype = 4) && (mlimit = 28) && (arg1 = "Builder character")):0 || (string_prefix("objects",arg1)) ? ((mtype = 5) && (mlimit = 28) && (arg1 = "Object")):0 || (string_prefix("junkobjects",arg1) || string_prefix("junkedobjects",arg1)) ? ((mtype = 6) && (mlimit = 7) && (arg1 = "Junk object")):0) {
 
                  /* ---->  Set maintenance times for Morons, Newbies, Mortals, Builders, Objects and Junk objects  <---- */
                  if(Level1(Owner(player))) {
