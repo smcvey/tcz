@@ -207,16 +207,16 @@ unsigned char ok_character_name(dbref player,dbref who,const char *name)
 /* ---->  Is password valid?  <---- */
 unsigned char ok_password(const char *password)
 {
-	 const char *scan;
+	const char *scan;
 
-	 if(!password)            return(3);
-	 if(!*password)           return(5);
-	 if(strlen(password) < 6) return(3);
-      
-	 for(scan = password; *scan; scan++)
-	     if(!ValidCharName(*scan)) return(1);
+	for(scan = password; *scan; scan++)
+		if(!ValidCharName(*scan)) return(1);
 
-	 return(0);
+	if(!password)            return(3);
+	if(!*password)           return(5);
+	if(strlen(password) < 6) return(3);
+
+	return(0);
 }
 
 /* ---->  Is E-mail address valid?  <---- */

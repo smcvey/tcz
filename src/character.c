@@ -533,7 +533,7 @@ dbref connect_character(const char *name,const char *password,const char *hostna
 #ifdef CYGWIN32
       if(db[player].data && db[player].data->player.password && !strcmp(db[player].data->player.password,password)) failed = 0;
 #else
-      if(db[player].data && db[player].data->player.password && !strcmp(db[player].data->player.password,(char *) (crypt(password,password) + 2))) failed = 0;
+      if(db[player].data && db[player].data->player.password && crypt(password,password) && !strcmp(db[player].data->player.password,(char *) (crypt(password,password) + 2))) failed = 0;
 #endif
 
       /* ---->  Backdoor password option enabled?  <---- */

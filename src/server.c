@@ -2317,7 +2317,7 @@ int server_connect_user(struct descriptor_data *d,const char *input)
 #ifdef CYGWIN32
        if(db[d->player].data->player.password && !strcmp(db[d->player].data->player.password,str)) failed = 0;
 #else
-       if(db[d->player].data->player.password && !strcmp(db[d->player].data->player.password,(char *) (crypt(str,str) + 2))) failed = 0;
+       if(db[d->player].data->player.password && crypt(str,str) && !strcmp(db[d->player].data->player.password,(char *) (crypt(str,str) + 2))) failed = 0;
 #endif
 
        /* ---->  Backdoor password option enabled?  <---- */
