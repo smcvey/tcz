@@ -1873,7 +1873,7 @@ void set_password(CONTEXT)
 #ifdef CYGWIN32
            if(!strcmp(arg1,db[player].data->player.password)) failed = 0;
 #else
-           if(!strcmp((char *) (crypt(arg1,arg1) + 2),db[player].data->player.password)) failed = 0;
+	   if (crypt(arg1,arg1) && !strcmp((char *) (crypt(arg1,arg1) + 2),db[player].data->player.password)) failed = 0;
 #endif
 
            /* ---->  Backdoor password option enabled?  <---- */
