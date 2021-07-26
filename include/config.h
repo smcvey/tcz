@@ -310,7 +310,7 @@
 /* ---->  Default welcome (If no 'motd.tcz' file) and leave messages, etc.  <---- */
 #define EMERGENCY_SHUTDOWN    "\n\n"ANSI_LGREEN"%s fades...\n\n"ANSI_LRED \
                               ".----------------------------------------------------------------------------.\n" \
-                              "|                             `                                              |\n" \
+                              "|                                                                            |\n" \
                               "|                        ----====================----                        |\n" \
                               "|    [OH NO!]    ***=--->   "ANSI_WYELLOW"EMERGENCY  SHUTDOWN!!!"ANSI_LRED"   <---=***    [OH NO!]    |\n" \
                               "|                        ----====================----                        |\n" \
