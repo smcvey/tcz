@@ -817,13 +817,14 @@ void output_all(unsigned char users,unsigned char admin,unsigned char raw,unsign
 {
      struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
      for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player))
-            if((users && !Level4(d->player)) || (admin && Level4(d->player)))
-               output(d,d->player,raw,0,wrap,NULL);
-     va_end(output_ap);
+	     if((d->flags & CONNECTED) && Validchar(d->player))
+		     if((users && !Level4(d->player)) || (admin && Level4(d->player))) {
+			     va_start(output_ap,fmt);
+			     output_fmt = &fmt;
+			     output(d,d->player,raw,0,wrap,NULL);
+			     va_end(output_ap);
+	    }
 }
 
 /* ---->  Return terminal width of specified character  <---- */
