@@ -760,12 +760,13 @@ void output_chat(int channel,dbref exception,unsigned char raw,unsigned char red
 {
      struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
      for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player) && (d->player != exception) && (d->channel == channel))
-            output(d,d->player,raw,redirect,8,NULL);
-     va_end(output_ap);
+	     if((d->flags & CONNECTED) && Validchar(d->player) && (d->player != exception) && (d->channel == channel)) {
+		     va_start(output_ap,fmt);
+		     output_fmt = &fmt;
+		     output(d,d->player,raw,redirect,8,NULL);
+		     va_end(output_ap);
+	     }
 }
 
 /* ---->  Output to Admin (Apprentice Wizards/Druids and above) only  <---- */
@@ -773,12 +774,13 @@ void output_admin(unsigned char quiet,unsigned char raw,unsigned char redirect,u
 {
      struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
      for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player) && Level4(d->player) && (!quiet || !Quiet(d->player)))
-            output(d,d->player,raw,redirect,wrap,NULL);
-     va_end(output_ap);
+	     if((d->flags & CONNECTED) && Validchar(d->player) && Level4(d->player) && (!quiet || !Quiet(d->player))) {
+		     va_start(output_ap,fmt);
+		     output_fmt = &fmt;
+		     output(d,d->player,raw,redirect,wrap,NULL);
+		     va_end(output_ap);
+	     }
 }
 
 /* ---->  Output trace sequence of compound command  <---- */
@@ -788,12 +790,11 @@ unsigned char output_trace(dbref player,dbref command,unsigned char raw,unsigned
 	 unsigned char            delivered = 0,suppress;
 	 struct   descriptor_data *d;
 
-	 va_start(output_ap,fmt);
-	 output_fmt = &fmt;
-
 	 if(!(in_command && Valid(command) && (Typeof(command) == TYPE_COMMAND) && Validchar(db[command].owner))) command = player;
 	 for(d = descriptor_list; d; d = d->next)
 	     if((d->flags & CONNECTED) && Validchar(d->player) && (((Typeof(command) == TYPE_CHARACTER) && (d->player == command) && Tracing(d->player)) || ((Typeof(command) != TYPE_CHARACTER) && (Tracing(command) || Tracing(d->player)) && ((d->player == db[command].owner) || (Uid(d->player) == db[command].owner))))) {
+		va_start(output_ap,fmt);
+		output_fmt = &fmt;
 		if(!fmt) {
 		   command_type = cached_command_type;
 		   va_end(output_ap);
@@ -805,10 +806,10 @@ unsigned char output_trace(dbref player,dbref command,unsigned char raw,unsigned
 		output(d,d->player,raw,redirect,wrap,NULL);
 		if(suppress) d->flags2 |= OUTPUT_SUPPRESS;
 		delivered = 1;
+		va_end(output_ap);
 	     }
 
 	 command_type = cached_command_type;
-	 va_end(output_ap);
 	 return(delivered);
 }
 
@@ -824,7 +825,7 @@ void output_all(unsigned char users,unsigned char admin,unsigned char raw,unsign
 			     output_fmt = &fmt;
 			     output(d,d->player,raw,0,wrap,NULL);
 			     va_end(output_ap);
-	    }
+		     }
 }
 
 /* ---->  Return terminal width of specified character  <---- */

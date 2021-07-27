@@ -584,12 +584,13 @@ void bbs_output_except(dbref exception,char accesslevel,unsigned char raw,unsign
 {
      struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
      for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player) && ((db[d->player].location == bbsroom) || (Bbsinform(d->player) && !Quiet(d->player))) && (d->player != exception) && (privilege(db[d->player].owner,255) <= accesslevel))
-            output(d,d->player,raw,redirect,wrap,NULL);
-     va_end(output_ap);
+	     if((d->flags & CONNECTED) && Validchar(d->player) && ((db[d->player].location == bbsroom) || (Bbsinform(d->player) && !Quiet(d->player))) && (d->player != exception) && (privilege(db[d->player].owner,255) <= accesslevel)) {
+		     va_start(output_ap,fmt);
+		     output_fmt = &fmt;
+		     output(d,d->player,raw,redirect,wrap,NULL);
+		     va_end(output_ap);
+	     }
 }
 
 /* ---->  Adjust CURRENTMSG of descriptors when adding/deleting messages  <---- */
