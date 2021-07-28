@@ -722,23 +722,31 @@ void output(struct descriptor_data *d,dbref player,unsigned char raw,unsigned ch
         if(wrap > 0) wrap_leading = 0;
      } else server_queue_output(d,buffer,strlen(buffer));
 
+     if(va_alloc){
+        va_end(output_ap);
+        va_alloc = 0;
+     }
+
      /* ---->  Output redirection (Via '@force' and '@monitor')  <---- */
      if(redirect) {
         if((d->player == redirect_src) && (redirect_src != redirect_dest) && !(d->monitor && (d->flags & MONITOR_OUTPUT) && (redirect_dest == d->monitor->player))) {
            struct descriptor_data *r = getdsc(redirect_dest);
 
-           if(r) {
-              if(fmt) output_fmt = &fmt;
+           if(r && fmt) {
+              va_start(output_ap,fmt);
+              output_fmt = &fmt;
               output(r,NOTHING,raw,0,wrap,NULL);
+              va_end(output_ap);
 	   }
 	}
 
-        if(d->monitor && (d->flags & MONITOR_OUTPUT)) {
-           if(fmt) output_fmt = &fmt;
+        if(d->monitor && (d->flags & MONITOR_OUTPUT) && fmt) {
+           va_start(output_ap,fmt);
+           output_fmt = &fmt;
            output(d->monitor,NOTHING,raw,0,wrap,NULL);
+           va_end(output_ap);
 	}
      }
-     if(va_alloc) va_end(output_ap);
 }
 
 /* ---->  Output to everyone in AREA, except characters NAME1 and NAME2  <---- */
@@ -760,12 +768,13 @@ void output_chat(int channel,dbref exception,unsigned char raw,unsigned char red
 {
      struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
      for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player) && (d->player != exception) && (d->channel == channel))
-            output(d,d->player,raw,redirect,8,NULL);
-     va_end(output_ap);
+	     if((d->flags & CONNECTED) && Validchar(d->player) && (d->player != exception) && (d->channel == channel)) {
+		     va_start(output_ap,fmt);
+		     output_fmt = &fmt;
+		     output(d,d->player,raw,redirect,8,NULL);
+		     va_end(output_ap);
+	     }
 }
 
 /* ---->  Output to Admin (Apprentice Wizards/Druids and above) only  <---- */
@@ -773,12 +782,13 @@ void output_admin(unsigned char quiet,unsigned char raw,unsigned char redirect,u
 {
      struct descriptor_data *d;
 
-     va_start(output_ap,fmt);
-     output_fmt = &fmt;
      for(d = descriptor_list; d; d = d->next)
-         if((d->flags & CONNECTED) && Validchar(d->player) && Level4(d->player) && (!quiet || !Quiet(d->player)))
-            output(d,d->player,raw,redirect,wrap,NULL);
-     va_end(output_ap);
+	     if((d->flags & CONNECTED) && Validchar(d->player) && Level4(d->player) && (!quiet || !Quiet(d->player))) {
+		     va_start(output_ap,fmt);
+		     output_fmt = &fmt;
+		     output(d,d->player,raw,redirect,wrap,NULL);
+		     va_end(output_ap);
+	     }
 }
 
 /* ---->  Output trace sequence of compound command  <---- */
@@ -788,12 +798,11 @@ unsigned char output_trace(dbref player,dbref command,unsigned char raw,unsigned
 	 unsigned char            delivered = 0,suppress;
 	 struct   descriptor_data *d;
 
-	 va_start(output_ap,fmt);
-	 output_fmt = &fmt;
-
 	 if(!(in_command && Valid(command) && (Typeof(command) == TYPE_COMMAND) && Validchar(db[command].owner))) command = player;
 	 for(d = descriptor_list; d; d = d->next)
 	     if((d->flags & CONNECTED) && Validchar(d->player) && (((Typeof(command) == TYPE_CHARACTER) && (d->player == command) && Tracing(d->player)) || ((Typeof(command) != TYPE_CHARACTER) && (Tracing(command) || Tracing(d->player)) && ((d->player == db[command].owner) || (Uid(d->player) == db[command].owner))))) {
+		va_start(output_ap,fmt);
+		output_fmt = &fmt;
 		if(!fmt) {
 		   command_type = cached_command_type;
 		   va_end(output_ap);
@@ -805,10 +814,10 @@ unsigned char output_trace(dbref player,dbref command,unsigned char raw,unsigned
 		output(d,d->player,raw,redirect,wrap,NULL);
 		if(suppress) d->flags2 |= OUTPUT_SUPPRESS;
 		delivered = 1;
+		va_end(output_ap);
 	     }
 
 	 command_type = cached_command_type;
-	 va_end(output_ap);
 	 return(delivered);
 }
 
@@ -824,7 +833,7 @@ void output_all(unsigned char users,unsigned char admin,unsigned char raw,unsign
 			     output_fmt = &fmt;
 			     output(d,d->player,raw,0,wrap,NULL);
 			     va_end(output_ap);
-	    }
+		     }
 }
 
 /* ---->  Return terminal width of specified character  <---- */
