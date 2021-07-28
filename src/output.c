@@ -722,23 +722,31 @@ void output(struct descriptor_data *d,dbref player,unsigned char raw,unsigned ch
         if(wrap > 0) wrap_leading = 0;
      } else server_queue_output(d,buffer,strlen(buffer));
 
+     if(va_alloc){
+        va_end(output_ap);
+        va_alloc = 0;
+     }
+
      /* ---->  Output redirection (Via '@force' and '@monitor')  <---- */
      if(redirect) {
         if((d->player == redirect_src) && (redirect_src != redirect_dest) && !(d->monitor && (d->flags & MONITOR_OUTPUT) && (redirect_dest == d->monitor->player))) {
            struct descriptor_data *r = getdsc(redirect_dest);
 
-           if(r) {
-              if(fmt) output_fmt = &fmt;
+           if(r && fmt) {
+              va_start(output_ap,fmt);
+              output_fmt = &fmt;
               output(r,NOTHING,raw,0,wrap,NULL);
+              va_end(output_ap);
 	   }
 	}
 
-        if(d->monitor && (d->flags & MONITOR_OUTPUT)) {
-           if(fmt) output_fmt = &fmt;
+        if(d->monitor && (d->flags & MONITOR_OUTPUT) && fmt) {
+           va_start(output_ap,fmt);
+           output_fmt = &fmt;
            output(d->monitor,NOTHING,raw,0,wrap,NULL);
+           va_end(output_ap);
 	}
      }
-     if(va_alloc) va_end(output_ap);
 }
 
 /* ---->  Output to everyone in AREA, except characters NAME1 and NAME2  <---- */
