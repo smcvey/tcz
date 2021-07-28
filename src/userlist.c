@@ -197,15 +197,15 @@ void userlist_who(struct descriptor_data *d)
            while(*ptr && (length < (twidth - 28)))
               if(*ptr == '\x1B') {
                  for(; *ptr && (*ptr != 'm'); ptr++);
-                    if(*ptr && (*ptr == 'm')) ptr++;
+                 if(*ptr && (*ptr == 'm')) ptr++;
               } else {
                  if(*ptr >= 32) length++;
                  ptr++;
               }
-              *ptr = '\0';
-              sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",scratch_return_string,colour);
-              for(ptr = (scratch_buffer + strlen(scratch_buffer)); length < (twidth - 28); *ptr++ = ' ', length++);
-              *ptr = '\0';
+           *ptr = '\0';
+           sprintf(scratch_buffer + strlen(scratch_buffer),"%s%s",scratch_return_string,colour);
+           for(ptr = (scratch_buffer + strlen(scratch_buffer)); length < (twidth - 28); *ptr++ = ' ', length++);
+           *ptr = '\0';
 
            /* ---->  Character's flags  <---- */
            if(!friendflags_set(d->player,grp->cunion->descriptor.player,NOTHING,FRIEND_EXCLUDE))
