@@ -646,7 +646,7 @@ void friends_list(CONTEXT)
 
                     if((result = strlen(p2)) <= 21) {
                        for(ptr = p2 + result; result < 21; *ptr++ = ' ', result++);
-                           *ptr = '\0';
+                       *ptr = '\0';
 		    } else p2[21] = '\0';
                     strcat(scratch_buffer,"  ");
                     output(p, player, 2, 1, 23, "%s" ANSI_LWHITE "%s" ANSI_DCYAN ".\n", scratch_buffer, friendflags_description((val1) ? friend_flags(who, grp->cobject) : friend_flags(grp->cobject, who)));
