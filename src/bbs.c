@@ -1185,23 +1185,23 @@ void bbs_latest(CONTEXT)
 
             /* ---->  Messages within sub-topics of topic  <---- */
             for(subtopic = topic->subtopics; subtopic; subtopic = subtopic->next)
-                if((!given || (!givensubtopic && (topic == given)) || (subtopic == givensubtopic)) && can_access_topic(player,subtopic,topic,0))
-                   for(message = subtopic->messages, mno = 1; message; message = message->next, mno++)
-                       if((owner == NOTHING) || ((message->owner == owner) && !(message->flags & MESSAGE_ANON))) {
-                          for(loop = 0; (loop < BBS_MAX_LATEST) && ranking[loop].message && (message->date < ranking[loop].message->date); loop++);
-                              if(loop < (BBS_MAX_LATEST - 1)) {
-                                 for(loop2 = (BBS_MAX_LATEST - 1); (loop2 > loop) && (loop2 > 0); loop2--) {
-                                     ranking[loop2].subtopic = ranking[loop2 - 1].subtopic;
-                                     ranking[loop2].message  = ranking[loop2 - 1].message;
-                                     ranking[loop2].number   = ranking[loop2 - 1].number;
-                                     ranking[loop2].topic    = ranking[loop2 - 1].topic;
-				 }
-                                 ranking[loop].subtopic = topic;
-                                 ranking[loop].message  = message;
-                                 ranking[loop].number   = mno;
-                                 ranking[loop].topic    = subtopic;
-			      }
-		       }
+               if((!given || (!givensubtopic && (topic == given)) || (subtopic == givensubtopic)) && can_access_topic(player,subtopic,topic,0))
+                  for(message = subtopic->messages, mno = 1; message; message = message->next, mno++)
+                     if((owner == NOTHING) || ((message->owner == owner) && !(message->flags & MESSAGE_ANON))) {
+                        for(loop = 0; (loop < BBS_MAX_LATEST) && ranking[loop].message && (message->date < ranking[loop].message->date); loop++);
+                        if(loop < (BBS_MAX_LATEST - 1)) {
+                            for(loop2 = (BBS_MAX_LATEST - 1); (loop2 > loop) && (loop2 > 0); loop2--) {
+                               ranking[loop2].subtopic = ranking[loop2 - 1].subtopic;
+                               ranking[loop2].message  = ranking[loop2 - 1].message;
+                               ranking[loop2].number   = ranking[loop2 - 1].number;
+                               ranking[loop2].topic    = ranking[loop2 - 1].topic;
+                            }
+                            ranking[loop].subtopic = topic;
+                            ranking[loop].message  = message;
+                            ranking[loop].number   = mno;
+                            ranking[loop].topic    = subtopic;
+                         }
+                     }
 	 }
 
      /* ---->  Display results  <---- */
