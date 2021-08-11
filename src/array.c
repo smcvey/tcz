@@ -832,7 +832,7 @@ void array_sort(CONTEXT)
      struct   array_element *element;
      struct   arg_data arg;
      dbref    array;
-     int      value;
+     long     value;
 
      setreturn(ERROR,COMMAND_FAIL);
      array = match_preferred(player,player,arg1,MATCH_PHASE_KEYWORD,MATCH_PHASE_GLOBAL,SEARCH_ALL,SEARCH_ARRAY,MATCH_OPTION_DEFAULT);

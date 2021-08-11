@@ -9527,7 +9527,7 @@ Also, see '%g%l%uhelp @eval%x', '%g%l%uhelp @true%x', '%g%l%uhelp @false%x', '%g
 
 '%g%l{%u@eval%g%l}%x' returns the result of calculating %y%l<EXPRESSION>%x, which can be string, numeric or both.  Most standard comparison, arithmetic, logical and bitwise operators are supported (Including C programming language style ones.)
 
-The result returned by '%g%l{%u@eval%g%l}%x' is usually numeric when doing comparisons, with '%y%l1%x' meaning %c%lTRUE%x and '%y%l0%x' meaning %c%lFALSE%x.  Within compound commands, you will usually use '%g%l{%u@eval%g%l}%x' in conjunction with a selection command such as '%g%lu@if%x' (See '%g%l%uhelp @if%x')  -  The general format for this is '%g%l@if {@eval <EXPRESSION>} do <COMMAND>[; else <COMMAND>]%x'.
+The result returned by '%g%l{%u@eval%g%l}%x' is usually numeric when doing comparisons, with '%y%l1%x' meaning %c%lTRUE%x and '%y%l0%x' meaning %c%lFALSE%x.  Within compound commands, you will usually use '%g%l{%u@eval%g%l}%x' in conjunction with a selection command such as '%g%l%u@if%x' (See '%g%l%uhelp @if%x')  -  The general format for this is '%g%l@if {@eval <EXPRESSION>} do <COMMAND>[; else <COMMAND>]%x'.
 
 %PAGE
 Parentheses (Brackets) can be used to group subexpressions.  Precedence is %c%lSTRICTLY LEFT-TO-RIGHT%x, e.g:  '%g%l@echo {@eval 3 * 5 - 1}%x' gives '%y%l14%x' and '%g%l@echo {@eval 3 * (5 - 1)}%x' gives '%y%l12%x' (You don't have to separate the operators with spaces, however it does look neater and more readable.)
