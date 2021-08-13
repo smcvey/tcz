@@ -3388,7 +3388,8 @@ static struct profile_data *db_read_profile(FILE *f,int version)
           if(version >= 61) profile->statusirl = db_read_int(f);
           if(version >= 70) profile->statusivl = db_read_int(f);
           if(version >= 64) {
-             profile->dob     = db_read_int(f);
+             profile->dob     = db_read_long(f);
+             if(profile->dob == LEGACY_UNSET_DATE) profile->dob = UNSET_DATE;
              profile->picture = (char *) db_read_string(f,1,1);
 	  }
        }

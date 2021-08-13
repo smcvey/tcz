@@ -64,7 +64,8 @@
 #define CHANNEL_CONTEXT struct descriptor_data *d,char *chname,char *params,int option
 #define EDIT_CONTEXT    struct descriptor_data *d, int rfrom, int rto, int option, int numeric, int lines, unsigned char jump, char *text, char *params, int val1, char *editcmd, char *buffer
 #define PASS_CONTEXT    player,params,arg0,arg1,arg2,val1,val2
-#define UNSET_DATE      0xFFFFFFFF
+#define LEGACY_UNSET_DATE      0xFFFFFFFF
+#define UNSET_DATE      0xFFFFFFFFFFFFFFFF
 #define OPTCONTEXT      dbref player,const char *title,const char *value,int status,int *error,int *critical
 #define OPTSTATUS       NOTHING,NULL,NULL,1,NULL,NULL
 #define TCZ_INFINITY    0x7FFFFFFF
