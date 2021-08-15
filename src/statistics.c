@@ -546,30 +546,30 @@ void stats_resource(dbref player)
         output(p,player,0,1,0,ANSI_LGREEN"Sorry, unable to open/access the file '"ANSI_LWHITE""PROC_MEMINFO""ANSI_LGREEN"' (Memory usage)  -  Unable to determine current resource usages of %s server.",tcz_full_name);
         return;
      }
-     while(fgets(scratch_return_string,TEXT_SIZE,input) != NULL )
+     while(fgets(scratch_return_string,TEXT_SIZE,input) != NULL)
      {
         if(sscanf(scratch_return_string,"%[^':']: %lu", memname, &memvalue))
         {
            /* Extract memory values actually needed */
-           if( strcasecmp(memname,MEM_TOTAL) == 0 )
+           if(strcasecmp(memname,MEM_TOTAL) == 0)
               mtotal = memvalue;
-           else if( strcasecmp(memname,MEM_FREE) == 0 )
+           else if(strcasecmp(memname,MEM_FREE) == 0)
               mfree = memvalue;
-           else if( strcasecmp(memname,MEM_AVAILABLE) == 0 )
+           else if(strcasecmp(memname,MEM_AVAILABLE) == 0)
               mavail = memvalue;
-           else if( strcasecmp(memname,BUFFERS) == 0 )
+           else if(strcasecmp(memname,BUFFERS) == 0)
               mbuffers = memvalue;
-           else if( strcasecmp(memname,CACHED) == 0 )
+           else if(strcasecmp(memname,CACHED) == 0)
               pcache = memvalue;
-           else if( strcasecmp(memname,SLAB_RECLAIMABLE) == 0 )
+           else if(strcasecmp(memname,SLAB_RECLAIMABLE) == 0)
               slabr = memvalue;
-           else if( strcasecmp(memname,SWAP_TOTAL) == 0 )
+           else if(strcasecmp(memname,SWAP_TOTAL) == 0)
               stotal = memvalue;
-           else if( strcasecmp(memname,SWAP_FREE) == 0 )
+           else if(strcasecmp(memname,SWAP_FREE) == 0)
               sfree = memvalue;
-           else if( strcasecmp(memname,SHARED_MEM) == 0 )
+           else if(strcasecmp(memname,SHARED_MEM) == 0)
               mshared = memvalue;
-	}
+        }
         memvalue = 0;
      }
      fclose(input);
