@@ -929,6 +929,17 @@ Also, see '%g%l%uhelp promotions%x', '%g%l%uhelp admin rules%x', '%g%l%uhelp saf
 %TOPIC bugfixes
 %TOPIC codefixes
 %TITLE Brief summary of latest %w%l%@%M%x source code bug fixes
+%9%9%c%l15/08/2021 %y %lNA  %x '%g%l%u@stats resource%x' now accurately measures use of system memory and supports multiple platforms.
+%9%9%c%l13/08/2021 %y %lNA  %x Fixed bug that caused previously unset profile dates of birth to appear in a nonsensical year.
+%9%9%c%l10/08/2021 %y %lNA  %x Fixed bug that prevented arrays from being properly %g%l%u@sort%xed.
+%9%9%c%l27/07/2021 %y %lNA  %x Fixed bug where a user being %g%l%u@force%x'd and %g%l%u@monitor%xed at the same time could crash the server.
+%9%9%c%l26/07/2021 %y %lNA  %x Fixed bug where bbs notifications generated corrupted output.
+%9%9%c%l26/07/2021 %y %lNA  %x Sending %y%lTRACE%x flag output to multiple users will no longer crash the server.
+%9%9%c%l26/07/2021 %y %lNA  %x Fixed bug where chat channels generated corrupted output.
+%9%9%c%l26/07/2021 %y %lNA  %x Fixed bug where %g%l%u@force%x could crash the server.
+%9%9%c%l26/07/2021 %y %lSMc %x Fixed bug where output to multiple users could crash the server.
+
+%PAGE
 %9%9%c%l11/02/2021 %y %lSMc %x Removed '%g%l%usession%x' command.
 %9%9%c%l10/02/2021 %y %lNA  %x Implemented '%y%l.pay%x' and '%y%l.paid%x' commands.
 %9%9%c%l10/02/2021 %y %lSMc %x Non-connected characters can now run BBS commands using 'first', 'all', 'last', 'end', 'latest'.
