@@ -109,6 +109,16 @@
 #define RANK_MONTH	  3   /*  Rank by average per month    */
 #define RANK_QUARTER	  4   /*  Rank by average per quarter  */
 
+/* PROC_MEMINFO field names from kernel.org/doc/Documentation/filesystems/proc.txt */
+#define MEM_TOTAL         "MemTotal"
+#define MEM_FREE          "MemFree"
+#define MEM_AVAILABLE     "MemAvailable"
+#define BUFFERS           "Buffers"
+#define CACHED            "Cached"
+#define SLAB_RECLAIMABLE  "SReclaimable"
+#define SHARED_MEM        "Shmem"
+#define SWAP_TOTAL        "SwapTotal"
+#define SWAP_FREE         "SwapFree"
 
 /* ---->  Return percentage  <---- */
 const char *stats_percent(double numb1,double numb2)
@@ -510,11 +520,15 @@ void stats_resource(dbref player)
      int    psize,inuse = 0,pending = 0;
 
 #ifdef USE_PROC
-     int           utime  = 0,stime = 0,cutime = 0,cstime  = 0,starttime = 0;
-     unsigned long mtotal = 0,mused = 0,mfree  = 0,mshared = 0,mbuffers  = 0,mcached = 0;
-     unsigned long size   = 0,rss   = 0,shrd   = 0,trs     = 0,lib       = 0;
-     unsigned long stotal = 0,sused = 0,sfree  = 0,drs     = 0,td        = 0;
+     int           utime   = 0,stime  = 0,cutime = 0,cstime = 0,starttime = 0;
+     unsigned long mtotal  = 0,mused  = 0,mfree  = 0,mavail = 0,mshared   = 0;
+     unsigned long mbuffers= 0,mcached= 0,pcache = 0,slabr  = 0;
+     unsigned long size    = 0,rss    = 0,shrd   = 0,trs    = 0,lib       = 0;
+     unsigned long stotal  = 0,sused  = 0,sfree  = 0,drs    = 0,td        = 0;
      int           systemuptime = 0,fd;
+     char          memname[30];
+     unsigned long memvalue = 0;
+     FILE *        input;
 
      /* ---->  System uptime  <---- */
      if((fd = open(PROC_UPTIME,O_RDONLY,0)) == -1) {
@@ -527,14 +541,42 @@ void stats_resource(dbref player)
      systemuptime = atoi(scratch_return_string);
 
      /* ---->  Memory usage  <---- */
-     if((fd = open(PROC_MEMINFO,O_RDONLY,0)) == -1) {
+     input = fopen(PROC_MEMINFO, "r");
+     if(input == NULL) {
         output(p,player,0,1,0,ANSI_LGREEN"Sorry, unable to open/access the file '"ANSI_LWHITE""PROC_MEMINFO""ANSI_LGREEN"' (Memory usage)  -  Unable to determine current resource usages of %s server.",tcz_full_name);
         return;
      }
-     read(fd,scratch_return_string,TEXT_SIZE);
-     close(fd);
-     sscanf(scratch_return_string, "%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %lu %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %*u %*s\n%*s %lu %*s\n%*s %lu %*s\n", &mtotal, &mfree, &mbuffers, &mcached, &stotal, &sfree);
-     mused = mtotal - mfree;
+     while(fgets(scratch_return_string,TEXT_SIZE,input) != NULL )
+     {
+        if(sscanf(scratch_return_string,"%[^':']: %lu", memname, &memvalue))
+        {
+           /* Extract memory values actually needed */
+           if( strcasecmp(memname,MEM_TOTAL) == 0 )
+              mtotal = memvalue;
+           else if( strcasecmp(memname,MEM_FREE) == 0 )
+              mfree = memvalue;
+           else if( strcasecmp(memname,MEM_AVAILABLE) == 0 )
+              mavail = memvalue;
+           else if( strcasecmp(memname,BUFFERS) == 0 )
+              mbuffers = memvalue;
+           else if( strcasecmp(memname,CACHED) == 0 )
+              pcache = memvalue;
+           else if( strcasecmp(memname,SLAB_RECLAIMABLE) == 0 )
+              slabr = memvalue;
+           else if( strcasecmp(memname,SWAP_TOTAL) == 0 )
+              stotal = memvalue;
+           else if( strcasecmp(memname,SWAP_FREE) == 0 )
+              sfree = memvalue;
+           else if( strcasecmp(memname,SHARED_MEM) == 0 )
+              mshared = memvalue;
+	}
+        memvalue = 0;
+     }
+     fclose(input);
+
+     /* calculations equivalent with a linux `free -m -t` */
+     mcached = pcache + slabr;
+     mused = mtotal - mfree - mcached -  mbuffers;
      sused = stotal - sfree;
 
      /* ---->  TCZ's process statistics  <---- */
@@ -605,14 +647,13 @@ void stats_resource(dbref player)
 
 #ifdef USE_PROC
      output(p,player,0,1,0,separator(79,0,'=','='));
-     output(p,player,0,1,0,ANSI_LCYAN"                      Total:     Used:      Free:      Shared:     Cache:");
+     output(p,player,0,1,0,ANSI_LCYAN"                      Total:    Used:     Free:     Shared:   Cache:    Avail:");
      output(p,player,0,1,0,separator(79,0,'-','-'));
 
-     output(p, player, 2, 1, 0, ANSI_LCYAN " System memory (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_LGREEN "%-11d "ANSI_LGREEN "%d\n", mtotal / KB, mused / KB, mfree / KB, mshared / KB, (mbuffers + mcached) / KB);
-     output(p, player, 2, 1, 0, ANSI_LCYAN "     +/- Cache (Kb):  " ANSI_DCYAN "N/A        " ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A         " ANSI_DCYAN "N/A\n", (mused - (mbuffers + mcached)) / KB, (mfree + mbuffers + mcached) / KB);
-     output(p, player, 2, 1, 0, ANSI_LCYAN "   System swap (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d" ANSI_LWHITE "%-11d" ANSI_DCYAN "N/A         " ANSI_DCYAN "N/A\n", stotal / KB, sused / KB, sfree / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN " System memory (Mb):  " ANSI_LYELLOW "%-10d" ANSI_LWHITE "%-10d" ANSI_LWHITE "%-10d" ANSI_LGREEN "%-9d "ANSI_LGREEN "%-9d "ANSI_LGREEN "%d\n", mtotal / KB, mused / KB, mfree / KB, mshared / KB, (mbuffers + mcached) / KB, mavail / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "   System swap (Mb):  " ANSI_LYELLOW "%-10d" ANSI_LWHITE "%-10d" ANSI_LWHITE "%-10d" ANSI_DCYAN "N/A       " ANSI_DCYAN "N/A       N/A\n", stotal / KB, sused / KB, sfree / KB);
      if(!in_command) output(p,player,0,1,0,separator(79,0,'-','-'));
-     output(p, player, 2, 1, 0, ANSI_LCYAN "         Total (Kb):  " ANSI_LYELLOW "%-11d" ANSI_LWHITE "%-11d%-11d" ANSI_DCYAN "N/A         " ANSI_DCYAN "N/A\n", (mtotal + stotal) / KB, (mused + sused) / KB, (mfree + sfree) / KB);
+     output(p, player, 2, 1, 0, ANSI_LCYAN "         Total (Mb):  " ANSI_LYELLOW "%-10d" ANSI_LWHITE "%-10d%-10d" ANSI_DCYAN "N/A       " ANSI_DCYAN "N/A       N/A\n", (mtotal + stotal) / KB, (mused + sused) / KB, (mfree + sfree) / KB);
 #else
      output(p,player,0,1,0,ANSI_DCYAN"----------------------------------------------------("ANSI_LMAGENTA"Swapping "ANSI_DCYAN"& "ANSI_LBLUE"Input/Output"ANSI_DCYAN")--");
      output(p, player, 2, 1, 0, ANSI_LMAGENTA "                 Number of swaps:  "ANSI_LWHITE"%d\n", usage.ru_nswap);
