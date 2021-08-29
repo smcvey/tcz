@@ -101,8 +101,8 @@ const char *siteflags_description(short flags)
 unsigned long text_to_ip(const char *ipaddress,unsigned long *mask)
 {
 	 unsigned long address = 0;
+	 unsigned int  addr;
 	 short         loop = 3;
-	 int           addr;
 
 	 *mask = 0;
 	 if(Blank(ipaddress)) return(0);
@@ -113,7 +113,7 @@ unsigned long text_to_ip(const char *ipaddress,unsigned long *mask)
 		  return(0);
 	       }
 	       if(*ipaddress) {
-		  if(((addr = atol(ipaddress)) < 0) || (addr > 255)) {
+		  if(((addr = atoi(ipaddress)) < 0) || (addr > 255)) {
 		     *mask = 0;
 		     return(0);
 		  }
