@@ -113,7 +113,7 @@ unsigned long text_to_ip(const char *ipaddress,unsigned long *mask)
 		  return(0);
 	       }
 	       if(*ipaddress) {
-		  if(((addr = atol(ipaddress)) < 0) || (addr > 255)) {
+		  if(((addr = atoi(ipaddress)) < 0) || (addr > 255)) {
 		     *mask = 0;
 		     return(0);
 		  }
