@@ -3255,7 +3255,7 @@ void bbs_readers(CONTEXT)
 
                     /* ---->  Header  <---- */
 		    if(!in_command) {
-                       if(subtopic) output(p,player,0,1,1,"\n Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LGREEN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
+                       if(subtopic) output(p,player,0,1,1,"\n Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the sub-topic '"ANSI_LWHITE"%s"ANSI_LCYAN"' in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name,subtopic->name);
                           else output(p,player,0,1,1,"\n Readers of the message '%s"ANSI_LYELLOW"%s"ANSI_LCYAN"' (Message number "ANSI_LWHITE"%d"ANSI_LCYAN") in the topic '"ANSI_LWHITE"%s"ANSI_LCYAN"'...",(message->flags & MESSAGE_REPLY) ? ANSI_LMAGENTA"Re:  ":"",scratch_return_string,msgno,topic->name);
                        output(p,player,0,1,0,separator(twidth,0,'-','='));
 		    }
