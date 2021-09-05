@@ -1200,6 +1200,7 @@ extern  time_t          string_to_date          (dbref player,const char *str,un
 extern  time_t          longdate_to_epoch       (unsigned long longdate);
 extern  unsigned long   epoch_to_longdate       (time_t epoch);
 extern  unsigned long   longdate_difference     (unsigned long longdate1,unsigned long longdate2);
+extern  void            trim_newlines           (char *str);
 
 
 /* ---->  From substitute.c  <---- */

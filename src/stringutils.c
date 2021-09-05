@@ -2291,3 +2291,19 @@ unsigned long longdate_difference(unsigned long longdate1,unsigned long longdate
 	    interval++, m_month1++;
 	 return(interval);
 }
+
+/* ---->  Remove one or more newline characters from the end of a string  <---- */
+void trim_newlines(char *str)
+{
+    int keep_iterating = 1;
+    int length;
+
+    if(str == NULL) return;
+    while(keep_iterating) {
+        length = strlen(str);
+        if(str[length-1] == '\n')
+            str[length-1] = '\0';
+        else
+            keep_iterating = 0;
+    }
+}

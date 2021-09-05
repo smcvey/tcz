@@ -703,13 +703,14 @@ void pagetell_recall(CONTEXT)
      unsigned char            twidth = output_terminal_width(player);
      struct   descriptor_data *p = getdsc(player);
      time_t                   timediff,now;
+     char                     message[BUFFER_LEN];
      int                      count;
 
      setreturn(ERROR,COMMAND_FAIL);
      if(Connected(player) && p) {
         if(p->messagecount) {
            timediff = db[player].data->player.timediff * HOUR;
-           if(Blank(params) || (!Blank(params) && !(string_prefix("list",params) || string_prefix("view",params) || string_prefix("read",params)))) {
+           if(Blank(params) || (!Blank(params) && !(string_prefix("list",params) || string_prefix("view",params) || string_prefix("read",params) || string_prefix("all",params)))) {
               int last = 0;
  
               /* ---->  Recall (And display) previously page'd/tell'd message  <---- */
@@ -723,8 +724,7 @@ void pagetell_recall(CONTEXT)
                        if(p->messages[count].pager != player) output(p, player, 2, 1, 1, "\n %s from %s" ANSI_LWHITE "%s" ANSI_LCYAN " on " ANSI_LYELLOW "%s" ANSI_LCYAN ".\n", (p->messages[count].tell) ? "Tell" : "Page", Article(p->messages[count].pager, LOWER, INDEFINITE), getcname(NOTHING, p->messages[count].pager, 0, 0), date_to_string(now, UNSET_DATE, player, FULLDATEFMT));
                           else output(p, player, 2, 1, 1, "\n %s from yourself on " ANSI_LYELLOW "%s" ANSI_LCYAN ".\n", (p->messages[count].tell) ? "Tell" : "Page", date_to_string(now, UNSET_DATE, player, FULLDATEFMT));
                        output(p,player,0,1,0,separator(twidth,1,'-','='));
-		    } else if(!p->messages[count].tell) output(p,player,0,1,0,"");
-
+                    } else if(!p->messages[count].tell) output(p,player,0,1,0,"");
                     output(p, player, 2, 1, 3, " %s%s\n", Blank(p->messages[count].message) ? "Unknown" : decompress(p->messages[count].message), (p->messages[count].tell && !in_command) ? "\n" : "");
                     if(!in_command) {
                        output(p,player,0,1,0,separator(twidth,0,'-','-'));
@@ -732,18 +732,40 @@ void pagetell_recall(CONTEXT)
                           output(p, player, 2, 1, 1, ANSI_LWHITE " To reply to this message, simply type '" ANSI_LGREEN "page %d <MESSAGE>" ANSI_LWHITE "' or '" ANSI_LGREEN "tell %d <MESSAGE>" ANSI_LWHITE "'.\n", count + 1, count + 1);
                           else output(p, player, 2, 1, 1, ANSI_LWHITE " To reply to this message, simply type '" ANSI_LGREEN "reply <MESSAGE>" ANSI_LWHITE "'.\n");
                        output(p,player,0,1,0,separator(twidth,1,'-','='));
-		    }
+                    }
                     setreturn(OK,COMMAND_SUCC);
-		 } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you only have "ANSI_LWHITE"%d"ANSI_LGREEN" stored message%s.",p->messagecount,Plural(p->messagecount));
-	      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, that message number is invalid  -  Please specify a positive number.");
-	   } else {
+                 } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you only have "ANSI_LWHITE"%d"ANSI_LGREEN" stored message%s.",p->messagecount,Plural(p->messagecount));
+              } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, that message number is invalid  -  Please specify a positive number.");
+           } else if (string_prefix("all",params)) {
 
-              /* ---->  List stored messages  <---- */
+              /* ---->  List all stored messages  <---- */
               if(!p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
               if(!in_command) {
                  output(p, player, 2, 1, 1, "\n Most recent messages sent to you using either '" ANSI_LWHITE "page" ANSI_LCYAN "' or '" ANSI_LWHITE "tell" ANSI_LCYAN "'...\n");
                  output(p,player,0,1,0,separator(twidth,0,'-','='));
-	      }
+              }
+
+              for(count = p->messagecount - 1; count >= 0; count--) {
+                 sprintf(scratch_return_string,"(%s)",date_to_string(p->messages[count].time + timediff,UNSET_DATE,NOTHING,SHORT24HTIMEFMT));
+                 if(Blank(p->messages[count].message))
+                    strcpy(message,"Unknown");
+                 else
+                    strcpy(message,decompress(p->messages[count].message));
+                 trim_newlines(message);
+                 output(p, player, 2, 1, 9, ANSI_LGREEN " %-8s%s\n", scratch_return_string, message);
+              }
+
+              if(!in_command) output(p,player,0,1,0,separator(twidth,1,'-','='));
+              setreturn(OK,COMMAND_SUCC);
+ 
+           } else {
+
+              /* ---->  List info about stored messages  <---- */
+              if(!p->pager && Validchar(p->player) && More(p->player)) pager_init(p);
+              if(!in_command) {
+                 output(p, player, 2, 1, 1, "\n About recent messages sent to you using either '" ANSI_LWHITE "page" ANSI_LCYAN "' or '" ANSI_LWHITE "tell" ANSI_LCYAN "'...\n");
+                 output(p,player,0,1,0,separator(twidth,0,'-','='));
+              }
 
               for(count = 0; count < p->messagecount; count++) {
                   sprintf(scratch_return_string,"(%d)",count + 1);
@@ -752,16 +774,16 @@ void pagetell_recall(CONTEXT)
                      else sprintf(scratch_buffer, ANSI_LGREEN " %-6s" ANSI_LWHITE "%s from yourself on ", scratch_return_string, (p->messages[count].tell) ? "Tell" : "Page");
                   now = p->messages[count].time + timediff;
                   output(p, player, 2, 1, 7, "%s" ANSI_LCYAN "%s" ANSI_LWHITE ".\n", scratch_buffer, date_to_string(now, UNSET_DATE, player, FULLDATEFMT));
-	      }
+              }
 
               if(!in_command) {
                  output(p,player,0,1,0,separator(twidth,0,'-','-'));
-                 output(p, player, 2, 1, 1, ANSI_LWHITE " To recall one of the above messages, type '" ANSI_LGREEN "recall <NUMBER>" ANSI_LWHITE "'.  To reply, simply type '" ANSI_LGREEN "page <NUMBER> <MESSAGE>" ANSI_LWHITE "' or '" ANSI_LGREEN "tell <NUMBER> <MESSAGE>" ANSI_LWHITE "'.\n");
+                 output(p, player, 2, 1, 1, ANSI_LWHITE " To recall one of the above messages, type '" ANSI_LGREEN "recall <NUMBER>" ANSI_LWHITE "'.  To recall all messages, type '" ANSI_LGREEN "recall all" ANSI_LWHITE "'.  To reply, simply type '" ANSI_LGREEN "page <NUMBER> <MESSAGE>" ANSI_LWHITE "' or '" ANSI_LGREEN "tell <NUMBER> <MESSAGE>" ANSI_LWHITE "'.\n");
                  output(p,player,0,1,0,separator(twidth,1,'-','='));
-	      }
+              }
               setreturn(OK,COMMAND_SUCC);
-	   }
-	} else output(p,player,0,1,0,ANSI_LGREEN"Sorry, no-one has sent any messages to you using '"ANSI_LWHITE"page"ANSI_LGREEN"' or '"ANSI_LWHITE"tell"ANSI_LGREEN"' yet.");
+           }
+        } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, no-one has sent any messages to you using '"ANSI_LWHITE"page"ANSI_LGREEN"' or '"ANSI_LWHITE"tell"ANSI_LGREEN"' yet.");
      } else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you must be connected to use the '"ANSI_LWHITE"recall"ANSI_LGREEN"' command.");
 }
 

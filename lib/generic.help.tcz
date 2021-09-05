@@ -15448,18 +15448,20 @@ Also, see '%g%l%uhelp tell%x', '%g%l%uhelp page%x', '%g%l%uhelp friends%x', '%g%
 %COMMENT --------------------------------------------------------------------->
 
 %TOPIC recall
+%TOPIC recallall
 %TOPIC recallingpages
 %TOPIC recallingtells
 %TITLE Help on '%w%lrecall%x'
 %c%lUSAGE:  %g%lrecall <NUMBER>
+        recall all
         recall list
         recall last%x
 
-The '%g%l%urecall%x' command allows you to recall the last 8 messages sent to you via '%g%l%upage%x' or '%g%l%utell%x'.
+The '%g%l%urecall%x' command allows you to recall the last 16 messages sent to you via '%g%l%upage%x' or '%g%l%utell%x'.
 
-Typing '%g%l%urecall%x' on its own (Without any parameters) will recall the last message sent to you (Along with the time, date and who it was from.)
+Typing '%g%l%urecall%x' on its own (Without any parameters) will recall the last message sent to you (Along with the time, date and who it was from.) Typing '%g%l%urecall all%x' will show all of your recently received message.
 
-'%g%lrecall list%x' will list the names of the senders of the last 8 messages, along with the time and date.  You can see the actual message by typing '%g%lrecall <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message, e.g:  '%g%lrecall 1%x'.
+'%g%lrecall list%x' will list the names of the senders of the last 16 messages, along with the time and date.  You can see the actual message by typing '%g%lrecall <NUMBER>%x', where %y%l<NUMBER>%x is the number of the message, e.g:  '%g%lrecall 1%x'.
 
 You can reply to the last message you received by typing '%g%lreply <MESSAGE>%x' (See '%g%l%uhelp reply%x') or reply to the message %y%l<NUMBER>%x in the list by typing '%g%lpage <NUMBER> <MESSAGE>%x' or '%g%ltell <NUMBER> <MESSAGE>%x'.
 <-SEPARATOR->

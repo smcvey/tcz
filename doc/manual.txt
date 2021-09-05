@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  10/2/2021.
+                     Manual release date:  3/9/2021.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -5395,6 +5395,7 @@ In most cases, things are given priority.
   Recall
   ~~~~~~
   USAGE:  recall <NUMBER>
+          recall all
           recall list
           recall last
 
@@ -5402,7 +5403,8 @@ In most cases, things are given priority.
   via 'page' or 'tell'.
 
   Typing 'recall' on its own (Without any parameters) will recall the last
-  message sent to you (Along with the time, date and who it was from.)
+  message sent to you (Along with the time, date and who it was from.) Typing
+  'recall all' will show all of your recently received messages.
 
   'recall list' will list the names of the senders of the last 8 messages,
   along with the time and date.  You can see the actual message by typing
