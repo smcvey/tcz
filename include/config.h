@@ -629,7 +629,7 @@
 #define CHAT_INVITE_QUEUE_SIZE         10        /*  Size of invite queue for each chatting channel  */
 #define MATCH_RECURSION_LIMIT          100       /*  Maximum recursion limit for matching routines (match.c)  */
 #define WARN_LOGIN_INTERVAL            15        /*  Interval (Minutes) between giving warnings of failed logins  */
-#define MAX_STORED_MESSAGES            8         /*  Max. stored pages/tells per user  */
+#define MAX_STORED_MESSAGES            16        /*  Max. stored pages/tells per user  */
 #define DESTROY_QUEUE_SIZE             100       /*  Size of '@undestroy' object queue  */
 #define PROGRESS_UNITS                 4         /*  Number of units ('.') per megabyte on progress meter  */
 #define MAX_LIST_LIMIT                 100       /*  Maximum number of users who can be specified in a ','/';' separated list (Used by 'page', 'tell', friends/enemies code, etc.)  */
@@ -645,6 +645,7 @@
 #define SHORTDATEFMT                   "dd/mm/yyyy"        /*  Default short date format  */
 #define LONGDATEFMT                    "WW D MM yyyy"      /*  Default long date format  */
 #define TIMEFMT                        "h:nn.ss pp"        /*  Default time format  */
+#define SHORT24HTIMEFMT                "HH:nn"             /*  Default short time format  */
 #define DATEORDER                      0                   /*  Default date order (0 = Date first, 1 = Time first.)  */
 #define FULLDATEFMT                    LONGDATEFMT""DATESEPARATOR""TIMEFMT  /*  Default date & time format  */
 

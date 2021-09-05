@@ -258,7 +258,7 @@
 
 /* ---->  From finance.c  <---- */
 #define module_finance_c_date "03/01/1997"
-#define module_finance_c_desc "Monetry system (Credits)"
+#define module_finance_c_desc "Monetary system (Credits)"
 #define module_finance_c_authors \
         "JPB | Y | 03/01/1997 | 02/12/2004 >>>"
 
@@ -391,7 +391,8 @@
 #define module_output_c_date "28/12/1994"
 #define module_output_c_desc "Output to users/descriptors"
 #define module_output_c_authors \
-        "JPB | Y | 28/12/1994 | 02/12/2004 >>>"
+        "JPB | Y | 28/12/1994 | 02/12/2004 >>>" \
+        "NA  | N | 10/07/2021 | 28/07/2021 >>>"
 
 
 /* ---->  From pager.c  <---- */
@@ -405,7 +406,8 @@
 #define module_pagetell_c_date "17/04/1995"
 #define module_pagetell_c_desc "'page'/'tell' commands"
 #define module_pagetell_c_authors \
-        "JPB | Y | 17/04/1995 | 02/12/2004 >>>"
+        "JPB | Y | 17/04/1995 | 02/12/2004 >>>" \
+        "NA  | N | 03/09/2021 | 04/09/2021 >>>"
 
 
 /* ---->  From predicates.c  <---- */
@@ -527,9 +529,10 @@
 
 /* ---->  From statistics.c  <---- */
 #define module_statistics_c_date "29/12/1994"
-#define module_statistics_c_desc "Database statistics"
+#define module_statistics_c_desc "Database and server statistics"
 #define module_statistics_c_authors \
-        "JPB | Y | 29/12/1994 | 02/12/2004 >>>"
+        "JPB | Y | 29/12/1994 | 02/12/2004 >>>" \
+        "NA  | N | 13/08/2021 | NULL >>>"
 
 
 /* ---->  From stringutils.c  <---- */
