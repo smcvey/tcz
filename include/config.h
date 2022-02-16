@@ -580,7 +580,7 @@
 
 
 /* ---->  Memory restrictions  <---- */
-#define LIMIT_MEMORY_PERCENTAGE        0.50      /*  Maximum memory expansion allowed (Over initial size at start-up), as percentage (0.50 = 50%)  */
+#define LIMIT_MEMORY_PERCENTAGE        3.00      /*  Maximum memory expansion allowed (Over initial size at start-up), as percentage (0.50 = 50%, 3.00 = 300%)  */
 #define LIMIT_MEMORY_MINIMUM           16        /*  Minimum memory expansion allowed (Mb) (If LIMIT_MEMORY_PERCENTAGE gives value less than this, expansion will be set to this limit.)  */
 #define LIMIT_STACK                    7000      /*  Maximum size of stack (Kb)  */
 
