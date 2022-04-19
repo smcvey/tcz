@@ -175,7 +175,7 @@ struct feeling_data feelinglist[] = {
   {NULL, "Goofy",           56},
   {NULL, "Great",           17},
   {NULL, "Groovy",          62},
-  {NULL, "Goovy",           82},
+  {NULL, "Obtuse",          82},
   {NULL, "Grumpy",          42},
   {NULL, "Guilty",          38},
   {NULL, "Gutted",         241},
