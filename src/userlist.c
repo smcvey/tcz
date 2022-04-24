@@ -423,7 +423,7 @@ void userlist_hosts(struct descriptor_data *d)
      if(!in_command) {
 	output(d,d->player,0,1,0,separator(d->terminal_width,0,'-','='));
         listed_items(scratch_return_string,1);
-        output(d, d->player, 2, 1, 10, ANSI_LWHITE "  Users:  " ANSI_LYELLOW "" ANSI_UNDERLINE "%s" ANSI_DCYAN "  (" ANSI_LWHITE "%d " ANSI_LCYAN "local" ANSI_DCYAN ", " ANSI_LWHITE "%d " ANSI_LCYAN "remote" ANSI_DCYAN ", " ANSI_LWHITE "%d " ANSI_LCYAN "Telnet.)\n", scratch_return_string, local, remote, telnet);
+        output(d, d->player, 2, 1, 10, ANSI_LWHITE "  Users:  " ANSI_LYELLOW "" ANSI_UNDERLINE "%s" ANSI_DCYAN "  (" ANSI_LWHITE "%d " ANSI_LCYAN "local" ANSI_DCYAN ", " ANSI_LWHITE "%d " ANSI_LCYAN "remote" ANSI_DCYAN ", " ANSI_LWHITE "%d " ANSI_LCYAN "Telnet" ANSI_DCYAN ".)\n", scratch_return_string, local, remote, telnet);
         output(d,d->player,2,1,10,"%s",(char *) userlist_peak(1));
         output(d,d->player,2,1,10,"%s",(char *) userlist_uptime(now,1));
      }
