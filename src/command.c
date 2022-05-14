@@ -711,6 +711,7 @@ void command_execute(dbref player,dbref command,const char *commands,unsigned ch
      if(command_return_value) {
         FREENULL(command_result);
         command_result = (char *) malloc_string(command_return_value);
+        FREENULL(command_return_value);
      } else command_return_value = cached_command_return_value;
 
      if(commands) {
