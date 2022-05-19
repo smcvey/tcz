@@ -863,6 +863,7 @@ extern  void            query_flags             (CONTEXT);
 extern  void            query_format            (CONTEXT);
 extern  void            query_friend            (CONTEXT);
 extern  void            query_fullname          (CONTEXT);
+extern  void            query_global            (CONTEXT);
 extern  void            query_head              (CONTEXT);
 extern  void            query_id                (CONTEXT);
 extern  void            query_idletime          (CONTEXT);

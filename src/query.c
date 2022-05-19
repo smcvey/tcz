@@ -2635,6 +2635,22 @@ void query_typeof(CONTEXT)
      } else setreturn(ObjectType(object),COMMAND_SUCC);
 }
 
+/* ---->  Return OK if specified command is global  <---- */
+void query_global(CONTEXT)
+{
+     dbref object = query_find_object(player,arg1,SEARCH_PREFERRED,0,0);
+
+     if (Valid(object) && (Typeof(object) == TYPE_COMMAND)) {
+        fprintf(STDERR,"global_lookup result: %s\n",global_lookup(db[object].name,0));
+        if (global_lookup(db[object].name,0) != NOTHING )
+            setreturn(OK,COMMAND_SUCC);
+        else 
+            setreturn(ERROR,COMMAND_SUCC);
+     } else {
+        setreturn(ERROR,COMMAND_SUCC);
+     }    
+
+}
 /* ---->  Return uptime or start time of server  <---- */
 void query_uptime(CONTEXT)
 {
