@@ -2657,6 +2657,7 @@ void query_global(CONTEXT)
         setreturn(ERROR,COMMAND_FAIL);
      }    
 }
+
 /* ---->  Return uptime or start time of server  <---- */
 void query_uptime(CONTEXT)
 {
