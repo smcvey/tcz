@@ -2652,9 +2652,9 @@ void query_global(CONTEXT)
         if((globalcmd != NOTHING) && (globalcmd == object))
             setreturn(OK,COMMAND_SUCC);
         else 
-            setreturn(ERROR,COMMAND_SUCC);
+            setreturn(ERROR,COMMAND_FAIL);
      } else {
-        setreturn(ERROR,COMMAND_SUCC);
+        setreturn(ERROR,COMMAND_FAIL);
      }    
 }
 /* ---->  Return uptime or start time of server  <---- */
