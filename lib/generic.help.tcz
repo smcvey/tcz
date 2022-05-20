@@ -245,19 +245,18 @@ Also, see '%g%l%uhelp menu%x', '%g%l%uhelp building%x' and '%g%l%uhelp advanced%
 %g%l@?desc          @?destination   @?drop          @?elementno     @?elements
 %g%l@?evallock      @?estring       @?executed      @?execution     @?exists
 %g%l@?exits         @?expiry        @?fail          @?false         @?firstname
-%g%l@?flags         @?fuses         @?id            @?index         @?indexno
-%g%l@?internal      @?interval      @?key           @?lastused      @?latest
-%g%l@?line          @?location      @?lock          @?match         @?mass
-%g%l@?messages      @?myleaf        @?myself        @?name          @?nested
-%g%l@?newmessages   @?next          @?noelements    @?objects       @?odesc
-%g%l@?odrop         @?ofail         @?osucc         @?owner         @?parent
-%g%l@?peak          @?pending       @?players       @?properties    @?quarter
-%g%l@?quota         @?rand          @?rank          @?realtime      @?result
-%g%l@?rooms         @?set           @?size          @?succ          @?things
-
+%g%l@?flags         @?fuses         @?global        @?id            @?index
+%g%l@?indexno       @?internal      @?interval      @?key           @?lastused
+%g%l@?latest        @?line          @?location      @?lock          @?match
+%g%l@?mass          @?messages      @?myleaf        @?myself        @?name
+%g%l@?nested        @?newmessages   @?next          @?noelements    @?objects
+%g%l@?odesc         @?odrop         @?ofail         @?osucc         @?owner
+%g%l@?parent        @?peak          @?pending       @?players       @?properties
+%g%l@?quarter       @?quota         @?rand          @?rank          @?realtime
+%g%l@?result        @?rooms         @?set           @?size          @?succ
 %PAGE
-%g%l@?time          @?totalitems    @?true          @?typeof        @?uptime
-%g%l@?variables     @?version       @?volume        @?weight
+%g%l@?things        @?time          @?totalitems    @?true          @?typeof
+%g%l@?uptime        @?variables     @?version       @?volume        @?weight
 <-SEPARATOR->
 Also, see '%g%l%uhelp menu%x', '%g%l%uhelp 2%x', '%g%l%uhelp 3%x' and '%g%l%uhelp 6%x'.
 
@@ -4933,6 +4932,23 @@ Fails and returns '%c%lError%x' if %y%l<OBJECT>%x can't be found.
 Also, see '%g%l%uhelp @?next%x' and '%g%l%uhelp @fuse%x'.
 
 %COMMENT --------------------------------------------------------------------->
+
+%TOPIC @?global
+%TITLE Help on '%w%l{@?global}%x'
+%c%lUSAGE:  %g%l{@?global <COMMAND>}%x
+
+Returns '%y%lOk%x' (%c%lSuccess%x) if %y%l<COMMAND>%x is successfully registered as a global command, otherwise returns '%y%lError%x' (%c%lFailure%x.).  There is no need to check privilege of the command owner or other flags such as %y%lVALIDATED%x as these are already taken into account.
+
+
+%c%l%$Example:%x
+%~%c~~~~~~~~
+%g%l@if {@?global $1} do @echo Command '$1' is global and may be executed from anywhere.
+
+<-SEPARATOR->
+Also, see '%g%l%uhelp @if%x' and '%g%l%uhelp VALIDATED%x'.
+
+%COMMENT --------------------------------------------------------------------->
+
 
 %TOPIC @?head
 %TITLE Help on '%w%l{@?head}%x'

@@ -25,7 +25,7 @@
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-                     Manual release date:  3/9/2021.
+                     Manual release date:  20/5/2022.
 
 
  TCZ (The Chatting Zone) is an advanced, user-friendly multi-user environment,
@@ -1665,9 +1665,9 @@ In most cases, things are given priority.
   {@?elements}       {@?estring}        {@?evallock}       {@?executed}
   {@?execution}      {@?exists}         {@?exits}          {@?expiry}
   {@?fail}           {@?false}          {@?firstname}      {@?flags}
-  {@?fuses}          {@?id}             {@?image}          {@?index}
-  {@?indexno}        {@?internal}       {@?interval}       {@?key}
-  {@?lastused}       {@?latest}         {@?line}           {@?link}
+  {@?fuses}          {@?global}         {@?id}             {@?image}
+  {@?index}          {@?indexno}        {@?internal}       {@?interval}
+  {@?key}            {@?lastused}       {@?latest}         {@?line}
   {@?location}       {@?lock}           {@?match}          {@?mass}
   {@?messages}       {@?myleaf}         {@?myself}         {@?name}
   {@?nested}         {@?newmessages}    {@?next}           {@?noelements}
@@ -13908,6 +13908,22 @@ In most cases, things are given priority.
   Returns '*NOTHING*' if <OBJECT> has no fuses.
 
   Fails and returns 'Error' if <OBJECT> can't be found.
+
+-------------------------------------------------------------------------------
+
+  {@?global}
+  ~~~~~~~~~~
+  USAGE:  {@?global <COMMAND>}
+
+  Returns 'Ok' (Success) if <COMMAND> is successfully registered as a global
+  command, otherwise returns 'Error' (Failure).  There is no need to check
+  privilege of the command owner or other flags such as VALIDATED as these
+  are already taken into account.
+
+  Example:
+  ~~~~~~~~
+  @if {@?global $1} do @echo Command '$1' is global and may be used from
+  anywhere.
 
 -------------------------------------------------------------------------------
 
