@@ -2531,6 +2531,14 @@ int server_command(struct descriptor_data *d,char *command)
        }
     } else if(!(d->flags & CONNECTED)) {
 
+       if((d->clevel == 1) && (option_loglevel(OPTSTATUS) >= 2)) {
+          if(!strncasecmp(command,"connect ",8) || !strncasecmp(command,"create ",7)) {
+              writelog(COMMAND_LOG,1,"ANON","User attempted to connect/create from %s on descriptor %d.",d->hostname,d->descriptor);
+          } else {
+              writelog(COMMAND_LOG,1,"ANON","Command executed from %s on descriptor %d  >>>>>  %s",d->hostname,d->descriptor,command);
+          }
+       }
+
        d->warning_level = 0;
        
        if(!strcasecmp(command,"WHO") || !strncasecmp(command,"WHO ",4)) {
