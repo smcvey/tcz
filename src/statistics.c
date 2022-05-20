@@ -429,7 +429,7 @@ void stats_others(dbref player,const char *name)
 
      if(Level4(db[player].owner) || Experienced(db[player].owner)) {
         output(p, player, 2, 1, 19, ANSI_LYELLOW " Friends/enemies:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", friends, stats_percent(friends, tfriends), tfriends);
-        output(p, player, 2, 1, 19, ANSI_LYELLOW "  Array elements:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s "ANSI_LWHITE "...out of a total of %d.\n", elements, stats_percent(elements, telements), telements);
+        output(p, player, 2, 1, 19, ANSI_LYELLOW "  Array elements:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", elements, stats_percent(elements, telements), telements);
         output(p, player, 2, 1, 19, ANSI_LYELLOW "  BBS sub-topics:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", subtopics, stats_percent(subtopics, tsubtopics), tsubtopics);
         output(p, player, 2, 1, 19, ANSI_LYELLOW "    BBS messages:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", messages, stats_percent(messages, tmessages), tmessages);
         output(p, player, 2, 1, 19, ANSI_LYELLOW "     BBS readers:  " ANSI_LWHITE "%-10d" ANSI_DWHITE "%-11s" ANSI_LWHITE "...out of a total of %d.\n", readers, stats_percent(readers, treaders), treaders);
