@@ -2635,6 +2635,29 @@ void query_typeof(CONTEXT)
      } else setreturn(ObjectType(object),COMMAND_SUCC);
 }
 
+/* ---->  Return OK if specified command is global  <---- */
+void query_global(CONTEXT)
+{
+     dbref globalcmd = NOTHING;
+     dbref object = query_find_object(player,arg1,SEARCH_PREFERRED,0,0);
+
+     if(Valid(object) && (Typeof(object) == TYPE_COMMAND)) {
+        globalcmd = global_lookup(arg1,1);
+
+        /* searched command might have multiple names */
+        if(globalcmd == NOTHING) {
+            gettextfield(1,';',db[object].name,0,scratch_return_string);
+            globalcmd = global_lookup(scratch_return_string,1);
+        }
+        if((globalcmd != NOTHING) && (globalcmd == object))
+            setreturn(OK,COMMAND_SUCC);
+        else 
+            setreturn(ERROR,COMMAND_FAIL);
+     } else {
+        setreturn(ERROR,COMMAND_FAIL);
+     }    
+}
+
 /* ---->  Return uptime or start time of server  <---- */
 void query_uptime(CONTEXT)
 {

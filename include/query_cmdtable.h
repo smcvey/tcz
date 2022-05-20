@@ -158,6 +158,7 @@ struct cmd_table query_cmds[] = {
        {QUERY_COMMAND, "@?friend",               (void *) query_friend,              0, 0, 0},
        {QUERY_COMMAND, "@?fullname",             (void *) query_fullname,            0, 0, 0},
        {QUERY_COMMAND, "@?fuses",                (void *) query_object,              TYPE_FUSE, 0, 0},
+       {QUERY_COMMAND, "@?global",               (void *) query_global,              0, 0, 0},
        {QUERY_COMMAND, "@?groupitems",           (void *) selection_with,            3, 0, 0},
        {QUERY_COMMAND, "@?groupno",              (void *) group_query_groupno,       0, 0, 0},
        {QUERY_COMMAND, "@?groupnumber",          (void *) group_query_groupno,       0, 0, 0},
