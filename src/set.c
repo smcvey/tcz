@@ -1416,8 +1416,9 @@ void set_name(CONTEXT)
 
      if(!((Typeof(thing) == TYPE_ARRAY) && (elementfrom != NOTHING))) {
         if(!Readonly(thing)) {
-	   if(can_write_to(player,thing,(Level4(player) && (Typeof(thing) == TYPE_CHARACTER)) ? 1:0)) {
+           if(can_write_to(player,thing,(Level4(player) && (Typeof(thing) == TYPE_CHARACTER)) ? 1:0)) {
               if(!Blank(arg2)) {
+               if(!strchr(arg2,'\n')) {
                  ansi_code_filter((char *) arg2,arg2,1);
                  filter_spaces(scratch_buffer,arg2,(Typeof(thing) == TYPE_CHARACTER));
                  if(Typeof(thing) == TYPE_CHARACTER) {
@@ -1538,6 +1539,7 @@ void set_name(CONTEXT)
                        else output(p,player,0,1,0,ANSI_LGREEN"Your name is now '"ANSI_LYELLOW"%s"ANSI_LGREEN"'.",getcname(NOTHING,player,0,UPPER|DEFINITE));
 		 }
                  setreturn(OK,COMMAND_SUCC);
+	       } else output(p,player,0,1,0,ANSI_LGREEN"You cannot include embedded NEWLINE characters in the new name given to %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
 	      } else output(p,player,0,1,0,ANSI_LGREEN"Please specify the new name to give to %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(thing,LOWER,DEFINITE),unparse_object(player,thing,0));
 	   } else if(Level3(db[player].owner)) output(p,player,0,1,0,ANSI_LGREEN"Sorry, you can only change the name of something you own or something owned by someone of a lower level than yourself.");
               else output(p,player,0,1,0,ANSI_LGREEN"Sorry, you can only change the name of something you own.");

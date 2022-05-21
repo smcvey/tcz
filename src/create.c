@@ -105,6 +105,7 @@ dbref create_array(CONTEXT)
       setreturn(ERROR,COMMAND_FAIL);
       if(Builder(Owner(player))) {
 	 if(!Blank(arg1)) {
+          if(!strchr(arg1,'\n')) {
 	    if(strlen(arg1) <= 128) {
 	       if(!strchr(arg1,'[')) {
 		  if(ok_name(arg1)) {
@@ -154,6 +155,7 @@ dbref create_array(CONTEXT)
 		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a dynamic array can't have that name.");
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a dynamic array mustn't contain the character '"ANSI_LWHITE"["ANSI_LGREEN"'.");
 	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a dynamic array's name is 128 characters.");
+	  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a dynamic array mustn't contain embedded NEWLINES.");
 	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new dynamic array.");
       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create dynamic arrays.");
       return(NOTHING);
@@ -167,6 +169,7 @@ dbref create_command(CONTEXT)
       setreturn(ERROR,COMMAND_FAIL);
       if(Builder(Owner(player))) {
 	 if(!Blank(arg1)) {
+          if(!strchr(arg1,'\n')) {
 	    if(strlen(arg1) <= 256) {
 	       if(ok_name(arg1)) {
 		  if(adjustquota(player,owner,COMMAND_QUOTA)) {
@@ -213,6 +216,7 @@ dbref create_command(CONTEXT)
 		  } else warnquota(player,owner,"to build a compound command");
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a compound command can't have that name.");
 	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a compound command's name is 256 characters.");
+	  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a compound command mustn't contain embedded NEWLINES.");
 	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new compound command.");
       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create compound commands.");
       return(NOTHING);
@@ -229,6 +233,7 @@ dbref create_character(CONTEXT)
       if(!in_command) {
 	 if(Level4(Owner(player))) {
 	    if(!Blank(arg1)) {
+	     if(!strchr(arg1,'\n')) {
 	       if(!Blank(arg2)) {
 		  ansi_code_filter((char *) arg1,arg1,1);
 		  filter_spaces((char *) arg1,(char *) arg1,1);
@@ -277,6 +282,7 @@ dbref create_character(CONTEXT)
 			      output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name '"ANSI_LWHITE"%s"ANSI_LGREEN"' is invalid.",arg1);
 		  }
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a password for the new character.");
+	     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a character mustn't contain embedded NEWLINES.");
 	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new character.");
 	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may create new characters.");
       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a new character can't be created from within a compound command.");
@@ -320,6 +326,7 @@ dbref create_duplicate(CONTEXT)
 	 if(!(!Level4(Owner(player)) && !can_write_to(player,object,0))) {
 	    if(!(Private(object) && !can_read_from(player,object))) {
 	       if(!(!Blank(newname) && !ok_name(newname))) {
+	          if(!strchr(newname,'\n')) {
 		  switch(Typeof(object)) {
 			 case TYPE_ALARM:
 			      output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, alarms can't be duplicated.");
@@ -551,6 +558,7 @@ dbref create_duplicate(CONTEXT)
 			return(NOTHING);
 		     }
 		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s can't be duplicated under the ID of a higher level character within a compound command.",object_type(object,1));
+	        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the duplicate object can't have embedded NEWLINE characters.");
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the duplicate object can't have that name.");
 	    } else {
 	       sprintf(scratch_buffer,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is set "ANSI_LYELLOW"PRIVATE"ANSI_LGREEN"  -  Only characters above the level of its owner (",Article(object,LOWER,DEFINITE),unparse_object(player,object,0));
@@ -565,110 +573,114 @@ dbref create_duplicate(CONTEXT)
 /* ---->  Create an exit, and link it to specified room (If specified)  <---- */
 dbref create_exit(CONTEXT)
 {
-      dbref exit,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
+    dbref exit,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
 
-      setreturn(ERROR,COMMAND_FAIL);
-      if(Builder(Owner(player))) {
-	 if(!((Typeof(Location(player)) != TYPE_ROOM) && (!Container(Location(player))))) {
-	    if(!Blank(arg1)) {
-	       if(strlen(arg1) <= 512) {
-		  if(ok_name(arg1)) {
-		     if(!(!Level4(Owner(player)) && !can_write_to(player,Location(player),0))) {
-			if(adjustquota(player,owner,EXIT_QUOTA)) {
+    setreturn(ERROR,COMMAND_FAIL);
+    if(Builder(Owner(player))) {
+        if(!((Typeof(Location(player)) != TYPE_ROOM) && (!Container(Location(player))))) {
+            if(!Blank(arg1)) {
+                if(!strchr(arg1,'\n')) {
+                    if(strlen(arg1) <= 512) {
+                        if(ok_name(arg1)) {
+                            if(!(!Level4(Owner(player)) && !can_write_to(player,Location(player),0))) {
+                                if(adjustquota(player,owner,EXIT_QUOTA)) {
 
-			   /* ---->  Create and initialise exit  <---- */
-			   exit              = new_object();
-			   db[exit].location = Location(player);
-			   db[exit].flags2   = TRANSPORT;
-			   db[exit].flags    = OBJECT|OPEN;
-			   db[exit].owner    = owner;
-                           db[exit].type     = TYPE_EXIT;
+                                    /* ---->  Create and initialise exit  <---- */
+                                    exit              = new_object();
+                                    db[exit].location = Location(player);
+                                    db[exit].flags2   = TRANSPORT;
+                                    db[exit].flags    = OBJECT|OPEN;
+                                    db[exit].owner    = owner;
+                                    db[exit].type     = TYPE_EXIT;
 
-			   if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
-			      db[exit].flags |= SHARABLE;
+                                    if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
+                                        db[exit].flags |= SHARABLE;
 
-			   ansi_code_filter((char *) arg1,arg1,1);
-			   initialise_data(exit);
-			   setfield(exit,NAME,arg1,1);
-			   stats_tcz_update_record(0,0,0,1,0,0,0);
-			   PUSH(exit,db[Location(player)].exits);
+                                    ansi_code_filter((char *) arg1,arg1,1);
+                                    initialise_data(exit);
+                                    setfield(exit,NAME,arg1,1);
+                                    stats_tcz_update_record(0,0,0,1,0,0,0);
+                                    PUSH(exit,db[Location(player)].exits);
 
-			   if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Exit opened with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",exit);
-			   setreturn(getnameid(player,exit,NULL),COMMAND_SUCC);
+                                    if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Exit opened with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",exit);
+                                    setreturn(getnameid(player,exit,NULL),COMMAND_SUCC);
 
-			   /* ---->  Check second parameter to see if exit should be linked  <---- */
-			   if(!Blank(arg2)) {
-			      db[exit].destination = parse_link_destination(player,exit,arg2,0);
-			      if(!in_command && Valid(Destination(exit)))
-				 output(getdsc(player),player,0,1,0,ANSI_LGREEN"Exit linked to %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(Destination(exit),LOWER,DEFINITE),unparse_object(player,Destination(exit),0));
-			   }
-			   return(exit);
-			} else warnquota(player,owner,"to open an exit");
-		     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only open an exit from your own property.");
-		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, an exit can't have that name.");
-	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of an exit's name is 512 characters.");
-	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify the name and short name for the new exit, e.g:  '"ANSI_LWHITE"@open Heavy oak door;oak = #12345"ANSI_LGREEN"'.");
-	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only open an exit from a room or container.");
-      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can open exits.");
-      return(NOTHING);
+                                    /* ---->  Check second parameter to see if exit should be linked  <---- */
+                                    if(!Blank(arg2)) {
+                                        db[exit].destination = parse_link_destination(player,exit,arg2,0);
+                                        if(!in_command && Valid(Destination(exit)))
+                                            output(getdsc(player),player,0,1,0,ANSI_LGREEN"Exit linked to %s"ANSI_LWHITE"%s"ANSI_LGREEN".",Article(Destination(exit),LOWER,DEFINITE),unparse_object(player,Destination(exit),0));
+                                    }
+                                    return(exit);
+                                } else warnquota(player,owner,"to open an exit");
+                            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only open an exit from your own property.");
+                        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, an exit can't have that name.");
+                    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of an exit's name is 512 characters.");
+                } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a exit mustn't contain embedded NEWLINES.");
+            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify the name and short name for the new exit, e.g:  '"ANSI_LWHITE"@open Heavy oak door;oak = #12345"ANSI_LGREEN"'.");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, you can only open an exit from a room or container.");
+    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can open exits.");
+    return(NOTHING);
 }
 
 /* ---->  Create a fuse  <---- */
 dbref create_fuse(CONTEXT)
 {
-      dbref fuse,csuccess,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
+    dbref fuse,csuccess,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
 
-      setreturn(ERROR,COMMAND_FAIL);
-      if(Builder(Owner(player))) {
-	 if(!Blank(arg1)) {
-	    if(strlen(arg1) <= 128) {
-	       if(ok_name(arg1)) {
-		  if(adjustquota(player,owner,FUSE_QUOTA)) {
-		     if(!(in_command && (Owner(player) != Owner(current_command)) && (level_app(Owner(player)) > level_app(Owner(current_command))))) {
+    setreturn(ERROR,COMMAND_FAIL);
+    if(Builder(Owner(player))) {
+        if(!Blank(arg1)) {
+            if(!strchr(arg1,'\n')) {
+                if(strlen(arg1) <= 128) {
+                    if(ok_name(arg1)) {
+                        if(adjustquota(player,owner,FUSE_QUOTA)) {
+                            if(!(in_command && (Owner(player) != Owner(current_command)) && (level_app(Owner(player)) > level_app(Owner(current_command))))) {
 
-			/* ---->  Create and initialise fuse  <---- */
-			fuse                 = new_object();
-			db[fuse].location    = player;
-			db[fuse].destination = NOTHING;
-			db[fuse].flags       = OBJECT;
-			db[fuse].owner       = owner;
-			db[fuse].type        = TYPE_FUSE;
+                                /* ---->  Create and initialise fuse  <---- */
+                                fuse                 = new_object();
+                                db[fuse].location    = player;
+                                db[fuse].destination = NOTHING;
+                                db[fuse].flags       = OBJECT;
+                                db[fuse].owner       = owner;
+                                db[fuse].type        = TYPE_FUSE;
 
-			if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
-			   db[fuse].flags |= SHARABLE;
+                                if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
+                                    db[fuse].flags |= SHARABLE;
 
-			ansi_code_filter((char *) arg1,arg1,1);
-			initialise_data(fuse);
-			setfield(fuse,NAME,arg1,1);
-			stats_tcz_update_record(0,0,0,1,0,0,0);
-			PUSH(fuse,db[player].fuses);
+                                ansi_code_filter((char *) arg1,arg1,1);
+                                initialise_data(fuse);
+                                setfield(fuse,NAME,arg1,1);
+                                stats_tcz_update_record(0,0,0,1,0,0,0);
+                                PUSH(fuse,db[player].fuses);
 
-			/* ---->  Warn of possible hacking  <---- */
-			if(in_command && (Owner(player) != Owner(current_command)) && (level_app(Owner(player)) >= level_app(Owner(current_command)))) {
-			   if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","Fuse %s(#%d) created with %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)",getname(fuse),fuse,getname(Owner(player)),Owner(player),getname(current_command),current_command,getname(Owner(current_command)),Owner(current_command));
-			   sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Fuse "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",unparse_object(player,fuse,0));
-			   sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(Owner(current_command),current_command,0));
-			   output(getdsc(player),player,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)",scratch_buffer,Article(Owner(current_command),LOWER,INDEFINITE),getcname(player,Owner(current_command),1,0));
-			}
-			if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Fuse "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",getfield(fuse,NAME),fuse);
+                                /* ---->  Warn of possible hacking  <---- */
+                                if(in_command && (Owner(player) != Owner(current_command)) && (level_app(Owner(player)) >= level_app(Owner(current_command)))) {
+                                    if(!Wizard(current_command)) writelog(HACK_LOG,1,"HACK","Fuse %s(#%d) created with %s(#%d)'s ownership within compound command %s(#%d) (Owned by %s(#%d).)",getname(fuse),fuse,getname(Owner(player)),Owner(player),getname(current_command),current_command,getname(Owner(current_command)),Owner(current_command));
+                                    sprintf(scratch_buffer,ANSI_LRED"["ANSI_UNDERLINE"WARNING"ANSI_LRED"]  "ANSI_LWHITE"Fuse "ANSI_LYELLOW"%s"ANSI_LWHITE" created with your ownership from within compound command ",unparse_object(player,fuse,0));
+                                    sprintf(scratch_buffer + strlen(scratch_buffer),ANSI_LYELLOW"%s"ANSI_LWHITE" (Owned by ",unparse_object(Owner(current_command),current_command,0));
+                                    output(getdsc(player),player,0,1,11,"%s%s"ANSI_LYELLOW"%s"ANSI_LWHITE".)",scratch_buffer,Article(Owner(current_command),LOWER,INDEFINITE),getcname(player,Owner(current_command),1,0));
+                                }
+                                if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Fuse "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",getfield(fuse,NAME),fuse);
 
-			/* ---->  Set csuccess of fuse?  <---- */
-			if(!Blank(arg2)) {
-			   csuccess = parse_link_command(player,fuse,arg2,0);
-			   if(Valid(csuccess)) {
-			      db[fuse].contents = csuccess;
-			      if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Csuccess of fuse linked to "ANSI_LWHITE"%s"ANSI_LGREEN".",unparse_object(player,csuccess,0));
-			   }
-			}
-			setreturn(getnameid(player,fuse,NULL),COMMAND_SUCC);
-                        return(fuse);
-		     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a fuse can't be created under the ID of a higher level character within a compound command.");
-		  } else warnquota(player,owner,"to build a fuse");
-	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a fuse can't have that name.");
-	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a fuse's name is 128 characters.");
-	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new fuse.");
-      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create fuses.");
-      return(NOTHING);
+                                /* ---->  Set csuccess of fuse?  <---- */
+                                if(!Blank(arg2)) {
+                                    csuccess = parse_link_command(player,fuse,arg2,0);
+                                    if(Valid(csuccess)) {
+                                        db[fuse].contents = csuccess;
+                                        if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Csuccess of fuse linked to "ANSI_LWHITE"%s"ANSI_LGREEN".",unparse_object(player,csuccess,0));
+                                    }
+                                }
+                                setreturn(getnameid(player,fuse,NULL),COMMAND_SUCC);
+                                return(fuse);
+                            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a fuse can't be created under the ID of a higher level character within a compound command.");
+                        } else warnquota(player,owner,"to build a fuse");
+                    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a fuse can't have that name.");
+                } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a fuse's name is 128 characters.");
+            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a fuse mustn't contain embedded NEWLINES.");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new fuse.");
+    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create fuses.");
+    return(NOTHING);
 }
 
 /* ---->  {J.P.Boggis 23/07/2000}  Create home room  <---- */
@@ -740,138 +752,140 @@ dbref create_homeroom(dbref player,unsigned char warn,unsigned char sethome,unsi
 /*        (Val2:  0 = Normal, 1 = db_create())  */
 dbref create_room(CONTEXT)
 {
-      dbref room,owner;
+    dbref room,owner;
 
-      setreturn(ERROR,COMMAND_FAIL);
-      if(!val2) owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
+    setreturn(ERROR,COMMAND_FAIL);
+    if(!val2) owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
 
-      if(val2 || Builder(Owner(player))) {
-	 if(val2 || !Blank(arg1)) {
-	    if(val2 || !strchr(arg1,'\n')) {
-	       if(val2 || (strlen(arg1) <= 128)) {
-		  if(val2 || ok_name(arg1)) {
-		     if(val2 || adjustquota(player,owner,ROOM_QUOTA)) {
+    if(val2 || Builder(Owner(player))) {
+        if(val2 || !Blank(arg1)) {
+            if(val2 || !strchr(arg1,'\n')) {
+                if(val2 || (strlen(arg1) <= 128)) {
+                    if(val2 || ok_name(arg1)) {
+                        if(val2 || adjustquota(player,owner,ROOM_QUOTA)) {
 
-			/* ---->  Create and initialise room  <---- */
-			room                 = new_object();
-			db[room].destination = NOTHING;
-			db[room].location    = NOTHING;
-			db[room].flags2      = (FINANCE|TRANSPORT|VISIT|WARP);
-			db[room].owner       = (val2) ? ROOT:owner;
-			db[room].flags       = HAVEN|OBJECT|YELL|OPENABLE;
-                        db[room].type        = TYPE_ROOM;
+                            /* ---->  Create and initialise room  <---- */
+                            room                 = new_object();
+                            db[room].destination = NOTHING;
+                            db[room].location    = NOTHING;
+                            db[room].flags2      = (FINANCE|TRANSPORT|VISIT|WARP);
+                            db[room].owner       = (val2) ? ROOT:owner;
+                            db[room].flags       = HAVEN|OBJECT|YELL|OPENABLE;
+                            db[room].type        = TYPE_ROOM;
 
-			if(!in_command && !val2 && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
-			   db[room].flags |= SHARABLE;
+                            if(!in_command && !val2 && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
+                                db[room].flags |= SHARABLE;
 
-			if(!val2) ansi_code_filter((char *) arg1,arg1,1);
-			initialise_data(room);
-			setfield(room,NAME,arg1,1);
-			setfield(room,DESC,arg2,0);
-			stats_tcz_update_record(0,0,0,1,0,0,0);
+                            if(!val2) ansi_code_filter((char *) arg1,arg1,1);
+                            initialise_data(room);
+                            setfield(room,NAME,arg1,1);
+                            setfield(room,DESC,arg2,0);
+                            stats_tcz_update_record(0,0,0,1,0,0,0);
 
-			if(!in_command && !val2) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Room "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",getname(room),room);
-			if(!val2) setreturn(getnameid(player,room,NULL),COMMAND_SUCC);
-                        return(room);
-		     } else warnquota(player,owner,"to build a room");
-		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a room can't have that name.");
-	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a room's name is 128 characters.");
-	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a room mustn't contain embedded NEWLINES.");
-	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new room.");
-      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can build new rooms.");
-      return(NOTHING);
+                            if(!in_command && !val2) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Room "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",getname(room),room);
+                            if(!val2) setreturn(getnameid(player,room,NULL),COMMAND_SUCC);
+                            return(room);
+                        } else warnquota(player,owner,"to build a room");
+                    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a room can't have that name.");
+                } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a room's name is 128 characters.");
+            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a room mustn't contain embedded NEWLINES.");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new room.");
+    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can build new rooms.");
+    return(NOTHING);
 }
 
 /* ---->  Create a thing  <---- */
 dbref create_thing(CONTEXT)
 {
-      dbref thing,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
+    dbref thing,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
 
-      setreturn(ERROR,COMMAND_FAIL);
-      if(Builder(Owner(player))) {
-	 if(!Blank(arg1)) {
-	    if(strlen(arg1) <= 128) {
-	       if(ok_name(arg1)) {
-		  if((find_volume_of_contents(player,0) + STANDARD_THING_VOLUME) <= db[player].data->player.volume) {
-		     if((find_mass_of_contents(player,0) + STANDARD_THING_MASS) <= (STANDARD_CHARACTER_STRENGTH / 10)) {
-			if(adjustquota(player,owner,THING_QUOTA)) {
-			   if(!strchr(arg1,'\n')) {
+    setreturn(ERROR,COMMAND_FAIL);
+    if(Builder(Owner(player))) {
+        if(!Blank(arg1)) {
+            if(!strchr(arg1,'\n')) {
+                if(strlen(arg1) <= 128) {
+                    if(ok_name(arg1)) {
+                        if((find_volume_of_contents(player,0) + STANDARD_THING_VOLUME) <= db[player].data->player.volume) {
+                            if((find_mass_of_contents(player,0) + STANDARD_THING_MASS) <= (STANDARD_CHARACTER_STRENGTH / 10)) {
+                                if(adjustquota(player,owner,THING_QUOTA)) {
 
-			      /* ---->  Create and initialise thing  <---- */
-			      thing                 = new_object();
-			      db[thing].destination = NOTHING;
-			      db[thing].location    = player;
-			      db[thing].flags       = OBJECT|OPAQUE;
-			      db[thing].owner       = owner;
-			      db[thing].type        = TYPE_THING;
+                                    /* ---->  Create and initialise thing  <---- */
+                                    thing                 = new_object();
+                                    db[thing].destination = NOTHING;
+                                    db[thing].location    = player;
+                                    db[thing].flags       = OBJECT|OPAQUE;
+                                    db[thing].owner       = owner;
+                                    db[thing].type        = TYPE_THING;
 
-			      if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
-				 db[thing].flags |= SHARABLE;
+                                    if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
+                                        db[thing].flags |= SHARABLE;
 
-			      ansi_code_filter((char *) arg1,arg1,1);
-			      initialise_data(thing);
-			      setfield(thing,NAME,arg1,1);
-			      setfield(thing,DESC,arg2,0);
-			      stats_tcz_update_record(0,0,0,1,0,0,0);
+                                    ansi_code_filter((char *) arg1,arg1,1);
+                                    initialise_data(thing);
+                                    setfield(thing,NAME,arg1,1);
+                                    setfield(thing,DESC,arg2,0);
+                                    stats_tcz_update_record(0,0,0,1,0,0,0);
 
-			      /* ---->  Home is here (If can link to it) or character's home  <---- */
-			      if(Valid(Location(player)) && can_link_or_home_to(player,Location(player)))
-                                 db[thing].destination = Location(player);
-				    else db[thing].destination = Destination(Owner(player));
-			      PUSH(thing,db[player].contents);
+                                    /* ---->  Home is here (If can link to it) or character's home  <---- */
+                                    if(Valid(Location(player)) && can_link_or_home_to(player,Location(player)))
+                                        db[thing].destination = Location(player);
+                                    else db[thing].destination = Destination(Owner(player));
+                                    PUSH(thing,db[player].contents);
 
-			      if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Thing "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",getfield(thing,NAME),thing);
-			      setreturn(getnameid(player,thing,NULL),COMMAND_SUCC);
-                              return(thing);
-			   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a thing mustn't contain embedded NEWLINES.");
-			} else warnquota(player,owner,"to build a thing");
-		     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"The extra weight makes you stagger  -  You drop the object and it disintegrates.");
-		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, your hands are full  -  Please drop some objects first.");
-	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a thing can't have that name.");
-	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a thing's name is 128 characters.");
-	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new thing.");
-      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create things.");
-      return(NOTHING);
+                                    if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Thing "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",getfield(thing,NAME),thing);
+                                    setreturn(getnameid(player,thing,NULL),COMMAND_SUCC);
+                                    return(thing);
+                                } else warnquota(player,owner,"to build a thing");
+                            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"The extra weight makes you stagger  -  You drop the object and it disintegrates.");
+                        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, your hands are full  -  Please drop some objects first.");
+                    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a thing can't have that name.");
+                } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a thing's name is 128 characters.");
+            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a thing mustn't contain embedded NEWLINES.");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new thing.");
+    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create things.");
+    return(NOTHING);
 }
 
 /* ---->     Create a variable or property      <---- */
 /*        (val1:  0 = Variable, 1 = Property.)        */
 dbref create_variable_property(CONTEXT)
 {
-      dbref object,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
+    dbref object,owner = (!in_command && (Uid(player) != player)) ? Uid(player):Owner(player);
 
-      setreturn(ERROR,COMMAND_FAIL);
-      if(Builder(Owner(player))) {
-	 if(!Blank(arg1)) {
-	    if(strlen(arg1) <= 128) {
-	       if(ok_name(arg1)) {
-		  if(adjustquota(player,owner,(val1) ? PROPERTY_QUOTA:VARIABLE_QUOTA)) {
+    setreturn(ERROR,COMMAND_FAIL);
+    if(Builder(Owner(player))) {
+        if(!Blank(arg1)) {
+            if(!strchr(arg1,'\n')) {
+                if(strlen(arg1) <= 128) {
+                    if(ok_name(arg1)) {
+                        if(adjustquota(player,owner,(val1) ? PROPERTY_QUOTA:VARIABLE_QUOTA)) {
 
-		     /* ---->  Create and initialise variable/property  <---- */
-		     object                 = new_object();
-		     db[object].destination = NOTHING;
-		     db[object].location    = player;
-		     db[object].flags       = OBJECT;
-		     db[object].owner       = owner;
-		     db[object].type        = (val1) ? TYPE_PROPERTY:TYPE_VARIABLE;
+                            /* ---->  Create and initialise variable/property  <---- */
+                            object                 = new_object();
+                            db[object].destination = NOTHING;
+                            db[object].location    = player;
+                            db[object].flags       = OBJECT;
+                            db[object].owner       = owner;
+                            db[object].type        = (val1) ? TYPE_PROPERTY:TYPE_VARIABLE;
 
-		     if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
-			db[object].flags |= SHARABLE;
+                            if(!in_command && (Uid(player) == owner) && friendflags_set(owner,player,NOTHING,FRIEND_SHARABLE))
+                                db[object].flags |= SHARABLE;
 
-		     ansi_code_filter((char *) arg1,arg1,1);
-		     initialise_data(object);
-		     setfield(object,NAME,arg1,1);
-		     setfield(object,DESC,arg2,0);
-		     stats_tcz_update_record(0,0,0,1,0,0,0);
-		     PUSH(object,db[player].variables);
+                            ansi_code_filter((char *) arg1,arg1,1);
+                            initialise_data(object);
+                            setfield(object,NAME,arg1,1);
+                            setfield(object,DESC,arg2,0);
+                            stats_tcz_update_record(0,0,0,1,0,0,0);
+                            PUSH(object,db[player].variables);
 
-		     if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",(val1) ? "Property":"Variable",getfield(object,NAME),object);
-		     setreturn(getnameid(player,object,NULL),COMMAND_SUCC);
-		     return(object);
-		  } else warnquota(player,owner,(val1) ? "to build a property":"to build a variable");
-	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a %s can't have that name.",(val1) ? "property":"variable");
-	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a %s's name is 128 characters.",(val1) ? "property":"variable");
-	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new %s.",(val1) ? "property":"variable");
-      } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create %s.",(val1) ? "properties":"variables");
-      return(NOTHING);
+                            if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s "ANSI_LWHITE"%s"ANSI_LGREEN" created with ID "ANSI_LYELLOW"#%d"ANSI_LGREEN".",(val1) ? "Property":"Variable",getfield(object,NAME),object);
+                            setreturn(getnameid(player,object,NULL),COMMAND_SUCC);
+                            return(object);
+                        } else warnquota(player,owner,(val1) ? "to build a property":"to build a variable");
+                    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a %s can't have that name.",(val1) ? "property":"variable");
+                } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a %s's name is 128 characters.",(val1) ? "property":"variable");
+            } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a %s mustn't contain embedded NEWLINES.",(val1) ? "property":"variable");
+        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new %s.",(val1) ? "property":"variable");
+    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create %s.",(val1) ? "properties":"variables");
+    return(NOTHING);
 }
