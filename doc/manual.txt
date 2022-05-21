@@ -15615,7 +15615,7 @@ In most cases, things are given priority.
   {@?version}
   ~~~~~~~~~~~
   USAGE:  {@?version [codebase|codedesc|codename|compiled]}
-          {@?version [version|os|website]}
+          {@?version [version|os]}
 
   With no parameters, '{@?version}' returns the name and short name of the
   TCZ-based MUD, along with the version, code base, project name, operating
@@ -15632,10 +15632,8 @@ In most cases, things are given priority.
   CodeName   Returns the code base project name (E.g:  'Odyssey')
   Compiled   Returns the source code compilation date and time (E.g:  'Dec 3
              2003 16:30:10')
-  Version    Returns the code base version number (E.g:  'v4.3.0')
+  Version    Returns the code base version number (E.g:  'v4.4.2')
   OS         Returns the operating system (E.g:  'Linux'.)
-  WebSite    Returns the code base web site (E.g:
-  	     'https://github.com/smcvey/tcz')
 
 -------------------------------------------------------------------------------
 

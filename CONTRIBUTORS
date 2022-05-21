@@ -35,8 +35,9 @@ commands 'modules' and 'authors' within any TCZ-based MUD.
  Nick Huggins 	       1990-1991   Developer of UglyMUG code on which TCZ is
  (N/A)                             based.
 -------------------------------------------------------------------------------
- Noah Anderson         2020-2021   Joined TCZ development.
- (Starace)
+ Noah Anderson         2020        Joined TCZ development
+ (Starace)             2020-2022   Developed TCZ v4.3.2 through present.
+                                   Updated source to run properly on Linux 7/8
 -------------------------------------------------------------------------------
  Peter Crowther	       1990-1991   Developer of UglyMUG code on which TCZ is
  (Ozzard)                          based.
