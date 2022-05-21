@@ -66,6 +66,7 @@ const char *bbs_logmsg(struct bbs_message_data *message,struct bbs_topic_data *t
       if(anon || (message->flags & MESSAGE_ANON)) strcat(logbuffer + strlen(logbuffer),"<ANONYMOUS>");
          else sprintf(logbuffer + strlen(logbuffer),"%s (%s(#%d))",decompress(message->name),getname(message->owner),message->owner);
       sprintf(logbuffer + strlen(logbuffer)," in the %stopic '%s%s%s':  ",(subtopic) ? "sub-":"",(subtopic) ? subtopic->name:"",(subtopic) ? "/":"",topic->name);
+      ansi_code_filter(logbuffer,logbuffer,1);
       return(logbuffer);
 }
 
