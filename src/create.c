@@ -105,7 +105,7 @@ dbref create_array(CONTEXT)
       setreturn(ERROR,COMMAND_FAIL);
       if(Builder(Owner(player))) {
 	 if(!Blank(arg1)) {
-       if(!strchr(arg1,'\n')) {
+          if(!strchr(arg1,'\n')) {
 	    if(strlen(arg1) <= 128) {
 	       if(!strchr(arg1,'[')) {
 		  if(ok_name(arg1)) {
@@ -155,7 +155,7 @@ dbref create_array(CONTEXT)
 		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a dynamic array can't have that name.");
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a dynamic array mustn't contain the character '"ANSI_LWHITE"["ANSI_LGREEN"'.");
 	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of a dynamic array's name is 128 characters.");
-			   } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a dynamic array mustn't contain embedded NEWLINES.");
+	  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a dynamic array mustn't contain embedded NEWLINES.");
 	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new dynamic array.");
       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Builders can create dynamic arrays.");
       return(NOTHING);
@@ -169,7 +169,7 @@ dbref create_command(CONTEXT)
       setreturn(ERROR,COMMAND_FAIL);
       if(Builder(Owner(player))) {
 	 if(!Blank(arg1)) {
-       if(!strchr(arg1,'\n')) {
+          if(!strchr(arg1,'\n')) {
 	    if(strlen(arg1) <= 256) {
 	       if(ok_name(arg1)) {
 		  if(adjustquota(player,owner,COMMAND_QUOTA)) {
@@ -233,7 +233,7 @@ dbref create_character(CONTEXT)
       if(!in_command) {
 	 if(Level4(Owner(player))) {
 	    if(!Blank(arg1)) {
-         if(!strchr(arg1,'\n')) {
+	     if(!strchr(arg1,'\n')) {
 	       if(!Blank(arg2)) {
 		  ansi_code_filter((char *) arg1,arg1,1);
 		  filter_spaces((char *) arg1,(char *) arg1,1);
@@ -282,7 +282,7 @@ dbref create_character(CONTEXT)
 			      output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name '"ANSI_LWHITE"%s"ANSI_LGREEN"' is invalid.",arg1);
 		  }
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a password for the new character.");
-		} else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a character mustn't contain embedded NEWLINES.");
+	     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the name of a character mustn't contain embedded NEWLINES.");
 	    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Please specify a name for the new character.");
 	 } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, only Apprentice Wizards/Druids and above may create new characters.");
       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, a new character can't be created from within a compound command.");
@@ -326,7 +326,7 @@ dbref create_duplicate(CONTEXT)
 	 if(!(!Level4(Owner(player)) && !can_write_to(player,object,0))) {
 	    if(!(Private(object) && !can_read_from(player,object))) {
 	       if(!(!Blank(newname) && !ok_name(newname))) {
-           if(!strchr(newname,'\n')) {
+	          if(!strchr(newname,'\n')) {
 		  switch(Typeof(object)) {
 			 case TYPE_ALARM:
 			      output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, alarms can't be duplicated.");
@@ -558,7 +558,7 @@ dbref create_duplicate(CONTEXT)
 			return(NOTHING);
 		     }
 		  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s can't be duplicated under the ID of a higher level character within a compound command.",object_type(object,1));
-           } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the duplicate object can't have embedded NEWLINE characters.");
+	        } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the duplicate object can't have embedded NEWLINE characters.");
 	       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the duplicate object can't have that name.");
 	    } else {
 	       sprintf(scratch_buffer,ANSI_LGREEN"Sorry, %s"ANSI_LWHITE"%s"ANSI_LGREEN" is set "ANSI_LYELLOW"PRIVATE"ANSI_LGREEN"  -  Only characters above the level of its owner (",Article(object,LOWER,DEFINITE),unparse_object(player,object,0));
