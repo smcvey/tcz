@@ -2443,7 +2443,7 @@ void set_profile(CONTEXT)
                     /* ---->  Picture (URL)  <---- */
                     if(strlen(params) <= PROFILE_PICTURE) {
                        if(!strchr(params,'\n')) {
-                          if(Level2(player) || Blank(params) || !strncasecmp(params,"http:",5) || !strncasecmp(params,"https:",5) || !strncasecmp(params,"ftp:",4)) {
+                          if(Level2(player) || Blank(params) || !strncasecmp(params,"http:",5) || !strncasecmp(params,"https:",6) || !strncasecmp(params,"ftp:",4)) {
                              if(Level2(player) || Blank(params) || instring("/?",params) || ((extptr = (char *) strrchr(params,'.')) && (!strcasecmp(extptr + 1,"gif") || !strcasecmp(extptr + 1,"jpg") || !strcasecmp(extptr + 1,"jpeg") || !strcasecmp(extptr + 1,"html") || !strcasecmp(extptr + 1,"htm")))) {
                                 set_profile_init(character);
                                 ansi_code_filter(params,params,1);
