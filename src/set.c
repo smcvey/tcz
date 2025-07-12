@@ -2443,7 +2443,7 @@ void set_profile(CONTEXT)
                     /* ---->  Picture (URL)  <---- */
                     if(strlen(params) <= PROFILE_PICTURE) {
                        if(!strchr(params,'\n')) {
-                          if(Level2(player) || Blank(params) || !strncasecmp(params,"http:",5) || !strncasecmp(params,"ftp:",4)) {
+                          if(Level2(player) || Blank(params) || !strncasecmp(params,"http:",5) || !strncasecmp(params,"https:",5) || !strncasecmp(params,"ftp:",4)) {
                              if(Level2(player) || Blank(params) || instring("/?",params) || ((extptr = (char *) strrchr(params,'.')) && (!strcasecmp(extptr + 1,"gif") || !strcasecmp(extptr + 1,"jpg") || !strcasecmp(extptr + 1,"jpeg") || !strcasecmp(extptr + 1,"html") || !strcasecmp(extptr + 1,"htm")))) {
                                 set_profile_init(character);
                                 ansi_code_filter(params,params,1);
@@ -2453,7 +2453,7 @@ void set_profile(CONTEXT)
                                 if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"%s picture (URL) is %s.",buffer,scratch_buffer);
                                 setreturn(OK,COMMAND_SUCC);
 			     } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s picture (URL) in %s profile must end with either '"ANSI_LWHITE".gif"ANSI_LGREEN"', '"ANSI_LWHITE".jpg"ANSI_LGREEN"' or '"ANSI_LWHITE".jpeg"ANSI_LGREEN"'.",(player == character) ? "your":"a character's",(player == character) ? "your":"their");
-			  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s picture (URL) in %s profile must begin with either '"ANSI_LWHITE"http:"ANSI_LGREEN"' or '"ANSI_LWHITE"ftp:"ANSI_LGREEN"'.",(player == character) ? "your":"a character's",(player == character) ? "your":"their");
+			  } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s picture (URL) in %s profile must begin with either '"ANSI_LWHITE"http:"ANSI_LGREEN"', '"ANSI_LWHITE"https:"ANSI_LGREEN"' or '"ANSI_LWHITE"ftp:"ANSI_LGREEN"'.",(player == character) ? "your":"a character's",(player == character) ? "your":"their");
 		       } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, %s picture (URL) in %s profile can't contain embedded NEWLINE's.",(player == character) ? "your":"a character's",(player == character) ? "your":"their");
 		    } else output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the maximum length of %s picture (URL) in %s profile is %d characters.",(player == character) ? "your":"a character's",(player == character) ? "your":"their",PROFILE_PICTURE);
 		 } else if(string_prefix("email",scratch_return_string) || string_prefix("emailaddress",scratch_return_string)) {
