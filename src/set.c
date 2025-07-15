@@ -2808,7 +2808,7 @@ void set_www(CONTEXT)
            if(!Readonly(character)) {
 	      if(strlen(arg2) <= 128) {
                  if(Level2(db[player].owner) || !strchr(arg2,'\n')) {
-                    if(!Level2(player) && !Blank(arg2) && strncasecmp(arg2,"http://",7))
+                    if(!Level2(player) && !Blank(arg2) && strncasecmp(arg2,"http://",7) && strncasecmp(arg2,"https://",8))
                        sprintf(scratch_return_string,"http://%s",arg2);
                           else strcpy(scratch_return_string,arg2);
 
