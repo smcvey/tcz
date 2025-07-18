@@ -513,9 +513,12 @@ void calculate_evaluate(CONTEXT)
 		   }
 
                    if(numeric) {
+                      int force_float = (floating || 
+                         (bool_op == CALC_CONVFLOAT) || 
+                         CALC_SCIENTIFIC(bool_op)) && bool_op != CALC_CONVINT;
 
                       /* ---->  Numeric op.  <---- */
-                      if(floating && ((bool_op != CALC_CONVINT) || (bool_op == CALC_CONVFLOAT) || CALC_SCIENTIFIC(bool_op))) {
+                      if(force_float) { 
                          temp.calcfloat = tofloat(calcbuf,&dps);
                          if((dps != NOTHING) && ((dp == NOTHING) || (dps > dp))) dp = dps;
                          if(negate) temp.calcfloat = 0 - temp.calcfloat;
