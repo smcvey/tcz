@@ -14880,6 +14880,7 @@ Type '%g%l%uhelp set term%x' for help on the next '%g%l%uset%x' command...
 %c%lUSAGE:  %g%lset wrap [=] [<SCREEN WIDTH>]
         set wrap [=] off
         set wrap [=] on
+        set wrap [=] auto
         set wrap%x
 
 Allows you to set your preferences for word-wrapping.  If %@%m can work out what terminal you're using when you connect, word-wrap is set automatically for you, otherwise an %c%l80 character wide%x screen is assumed.
@@ -14888,7 +14889,11 @@ You can change word-wrap to suit your screen by typing '%g%lset wrap%x' followed
 
 '%g%lset wrap on%x' turns word wrapping on (With screen width set to the default of %c%l80 characters%x), and '%g%lset wrap off%x' turns word wrapping off.
 
+'%g%lset wrap auto%x' lets your Telnet client set your screen width automatically each time you connect (And whenever you resize its window.)  This is the default.
+
 '%g%lset wrap%x' with no parameters displays the current status of word wrapping and your current set screen width.
+
+%c%lNOTE:  %xYour word wrap setting (%g%lon%x, %g%loff%x or a screen width) is remembered when you disconnect, and is not overridden by your Telnet client.  Type '%g%lset wrap auto%x' to go back to automatic.
 <-SEPARATOR->
 Type '%g%l%uhelp set scrheight%x' for help on the next '%g%l%uset%x' command...
 
@@ -14907,7 +14912,7 @@ Your screen height setting is used to determine the number of entries per page o
 
 '%g%lset scrheight%x' with no parameters displays your current set screen height.
 
-%c%lNOTE:  %xYour screen width setting is remembered when you disconnect.
+%c%lNOTE:  %xYour screen height setting is remembered when you disconnect.
 <-SEPARATOR->
 Type '%g%l%uhelp set lftocr%x' for help on the next '%g%l%uset%x' command...
 

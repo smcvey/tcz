@@ -339,6 +339,36 @@ void prefs_underlining(dbref player,struct descriptor_data *d,const char *status
      setreturn(OK,COMMAND_SUCC);
 }
 
+/* ---->  Get saved word wrap setting of character connected to descriptor (PREFS_WRAP_AUTO if none/not connected)  <---- */
+static int prefs_wrap_get(struct descriptor_data *d)
+{
+       if(!d || !(d->flags & CONNECTED) || !Validchar(d->player)) return(PREFS_WRAP_AUTO);
+       return((PrefFlags(d->player) & PREFS_WRAP_MASK) >> PREFS_WRAP_SHIFT);
+}
+
+/* ---->  Save word wrap setting on character connected to descriptor  <---- */
+static void prefs_wrap_store(struct descriptor_data *d,int value)
+{
+       if(!d || !(d->flags & CONNECTED) || !Validchar(d->player)) return;
+       db[d->player].data->player.prefflags &= ~PREFS_WRAP_MASK;
+       db[d->player].data->player.prefflags |= ((value << PREFS_WRAP_SHIFT) & PREFS_WRAP_MASK);
+}
+
+/* ---->  Has the character connected to descriptor saved a word wrap setting?  (If so, Telnet NAWS/terminal type must not override it)  <---- */
+int prefs_wrap_saved(struct descriptor_data *d)
+{
+    return(prefs_wrap_get(d) != PREFS_WRAP_AUTO);
+}
+
+/* ---->  Apply character's saved word wrap setting to descriptor (Called on connect)  <---- */
+void prefs_wrap_apply(struct descriptor_data *d)
+{
+     int value = prefs_wrap_get(d);
+
+     if(value == PREFS_WRAP_OFF) d->terminal_width = 0;
+        else if((value >= 44) && (value <= 256)) d->terminal_width = value - 1;
+}
+
 /* ---->  Set word wrap  <---- */
 void prefs_wrap(dbref player,struct descriptor_data *d,char *width)
 {
@@ -348,12 +378,19 @@ void prefs_wrap(dbref player,struct descriptor_data *d,char *width)
      if(!d) d = getdsc(player);
      if(!d) return;
 
-     if(!Blank(width)) {
+     if(!Blank(width) && string_prefix("automatic",width)) {
+
+        /* ---->  Clear saved setting  -  Let the user's Telnet client (NAWS) set the screen width  <---- */
+        prefs_wrap_store(d,PREFS_WRAP_AUTO);
+        if(!d->terminal_width) d->terminal_width = STANDARD_CHARACTER_SCRWIDTH - 1;
+        if(!in_command) output(d,player,0,1,0,ANSI_LGREEN"Word wrap is now "ANSI_LWHITE"automatic"ANSI_LGREEN" (Your screen width will be set by your Telnet client.)");
+        setreturn(OK,COMMAND_SUCC);
+     } else if(!Blank(width)) {
         if((i = atol(width)) >= 0) {
            if(!((i > 0) && (i < 44))) {
               if(!string_prefix("on",width)) {
                  if((i == 0) && !Blank(width) && !string_prefix("off",width)) {
-                    output(d,player,0,1,0,ANSI_LGREEN"Please specify the width of your screen.");
+                    output(d,player,0,1,0,ANSI_LGREEN"Please specify the width of your screen, "ANSI_LWHITE"on"ANSI_LGREEN", "ANSI_LWHITE"off"ANSI_LGREEN" or "ANSI_LWHITE"auto"ANSI_LGREEN".");
                     return;
 		 }
 	      } else i = 80;
@@ -361,6 +398,9 @@ void prefs_wrap(dbref player,struct descriptor_data *d,char *width)
               if(i) i = MIN(MAX(i,44),256);
               if(i > 0) d->terminal_width = i - 1;
  	         else d->terminal_width = 0;
+
+              /* ---->  Remember setting on character, so it persists between connections  <---- */
+              prefs_wrap_store(d,(i > 0) ? i:PREFS_WRAP_OFF);
 
               if(!in_command) {
                  if(d->terminal_width != 0) output(d,player,0,1,0,ANSI_LGREEN"Screen width (Word wrap) set to "ANSI_LWHITE"%d"ANSI_LGREEN" character%s.",i,Plural(i));
@@ -371,7 +411,7 @@ void prefs_wrap(dbref player,struct descriptor_data *d,char *width)
 	} else if(!in_command) output(d,player,0,1,0,ANSI_LGREEN"Sorry, you can't set your screen width to a negative value.");
      } else {
         if(!in_command) {
-           if(d->terminal_width != 0) output(d,player,0,1,0,ANSI_LGREEN"Word wrap is "ANSI_LWHITE"on"ANSI_LGREEN".\nYour screen width is "ANSI_LWHITE"%d"ANSI_LGREEN" characters.",d->terminal_width + 1);
+           if(d->terminal_width != 0) output(d,player,0,1,0,ANSI_LGREEN"Word wrap is "ANSI_LWHITE"on"ANSI_LGREEN"%s.\nYour screen width is "ANSI_LWHITE"%d"ANSI_LGREEN" characters.",prefs_wrap_saved(d) ? "":" (Automatic)",d->terminal_width + 1);
    	      else output(d,player,0,1,0,ANSI_LGREEN"Word wrap is "ANSI_LWHITE"off"ANSI_LGREEN".");
 	}
         setreturn(OK,COMMAND_SUCC);

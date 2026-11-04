@@ -479,7 +479,7 @@ int server_process_input(struct descriptor_data *d)
 
                   /* ---->  Window size  <---- */
                   if(++q < qend) {
-                     d->terminal_width = MIN(MAX((*q * 256) + *(q + 1) - 1,79),255);
+                     if(!prefs_wrap_saved(d)) d->terminal_width = MIN(MAX((*q * 256) + *(q + 1) - 1,79),255);
                      if((q += 2) < qend) d->terminal_height = MIN(MAX((*q * 256) + *(q + 1),10),255);
                      for(; (q < qend) && (*q != SE); q++);
                      if((q < qend) && (*q == SE)) q++;
@@ -641,7 +641,7 @@ int server_process_input(struct descriptor_data *d)
 
                                     /* ---->  Window size  <---- */
                                     if(++q < qend) {
-                                       d->terminal_width = MIN(MAX((*q * 256) + *(q + 1) - 1,79),255);
+                                       if(!prefs_wrap_saved(d)) d->terminal_width = MIN(MAX((*q * 256) + *(q + 1) - 1,79),255);
                                        if((q += 2) < qend) d->terminal_height = MIN(MAX((*q * 256) + *(q + 1),10),255);
                                        for(; (q < qend) && (*q != SE); q++);
 				    }
@@ -2116,6 +2116,9 @@ int server_connect_user(struct descriptor_data *d,const char *input)
              if(!(d->flags & UNDERLINE))  d->flags |= (db[user].flags2 & UNDERLINE);
              if(d->terminal_height <= STANDARD_CHARACTER_SCRHEIGHT)
                 d->terminal_height = db[user].data->player.scrheight;
+
+             /* ---->  Character's saved word wrap (Screen width) preference  <---- */
+             prefs_wrap_apply(d);
              writelog(CONNECT_LOG, 1, "CONNECTED", "%s (Telnet descriptor %d) from %s.", unparse_object(ROOT, d->player, 0), d->descriptor, d->hostname);
              writelog(UserLog(d->player), 1, "CONNECTED", "%s (Telnet) from %s.", unparse_object(ROOT, d->player, 0), d->hostname);
 

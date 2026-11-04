@@ -52,6 +52,13 @@ struct flag_data {
 #define PREFS_EDITOR    0x00000002  /*  Interactively start editor for internal commands where arguments are ommited  */
 #define PREFS_DEFAULT   (PREFS_EDITOR|PREFS_PROMPT)
 
+/* ---->  Saved word wrap ('set wrap') preference, packed into PREFFLAGS (No database format change required)  <---- */
+/*        0 = Automatic (Telnet NAWS/terminal type decides), 1 = Word wrap off, 44-256 = Fixed screen width            */
+#define PREFS_WRAP_MASK   0x0001FF00
+#define PREFS_WRAP_SHIFT  8
+#define PREFS_WRAP_AUTO   0
+#define PREFS_WRAP_OFF    1
+
 
 /* ---->  Flags for (re)setting flags ('@set')  <---- */
 #define LEVEL_MASK           0x000000FF  /*  Last byte (Level character must be to set that flag)  */

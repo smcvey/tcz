@@ -79,7 +79,7 @@ unsigned char set_terminal_type(struct descriptor_data *d,char *termtype,unsigne
 	 d->terminal_type = (char *) alloc_string(buffer);
 	 d->termcap       = current;
 
-	 if(!d->terminal_width)  d->terminal_width  = current->width - 1;
+	 if(!d->terminal_width && !prefs_wrap_saved(d)) d->terminal_width = current->width - 1;
 	 if(!d->terminal_height) d->terminal_height = current->height;
 
 	 /* ---->  Set title of Xterm  <---- */

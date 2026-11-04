@@ -810,6 +810,8 @@ extern  void            prefs_termtype          (dbref player,struct descriptor_
 extern  void            prefs_timediff          (dbref player,struct descriptor_data *d,const char *params);
 extern  void            prefs_underlining       (dbref player,struct descriptor_data *d,const char *status);
 extern  void            prefs_wrap              (dbref player,struct descriptor_data *d,char *width);
+extern  int             prefs_wrap_saved        (struct descriptor_data *d);
+extern  void            prefs_wrap_apply        (struct descriptor_data *d);
 extern  void            prefs_set               (dbref player,struct descriptor_data *d,char *arg1,char *arg2);
 
 
