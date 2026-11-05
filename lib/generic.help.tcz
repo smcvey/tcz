@@ -14885,7 +14885,7 @@ Type '%g%l%uhelp set term%x' for help on the next '%g%l%uset%x' command...
 
 Allows you to set your preferences for word-wrapping.  If %@%m can work out what terminal you're using when you connect, word-wrap is set automatically for you, otherwise an %c%l80 character wide%x screen is assumed.
 
-You can change word-wrap to suit your screen by typing '%g%lset wrap%x' followed by the width of the screen in characters.
+You can change word-wrap to suit your screen by typing '%g%lset wrap%x' followed by the width of the screen in characters (Between %c%l44%x and %c%l256%x.)
 
 '%g%lset wrap on%x' turns word wrapping on (With screen width set to the default of %c%l80 characters%x), and '%g%lset wrap off%x' turns word wrapping off.
 
@@ -14910,7 +14910,7 @@ Allows you to set the height of your screen, in lines.  By default, a %y%l24%x l
 
 Your screen height setting is used to determine the number of entries per page on user lists, BBS topic and message lists, object lists (From '%g%l%u@find%x'/'%g%l%u@list%x'), etc.  It's also used to determine your default group size when using grouping/range operators.
 
-'%g%lset scrheight%x' with no parameters displays your current set screen height.
+'%g%lset scrheight%x' with no parameters displays your current set screen height.  Screen height can be set between %c%l15%x and %c%l255%x lines.
 
 %c%lNOTE:  %xYour screen height setting is remembered when you disconnect.
 <-SEPARATOR->
@@ -14932,7 +14932,7 @@ Type '%g%l%uhelp set lftocr%x' for help on the next '%g%l%uset%x' command...
 
 This setting is useful to overseas users  -  It sets your time difference between %@%m's server time and your local time.
 
-%y%l<DIFFERENCE>%x is the difference in hours between %@%m's server time and your country's local time (This can be any value between %c%l-24%x and %c%l+24%x), e.g:  If your country's local time is %c%l2 hours%x ahead of %@%m's server time, simply type '%g%lset timediff 2%x'.
+%y%l<DIFFERENCE>%x is the difference in hours between %@%m's server time and your country's local time (This can be any value between %c%l-24%x and %c%l+24%x), e.g:  If your country's local time is %c%l2 hours%x ahead of %@%m's server time, simply type '%g%lset timediff 2%x' (Or '%g%lset timediff +2%x'), or if it's %c%l5 hours%x behind, type '%g%lset timediff -5%x'.
 
 %PAGE
 Please bear in mind that clocks may go back/forward by %c%l1 hour%x during the summer if %@%n is located in a country that uses %y%lDaylight Saving Time%x (%y%lDST%x.)  This may affect your local time (Especially if your country does not use Daylight Saving Time, or has different start/end rules.)  If this is the case for you, simply check and adjust your time difference when this occurs.
@@ -15058,7 +15058,7 @@ Also, see '%g%l%uhelp @?prompt%x' and '%g%l%uhelp set%x'.
 
 When 'more' paging is on ('%g%lset more on%x'), certain commands which usually produce a lot of output are automatically paged, allowing you to read the output without it scrolling past continuously.  These commands include:  '%g%l%ulook%x', '%g%l%uscan%x', '%g%l%uinventory%x', '%g%l%uexamine%x', the BBS '%g%l%uread%x' command (See '%g%l%uhelp BBS%x'), the mail '%g%l%uread%x' command (See '%g%l%uhelp mail%x'), '%g%l%u@list%x', '%g%l%u@find%x' and '%g%l%u@entrances%x'.
 
-However, some Telnet clients have a 'more' paging or scroll-back facility built into them ('%g%l/more on%x' in %c%lTinyFugue%x for example), in which case you may like to disable 'more' paging in %@%m, by typing '%g%luset%x more off%x'.
+However, some Telnet clients have a 'more' paging or scroll-back facility built into them ('%g%l/more on%x' in %c%lTinyFugue%x for example), in which case you may like to disable 'more' paging in %@%m, by typing '%g%lset more off%x'.
 
 For more information on %@%n's 'more' paging facility and how to use it, please see '%g%l%uhelp more%x'.
 

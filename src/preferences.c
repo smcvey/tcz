@@ -254,7 +254,8 @@ void prefs_screenheight(dbref player,struct descriptor_data *d,const char *param
 
            if(height >= 0) {
               if(height >= 15) {
-                 db[player].data->player.scrheight = MIN(MAX(height,15),255);
+                 height = MIN(MAX(height,15),255);
+                 db[player].data->player.scrheight = height;
                  if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Your screen height is now "ANSI_LWHITE"%d"ANSI_LGREEN" line%s.",height,Plural(height));
                  setreturn(OK,COMMAND_SUCC);
 	      } else if(!in_command) output(getdsc(player),player,0,1,0,ANSI_LGREEN"Sorry, the minimum screen height supported is "ANSI_LWHITE"15"ANSI_LGREEN" lines.");
@@ -293,9 +294,10 @@ void prefs_timediff(dbref player,struct descriptor_data *d,const char *params)
      if(!d) {
         for(; !Blank(params) && (*params == ' '); params++);
         if(!Blank(params)) {
-           const char *ptr = params;
+           const char *ptr;
 
            if(*params == '+') params++;
+           ptr = params;
            if(*ptr    == '-') ptr++;
            if(isdigit(*ptr)) {
               int diff = atol(params);
@@ -335,7 +337,10 @@ void prefs_underlining(dbref player,struct descriptor_data *d,const char *status
         if(Validchar(player)) db[player].flags2 &= ~UNDERLINE;
         if(d) d->flags                          &= ~UNDERLINE;
         if(!in_command) output(d,player,0,1,0,ANSI_LGREEN"Underlining is now "ANSI_LWHITE"off"ANSI_LGREEN".");
-     } else output(d,player,0,1,0,ANSI_LGREEN"Please specify either "ANSI_LWHITE"on"ANSI_LGREEN" or "ANSI_LWHITE"off"ANSI_LGREEN".");
+     } else {
+        output(d,player,0,1,0,ANSI_LGREEN"Please specify either "ANSI_LWHITE"on"ANSI_LGREEN" or "ANSI_LWHITE"off"ANSI_LGREEN".");
+        return;
+     }
      setreturn(OK,COMMAND_SUCC);
 }
 
@@ -478,11 +483,13 @@ void prefs_set(dbref player,struct descriptor_data *d,char *arg1,char *arg2)
      } else if(!Blank(command) && (string_prefix("morepager",command) || string_prefix("morepaging",command))) {
 
         /* ---->  'More' paging facility  <---- */
-        pager_more(player,arg1,NULL,NULL,NULL,1,0);
+        if(Validchar(player)) pager_more(player,arg1,NULL,NULL,NULL,1,0);
+           else output(d,player,0,1,0,ANSI_LGREEN"Sorry, you must be connected to set your 'more' paging preference.");
      } else if(!Blank(command) && (string_prefix("afkauto",command) || string_prefix("autoafk",command))) {
 
         /* ---->  Auto-AFK facility  <---- */
-        set_afk(player,arg1,NULL,NULL,NULL,1,0);
+        if(Validchar(player)) set_afk(player,arg1,NULL,NULL,NULL,1,0);
+           else output(d,player,0,1,0,ANSI_LGREEN"Sorry, you must be connected to set your auto-AFK idle time.");
      } else if(d) {
 
         /* ---->  Display user's current preferences  <---- */

@@ -99,7 +99,7 @@ void set_afk(CONTEXT)
         if(adjust) {
            if(adjustment >= 0) {
               if(adjustment <= MAX_IDLE_TIME) {
-                 if(Validchar(p->player)) {
+                 if(p && Validchar(p->player)) {
 		    if(adjustment > 0) {
 		       if(!in_command) output(p,player,0,1,0,ANSI_LGREEN"Auto-AFK facility turned "ANSI_LWHITE"on"ANSI_LGREEN".  You will now be automatically sent AFK when you idle for over "ANSI_LYELLOW"%d"ANSI_LGREEN" minute%s.",adjustment,Plural(adjustment));
 		       db[p->player].data->player.afk = adjustment;
@@ -117,7 +117,7 @@ void set_afk(CONTEXT)
            return;
 	}
      } else if(val1) {
-        if(Validchar(p->player) && db[p->player].data->player.afk)
+        if(p && Validchar(p->player) && db[p->player].data->player.afk)
            output(p,player,0,1,0,ANSI_LGREEN"Auto-AFK facility is "ANSI_LWHITE"on"ANSI_LGREEN"  -  Max. idle time:  "ANSI_LWHITE"%d"ANSI_LGREEN" minute%s.",db[p->player].data->player.afk,Plural(db[p->player].data->player.afk));
               else output(p,player,0,1,0,ANSI_LGREEN"Auto-AFK facility is "ANSI_LWHITE"off"ANSI_LGREEN".");
         setreturn(OK,COMMAND_SUCC);
